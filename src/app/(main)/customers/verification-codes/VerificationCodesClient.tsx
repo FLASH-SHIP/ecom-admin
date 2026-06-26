@@ -3,11 +3,11 @@
 import { DataTableSkeleton } from "@admin/components/data-table";
 import dynamic from "next/dynamic";
 
-const RolesListContent = dynamic(() => import("./RolesListContent"), {
+const VerificationCodesContent = dynamic(() => import("./VerificationCodesContent"), {
   ssr: false,
   loading: () => <DataTableSkeleton columnCount={6} rowCount={10} />,
 });
 
-export default function RolesListPage() {
-  return <RolesListContent />;
+export default function VerificationCodesClient() {
+  return <VerificationCodesContent />;
 }
