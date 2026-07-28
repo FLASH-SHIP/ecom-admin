@@ -3,7 +3,7 @@
  * Import directly from "@admin/components/data-table/utils" for tree-shaking.
  */
 
-import type { FilterItem, FilterOperatorValue } from "@flash-ship/ecom-trpc";
+import type { FilterItem, FilterOperatorValue } from "@flash-ship/ecom-trpc-types";
 import type { ActiveFilter } from "./types";
 
 // ── Filter conversion ─────────────────────────────────────────────────────────

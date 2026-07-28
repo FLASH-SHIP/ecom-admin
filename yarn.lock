@@ -85,7 +85,7 @@ __metadata:
     "@auth/prisma-adapter": "npm:^2.11.0"
     "@flash-ship/ecom-i18n": "portal:../ecom-shared-packages/packages/i18n"
     "@flash-ship/ecom-lib": "portal:../ecom-shared-packages/packages/lib"
-    "@flash-ship/ecom-trpc": "portal:../ecom-shared-packages/packages/trpc"
+    "@flash-ship/ecom-trpc-types": "portal:../ecom-api/packages/trpc"
     "@flash-ship/ecom-ui": "portal:../ecom-shared-packages/packages/ui"
     "@hookform/resolvers": "npm:^5.2.2"
     "@prisma/client": "npm:^7.8.0"
@@ -222,14 +222,16 @@ __metadata:
   resolution: "@flash-ship/ecom-lib@portal:../ecom-shared-packages/packages/lib::locator=%40ecom%2Fadmin%40workspace%3A."
   dependencies:
     bcryptjs: "npm:^3.0.0"
+    class-transformer: "npm:^0.5.1"
+    class-validator: "npm:^0.14.1"
     ioredis: "npm:^5.11.0"
     jsonwebtoken: "npm:^9.0.0"
   languageName: node
   linkType: soft
 
-"@flash-ship/ecom-trpc@portal:../ecom-shared-packages/packages/trpc::locator=%40ecom%2Fadmin%40workspace%3A.":
+"@flash-ship/ecom-trpc-types@portal:../ecom-api/packages/trpc::locator=%40ecom%2Fadmin%40workspace%3A.":
   version: 0.0.0-use.local
-  resolution: "@flash-ship/ecom-trpc@portal:../ecom-shared-packages/packages/trpc::locator=%40ecom%2Fadmin%40workspace%3A."
+  resolution: "@flash-ship/ecom-trpc-types@portal:../ecom-api/packages/trpc::locator=%40ecom%2Fadmin%40workspace%3A."
   dependencies:
     "@trpc/server": "npm:^11.1.0"
     exceljs: "npm:^4.4.0"
@@ -2656,6 +2658,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/validator@npm:^13.15.3":
+  version: 13.15.10
+  resolution: "@types/validator@npm:13.15.10"
+  checksum: 10c0/3e2e65fcd37dd6961ca3fd0535293d0c42f5911dc3ca44b96f458835e6db2392b678ccbb0c9815d8c0a14e653439e6c62c7b8758a6cd1d6e390551c9e56618ac
+  languageName: node
+  linkType: hard
+
 "abbrev@npm:^5.0.0":
   version: 5.0.0
   resolution: "abbrev@npm:5.0.0"
@@ -2874,6 +2883,24 @@ __metadata:
   version: 3.0.0
   resolution: "chownr@npm:3.0.0"
   checksum: 10c0/43925b87700f7e3893296c8e9c56cc58f926411cce3a6e5898136daaf08f08b9a8eb76d37d3267e707d0dcc17aed2e2ebdf5848c0c3ce95cf910a919935c1b10
+  languageName: node
+  linkType: hard
+
+"class-transformer@npm:^0.5.1":
+  version: 0.5.1
+  resolution: "class-transformer@npm:0.5.1"
+  checksum: 10c0/19809914e51c6db42c036166839906420bb60367df14e15f49c45c8c1231bf25ae661ebe94736ee29cc688b77101ef851a8acca299375cc52fc141b64acde18a
+  languageName: node
+  linkType: hard
+
+"class-validator@npm:^0.14.1":
+  version: 0.14.4
+  resolution: "class-validator@npm:0.14.4"
+  dependencies:
+    "@types/validator": "npm:^13.15.3"
+    libphonenumber-js: "npm:^1.11.1"
+    validator: "npm:^13.15.22"
+  checksum: 10c0/1d415261aad7bdd72528db76e814195ca627a9d33f159752554dbbf71b8360359d3061a8edd16ac951a9a4fb86e0495cdf8badf82ec44e2dcc187ab496f37c5a
   languageName: node
   linkType: hard
 
@@ -3357,6 +3384,13 @@ __metadata:
   dependencies:
     readable-stream: "npm:^2.0.5"
   checksum: 10c0/ea4e509a5226ecfcc303ba6782cc269be8867d372b9bcbd625c88955df1987ea1a20da4643bf9270336415a398d33531ebf0d5f0d393b9283dc7c98bfcbd7b69
+  languageName: node
+  linkType: hard
+
+"libphonenumber-js@npm:^1.11.1":
+  version: 1.13.9
+  resolution: "libphonenumber-js@npm:1.13.9"
+  checksum: 10c0/837187fe0bacbcea3b813476cc897233951a6113220e7b2523c6974989f475b380be7c632bf33bbadaa22532375733f3c64d80f7039578b8e1c77ea7dd052f0f
   languageName: node
   linkType: hard
 
@@ -4728,6 +4762,13 @@ __metadata:
   bin:
     uuid: dist/bin/uuid
   checksum: 10c0/bcbb807a917d374a49f475fae2e87fdca7da5e5530820ef53f65ba1d12131bd81a92ecf259cc7ce317cbe0f289e7d79fdfebcef9bfa3087c8c8a2fa304c9be54
+  languageName: node
+  linkType: hard
+
+"validator@npm:^13.15.22":
+  version: 13.15.35
+  resolution: "validator@npm:13.15.35"
+  checksum: 10c0/1958ebcad578128d154853a2b9bf5b95e7738dcc7d1d065e50a969812272312ec379dcaf375b9d7545e04a71de6755f60f5a4b49c1405737a9c80e11da297eef
   languageName: node
   linkType: hard
 
