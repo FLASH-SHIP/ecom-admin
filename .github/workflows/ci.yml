@@ -33,6 +33,13 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN || secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
           YARN_NPM_AUTH_TOKEN: ${{ secrets.GH_TOKEN || secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
 
+      - name: Setup npmrc
+        run: |
+          echo "@flash-ship:registry=https://npm.pkg.github.com/" > .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${YARN_NPM_AUTH_TOKEN}" >> .npmrc
+        env:
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.GH_TOKEN || secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
+
       - name: Install Dependencies
         run: yarn install
         env:
