@@ -31,6 +31,7 @@ jobs:
           cache: 'yarn'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN || secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.GH_TOKEN || secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
 
       - name: Install Dependencies
         run: yarn install
