@@ -5,23 +5,23 @@ import { useRequirePermission } from "@admin/components/layout/PermissionGuard";
 import { useToast } from "@admin/components/toast-provider";
 import { trpc } from "@admin/lib/trpc";
 import { formatDateTime } from "@admin/utils/dateFormat";
-import { Permissions } from "@ecom/lib/permissions";
+import { Permissions } from "@flash-ship/ecom-lib/permissions";
 import type { ContentStatus, RateCardType, ShippingMethod } from "@ecom/prisma";
-import { Badge } from "@ecom/ui/components/badge";
-import { Button } from "@ecom/ui/components/button";
-import { Card, CardContent } from "@ecom/ui/components/card";
-import { DatePicker } from "@ecom/ui/components/date-picker";
-import { Input } from "@ecom/ui/components/input";
-import { Label } from "@ecom/ui/components/label";
+import { Badge } from "@flash-ship/ecom-ui/components/badge";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Card, CardContent } from "@flash-ship/ecom-ui/components/card";
+import { DatePicker } from "@flash-ship/ecom-ui/components/date-picker";
+import { Input } from "@flash-ship/ecom-ui/components/input";
+import { Label } from "@flash-ship/ecom-ui/components/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@ecom/ui/components/select";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@ecom/ui/components/tabs";
-import { cn } from "@ecom/ui/lib/utils";
+} from "@flash-ship/ecom-ui/components/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@flash-ship/ecom-ui/components/tabs";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   AlertCircle,

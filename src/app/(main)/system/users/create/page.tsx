@@ -3,19 +3,19 @@
 import { PageShell } from "@admin/components/layout/PageShell";
 import { StickyPublishBar } from "@admin/components/layout/StickyPublishBar";
 import { useToast } from "@admin/components/toast-provider";
-import { PhoneInput } from "@ecom/ui/domain";
+import { PhoneInput } from "@flash-ship/ecom-ui/domain";
 import { trpc } from "@admin/lib/trpc";
-import { Button } from "@ecom/ui/components/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@ecom/ui/components/card";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@flash-ship/ecom-ui/components/card";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "@ecom/ui/components/dropdown-menu";
-import { Input } from "@ecom/ui/components/input";
-import { Label } from "@ecom/ui/components/label";
-import { cn } from "@ecom/ui/lib/utils";
+} from "@flash-ship/ecom-ui/components/dropdown-menu";
+import { Input } from "@flash-ship/ecom-ui/components/input";
+import { Label } from "@flash-ship/ecom-ui/components/label";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertCircle, ArrowLeft, ChevronDown, Loader2, Save, X } from "lucide-react";
 import { useRouter } from "next/navigation";

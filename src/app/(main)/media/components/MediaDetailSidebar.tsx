@@ -2,7 +2,7 @@
 
 import { getFileTypeIcon } from "@admin/components/base/FileTypeIcon/FileTypeIcon";
 import { copyToClipboard, formatDate } from "@admin/utils/func";
-import { Separator } from "@ecom/ui/components/separator";
+import { Separator } from "@flash-ship/ecom-ui/components/separator";
 import { Copy, Folder, X } from "lucide-react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";

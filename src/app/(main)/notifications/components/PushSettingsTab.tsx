@@ -4,20 +4,20 @@ import { showToast, ToastType } from "@admin/components/toast-provider";
 import { ConfirmDialog } from "@admin/components/ui/ConfirmDialog";
 import { useConfirm } from "@admin/components/ui/useConfirm";
 import { trpc } from "@admin/lib/trpc";
-import { Button } from "@ecom/ui/components/button";
-import { Card } from "@ecom/ui/components/card";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Card } from "@flash-ship/ecom-ui/components/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@ecom/ui/components/dropdown-menu";
-import { Input } from "@ecom/ui/components/input";
-import { Sheet, SheetContent } from "@ecom/ui/components/sheet";
-import { Skeleton } from "@ecom/ui/components/skeleton";
-import { Switch } from "@ecom/ui/components/switch";
-import { Tabs, TabsList, TabsTrigger } from "@ecom/ui/components/tabs";
-import { Textarea } from "@ecom/ui/components/textarea";
+} from "@flash-ship/ecom-ui/components/dropdown-menu";
+import { Input } from "@flash-ship/ecom-ui/components/input";
+import { Sheet, SheetContent } from "@flash-ship/ecom-ui/components/sheet";
+import { Skeleton } from "@flash-ship/ecom-ui/components/skeleton";
+import { Switch } from "@flash-ship/ecom-ui/components/switch";
+import { Tabs, TabsList, TabsTrigger } from "@flash-ship/ecom-ui/components/tabs";
+import { Textarea } from "@flash-ship/ecom-ui/components/textarea";
 import {
   Bell,
   Check,

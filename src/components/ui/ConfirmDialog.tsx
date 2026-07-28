@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@ecom/ui/components/button";
+import { Button } from "@flash-ship/ecom-ui/components/button";
 import {
   Dialog,
   DialogClose,
@@ -9,8 +9,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@ecom/ui/components/dialog";
-import { cn } from "@ecom/ui/lib/utils";
+} from "@flash-ship/ecom-ui/components/dialog";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import { AlertTriangle } from "lucide-react";
 import { useTranslations } from "next-intl";
 

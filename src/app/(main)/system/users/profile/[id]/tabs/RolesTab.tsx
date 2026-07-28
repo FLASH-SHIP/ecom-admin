@@ -1,9 +1,9 @@
 "use client";
 
 import { trpc } from "@admin/lib/trpc";
-import { Button } from "@ecom/ui/components/button";
-import { Checkbox } from "@ecom/ui/components/checkbox";
-import { Input } from "@ecom/ui/components/input";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Checkbox } from "@flash-ship/ecom-ui/components/checkbox";
+import { Input } from "@flash-ship/ecom-ui/components/input";
 import { AlertCircle, CheckCircle2, ExternalLink, Loader2, Save, Search, X } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";

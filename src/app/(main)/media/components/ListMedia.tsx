@@ -1,8 +1,8 @@
 "use client";
 
 import { showToast, ToastType } from "@admin/components/toast-provider";
-import { Card, CardContent, CardHeader } from "@ecom/ui/components/card";
-import { Separator } from "@ecom/ui/components/separator";
+import { Card, CardContent, CardHeader } from "@flash-ship/ecom-ui/components/card";
+import { Separator } from "@flash-ship/ecom-ui/components/separator";
 import { useQueryClient } from "@tanstack/react-query";
 import { Filter, Globe } from "lucide-react";
 import { useTranslations } from "next-intl";

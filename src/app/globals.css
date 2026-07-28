@@ -7,7 +7,7 @@
  *
  * turbopack.root = "../../" (monorepo root) can cause Tailwind v4 to miss
  * workspace packages during class scanning. Explicit @source paths ensure
- * @ecom/shared hooks/providers and @ecom/ui components are scanned.
+ * @ecom/shared hooks/providers and @flash-ship/ecom-ui components are scanned.
  */
 @source "../../../../packages/shared/src";
 @source "../../../ecom-shared-packages/packages/ui";

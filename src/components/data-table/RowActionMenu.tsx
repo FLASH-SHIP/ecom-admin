@@ -1,13 +1,13 @@
 "use client";
 
-import { Button } from "@ecom/ui/components/button";
+import { Button } from "@flash-ship/ecom-ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@ecom/ui/components/dropdown-menu";
+} from "@flash-ship/ecom-ui/components/dropdown-menu";
 import { EllipsisVertical } from "lucide-react";
 import type { ReactNode } from "react";
 import type { RowAction } from "./types";

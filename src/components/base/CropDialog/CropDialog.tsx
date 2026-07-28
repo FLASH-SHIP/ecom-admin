@@ -4,15 +4,15 @@ import { type ReactNode, useCallback, useEffect, useMemo, useRef, useState } fro
 import ReactCrop, { type Crop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { ButtonField, InputField } from "@admin/app/(main)/media/components/Compat";
-import { Dialog, DialogClose, DialogContent, DialogTitle } from "@ecom/ui/components/dialog";
+import { Dialog, DialogClose, DialogContent, DialogTitle } from "@flash-ship/ecom-ui/components/dialog";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@ecom/ui/components/select";
-import { Separator } from "@ecom/ui/components/separator";
+} from "@flash-ship/ecom-ui/components/select";
+import { Separator } from "@flash-ship/ecom-ui/components/separator";
 import { Loader2, X } from "lucide-react";
 
 // ── Types (from model) ────────────────────────────────────────

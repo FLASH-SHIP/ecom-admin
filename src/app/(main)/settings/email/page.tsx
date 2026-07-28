@@ -2,7 +2,7 @@
 
 import { PermissionGuard } from "@admin/components/layout/PermissionGuard";
 import PageBreadcrumb from "@admin/components/PageBreadcrumb";
-import { Permissions } from "@ecom/lib/permissions";
+import { Permissions } from "@flash-ship/ecom-lib/permissions";
 import { useTranslations } from "next-intl";
 import { EmailSettingsTab } from "../../notifications/components/EmailSettingsTab";
 

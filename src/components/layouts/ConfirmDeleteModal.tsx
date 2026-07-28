@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@ecom/ui/components/button";
-import { Dialog, DialogClose, DialogContent, DialogTitle } from "@ecom/ui/components/dialog";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Dialog, DialogClose, DialogContent, DialogTitle } from "@flash-ship/ecom-ui/components/dialog";
 import { AlertTriangle, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type React from "react";

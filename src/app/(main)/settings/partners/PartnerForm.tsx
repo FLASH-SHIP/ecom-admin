@@ -5,28 +5,28 @@ import { useToast } from "@admin/components/toast-provider";
 import { ConfirmDialog } from "@admin/components/ui/ConfirmDialog";
 import { useConfirm } from "@admin/components/ui/useConfirm";
 import { trpc } from "@admin/lib/trpc";
-import { PartnerStatus, ServiceType } from "@ecom/types";
-import { Badge } from "@ecom/ui/components/badge";
-import { Button } from "@ecom/ui/components/button";
-import { Card, CardContent } from "@ecom/ui/components/card";
+import { PartnerStatus, ServiceType } from "@flash-ship/ecom-types";
+import { Badge } from "@flash-ship/ecom-ui/components/badge";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Card, CardContent } from "@flash-ship/ecom-ui/components/card";
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@ecom/ui/components/dialog";
-import { Input } from "@ecom/ui/components/input";
-import { Label } from "@ecom/ui/components/label";
+} from "@flash-ship/ecom-ui/components/dialog";
+import { Input } from "@flash-ship/ecom-ui/components/input";
+import { Label } from "@flash-ship/ecom-ui/components/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@ecom/ui/components/select";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@ecom/ui/components/tabs";
-import { Textarea } from "@ecom/ui/components/textarea";
+} from "@flash-ship/ecom-ui/components/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@flash-ship/ecom-ui/components/tabs";
+import { Textarea } from "@flash-ship/ecom-ui/components/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ArrowLeft,

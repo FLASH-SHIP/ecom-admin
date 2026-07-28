@@ -1,5 +1,5 @@
 import { env } from "@admin/env";
-import type { AdminAuthResponse } from "@ecom/types";
+import type { AdminAuthResponse } from "@flash-ship/ecom-types";
 import type { NextAuthResult } from "next-auth";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";

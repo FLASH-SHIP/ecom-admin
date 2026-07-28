@@ -1,10 +1,10 @@
 "use client";
 
-import { ALL_PERMISSIONS } from "@ecom/lib/permissions";
-import { Card } from "@ecom/ui/components/card";
-import { Input } from "@ecom/ui/components/input";
-import { Skeleton } from "@ecom/ui/components/skeleton";
-import { cn } from "@ecom/ui/lib/utils";
+import { ALL_PERMISSIONS } from "@flash-ship/ecom-lib/permissions";
+import { Card } from "@flash-ship/ecom-ui/components/card";
+import { Input } from "@flash-ship/ecom-ui/components/input";
+import { Skeleton } from "@flash-ship/ecom-ui/components/skeleton";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import { Check, ChevronDown, ChevronRight, Search, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useCallback, useMemo, useState } from "react";

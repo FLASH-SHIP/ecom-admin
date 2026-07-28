@@ -4,7 +4,7 @@ import { CategoryForm } from "@admin/components/blog/category-form";
 import { PermissionGuard } from "@admin/components/layout/PermissionGuard";
 import { useLanguageSwitcher } from "@admin/hooks/useLanguageSwitcher";
 import { trpc } from "@admin/lib/trpc";
-import { Permissions } from "@ecom/lib/permissions";
+import { Permissions } from "@flash-ship/ecom-lib/permissions";
 import { Loader2 } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";

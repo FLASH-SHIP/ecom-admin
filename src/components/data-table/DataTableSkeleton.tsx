@@ -1,6 +1,6 @@
 "use client";
 
-import { Skeleton } from "@ecom/ui/components/skeleton";
+import { Skeleton } from "@flash-ship/ecom-ui/components/skeleton";
 import {
   Table,
   TableBody,
@@ -8,7 +8,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@ecom/ui/components/table";
+} from "@flash-ship/ecom-ui/components/table";
 
 interface DataTableSkeletonProps {
   columnCount?: number;

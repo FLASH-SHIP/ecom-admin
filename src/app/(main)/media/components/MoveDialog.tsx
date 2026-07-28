@@ -1,8 +1,8 @@
 "use client";
 
-import { Checkbox } from "@ecom/ui/components/checkbox";
-import { Dialog, DialogClose, DialogContent, DialogTitle } from "@ecom/ui/components/dialog";
-import { Separator } from "@ecom/ui/components/separator";
+import { Checkbox } from "@flash-ship/ecom-ui/components/checkbox";
+import { Dialog, DialogClose, DialogContent, DialogTitle } from "@flash-ship/ecom-ui/components/dialog";
+import { Separator } from "@flash-ship/ecom-ui/components/separator";
 import { Folder, FolderInput, GripVertical, Loader2, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { type ReactNode, useCallback, useState } from "react";

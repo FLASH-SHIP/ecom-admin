@@ -9,10 +9,10 @@ import { ConfirmDialog } from "@admin/components/ui/ConfirmDialog";
 import { useConfirm } from "@admin/components/ui/useConfirm";
 import { trpc } from "@admin/lib/trpc";
 import { formatDateTime, formatRelativeTime } from "@admin/utils/dateFormat";
-import { Button } from "@ecom/ui/components/button";
-import { Input } from "@ecom/ui/components/input";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@ecom/ui/components/sheet";
-import { cn } from "@ecom/ui/lib/utils";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Input } from "@flash-ship/ecom-ui/components/input";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@flash-ship/ecom-ui/components/sheet";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import { keepPreviousData } from "@tanstack/react-query";
 import type { ColumnDef } from "@tanstack/react-table";
 import {

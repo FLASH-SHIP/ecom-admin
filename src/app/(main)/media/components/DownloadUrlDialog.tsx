@@ -1,6 +1,6 @@
 "use client";
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@ecom/ui/components/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@flash-ship/ecom-ui/components/dialog";
 import { useQueryClient } from "@tanstack/react-query";
 import { AlertCircle, CheckCircle2, Download, Loader2, XCircle } from "lucide-react";
 import { useTranslations } from "next-intl";

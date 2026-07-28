@@ -13,8 +13,8 @@ import {
   MediaPickerFilter,
 } from "@admin/app/(main)/media/model/media.model";
 import { showToast, ToastType } from "@admin/components/toast-provider";
-import { Dialog, DialogClose, DialogContent, DialogTitle } from "@ecom/ui/components/dialog";
-import { Separator } from "@ecom/ui/components/separator";
+import { Dialog, DialogClose, DialogContent, DialogTitle } from "@flash-ship/ecom-ui/components/dialog";
+import { Separator } from "@flash-ship/ecom-ui/components/separator";
 import { useQueryClient } from "@tanstack/react-query";
 import { Filter, Globe, X } from "lucide-react";
 import { useTranslations } from "next-intl";

@@ -1,23 +1,23 @@
 "use client";
 
 import { trpc } from "@admin/lib/trpc";
-import type { AppRouter } from "@ecom/trpc-contract";
-import { Button } from "@ecom/ui/components/button";
-import { Card } from "@ecom/ui/components/card";
+import type { AppRouter } from "@flash-ship/ecom-trpc";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Card } from "@flash-ship/ecom-ui/components/card";
 
-import { Input } from "@ecom/ui/components/input";
-import { Label } from "@ecom/ui/components/label";
+import { Input } from "@flash-ship/ecom-ui/components/input";
+import { Label } from "@flash-ship/ecom-ui/components/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@ecom/ui/components/select";
-import { Skeleton } from "@ecom/ui/components/skeleton";
-import { Switch } from "@ecom/ui/components/switch";
-import { Textarea } from "@ecom/ui/components/textarea";
-import { cn } from "@ecom/ui/lib/utils";
+} from "@flash-ship/ecom-ui/components/select";
+import { Skeleton } from "@flash-ship/ecom-ui/components/skeleton";
+import { Switch } from "@flash-ship/ecom-ui/components/switch";
+import { Textarea } from "@flash-ship/ecom-ui/components/textarea";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import type { inferRouterOutputs } from "@trpc/server";
 import { AlertCircle, ChevronDown, Loader2, Save, SlidersHorizontal } from "lucide-react";
 import { useTranslations } from "next-intl";

@@ -2,9 +2,9 @@
 
 import { PermissionGuard } from "@admin/components/layout/PermissionGuard";
 import PageBreadcrumb from "@admin/components/PageBreadcrumb";
-import { Permissions } from "@ecom/lib/permissions";
-import { Card, CardContent, CardHeader, CardTitle } from "@ecom/ui/components/card";
-import { cn } from "@ecom/ui/lib/utils";
+import { Permissions } from "@flash-ship/ecom-lib/permissions";
+import { Card, CardContent, CardHeader, CardTitle } from "@flash-ship/ecom-ui/components/card";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import {
   BarChart3,
   Bell,

@@ -3,9 +3,9 @@
 import { PageShell } from "@admin/components/layout/PageShell";
 import { PermissionGuard } from "@admin/components/layout/PermissionGuard";
 import { trpc } from "@admin/lib/trpc";
-import { Permissions } from "@ecom/lib/permissions";
-import { Card } from "@ecom/ui/components/card";
-import { cn } from "@ecom/ui/lib/utils";
+import { Permissions } from "@flash-ship/ecom-lib/permissions";
+import { Card } from "@flash-ship/ecom-ui/components/card";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import { Activity, Database, History, Info, ScrollText, Shield, Users } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";

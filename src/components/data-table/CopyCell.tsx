@@ -1,6 +1,6 @@
 "use client";
 
-import { Tooltip, TooltipContent, TooltipTrigger } from "@ecom/ui/components/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@flash-ship/ecom-ui/components/tooltip";
 import { Check, Copy } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";

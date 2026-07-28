@@ -1,7 +1,7 @@
 "use client";
 
-import { Badge } from "@ecom/ui/components/badge";
-import { cn } from "@ecom/ui/lib/utils";
+import { Badge } from "@flash-ship/ecom-ui/components/badge";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import { useTranslations } from "next-intl";
 
 interface StatusBadgeProps {

@@ -11,7 +11,7 @@ import { ConfirmDialog } from "@admin/components/ui/ConfirmDialog";
 import { useConfirm } from "@admin/components/ui/useConfirm";
 import { trpc } from "@admin/lib/trpc";
 import { formatDate } from "@admin/utils/dateFormat";
-import { Button } from "@ecom/ui/components/button";
+import { Button } from "@flash-ship/ecom-ui/components/button";
 import { keepPreviousData } from "@tanstack/react-query";
 import type { ColumnDef } from "@tanstack/react-table";
 import {

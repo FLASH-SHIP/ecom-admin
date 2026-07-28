@@ -1,11 +1,11 @@
 "use client";
 
 import { trpc } from "@admin/lib/trpc";
-import { Button } from "@ecom/ui/components/button";
-import { Input } from "@ecom/ui/components/input";
-import { Label } from "@ecom/ui/components/label";
-import { Textarea } from "@ecom/ui/components/textarea";
-import { cn } from "@ecom/ui/lib/utils";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Input } from "@flash-ship/ecom-ui/components/input";
+import { Label } from "@flash-ship/ecom-ui/components/label";
+import { Textarea } from "@flash-ship/ecom-ui/components/textarea";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import { Globe, Loader2, Save } from "lucide-react";
 import { useState } from "react";
 

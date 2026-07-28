@@ -1,4 +1,4 @@
-import { Skeleton } from "@ecom/ui/components/skeleton";
+import { Skeleton } from "@flash-ship/ecom-ui/components/skeleton";
 
 /**
  * Admin (main) loading fallback.

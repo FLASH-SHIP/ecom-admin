@@ -2,19 +2,19 @@
 
 import { useToast } from "@admin/components/toast-provider";
 import { trpc } from "@admin/lib/trpc";
-import { Button } from "@ecom/ui/components/button";
-import { Input } from "@ecom/ui/components/input";
-import { Label } from "@ecom/ui/components/label";
-import { PerfectScroll } from "@ecom/ui/components/perfect-scroll";
-import { Popover, PopoverContent, PopoverTrigger } from "@ecom/ui/components/popover";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Input } from "@flash-ship/ecom-ui/components/input";
+import { Label } from "@flash-ship/ecom-ui/components/label";
+import { PerfectScroll } from "@flash-ship/ecom-ui/components/perfect-scroll";
+import { Popover, PopoverContent, PopoverTrigger } from "@flash-ship/ecom-ui/components/popover";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@ecom/ui/components/select";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@ecom/ui/components/sheet";
+} from "@flash-ship/ecom-ui/components/select";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@flash-ship/ecom-ui/components/sheet";
 import { AlertCircle, ChevronDown, Loader2, Save, Search } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useMemo, useState } from "react";

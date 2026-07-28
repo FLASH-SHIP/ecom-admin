@@ -2,7 +2,7 @@
  * StatusFilterBar — reusable tab-style status filter used across admin list pages.
  * Pure Tailwind toggle-button group.
  */
-import { cn } from "@ecom/ui/lib/utils";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 
 export interface StatusTab<T extends string> {
   key: T | "";

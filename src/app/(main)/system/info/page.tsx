@@ -3,17 +3,17 @@
 import { PageShell } from "@admin/components/layout/PageShell";
 import { PermissionGuard } from "@admin/components/layout/PermissionGuard";
 import { trpc } from "@admin/lib/trpc";
-import { Permissions } from "@ecom/lib/permissions";
-import { Badge } from "@ecom/ui/components/badge";
-import { Card } from "@ecom/ui/components/card";
-import { Skeleton } from "@ecom/ui/components/skeleton";
+import { Permissions } from "@flash-ship/ecom-lib/permissions";
+import { Badge } from "@flash-ship/ecom-ui/components/badge";
+import { Card } from "@flash-ship/ecom-ui/components/card";
+import { Skeleton } from "@flash-ship/ecom-ui/components/skeleton";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@ecom/ui/components/tooltip";
-import { cn } from "@ecom/ui/lib/utils";
+} from "@flash-ship/ecom-ui/components/tooltip";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import {
   AlertCircle,
   Cpu,

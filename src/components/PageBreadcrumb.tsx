@@ -2,8 +2,8 @@
 
 import type { NavItemType } from "@ecom/shared/@app/core/navigation/types/NavItemType";
 import useNavigationItems from "@ecom/shared/components/theme-layouts/components/navigation/hooks/useNavigationItems";
-import { Breadcrumb } from "@ecom/ui/components/breadcrumb";
-import { cn } from "@ecom/ui/lib/utils";
+import { Breadcrumb } from "@flash-ship/ecom-ui/components/breadcrumb";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";

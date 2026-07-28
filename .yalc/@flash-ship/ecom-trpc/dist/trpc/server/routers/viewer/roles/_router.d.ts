@@ -1,0 +1,142 @@
+export declare const rolesRouter: import("@trpc/server").TRPCBuiltRouter<{
+    ctx: import("../../..").Context;
+    meta: object;
+    errorShape: {
+        message: string;
+        data: {
+            zodError: {
+                message: string;
+                details: import("../../../init").ZodErrorDetail[];
+            } | null;
+            code: import("@trpc/server").TRPC_ERROR_CODE_KEY;
+            httpStatus: number;
+            path?: string;
+            stack?: string;
+        };
+        code: import("@trpc/server").TRPC_ERROR_CODE_NUMBER;
+    };
+    transformer: true;
+}, import("@trpc/server").TRPCDecorateCreateRouterOptions<{
+    list: import("@trpc/server").TRPCQueryProcedure<{
+        input: void;
+        output: {
+            description: string | null;
+            id: number;
+            createdAt: Date;
+            name: string;
+            updatedAt: Date;
+            _count: {
+                permissions: number;
+                users: number;
+            };
+            displayName: string | null;
+        }[];
+        meta: object;
+    }>;
+    get: import("@trpc/server").TRPCQueryProcedure<{
+        input: {
+            id: unknown;
+        };
+        output: {
+            description: string | null;
+            id: number;
+            createdAt: Date;
+            name: string;
+            updatedAt: Date;
+            _count: {
+                users: number;
+            };
+            displayName: string | null;
+            permissions: {
+                permission: {
+                    id: number;
+                    name: string;
+                    group: string | null;
+                    displayName: string | null;
+                };
+            }[];
+        };
+        meta: object;
+    }>;
+    create: import("@trpc/server").TRPCMutationProcedure<{
+        input: {
+            name: string;
+            displayName?: string | undefined;
+            description?: string | undefined;
+        };
+        output: {
+            description: string | null;
+            id: number;
+            name: string;
+            displayName: string | null;
+        };
+        meta: object;
+    }>;
+    update: import("@trpc/server").TRPCMutationProcedure<{
+        input: {
+            id: unknown;
+            displayName?: string | undefined;
+            description?: string | undefined;
+        };
+        output: {
+            description: string | null;
+            id: number;
+            name: string;
+            displayName: string | null;
+        };
+        meta: object;
+    }>;
+    remove: import("@trpc/server").TRPCMutationProcedure<{
+        input: {
+            id: unknown;
+        };
+        output: {
+            description: string | null;
+            id: number;
+            createdAt: Date;
+            name: string;
+            updatedAt: Date;
+            displayName: string | null;
+        };
+        meta: object;
+    }>;
+    syncPermissions: import("@trpc/server").TRPCMutationProcedure<{
+        input: {
+            roleId: unknown;
+            permissionIds: unknown[];
+        };
+        output: {
+            description: string | null;
+            id: number;
+            createdAt: Date;
+            name: string;
+            updatedAt: Date;
+            _count: {
+                users: number;
+            };
+            displayName: string | null;
+            permissions: {
+                permission: {
+                    id: number;
+                    name: string;
+                    group: string | null;
+                    displayName: string | null;
+                };
+            }[];
+        } | null;
+        meta: object;
+    }>;
+    permissions: import("@trpc/server").TRPCQueryProcedure<{
+        input: void;
+        output: {
+            [k: string]: {
+                id: number;
+                name: string;
+                group: string | null;
+                displayName: string | null;
+            }[];
+        };
+        meta: object;
+    }>;
+}>>;
+//# sourceMappingURL=_router.d.ts.map

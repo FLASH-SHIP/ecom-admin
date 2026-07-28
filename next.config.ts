@@ -29,12 +29,12 @@ const nextConfig: NextConfig = {
 
   // Transpile workspace packages
   transpilePackages: [
-    "@ecom/lib",
-    "@ecom/config",
-    "@ecom/types",
+    "@flash-ship/ecom-lib",
+    "@flash-ship/ecom-config",
+    "@flash-ship/ecom-types",
     "@ecom/trpc",
     "@ecom/features",
-    "@ecom/i18n",
+    "@flash-ship/ecom-i18n",
     "@ecom/shared",
   ],
 

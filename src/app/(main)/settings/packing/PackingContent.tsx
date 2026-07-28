@@ -10,20 +10,20 @@ import { useDebounce } from "@admin/lib/hooks/useDebounce";
 import { trpc } from "@admin/lib/trpc";
 import { formatDate } from "@admin/utils/dateFormat";
 import type { ContentStatus } from "@ecom/prisma";
-import { Badge } from "@ecom/ui/components/badge";
-import { Button } from "@ecom/ui/components/button";
-import { Input } from "@ecom/ui/components/input";
-import { Label } from "@ecom/ui/components/label";
-import { PerfectScroll } from "@ecom/ui/components/perfect-scroll";
+import { Badge } from "@flash-ship/ecom-ui/components/badge";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Input } from "@flash-ship/ecom-ui/components/input";
+import { Label } from "@flash-ship/ecom-ui/components/label";
+import { PerfectScroll } from "@flash-ship/ecom-ui/components/perfect-scroll";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@ecom/ui/components/select";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@ecom/ui/components/sheet";
-import { Textarea } from "@ecom/ui/components/textarea";
+} from "@flash-ship/ecom-ui/components/select";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@flash-ship/ecom-ui/components/sheet";
+import { Textarea } from "@flash-ship/ecom-ui/components/textarea";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Image as ImageIcon, Pencil, Plus, Trash2 } from "lucide-react";
 import NextImage from "next/image";

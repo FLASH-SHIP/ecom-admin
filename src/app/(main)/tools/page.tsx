@@ -2,11 +2,11 @@
 
 import { PermissionGuard } from "@admin/components/layout/PermissionGuard";
 import { trpc } from "@admin/lib/trpc";
-import { Permissions } from "@ecom/lib/permissions";
-import { Badge } from "@ecom/ui/components/badge";
-import { Button } from "@ecom/ui/components/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@ecom/ui/components/card";
-import { cn } from "@ecom/ui/lib/utils";
+import { Permissions } from "@flash-ship/ecom-lib/permissions";
+import { Badge } from "@flash-ship/ecom-ui/components/badge";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@flash-ship/ecom-ui/components/card";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import { CloudDownload, Copy, Download, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";

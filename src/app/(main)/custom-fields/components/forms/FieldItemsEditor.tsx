@@ -3,19 +3,19 @@
 import { ConfirmDialog } from "@admin/components/ui/ConfirmDialog";
 import { useConfirm } from "@admin/components/ui/useConfirm";
 import { trpc } from "@admin/lib/trpc";
-import { Badge } from "@ecom/ui/components/badge";
-import { Button } from "@ecom/ui/components/button";
-import { Card } from "@ecom/ui/components/card";
-import { Input } from "@ecom/ui/components/input";
-import { Label } from "@ecom/ui/components/label";
+import { Badge } from "@flash-ship/ecom-ui/components/badge";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Card } from "@flash-ship/ecom-ui/components/card";
+import { Input } from "@flash-ship/ecom-ui/components/input";
+import { Label } from "@flash-ship/ecom-ui/components/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@ecom/ui/components/select";
-import { cn } from "@ecom/ui/lib/utils";
+} from "@flash-ship/ecom-ui/components/select";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import { ChevronDown, Plus, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";

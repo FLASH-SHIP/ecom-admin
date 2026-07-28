@@ -6,17 +6,17 @@ import { useToast } from "@admin/components/toast-provider";
 import { ConfirmDialog } from "@admin/components/ui/ConfirmDialog";
 import { useConfirm } from "@admin/components/ui/useConfirm";
 import { trpc } from "@admin/lib/trpc";
-import { Permissions } from "@ecom/lib/permissions";
-import { Badge } from "@ecom/ui/components/badge";
-import { Button } from "@ecom/ui/components/button";
-import { Card } from "@ecom/ui/components/card";
-import { Skeleton } from "@ecom/ui/components/skeleton";
+import { Permissions } from "@flash-ship/ecom-lib/permissions";
+import { Badge } from "@flash-ship/ecom-ui/components/badge";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Card } from "@flash-ship/ecom-ui/components/card";
+import { Skeleton } from "@flash-ship/ecom-ui/components/skeleton";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@ecom/ui/components/tooltip";
+} from "@flash-ship/ecom-ui/components/tooltip";
 import { FolderCog, Loader2, Lock, RefreshCcw, RotateCcw, Settings, Shield } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";

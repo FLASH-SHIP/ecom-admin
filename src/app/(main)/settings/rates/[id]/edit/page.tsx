@@ -1,7 +1,7 @@
 "use client";
 
 import { PermissionGuard } from "@admin/components/layout/PermissionGuard";
-import { Permissions } from "@ecom/lib/permissions";
+import { Permissions } from "@flash-ship/ecom-lib/permissions";
 import { useParams } from "next/navigation";
 import { RateCardForm } from "../../components/RateCardForm";
 

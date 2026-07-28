@@ -1,7 +1,7 @@
 "use client";
 import { DataTableSkeleton } from "@admin/components/data-table";
 import { PermissionGuard } from "@admin/components/layout/PermissionGuard";
-import { Permissions } from "@ecom/lib/permissions";
+import { Permissions } from "@flash-ship/ecom-lib/permissions";
 /**
  * Custom Fields page — wrapper with `dynamic({ ssr: false })`.
  *

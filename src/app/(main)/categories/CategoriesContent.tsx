@@ -11,10 +11,10 @@ import { TranslationStatusIndicator } from "@admin/components/translation/Transl
 import { ConfirmDialog } from "@admin/components/ui/ConfirmDialog";
 import { useConfirm } from "@admin/components/ui/useConfirm";
 import { trpc } from "@admin/lib/trpc";
-import { Button } from "@ecom/ui/components/button";
-import { Card } from "@ecom/ui/components/card";
-import { Skeleton } from "@ecom/ui/components/skeleton";
-import { cn } from "@ecom/ui/lib/utils";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Card } from "@flash-ship/ecom-ui/components/card";
+import { Skeleton } from "@flash-ship/ecom-ui/components/skeleton";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import { keepPreviousData } from "@tanstack/react-query";
 import type { ColumnDef } from "@tanstack/react-table";
 import { AlertCircle, Folder, GitBranch, Pencil, Plus, Trash2 } from "lucide-react";

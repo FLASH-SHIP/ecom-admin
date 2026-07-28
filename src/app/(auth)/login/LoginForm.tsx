@@ -1,10 +1,10 @@
 "use client";
 
-import { Button } from "@ecom/ui/components/button";
-import { Card, CardContent } from "@ecom/ui/components/card";
-import { Input } from "@ecom/ui/components/input";
-import { Label } from "@ecom/ui/components/label";
-import { cn } from "@ecom/ui/lib/utils";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Card, CardContent } from "@flash-ship/ecom-ui/components/card";
+import { Input } from "@flash-ship/ecom-ui/components/input";
+import { Label } from "@flash-ship/ecom-ui/components/label";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertCircle, Loader2 } from "lucide-react";
 import Image from "next/image";

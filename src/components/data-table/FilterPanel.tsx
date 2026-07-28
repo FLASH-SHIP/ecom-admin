@@ -1,10 +1,10 @@
 "use client";
 
-import { Button } from "@ecom/ui/components/button";
-import { DatePicker } from "@ecom/ui/components/date-picker";
-import { DateRangePicker } from "@ecom/ui/components/date-range-picker";
-import { Input } from "@ecom/ui/components/input";
-import { SearchableSelect } from "@ecom/ui/components/searchable-select";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { DatePicker } from "@flash-ship/ecom-ui/components/date-picker";
+import { DateRangePicker } from "@flash-ship/ecom-ui/components/date-range-picker";
+import { Input } from "@flash-ship/ecom-ui/components/input";
+import { SearchableSelect } from "@flash-ship/ecom-ui/components/searchable-select";
 import { Filter, Plus, Trash2, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { getDefaultOperators, OPERATOR_GROUP_ENDS, OPERATOR_ICONS } from "./filter-operators";

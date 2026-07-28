@@ -1,7 +1,7 @@
 "use client";
 
 import { formatDate } from "@admin/utils/func";
-import { Checkbox } from "@ecom/ui/components/checkbox";
+import { Checkbox } from "@flash-ship/ecom-ui/components/checkbox";
 import { Undo2 } from "lucide-react";
 import type { ReactNode } from "react";
 import type { MediaItem, MediaListBackItemProps, MediaListItemProps } from "../model/media.model";

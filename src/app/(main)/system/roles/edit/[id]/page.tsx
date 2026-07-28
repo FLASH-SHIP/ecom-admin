@@ -4,9 +4,9 @@ import { PermissionGuard } from "@admin/components/layout/PermissionGuard";
 import { StickyPublishBar } from "@admin/components/layout/StickyPublishBar";
 import PageBreadcrumb from "@admin/components/PageBreadcrumb";
 import { trpc } from "@admin/lib/trpc";
-import { Permissions } from "@ecom/lib/permissions";
-import { Button } from "@ecom/ui/components/button";
-import { Card } from "@ecom/ui/components/card";
+import { Permissions } from "@flash-ship/ecom-lib/permissions";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Card } from "@flash-ship/ecom-ui/components/card";
 import {
   Dialog,
   DialogContent,
@@ -14,11 +14,11 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@ecom/ui/components/dialog";
-import { Input } from "@ecom/ui/components/input";
-import { Label } from "@ecom/ui/components/label";
-import { Skeleton } from "@ecom/ui/components/skeleton";
-import { Textarea } from "@ecom/ui/components/textarea";
+} from "@flash-ship/ecom-ui/components/dialog";
+import { Input } from "@flash-ship/ecom-ui/components/input";
+import { Label } from "@flash-ship/ecom-ui/components/label";
+import { Skeleton } from "@flash-ship/ecom-ui/components/skeleton";
+import { Textarea } from "@flash-ship/ecom-ui/components/textarea";
 import { AlertCircle, ArrowLeft, Copy, Loader2, Save } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";

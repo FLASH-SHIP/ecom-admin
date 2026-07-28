@@ -1,0 +1,23 @@
+"use client";
+import { jsx as _jsx } from "react/jsx-runtime";
+import { PerfectScroll } from "./perfect-scroll";
+import { cn } from "../lib/utils";
+import { forwardRef } from "react";
+const Table = forwardRef(({ className, ...props }, ref) => (_jsx(PerfectScroll, { className: "w-full", options: { suppressScrollY: true }, children: _jsx("table", { ref: ref, className: cn("w-full caption-bottom text-sm", className), ...props }) })));
+Table.displayName = "Table";
+const TableHeader = forwardRef(({ className, ...props }, ref) => (_jsx("thead", { ref: ref, className: cn("[&_tr]:border-b [&_tr]:border-border", className), ...props })));
+TableHeader.displayName = "TableHeader";
+const TableBody = forwardRef(({ className, ...props }, ref) => (_jsx("tbody", { ref: ref, className: cn("[&_tr:last-child]:border-0", className), ...props })));
+TableBody.displayName = "TableBody";
+const TableFooter = forwardRef(({ className, ...props }, ref) => (_jsx("tfoot", { ref: ref, className: cn("border-t border-border bg-muted/50 font-medium [&>tr]:last:border-b-0", className), ...props })));
+TableFooter.displayName = "TableFooter";
+const TableRow = forwardRef(({ className, ...props }, ref) => (_jsx("tr", { ref: ref, className: cn("group/row border-b border-border transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted", className), ...props })));
+TableRow.displayName = "TableRow";
+const TableHead = forwardRef(({ className, ...props }, ref) => (_jsx("th", { ref: ref, className: cn("relative h-10 px-3 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]", className), ...props })));
+TableHead.displayName = "TableHead";
+const TableCell = forwardRef(({ className, ...props }, ref) => (_jsx("td", { ref: ref, className: cn("px-3 py-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]", className), ...props })));
+TableCell.displayName = "TableCell";
+const TableCaption = forwardRef(({ className, ...props }, ref) => (_jsx("caption", { ref: ref, className: cn("mt-4 text-sm text-muted-foreground", className), ...props })));
+TableCaption.displayName = "TableCaption";
+export { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow };
+//# sourceMappingURL=table.js.map

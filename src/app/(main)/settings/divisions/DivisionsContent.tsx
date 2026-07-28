@@ -6,20 +6,20 @@ import PageBreadcrumb from "@admin/components/PageBreadcrumb";
 import { useToast } from "@admin/components/toast-provider";
 import { useDebounce } from "@admin/lib/hooks/useDebounce";
 import { trpc } from "@admin/lib/trpc";
-import { Button } from "@ecom/ui/components/button";
-import { Input } from "@ecom/ui/components/input";
-import { Label } from "@ecom/ui/components/label";
-import { PerfectScroll } from "@ecom/ui/components/perfect-scroll";
-import { SearchableSelect } from "@ecom/ui/components/searchable-select";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Input } from "@flash-ship/ecom-ui/components/input";
+import { Label } from "@flash-ship/ecom-ui/components/label";
+import { PerfectScroll } from "@flash-ship/ecom-ui/components/perfect-scroll";
+import { SearchableSelect } from "@flash-ship/ecom-ui/components/searchable-select";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@ecom/ui/components/select";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@ecom/ui/components/sheet";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@ecom/ui/components/tabs";
+} from "@flash-ship/ecom-ui/components/select";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@flash-ship/ecom-ui/components/sheet";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@flash-ship/ecom-ui/components/tabs";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Pencil, Plus } from "lucide-react";
 import { useTranslations } from "next-intl";

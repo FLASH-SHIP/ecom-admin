@@ -1,6 +1,6 @@
 import { env } from "@admin/env";
 import { getAdminSessionCookieName } from "@admin/lib/auth";
-import { decodeToken, signAccessToken } from "@ecom/lib/jwt";
+import { decodeToken, signAccessToken } from "@flash-ship/ecom-lib/jwt";
 import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 

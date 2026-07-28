@@ -1,21 +1,21 @@
 "use client";
 
 import { showToast, ToastType } from "@admin/components/toast-provider";
-import { Dialog, DialogClose, DialogContent, DialogTitle } from "@ecom/ui/components/dialog";
+import { Dialog, DialogClose, DialogContent, DialogTitle } from "@flash-ship/ecom-ui/components/dialog";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@ecom/ui/components/select";
-import { Separator } from "@ecom/ui/components/separator";
+} from "@flash-ship/ecom-ui/components/select";
+import { Separator } from "@flash-ship/ecom-ui/components/separator";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@ecom/ui/components/tooltip";
+} from "@flash-ship/ecom-ui/components/tooltip";
 import { Copy, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { type ReactNode, useCallback, useMemo, useState } from "react";

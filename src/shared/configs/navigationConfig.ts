@@ -1,4 +1,4 @@
-import { Permissions } from "@ecom/lib/permissions";
+import { Permissions } from "@flash-ship/ecom-lib/permissions";
 import type { NavItemType } from "../@app/core/navigation/types/NavItemType";
 
 /**

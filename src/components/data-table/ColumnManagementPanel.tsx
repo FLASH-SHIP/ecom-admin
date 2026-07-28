@@ -14,11 +14,11 @@
  */
 
 import { Columns3CogIcon } from "@admin/components/data-table/icons";
-import { Button } from "@ecom/ui/components/button";
-import { Popover, PopoverContent, PopoverTrigger } from "@ecom/ui/components/popover";
-import { Switch } from "@ecom/ui/components/switch";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@ecom/ui/components/tooltip";
-import { cn } from "@ecom/ui/lib/utils";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@flash-ship/ecom-ui/components/popover";
+import { Switch } from "@flash-ship/ecom-ui/components/switch";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@flash-ship/ecom-ui/components/tooltip";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import type { Column, ColumnOrderState, Table as TanStackTable } from "@tanstack/react-table";
 import { GripVertical, Pin } from "lucide-react";
 import { useTranslations } from "next-intl";

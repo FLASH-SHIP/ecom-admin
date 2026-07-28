@@ -1,6 +1,6 @@
 import ModuleI18nProvider from "@admin/components/i18n/ModuleI18nProvider";
 import { PermissionGuard } from "@admin/components/layout/PermissionGuard";
-import { Permissions } from "@ecom/lib/permissions";
+import { Permissions } from "@flash-ship/ecom-lib/permissions";
 import VerificationCodesClient from "./VerificationCodesClient";
 
 export default function VerificationCodesPage() {

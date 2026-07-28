@@ -10,9 +10,9 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "@ecom/ui/components/dropdown-menu";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@ecom/ui/components/tooltip";
-import { cn } from "@ecom/ui/lib/utils";
+} from "@flash-ship/ecom-ui/components/dropdown-menu";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@flash-ship/ecom-ui/components/tooltip";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import type { Column, Header, Table as TanStackTable } from "@tanstack/react-table";
 import { flexRender } from "@tanstack/react-table";
 import {

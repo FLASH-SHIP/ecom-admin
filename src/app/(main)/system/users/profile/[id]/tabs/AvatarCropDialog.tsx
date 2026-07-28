@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@ecom/ui/components/button";
+import { Button } from "@flash-ship/ecom-ui/components/button";
 import {
   Dialog,
   DialogContent,
@@ -8,7 +8,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@ecom/ui/components/dialog";
+} from "@flash-ship/ecom-ui/components/dialog";
 import { Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useCallback, useState } from "react";

@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@ecom/ui/components/button";
+import { Button } from "@flash-ship/ecom-ui/components/button";
 import { useEffect, useState } from "react";
 
 interface StickyPublishBarProps {

@@ -1,7 +1,7 @@
 "use client";
 
 import { showToast, ToastType } from "@admin/components/toast-provider";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@ecom/ui/components/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@flash-ship/ecom-ui/components/dialog";
 import { useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";

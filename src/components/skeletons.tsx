@@ -3,7 +3,7 @@
  * Uses shadcn Skeleton + Tailwind CSS.
  */
 
-import { Skeleton } from "@ecom/ui/components/skeleton";
+import { Skeleton } from "@flash-ship/ecom-ui/components/skeleton";
 
 export { Skeleton };
 

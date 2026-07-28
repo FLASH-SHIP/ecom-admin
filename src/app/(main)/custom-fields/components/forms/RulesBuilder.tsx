@@ -1,16 +1,16 @@
 "use client";
 
 import { trpc } from "@admin/lib/trpc";
-import { Button } from "@ecom/ui/components/button";
-import { Card } from "@ecom/ui/components/card";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Card } from "@flash-ship/ecom-ui/components/card";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@ecom/ui/components/select";
-import { Separator } from "@ecom/ui/components/separator";
+} from "@flash-ship/ecom-ui/components/select";
+import { Separator } from "@flash-ship/ecom-ui/components/separator";
 import { Loader2, Plus, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 

@@ -1,7 +1,7 @@
 "use client";
 
-import { Checkbox } from "@ecom/ui/components/checkbox";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@ecom/ui/components/dialog";
+import { Checkbox } from "@flash-ship/ecom-ui/components/checkbox";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@flash-ship/ecom-ui/components/dialog";
 import { Folder, Loader2 } from "lucide-react";
 import { type ReactNode, useCallback, useEffect, useState } from "react";
 import type { MediaItem } from "../model/media.model";

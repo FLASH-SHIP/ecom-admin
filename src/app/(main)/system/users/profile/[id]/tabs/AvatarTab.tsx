@@ -1,7 +1,7 @@
 "use client";
 
 import { trpc } from "@admin/lib/trpc";
-import { Button } from "@ecom/ui/components/button";
+import { Button } from "@flash-ship/ecom-ui/components/button";
 import {
   Dialog,
   DialogContent,
@@ -9,7 +9,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@ecom/ui/components/dialog";
+} from "@flash-ship/ecom-ui/components/dialog";
 import { AlertCircle, Camera, CheckCircle2, Trash2, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";

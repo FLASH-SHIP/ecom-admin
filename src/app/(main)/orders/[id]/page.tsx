@@ -2,18 +2,18 @@
 
 import { trpc } from "@admin/lib/trpc";
 import type { OrderStatus } from "@ecom/prisma";
-import { Badge } from "@ecom/ui/components/badge";
-import { Button } from "@ecom/ui/components/button";
-import { Card, CardContent } from "@ecom/ui/components/card";
-import { Input } from "@ecom/ui/components/input";
-import { Label } from "@ecom/ui/components/label";
+import { Badge } from "@flash-ship/ecom-ui/components/badge";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Card, CardContent } from "@flash-ship/ecom-ui/components/card";
+import { Input } from "@flash-ship/ecom-ui/components/input";
+import { Label } from "@flash-ship/ecom-ui/components/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@ecom/ui/components/select";
+} from "@flash-ship/ecom-ui/components/select";
 import { format } from "date-fns";
 import { ArrowLeft, CheckCircle2, PlusCircle, RefreshCw, User } from "lucide-react";
 import Link from "next/link";

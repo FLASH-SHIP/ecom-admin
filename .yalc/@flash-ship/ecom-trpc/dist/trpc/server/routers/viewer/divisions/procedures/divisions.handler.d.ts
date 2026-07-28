@@ -1,0 +1,297 @@
+export declare const listProvinces: import("@trpc/server").TRPCQueryProcedure<{
+    input: {
+        search?: string | undefined;
+        divisionType?: string | undefined;
+        page?: number | undefined;
+        limit?: number | undefined;
+        orderBy?: "asc" | "desc" | undefined;
+    };
+    output: {
+        items: {
+            code: number;
+            id: number;
+            createdAt: Date;
+            name: string;
+            updatedAt: Date;
+            divisionType: string;
+            codeName: string;
+            phoneCode: number;
+        }[];
+        total: number;
+        page: number;
+        limit: number;
+        totalPages: number;
+    };
+    meta: object;
+}>;
+export declare const getProvince: import("@trpc/server").TRPCQueryProcedure<{
+    input: {
+        id: number;
+    };
+    output: {
+        code: number;
+        id: number;
+        createdAt: Date;
+        name: string;
+        updatedAt: Date;
+        divisionType: string;
+        codeName: string;
+        phoneCode: number;
+    };
+    meta: object;
+}>;
+export declare const createProvince: import("@trpc/server").TRPCMutationProcedure<{
+    input: {
+        name: string;
+        code: number;
+        divisionType: string;
+        phoneCode: number;
+        codeName?: string | undefined;
+    };
+    output: {
+        code: number;
+        id: number;
+        createdAt: Date;
+        name: string;
+        updatedAt: Date;
+        divisionType: string;
+        codeName: string;
+        phoneCode: number;
+    };
+    meta: object;
+}>;
+export declare const updateProvince: import("@trpc/server").TRPCMutationProcedure<{
+    input: {
+        id: number;
+        name?: string | undefined;
+        code?: number | undefined;
+        divisionType?: string | undefined;
+        codeName?: string | undefined;
+        phoneCode?: number | undefined;
+    };
+    output: {
+        code: number;
+        id: number;
+        createdAt: Date;
+        name: string;
+        updatedAt: Date;
+        divisionType: string;
+        codeName: string;
+        phoneCode: number;
+    };
+    meta: object;
+}>;
+export declare const deleteProvince: import("@trpc/server").TRPCMutationProcedure<{
+    input: {
+        id: number;
+    };
+    output: {
+        id: number;
+    };
+    meta: object;
+}>;
+export declare const listWards: import("@trpc/server").TRPCQueryProcedure<{
+    input: {
+        provinceCode?: number | undefined;
+        search?: string | undefined;
+        divisionType?: string | undefined;
+        page?: number | undefined;
+        limit?: number | undefined;
+        orderBy?: "asc" | "desc" | undefined;
+    };
+    output: {
+        items: {
+            code: number;
+            id: number;
+            createdAt: Date;
+            name: string;
+            updatedAt: Date;
+            province: {
+                name: string;
+            };
+            divisionType: string;
+            codeName: string;
+            provinceCode: number;
+        }[];
+        total: number;
+        page: number;
+        limit: number;
+        totalPages: number;
+    };
+    meta: object;
+}>;
+export declare const getWard: import("@trpc/server").TRPCQueryProcedure<{
+    input: {
+        id: number;
+    };
+    output: {
+        code: number;
+        id: number;
+        createdAt: Date;
+        name: string;
+        updatedAt: Date;
+        divisionType: string;
+        codeName: string;
+        provinceCode: number;
+    };
+    meta: object;
+}>;
+export declare const createWard: import("@trpc/server").TRPCMutationProcedure<{
+    input: {
+        name: string;
+        code: number;
+        divisionType: string;
+        provinceCode: number;
+        codeName?: string | undefined;
+    };
+    output: {
+        code: number;
+        id: number;
+        createdAt: Date;
+        name: string;
+        updatedAt: Date;
+        divisionType: string;
+        codeName: string;
+        provinceCode: number;
+    };
+    meta: object;
+}>;
+export declare const updateWard: import("@trpc/server").TRPCMutationProcedure<{
+    input: {
+        id: number;
+        name?: string | undefined;
+        code?: number | undefined;
+        divisionType?: string | undefined;
+        codeName?: string | undefined;
+        provinceCode?: number | undefined;
+    };
+    output: {
+        code: number;
+        id: number;
+        createdAt: Date;
+        name: string;
+        updatedAt: Date;
+        divisionType: string;
+        codeName: string;
+        provinceCode: number;
+    };
+    meta: object;
+}>;
+export declare const deleteWard: import("@trpc/server").TRPCMutationProcedure<{
+    input: {
+        id: number;
+    };
+    output: {
+        id: number;
+    };
+    meta: object;
+}>;
+export declare const listDivisions: import("@trpc/server").TRPCQueryProcedure<{
+    input: {
+        countryCode: string;
+        level?: number | undefined;
+        parentId?: number | undefined;
+        search?: string | undefined;
+        page?: number | undefined;
+        limit?: number | undefined;
+        orderBy?: "asc" | "desc" | undefined;
+    };
+    output: {
+        items: {
+            code: string;
+            id: number;
+            createdAt: Date;
+            name: string;
+            updatedAt: Date;
+            divisionType: string;
+            countryCode: string;
+            nameEn: string | null;
+            level: number;
+            parentId: number | null;
+            isActive: boolean;
+            parent: {
+                code: string;
+                id: number;
+                name: string;
+            } | null;
+        }[];
+        total: number;
+        page: number;
+        limit: number;
+        totalPages: number;
+    };
+    meta: object;
+}>;
+export declare const getDivision: import("@trpc/server").TRPCQueryProcedure<{
+    input: {
+        id: number;
+    };
+    output: {
+        code: string;
+        id: number;
+        createdAt: Date;
+        name: string;
+        updatedAt: Date;
+        divisionType: string;
+        countryCode: string;
+        nameEn: string | null;
+        level: number;
+        parentId: number | null;
+        isActive: boolean;
+        parent: {
+            code: string;
+            id: number;
+            name: string;
+        } | null;
+    };
+    meta: object;
+}>;
+export declare const createDivision: import("@trpc/server").TRPCMutationProcedure<{
+    input: {
+        countryCode: string;
+        code: string;
+        name: string;
+        divisionType: string;
+        level: number;
+        nameEn?: string | undefined;
+        parentId?: number | undefined;
+    };
+    output: {
+        code: string;
+        id: number;
+        createdAt: Date;
+        name: string;
+        updatedAt: Date;
+        divisionType: string;
+        countryCode: string;
+        nameEn: string | null;
+        level: number;
+        parentId: number | null;
+        isActive: boolean;
+    };
+    meta: object;
+}>;
+export declare const updateDivision: import("@trpc/server").TRPCMutationProcedure<{
+    input: {
+        id: number;
+        name?: string | undefined;
+        nameEn?: string | undefined;
+        divisionType?: string | undefined;
+        isActive?: boolean | undefined;
+    };
+    output: {
+        code: string;
+        id: number;
+        createdAt: Date;
+        name: string;
+        updatedAt: Date;
+        divisionType: string;
+        countryCode: string;
+        nameEn: string | null;
+        level: number;
+        parentId: number | null;
+        isActive: boolean;
+    };
+    meta: object;
+}>;
+//# sourceMappingURL=divisions.handler.d.ts.map

@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@ecom/ui/lib/utils";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import { AlertCircle, AlertTriangle, CheckCircle2, Info, X } from "lucide-react";
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 

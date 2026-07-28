@@ -4,8 +4,8 @@ import type { RowAction } from "@admin/components/data-table";
 import { DataTable } from "@admin/components/data-table";
 import { showToast, ToastType } from "@admin/components/toast-provider";
 import { trpc } from "@admin/lib/trpc";
-import { Button } from "@ecom/ui/components/button";
-import { Card } from "@ecom/ui/components/card";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Card } from "@flash-ship/ecom-ui/components/card";
 import {
   Dialog,
   DialogContent,
@@ -14,15 +14,15 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@ecom/ui/components/dialog";
-import { Input } from "@ecom/ui/components/input";
+} from "@flash-ship/ecom-ui/components/dialog";
+import { Input } from "@flash-ship/ecom-ui/components/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@ecom/ui/components/select";
+} from "@flash-ship/ecom-ui/components/select";
 import { keepPreviousData } from "@tanstack/react-query";
 import type { ColumnDef } from "@tanstack/react-table";
 import { AlertTriangle, Download, Edit3, Plus, RefreshCw, Trash2, Upload } from "lucide-react";

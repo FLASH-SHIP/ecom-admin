@@ -1,9 +1,9 @@
 "use client";
 
 import { trpc } from "@admin/lib/trpc";
-import { Badge } from "@ecom/ui/components/badge";
-import { Card, CardContent } from "@ecom/ui/components/card";
-import { cn } from "@ecom/ui/lib/utils";
+import { Badge } from "@flash-ship/ecom-ui/components/badge";
+import { Card, CardContent } from "@flash-ship/ecom-ui/components/card";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import { Activity, Eye, FileText, FolderTree, Mail, MessageCircle, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
 

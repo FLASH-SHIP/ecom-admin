@@ -10,14 +10,14 @@
     "lint": "biome check",
     "format": "biome format --write",
     "clean": "rm -rf .next .turbo",
-    "yalc:link:all": "npx yalc add @ecom/ui && npx yalc add @ecom/trpc-contract && npx yalc add @ecom/i18n && npx yalc add @ecom/lib"
+    "yalc:link:all": "npx yalc add @flash-ship/ecom-ui && npx yalc add @flash-ship/ecom-trpc && npx yalc add @flash-ship/ecom-i18n && npx yalc add @flash-ship/ecom-lib"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.0",
-    "@ecom/i18n": "portal:../ecom-shared-packages/packages/i18n",
-    "@ecom/lib": "portal:../ecom-shared-packages/packages/lib",
-    "@ecom/trpc-contract": "portal:../ecom-shared-packages/packages/trpc",
-    "@ecom/ui": "portal:../ecom-shared-packages/packages/ui",
+    "@flash-ship/ecom-i18n": "portal:../ecom-shared-packages/packages/i18n",
+    "@flash-ship/ecom-lib": "portal:../ecom-shared-packages/packages/lib",
+    "@flash-ship/ecom-trpc": "portal:../ecom-shared-packages/packages/trpc",
+    "@flash-ship/ecom-ui": "portal:../ecom-shared-packages/packages/ui",
     "@hookform/resolvers": "^5.2.2",
     "@prisma/client": "^7.8.0",
     "@radix-ui/react-avatar": "^1.1.0",

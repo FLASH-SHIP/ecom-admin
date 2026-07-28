@@ -1,6 +1,6 @@
-import { Button } from "@ecom/ui/components/button";
-import { Input } from "@ecom/ui/components/input";
-import { Textarea } from "@ecom/ui/components/textarea";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Input } from "@flash-ship/ecom-ui/components/input";
+import { Textarea } from "@flash-ship/ecom-ui/components/textarea";
 
 export function ButtonField({ children, containerClassName, fullWidth, ...props }: any) {
   return (

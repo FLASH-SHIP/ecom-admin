@@ -10,7 +10,7 @@
  */
 import { DataTableSkeleton } from "@admin/components/data-table";
 import { PermissionGuard } from "@admin/components/layout/PermissionGuard";
-import { Permissions } from "@ecom/lib/permissions";
+import { Permissions } from "@flash-ship/ecom-lib/permissions";
 import dynamic from "next/dynamic";
 
 const RequestLogsContent = dynamic(() => import("./RequestLogsContent"), {

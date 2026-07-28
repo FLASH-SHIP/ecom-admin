@@ -1,7 +1,7 @@
 "use client";
 
 import { trpc } from "@admin/lib/trpc";
-import type { LanguageTab } from "@ecom/ui/components/language-switcher";
+import type { LanguageTab } from "@flash-ship/ecom-ui/components/language-switcher";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useLocale } from "next-intl";
 import { useCallback, useMemo } from "react";

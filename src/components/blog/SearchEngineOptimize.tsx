@@ -2,18 +2,18 @@
 
 import { MediaPickerDialog } from "@admin/components/base/MediaPickerDialog";
 import { env } from "@admin/env";
-import { Button } from "@ecom/ui/components/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@ecom/ui/components/card";
-import { Input } from "@ecom/ui/components/input";
-import { Label } from "@ecom/ui/components/label";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@flash-ship/ecom-ui/components/card";
+import { Input } from "@flash-ship/ecom-ui/components/input";
+import { Label } from "@flash-ship/ecom-ui/components/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@ecom/ui/components/select";
-import { Textarea } from "@ecom/ui/components/textarea";
+} from "@flash-ship/ecom-ui/components/select";
+import { Textarea } from "@flash-ship/ecom-ui/components/textarea";
 import { ImageIcon, X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";

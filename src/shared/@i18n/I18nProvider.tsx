@@ -1,5 +1,5 @@
 "use client";
-import { defaultLocale, locales } from "@ecom/i18n";
+import { defaultLocale, locales } from "@flash-ship/ecom-i18n";
 import type React from "react";
 import { useCallback, useMemo, useState } from "react";
 import I18nContext, { type LanguageType } from "./I18nContext";

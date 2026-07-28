@@ -2,11 +2,11 @@
 
 import { trpc } from "@admin/lib/trpc";
 import { formatDateTime } from "@admin/utils/dateFormat";
-import { Badge } from "@ecom/ui/components/badge";
-import { Button } from "@ecom/ui/components/button";
-import { Popover, PopoverContent, PopoverTrigger } from "@ecom/ui/components/popover";
-import { Skeleton } from "@ecom/ui/components/skeleton";
-import { cn } from "@ecom/ui/lib/utils";
+import { Badge } from "@flash-ship/ecom-ui/components/badge";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@flash-ship/ecom-ui/components/popover";
+import { Skeleton } from "@flash-ship/ecom-ui/components/skeleton";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import { Bell, CheckCheck, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";

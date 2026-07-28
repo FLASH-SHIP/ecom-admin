@@ -11,18 +11,18 @@ import { ConfirmDialog } from "@admin/components/ui/ConfirmDialog";
 import { useConfirm } from "@admin/components/ui/useConfirm";
 import { trpc } from "@admin/lib/trpc";
 import { formatDate } from "@admin/utils/dateFormat";
-import { Permissions } from "@ecom/lib/permissions";
+import { Permissions } from "@flash-ship/ecom-lib/permissions";
 import type { ContentStatus, RateCardType, ShippingMethod } from "@ecom/prisma";
-import { Badge } from "@ecom/ui/components/badge";
-import { Button } from "@ecom/ui/components/button";
+import { Badge } from "@flash-ship/ecom-ui/components/badge";
+import { Button } from "@flash-ship/ecom-ui/components/button";
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@ecom/ui/components/dialog";
-import { Input } from "@ecom/ui/components/input";
+} from "@flash-ship/ecom-ui/components/dialog";
+import { Input } from "@flash-ship/ecom-ui/components/input";
 import { keepPreviousData } from "@tanstack/react-query";
 import type { ColumnDef } from "@tanstack/react-table";
 import { CheckCircle, Copy, Eye, Pencil, Plus, Trash2, UserPlus, XCircle } from "lucide-react";

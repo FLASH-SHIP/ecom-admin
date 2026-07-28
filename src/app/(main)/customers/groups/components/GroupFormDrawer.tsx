@@ -2,12 +2,12 @@
 
 import { useToast } from "@admin/components/toast-provider";
 import { trpc } from "@admin/lib/trpc";
-import { Button } from "@ecom/ui/components/button";
-import { Input } from "@ecom/ui/components/input";
-import { Label } from "@ecom/ui/components/label";
-import { PerfectScroll } from "@ecom/ui/components/perfect-scroll";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@ecom/ui/components/sheet";
-import { Textarea } from "@ecom/ui/components/textarea";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Input } from "@flash-ship/ecom-ui/components/input";
+import { Label } from "@flash-ship/ecom-ui/components/label";
+import { PerfectScroll } from "@flash-ship/ecom-ui/components/perfect-scroll";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@flash-ship/ecom-ui/components/sheet";
+import { Textarea } from "@flash-ship/ecom-ui/components/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertCircle, Loader2, Save } from "lucide-react";
 import { useTranslations } from "next-intl";

@@ -1,6 +1,6 @@
 "use client";
 
-// Inline cn utility — avoids @ecom/ui dependency (SidebarNav kept for reference, replaced by Navigation)
+// Inline cn utility — avoids @flash-ship/ecom-ui dependency (SidebarNav kept for reference, replaced by Navigation)
 function cn(...classes: (string | boolean | undefined | null)[]): string {
   return classes.filter(Boolean).join(" ");
 }

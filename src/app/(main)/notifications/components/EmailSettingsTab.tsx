@@ -5,28 +5,28 @@ import { ConfirmDialog } from "@admin/components/ui/ConfirmDialog";
 import { RichTextEditor } from "@admin/components/ui/RichTextEditor";
 import { useConfirm } from "@admin/components/ui/useConfirm";
 import { trpc } from "@admin/lib/trpc";
-import { Button } from "@ecom/ui/components/button";
-import { Card } from "@ecom/ui/components/card";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Card } from "@flash-ship/ecom-ui/components/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@ecom/ui/components/dropdown-menu";
-import { Input } from "@ecom/ui/components/input";
+} from "@flash-ship/ecom-ui/components/dropdown-menu";
+import { Input } from "@flash-ship/ecom-ui/components/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@ecom/ui/components/select";
-import { Sheet, SheetContent } from "@ecom/ui/components/sheet";
-import { Skeleton } from "@ecom/ui/components/skeleton";
-import { Switch } from "@ecom/ui/components/switch";
-import { Tabs, TabsList, TabsTrigger } from "@ecom/ui/components/tabs";
-import { Textarea } from "@ecom/ui/components/textarea";
-import { cn } from "@ecom/ui/lib/utils";
+} from "@flash-ship/ecom-ui/components/select";
+import { Sheet, SheetContent } from "@flash-ship/ecom-ui/components/sheet";
+import { Skeleton } from "@flash-ship/ecom-ui/components/skeleton";
+import { Switch } from "@flash-ship/ecom-ui/components/switch";
+import { Tabs, TabsList, TabsTrigger } from "@flash-ship/ecom-ui/components/tabs";
+import { Textarea } from "@flash-ship/ecom-ui/components/textarea";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import {
   Check,
   ChevronDown,

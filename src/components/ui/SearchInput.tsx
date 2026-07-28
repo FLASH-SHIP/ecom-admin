@@ -1,8 +1,8 @@
 "use client";
 
 import { useDebounce } from "@admin/lib/hooks/useDebounce";
-import { Input } from "@ecom/ui/components/input";
-import { cn } from "@ecom/ui/lib/utils";
+import { Input } from "@flash-ship/ecom-ui/components/input";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import { Search, X } from "lucide-react";
 import { useEffect, useState } from "react";
 

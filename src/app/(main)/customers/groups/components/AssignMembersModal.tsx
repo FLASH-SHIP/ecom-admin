@@ -6,16 +6,16 @@ import { ConfirmDialog } from "@admin/components/ui/ConfirmDialog";
 import { SearchInput } from "@admin/components/ui/SearchInput";
 import { useConfirm } from "@admin/components/ui/useConfirm";
 import { trpc } from "@admin/lib/trpc";
-import { Button } from "@ecom/ui/components/button";
-import { Checkbox } from "@ecom/ui/components/checkbox";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Checkbox } from "@flash-ship/ecom-ui/components/checkbox";
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@ecom/ui/components/dialog";
-import { Popover, PopoverContent, PopoverTrigger } from "@ecom/ui/components/popover";
+} from "@flash-ship/ecom-ui/components/dialog";
+import { Popover, PopoverContent, PopoverTrigger } from "@flash-ship/ecom-ui/components/popover";
 import {
   Table,
   TableBody,
@@ -23,8 +23,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@ecom/ui/components/table";
-import { cn } from "@ecom/ui/lib/utils";
+} from "@flash-ship/ecom-ui/components/table";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import { ChevronDown, Loader2, Trash2, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";

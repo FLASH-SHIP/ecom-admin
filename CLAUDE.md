@@ -4,9 +4,9 @@ You are working on the Admin CMS web application built with Next.js 16 (App Rout
 
 ## Core Directives
 
-- **Shared UI & Domain**: Consume UI components from `@ecom/ui` and `@ecom/ui/domain`. Do not create ad-hoc duplicates of shared components.
-- **Type-Safe API**: Consume admin API endpoints via `@ecom/trpc-contract/admin` and NextAuth session.
-- **Translations (i18n)**: All translations are loaded from `@ecom/i18n`. Do not create local `locales/` folders in this repo.
+- **Shared UI & Domain**: Consume UI components from `@flash-ship/ecom-ui` and `@flash-ship/ecom-ui/domain`. Do not create ad-hoc duplicates of shared components.
+- **Type-Safe API**: Consume admin API endpoints via `@flash-ship/ecom-trpc/admin` and NextAuth session.
+- **Translations (i18n)**: All translations are loaded from `@flash-ship/ecom-i18n`. Do not create local `locales/` folders in this repo.
 - **Tailwind v4 Scanning**: Ensure `globals.css` includes `@source "../../../ecom-shared-packages/packages/ui"`.
 
 ---

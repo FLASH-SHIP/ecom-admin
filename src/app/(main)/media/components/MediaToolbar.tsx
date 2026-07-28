@@ -8,13 +8,13 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@ecom/ui/components/dropdown-menu";
+} from "@flash-ship/ecom-ui/components/dropdown-menu";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@ecom/ui/components/tooltip";
+} from "@flash-ship/ecom-ui/components/tooltip";
 import {
   ArrowDown01,
   ArrowDownAZ,

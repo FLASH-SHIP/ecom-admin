@@ -9,9 +9,9 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@ecom/ui/components/dropdown-menu";
-import { PerfectScroll } from "@ecom/ui/components/perfect-scroll";
-import { cn } from "@ecom/ui/lib/utils";
+} from "@flash-ship/ecom-ui/components/dropdown-menu";
+import { PerfectScroll } from "@flash-ship/ecom-ui/components/perfect-scroll";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import { ChevronDown, ChevronRight, LogOut, User as UserIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";

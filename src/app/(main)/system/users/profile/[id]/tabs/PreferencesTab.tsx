@@ -1,15 +1,15 @@
 "use client";
 
 import { trpc } from "@admin/lib/trpc";
-import { Button } from "@ecom/ui/components/button";
-import { Label } from "@ecom/ui/components/label";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Label } from "@flash-ship/ecom-ui/components/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@ecom/ui/components/select";
+} from "@flash-ship/ecom-ui/components/select";
 import { AlertCircle, CheckCircle2, Loader2, Save, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";

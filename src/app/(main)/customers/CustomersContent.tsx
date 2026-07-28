@@ -12,15 +12,15 @@ import { ConfirmDialog } from "@admin/components/ui/ConfirmDialog";
 import { useConfirm } from "@admin/components/ui/useConfirm";
 import { trpc } from "@admin/lib/trpc";
 import { formatDate } from "@admin/utils/dateFormat";
-import { Permissions } from "@ecom/lib/permissions";
-import { Button } from "@ecom/ui/components/button";
+import { Permissions } from "@flash-ship/ecom-lib/permissions";
+import { Button } from "@flash-ship/ecom-ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@ecom/ui/components/dropdown-menu";
-import { cn } from "@ecom/ui/lib/utils";
+} from "@flash-ship/ecom-ui/components/dropdown-menu";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import { keepPreviousData } from "@tanstack/react-query";
 import type { ColumnDef } from "@tanstack/react-table";
 import { AlertCircle, ChevronDown, Eye, Pencil, Plus, Trash2, Users } from "lucide-react";

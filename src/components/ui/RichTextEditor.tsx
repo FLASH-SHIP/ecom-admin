@@ -1,13 +1,13 @@
 "use client";
 
-import { Separator } from "@ecom/ui/components/separator";
+import { Separator } from "@flash-ship/ecom-ui/components/separator";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@ecom/ui/components/tooltip";
-import { cn } from "@ecom/ui/lib/utils";
+} from "@flash-ship/ecom-ui/components/tooltip";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import { Color } from "@tiptap/extension-color";
 import Highlight from "@tiptap/extension-highlight";
 import Image from "@tiptap/extension-image";

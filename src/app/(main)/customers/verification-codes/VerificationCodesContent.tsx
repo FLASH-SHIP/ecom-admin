@@ -6,7 +6,7 @@ import { useServerTable } from "@admin/components/data-table/hooks/useServerTabl
 import type { DataTableServerParams } from "@admin/components/data-table/types";
 import { trpc } from "@admin/lib/trpc";
 import { formatDateTime } from "@admin/utils/dateFormat";
-import { cn } from "@ecom/ui/lib/utils";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import { keepPreviousData } from "@tanstack/react-query";
 import type { ColumnDef } from "@tanstack/react-table";
 import { AlertCircle, ClipboardList } from "lucide-react";

@@ -3,9 +3,9 @@
 import { LanguageSwitcher } from "@ecom/shared/components/LanguageSwitcher";
 import { ThemeToggle } from "@ecom/shared/components/ThemeToggle";
 import useNavigationItems from "@ecom/shared/components/theme-layouts/components/navigation/hooks/useNavigationItems";
-import { PerfectScroll } from "@ecom/ui/components/perfect-scroll";
-import { Popover, PopoverContent, PopoverTrigger } from "@ecom/ui/components/popover";
-import { cn } from "@ecom/ui/lib/utils";
+import { PerfectScroll } from "@flash-ship/ecom-ui/components/perfect-scroll";
+import { Popover, PopoverContent, PopoverTrigger } from "@flash-ship/ecom-ui/components/popover";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import { ALargeSmall, Maximize, Minimize, PanelLeft, Search, Star } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";

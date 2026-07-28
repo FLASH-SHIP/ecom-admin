@@ -22,23 +22,23 @@ import { FilterPanel } from "@admin/components/data-table/FilterPanel";
 import { RowActionMenu } from "@admin/components/data-table/RowActionMenu";
 import PageBreadcrumb from "@admin/components/PageBreadcrumb";
 import { SearchInput } from "@admin/components/ui/SearchInput";
-import { Button } from "@ecom/ui/components/button";
-import { Checkbox } from "@ecom/ui/components/checkbox";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Checkbox } from "@flash-ship/ecom-ui/components/checkbox";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "@ecom/ui/components/dropdown-menu";
-import { Pagination } from "@ecom/ui/components/pagination";
+} from "@flash-ship/ecom-ui/components/dropdown-menu";
+import { Pagination } from "@flash-ship/ecom-ui/components/pagination";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@ecom/ui/components/select";
-import { Skeleton } from "@ecom/ui/components/skeleton";
+} from "@flash-ship/ecom-ui/components/select";
+import { Skeleton } from "@flash-ship/ecom-ui/components/skeleton";
 import {
   Table,
   TableBody,
@@ -46,14 +46,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@ecom/ui/components/table";
+} from "@flash-ship/ecom-ui/components/table";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@ecom/ui/components/tooltip";
-import { cn } from "@ecom/ui/lib/utils";
+} from "@flash-ship/ecom-ui/components/tooltip";
+import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import type {
   Column,
   ColumnDef,

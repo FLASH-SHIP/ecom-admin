@@ -2,17 +2,17 @@
 
 import type { BulkChangeField } from "@admin/components/data-table/DataTable";
 import { DATE_DISPLAY_PLACEHOLDER, formatDateForApi } from "@admin/utils/dateFormat";
-import { Button } from "@ecom/ui/components/button";
-import { DatePicker } from "@ecom/ui/components/date-picker";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { DatePicker } from "@flash-ship/ecom-ui/components/date-picker";
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@ecom/ui/components/dialog";
-import { Input } from "@ecom/ui/components/input";
-import { SearchableSelect } from "@ecom/ui/components/searchable-select";
+} from "@flash-ship/ecom-ui/components/dialog";
+import { Input } from "@flash-ship/ecom-ui/components/input";
+import { SearchableSelect } from "@flash-ship/ecom-ui/components/searchable-select";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 

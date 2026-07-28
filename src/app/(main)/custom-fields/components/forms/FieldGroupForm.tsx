@@ -5,18 +5,18 @@ import PageBreadcrumb from "@admin/components/PageBreadcrumb";
 import { useToast } from "@admin/components/toast-provider";
 import { downloadJson } from "@admin/lib/download";
 import { trpc } from "@admin/lib/trpc";
-import { Button } from "@ecom/ui/components/button";
-import { Card } from "@ecom/ui/components/card";
-import { Input } from "@ecom/ui/components/input";
-import { Label } from "@ecom/ui/components/label";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Card } from "@flash-ship/ecom-ui/components/card";
+import { Input } from "@flash-ship/ecom-ui/components/input";
+import { Label } from "@flash-ship/ecom-ui/components/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@ecom/ui/components/select";
-import { Separator } from "@ecom/ui/components/separator";
+} from "@flash-ship/ecom-ui/components/select";
+import { Separator } from "@flash-ship/ecom-ui/components/separator";
 import { AlertCircle, ArrowLeft, Download, Loader2, Save } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";

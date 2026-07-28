@@ -1,7 +1,7 @@
 "use client";
 
-import { Dialog, DialogClose, DialogContent, DialogTitle } from "@ecom/ui/components/dialog";
-import { Separator } from "@ecom/ui/components/separator";
+import { Dialog, DialogClose, DialogContent, DialogTitle } from "@flash-ship/ecom-ui/components/dialog";
+import { Separator } from "@flash-ship/ecom-ui/components/separator";
 import { Check, Loader2, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { type ReactNode, useCallback, useEffect, useState } from "react";

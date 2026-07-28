@@ -2,9 +2,9 @@
 
 import PageBreadcrumb from "@admin/components/PageBreadcrumb";
 import { trpc } from "@admin/lib/trpc";
-import { Button } from "@ecom/ui/components/button";
-import { Card, CardContent } from "@ecom/ui/components/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@ecom/ui/components/tabs";
+import { Button } from "@flash-ship/ecom-ui/components/button";
+import { Card, CardContent } from "@flash-ship/ecom-ui/components/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@flash-ship/ecom-ui/components/tabs";
 import { ArrowLeft, Image, Loader2, Lock, Settings, Shield, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";

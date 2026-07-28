@@ -3,7 +3,7 @@
 import { useToast } from "@admin/components/toast-provider";
 import { downloadJson } from "@admin/lib/download";
 import { trpc } from "@admin/lib/trpc";
-import { Button } from "@ecom/ui/components/button";
+import { Button } from "@flash-ship/ecom-ui/components/button";
 import { Download, Loader2, Upload } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRef } from "react";

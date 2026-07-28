@@ -1,4 +1,4 @@
-import { Dialog, DialogContent } from "@ecom/ui/components/dialog";
+import { Dialog, DialogContent } from "@flash-ship/ecom-ui/components/dialog";
 import type { ReactNode } from "react";
 
 export interface AppDialogContentProps {

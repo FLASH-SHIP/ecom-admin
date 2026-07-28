@@ -1,14 +1,14 @@
 "use client";
 
 import type { BulkActionConfig, BulkChangeField } from "@admin/components/data-table/DataTable";
-import { Button } from "@ecom/ui/components/button";
+import { Button } from "@flash-ship/ecom-ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@ecom/ui/components/dropdown-menu";
+} from "@flash-ship/ecom-ui/components/dropdown-menu";
 import { ChevronDown, Trash2 } from "lucide-react";
 import type { useTranslations } from "next-intl";
 

@@ -1,8 +1,8 @@
 "use client";
 
 import { PermissionGuard } from "@admin/components/layout/PermissionGuard";
-import { Permissions } from "@ecom/lib/permissions";
-import { Card, CardContent } from "@ecom/ui/components/card";
+import { Permissions } from "@flash-ship/ecom-lib/permissions";
+import { Card, CardContent } from "@flash-ship/ecom-ui/components/card";
 import { Construction } from "lucide-react";
 import { useTranslations } from "next-intl";
 
