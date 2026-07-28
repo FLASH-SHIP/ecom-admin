@@ -85,9 +85,9 @@ export declare const customerOrdersRouter: import("@trpc/server").TRPCBuiltRoute
             volumeWeight: number;
             chargeableWeight: number;
             dimensionText: string | null;
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
             id: string;
             createdAt: Date;
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
             orderCode: string;
         };
         meta: object;
@@ -101,19 +101,21 @@ export declare const customerOrdersRouter: import("@trpc/server").TRPCBuiltRoute
             shippingMethod?: "EXPRESS" | "EPACKET" | undefined;
             page?: number | undefined;
             perPage?: number | undefined;
-            sortBy?: "status" | "id" | "createdAt" | "orderCode" | undefined;
+            sortBy?: "id" | "createdAt" | "status" | "orderCode" | undefined;
             sortOrder?: "asc" | "desc" | undefined;
         } | undefined;
         output: import("@flash-ship/ecom-lib").PaginatedResult<{
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
             id: string;
             createdAt: Date;
             customer: {
-                email: string;
                 name: string | null;
+                email: string;
                 username: string;
             };
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
             customerId: string;
+            orderCode: string;
+            labelStatus: import("@ecom/prisma/src/generated/prisma/client").$Enums.LabelStatus;
             shippingMethod: import("@ecom/prisma/src/generated/prisma/client").$Enums.ShippingMethod;
             shippingOrigin: import("@ecom/prisma/src/generated/prisma/client").$Enums.ShippingOrigin;
             sellerOrderId: string | null;
@@ -125,8 +127,6 @@ export declare const customerOrdersRouter: import("@trpc/server").TRPCBuiltRoute
             receiverCountry: string;
             receiverZipCode: string;
             declaredWeight: number;
-            orderCode: string;
-            labelStatus: import("@ecom/prisma/src/generated/prisma/client").$Enums.LabelStatus;
             ecomTrackingNumber: string | null;
             baseShippingFee: import("@prisma/client-runtime-utils").Decimal;
             surchargeFee: import("@prisma/client-runtime-utils").Decimal;
@@ -150,7 +150,7 @@ export declare const customerOrdersRouter: import("@trpc/server").TRPCBuiltRoute
             shippingMethod?: "EXPRESS" | "EPACKET" | undefined;
             page?: number | undefined;
             perPage?: number | undefined;
-            sortBy?: "status" | "id" | "createdAt" | "orderCode" | undefined;
+            sortBy?: "id" | "createdAt" | "status" | "orderCode" | undefined;
             sortOrder?: "asc" | "desc" | undefined;
         } | undefined;
         output: {
@@ -241,8 +241,8 @@ export declare const customerOrdersRouter: import("@trpc/server").TRPCBuiltRoute
             status?: "completed" | "failed" | undefined;
         };
         output: {
-            status: string;
             id: string;
+            status: string;
         };
         meta: object;
     }>;
@@ -258,9 +258,9 @@ export declare const customerOrdersRouter: import("@trpc/server").TRPCBuiltRoute
         output: {
             total: number;
             items: {
-                status: string;
                 id: string;
                 createdAt: Date;
+                status: string;
                 fileName: string;
                 fileSize: number | null;
                 totalRows: number;
@@ -277,9 +277,9 @@ export declare const customerOrdersRouter: import("@trpc/server").TRPCBuiltRoute
             id: string;
         };
         output: {
-            status: string;
             id: string;
             createdAt: Date;
+            status: string;
             customerId: string;
             fileName: string;
             fileSize: number | null;
@@ -298,12 +298,12 @@ export declare const customerOrdersRouter: import("@trpc/server").TRPCBuiltRoute
         } | undefined;
         output: {
             items: {
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                description: string | null;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
                 updatedAt: Date;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                description: string | null;
                 image: string | null;
             }[];
             total: number;

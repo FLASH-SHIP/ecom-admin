@@ -116,13 +116,13 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     locale?: "vi" | "en" | undefined;
                 };
                 output: {
-                    email: string;
-                    locale: string | null;
-                    id: string;
                     name: string | null;
+                    id: string;
+                    email: string;
                     username: string | null;
                     phone: string | null;
                     avatarUrl: string | null;
+                    locale: string | null;
                 };
                 meta: object;
             }>;
@@ -181,7 +181,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 input: {
                     filters?: {
                         fieldKey: string;
-                        operator: "endsWith" | "startsWith" | "contains" | "equals" | "notContains" | "notEquals" | "between" | "betweenInclusive" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "empty" | "notEmpty";
+                        operator: "endsWith" | "startsWith" | "contains" | "notContains" | "equals" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "notEquals" | "between" | "betweenInclusive" | "empty" | "notEmpty";
                         value: string;
                         value2?: string | undefined;
                     }[] | undefined;
@@ -194,32 +194,32 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     page?: number | undefined;
                     pageSize?: number | undefined;
                     perPage?: number | undefined;
-                    sortBy?: "status" | "id" | "createdAt" | "title" | "publishedAt" | "views" | undefined;
+                    sortBy?: "id" | "createdAt" | "title" | "views" | "status" | "publishedAt" | undefined;
                     sortOrder?: "asc" | "desc" | undefined;
                     sortDir?: "asc" | "desc" | undefined;
                 } | undefined;
                 output: import("@flash-ship/ecom-lib").PaginatedResult<{
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     id: number;
                     createdAt: Date;
                     deletedAt: Date | null;
                     slug: string;
-                    isFeatured: boolean;
                     title: string;
-                    publishedAt: Date | null;
-                    views: number;
                     excerpt: string | null;
                     featuredImage: string | null;
+                    isFeatured: boolean;
+                    views: number;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     authorId: string;
+                    publishedAt: Date | null;
                     author: {
-                        id: string;
                         name: string | null;
+                        id: string;
                         avatarUrl: string | null;
                     };
                     categories: {
                         category: {
-                            id: number;
                             name: string;
+                            id: number;
                             slug: string;
                         };
                     }[];
@@ -388,40 +388,40 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 input: {
                     filters?: {
                         fieldKey: string;
-                        operator: "endsWith" | "startsWith" | "contains" | "equals" | "notContains" | "notEquals" | "between" | "betweenInclusive" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "empty" | "notEmpty";
+                        operator: "endsWith" | "startsWith" | "contains" | "notContains" | "equals" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "notEquals" | "between" | "betweenInclusive" | "empty" | "notEmpty";
                         value: string;
                         value2?: string | undefined;
                     }[] | undefined;
                     search?: string | undefined;
-                    status?: "DRAFT" | "PENDING" | "REJECTED" | "PUBLISHED" | "REVIEW" | "ARCHIVED" | undefined;
+                    status?: "DRAFT" | "PENDING" | "REVIEW" | "REJECTED" | "PUBLISHED" | "ARCHIVED" | undefined;
                     parentId?: number | null | undefined;
                     page?: number | undefined;
                     pageSize?: number | undefined;
                     perPage?: number | undefined;
-                    sortBy?: "status" | "id" | "createdAt" | "order" | "title" | undefined;
+                    sortBy?: "id" | "createdAt" | "order" | "title" | "status" | undefined;
                     sortDir?: "asc" | "desc" | undefined;
                     sortOrder?: "asc" | "desc" | undefined;
                 } | undefined;
                 output: {
                     data: {
-                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                         id: number;
                         createdAt: Date;
                         updatedAt: Date;
+                        order: number;
+                        slug: string;
                         _count: {
                             children: number;
                         };
                         parentId: number | null;
-                        order: number;
-                        slug: string;
                         title: string;
-                        publishedAt: Date | null;
+                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                         authorId: string;
-                        author: {
-                            id: string;
-                            name: string | null;
-                        };
+                        publishedAt: Date | null;
                         template: string | null;
+                        author: {
+                            name: string | null;
+                            id: string;
+                        };
                     }[];
                     meta: {
                         total: number;
@@ -437,26 +437,21 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     id: number;
                     createdAt: Date;
-                    deletedAt: Date | null;
                     updatedAt: Date;
-                    parentId: number | null;
+                    deletedAt: Date | null;
                     order: number;
                     slug: string;
+                    parentId: number | null;
                     title: string;
-                    publishedAt: Date | null;
                     content: string | null;
                     excerpt: string | null;
                     featuredImage: string | null;
                     bannerImage: string | null;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     authorId: string;
-                    author: {
-                        email: string;
-                        id: string;
-                        name: string | null;
-                    };
+                    publishedAt: Date | null;
                     template: string | null;
                     heroBanner: string | null;
                     layout: string | null;
@@ -468,6 +463,11 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     subtitle: string | null;
                     ctaText: string | null;
                     ctaLink: string | null;
+                    author: {
+                        name: string | null;
+                        id: string;
+                        email: string;
+                    };
                 };
                 meta: object;
             }>;
@@ -481,7 +481,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     template?: string | undefined;
                     order?: number | undefined;
                     parentId?: number | undefined;
-                    status?: "DRAFT" | "PENDING" | "REJECTED" | "PUBLISHED" | "REVIEW" | "ARCHIVED" | undefined;
+                    status?: "DRAFT" | "PENDING" | "REVIEW" | "REJECTED" | "PUBLISHED" | "ARCHIVED" | undefined;
                     scheduledAt?: string | null | undefined;
                     bannerImage?: string | undefined;
                     heroBanner?: string | undefined;
@@ -496,10 +496,10 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     ctaLink?: string | undefined;
                 };
                 output: {
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     id: number;
                     slug: string;
                     title: string;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 };
                 meta: object;
             }>;
@@ -514,7 +514,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     template?: string | undefined;
                     order?: number | undefined;
                     parentId?: number | null | undefined;
-                    status?: "DRAFT" | "PENDING" | "REJECTED" | "PUBLISHED" | "REVIEW" | "ARCHIVED" | undefined;
+                    status?: "DRAFT" | "PENDING" | "REVIEW" | "REJECTED" | "PUBLISHED" | "ARCHIVED" | undefined;
                     scheduledAt?: string | null | undefined;
                     bannerImage?: string | undefined;
                     heroBanner?: string | undefined;
@@ -529,10 +529,10 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     ctaLink?: string | undefined;
                 };
                 output: {
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     id: number;
                     slug: string;
                     title: string;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 };
                 meta: object;
             }>;
@@ -541,21 +541,21 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     id: number;
                     createdAt: Date;
-                    deletedAt: Date | null;
                     updatedAt: Date;
-                    parentId: number | null;
+                    deletedAt: Date | null;
                     order: number;
                     slug: string;
+                    parentId: number | null;
                     title: string;
-                    publishedAt: Date | null;
                     content: string | null;
                     excerpt: string | null;
                     featuredImage: string | null;
                     bannerImage: string | null;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     authorId: string;
+                    publishedAt: Date | null;
                     scheduledAt: Date | null;
                     template: string | null;
                     heroBanner: string | null;
@@ -580,11 +580,11 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     createdAt: Date;
                     title: string;
                     authorId: string;
-                    author: {
-                        id: string;
-                        name: string | null;
-                    };
                     note: string | null;
+                    author: {
+                        name: string | null;
+                        id: string;
+                    };
                 }[];
                 meta: object;
             }>;
@@ -595,16 +595,16 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 output: {
                     id: number;
                     createdAt: Date;
-                    referenceId: number;
-                    referenceType: string;
                     title: string;
                     content: string | null;
                     authorId: string;
-                    author: {
-                        id: string;
-                        name: string | null;
-                    };
+                    referenceId: number;
+                    referenceType: string;
                     note: string | null;
+                    author: {
+                        name: string | null;
+                        id: string;
+                    };
                 };
                 meta: object;
             }>;
@@ -632,14 +632,14 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 input: {
                     filters?: {
                         fieldKey: string;
-                        operator: "endsWith" | "startsWith" | "contains" | "equals" | "notContains" | "notEquals" | "between" | "betweenInclusive" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "empty" | "notEmpty";
+                        operator: "endsWith" | "startsWith" | "contains" | "notContains" | "equals" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "notEquals" | "between" | "betweenInclusive" | "empty" | "notEmpty";
                         value: string;
                         value2?: string | undefined;
                     }[] | undefined;
                     search?: string | undefined;
                     page?: number | undefined;
                     pageSize?: number | undefined;
-                    sortBy?: "status" | "id" | "createdAt" | "name" | "order" | undefined;
+                    sortBy?: "name" | "id" | "createdAt" | "order" | "status" | undefined;
                     sortDir?: "asc" | "desc" | undefined;
                 } | undefined;
                 output: {
@@ -654,27 +654,27 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
             tree: import("@trpc/server").TRPCQueryProcedure<{
                 input: void;
                 output: {
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                    id: number;
                     name: string;
-                    children: {
-                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                        id: number;
-                        name: string;
-                        children: {
-                            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                            id: number;
-                            name: string;
-                            order: number;
-                            slug: string;
-                            icon: string | null;
-                        }[];
-                        order: number;
-                        slug: string;
-                        icon: string | null;
-                    }[];
+                    id: number;
                     order: number;
                     slug: string;
+                    children: {
+                        name: string;
+                        id: number;
+                        order: number;
+                        slug: string;
+                        children: {
+                            name: string;
+                            id: number;
+                            order: number;
+                            slug: string;
+                            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                            icon: string | null;
+                        }[];
+                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                        icon: string | null;
+                    }[];
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     icon: string | null;
                 }[];
                 meta: object;
@@ -755,26 +755,26 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 input: {
                     filters?: {
                         fieldKey: string;
-                        operator: "endsWith" | "startsWith" | "contains" | "equals" | "notContains" | "notEquals" | "between" | "betweenInclusive" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "empty" | "notEmpty";
+                        operator: "endsWith" | "startsWith" | "contains" | "notContains" | "equals" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "notEquals" | "between" | "betweenInclusive" | "empty" | "notEmpty";
                         value: string;
                         value2?: string | undefined;
                     }[] | undefined;
                     search?: string | undefined;
                     page?: number | undefined;
                     pageSize?: number | undefined;
-                    sortBy?: "status" | "id" | "createdAt" | "name" | undefined;
+                    sortBy?: "name" | "id" | "createdAt" | "status" | undefined;
                     sortDir?: "asc" | "desc" | undefined;
                 } | undefined;
                 output: {
                     rows: {
-                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                        name: string;
                         id: number;
                         createdAt: Date;
-                        name: string;
+                        slug: string;
                         _count: {
                             posts: number;
                         };
-                        slug: string;
+                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     }[];
                     total: number;
                     page: number;
@@ -788,23 +788,23 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                    description: string | null;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
                     updatedAt: Date;
+                    slug: string;
                     _count: {
                         posts: number;
                     };
-                    slug: string;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     authorId: string | null;
                     translations: {
-                        description: string | null;
-                        id: number;
                         name: string;
+                        id: number;
                         langCode: string;
+                        description: string | null;
                     }[];
+                    description: string | null;
                     authorType: string;
                 };
                 meta: object;
@@ -817,12 +817,12 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     status?: "DRAFT" | "PENDING" | "PUBLISHED" | undefined;
                 };
                 output: {
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                    description: string | null;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
                     slug: string;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                    description: string | null;
                 };
                 meta: object;
             }>;
@@ -835,23 +835,23 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     status?: "DRAFT" | "PENDING" | "PUBLISHED" | undefined;
                 };
                 output: {
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                    description: string | null;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
                     updatedAt: Date;
+                    slug: string;
                     _count: {
                         posts: number;
                     };
-                    slug: string;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     authorId: string | null;
                     translations: {
-                        description: string | null;
-                        id: number;
                         name: string;
+                        id: number;
                         langCode: string;
+                        description: string | null;
                     }[];
+                    description: string | null;
                     authorType: string;
                 } | null;
                 meta: object;
@@ -861,13 +861,13 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                    description: string | null;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
                     updatedAt: Date;
                     slug: string;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                    description: string | null;
                 };
                 meta: object;
             }>;
@@ -876,13 +876,13 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                    description: string | null;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
                     updatedAt: Date;
                     slug: string;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                    description: string | null;
                 };
                 meta: object;
             }>;
@@ -940,16 +940,16 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                         search?: string | undefined;
                     } | undefined;
                     output: {
+                        name: string;
                         id: number;
                         createdAt: Date;
-                        name: string;
                         updatedAt: Date;
+                        slug: string;
                         _count: {
                             children: number;
                             files: number;
                         };
                         parentId: number | null;
-                        slug: string;
                     }[];
                     meta: object;
                 }>;
@@ -958,43 +958,43 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                         id: number;
                     };
                     output: {
+                        name: string;
                         id: number;
                         createdAt: Date;
-                        name: string;
                         updatedAt: Date;
+                        slug: string;
                         _count: {
                             children: number;
                             files: number;
                         };
                         parentId: number | null;
                         children: {
-                            id: number;
                             name: string;
+                            id: number;
                             slug: string;
                         }[];
-                        slug: string;
                     };
                     meta: object;
                 }>;
                 tree: import("@trpc/server").TRPCQueryProcedure<{
                     input: void;
                     output: {
-                        id: number;
                         name: string;
+                        id: number;
+                        slug: string;
                         _count: {
                             files: number;
                         };
                         children: {
-                            id: number;
                             name: string;
+                            id: number;
+                            slug: string;
                             children: {
-                                id: number;
                                 name: string;
+                                id: number;
                                 slug: string;
                             }[];
-                            slug: string;
                         }[];
-                        slug: string;
                     }[];
                     meta: object;
                 }>;
@@ -1005,11 +1005,11 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                         parentId?: number | null | undefined;
                     };
                     output: {
+                        name: string;
                         id: number;
                         createdAt: Date;
-                        name: string;
-                        parentId: number | null;
                         slug: string;
+                        parentId: number | null;
                     };
                     meta: object;
                 }>;
@@ -1021,11 +1021,11 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                         parentId?: number | null | undefined;
                     };
                     output: {
-                        id: number;
                         name: string;
+                        id: number;
                         updatedAt: Date;
-                        parentId: number | null;
                         slug: string;
+                        parentId: number | null;
                     };
                     meta: object;
                 }>;
@@ -1035,13 +1035,13 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                         force?: boolean | undefined;
                     };
                     output: {
+                        name: string;
                         id: number;
                         createdAt: Date;
-                        name: string;
-                        deletedAt: Date | null;
                         updatedAt: Date;
-                        parentId: number | null;
+                        deletedAt: Date | null;
                         slug: string;
+                        parentId: number | null;
                         color: string | null;
                         isFavorite: boolean;
                     };
@@ -1074,23 +1074,23 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                         search?: string | undefined;
                         page?: number | undefined;
                         perPage?: number | undefined;
-                        sortBy?: "createdAt" | "name" | "size" | undefined;
+                        sortBy?: "name" | "createdAt" | "size" | undefined;
                         sortOrder?: "asc" | "desc" | undefined;
                     } | undefined;
                     output: {
                         data: {
-                            url: string;
+                            name: string;
                             id: number;
                             createdAt: Date;
-                            name: string;
+                            url: string;
                             fileName: string;
                             width: number | null;
-                            size: number;
                             height: number | null;
-                            folderId: number | null;
                             mimeType: string;
+                            size: number;
                             disk: string;
                             alt: string | null;
+                            folderId: number | null;
                             uploadedBy: string | null;
                         }[];
                         meta: {
@@ -1107,24 +1107,24 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                         id: number;
                     };
                     output: {
-                        url: string;
-                        description: string | null;
+                        name: string;
                         id: number;
                         createdAt: Date;
-                        name: string;
                         updatedAt: Date;
+                        url: string;
+                        description: string | null;
                         fileName: string;
                         width: number | null;
-                        size: number;
                         height: number | null;
-                        folderId: number | null;
                         mimeType: string;
+                        size: number;
                         disk: string;
                         alt: string | null;
+                        folderId: number | null;
                         uploadedBy: string | null;
                         folder: {
-                            id: number;
                             name: string;
+                            id: number;
                             slug: string;
                         } | null;
                     };
@@ -1139,18 +1139,18 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                         folderId?: number | null | undefined;
                     };
                     output: {
+                        name: string;
+                        id: number;
+                        updatedAt: Date;
                         url: string;
                         description: string | null;
-                        id: number;
-                        name: string;
-                        updatedAt: Date;
                         fileName: string;
                         width: number | null;
-                        size: number;
                         height: number | null;
-                        folderId: number | null;
                         mimeType: string;
+                        size: number;
                         alt: string | null;
+                        folderId: number | null;
                     };
                     meta: object;
                 }>;
@@ -1159,25 +1159,25 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                         id: number;
                     };
                     output: {
-                        url: string;
-                        description: string | null;
+                        name: string;
                         id: number;
                         createdAt: Date;
-                        name: string;
-                        deletedAt: Date | null;
                         updatedAt: Date;
+                        deletedAt: Date | null;
+                        url: string;
+                        description: string | null;
                         fileName: string;
                         width: number | null;
-                        size: number;
                         height: number | null;
-                        folderId: number | null;
+                        isFavorite: boolean;
                         mimeType: string;
+                        size: number;
                         disk: string;
                         alt: string | null;
+                        folderId: number | null;
                         uploadedBy: string | null;
                         visibility: string;
                         accessMode: string | null;
-                        isFavorite: boolean;
                     };
                     meta: object;
                 }>;
@@ -1228,15 +1228,15 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
             list: import("@trpc/server").TRPCQueryProcedure<{
                 input: void;
                 output: {
-                    description: string | null;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
                     updatedAt: Date;
                     _count: {
                         permissions: number;
                         users: number;
                     };
+                    description: string | null;
                     displayName: string | null;
                 }[];
                 meta: object;
@@ -1246,19 +1246,19 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: unknown;
                 };
                 output: {
-                    description: string | null;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
                     updatedAt: Date;
                     _count: {
                         users: number;
                     };
+                    description: string | null;
                     displayName: string | null;
                     permissions: {
                         permission: {
-                            id: number;
                             name: string;
+                            id: number;
                             group: string | null;
                             displayName: string | null;
                         };
@@ -1273,9 +1273,9 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     description?: string | undefined;
                 };
                 output: {
-                    description: string | null;
-                    id: number;
                     name: string;
+                    id: number;
+                    description: string | null;
                     displayName: string | null;
                 };
                 meta: object;
@@ -1287,9 +1287,9 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     description?: string | undefined;
                 };
                 output: {
-                    description: string | null;
-                    id: number;
                     name: string;
+                    id: number;
+                    description: string | null;
                     displayName: string | null;
                 };
                 meta: object;
@@ -1299,11 +1299,11 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: unknown;
                 };
                 output: {
-                    description: string | null;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
                     updatedAt: Date;
+                    description: string | null;
                     displayName: string | null;
                 };
                 meta: object;
@@ -1314,19 +1314,19 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     permissionIds: unknown[];
                 };
                 output: {
-                    description: string | null;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
                     updatedAt: Date;
                     _count: {
                         users: number;
                     };
+                    description: string | null;
                     displayName: string | null;
                     permissions: {
                         permission: {
-                            id: number;
                             name: string;
+                            id: number;
                             group: string | null;
                             displayName: string | null;
                         };
@@ -1338,8 +1338,8 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 input: void;
                 output: {
                     [k: string]: {
-                        id: number;
                         name: string;
+                        id: number;
                         group: string | null;
                         displayName: string | null;
                     }[];
@@ -1369,7 +1369,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
             list: import("@trpc/server").TRPCQueryProcedure<{
                 input: {
                     search?: string | undefined;
-                    status?: "ACTIVE" | "BANNED" | "SUSPENDED" | undefined;
+                    status?: "ACTIVE" | "SUSPENDED" | "BANNED" | undefined;
                     page?: number | undefined;
                     perPage?: number | undefined;
                 } | undefined;
@@ -1412,7 +1412,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     phone?: string | null | undefined;
                     avatarUrl?: string | undefined;
                     locale?: string | undefined;
-                    status?: "ACTIVE" | "BANNED" | "SUSPENDED" | undefined;
+                    status?: "ACTIVE" | "SUSPENDED" | "BANNED" | undefined;
                 };
                 output: import("@ecom/features/rbac/transformers/UserTransformer").UserResponseDto;
                 meta: object;
@@ -1474,27 +1474,27 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 input: {
                     filters?: {
                         fieldKey: string;
-                        operator: "endsWith" | "startsWith" | "contains" | "equals" | "notContains" | "notEquals" | "between" | "betweenInclusive" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "empty" | "notEmpty";
+                        operator: "endsWith" | "startsWith" | "contains" | "notContains" | "equals" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "notEquals" | "between" | "betweenInclusive" | "empty" | "notEmpty";
                         value: string;
                         value2?: string | undefined;
                     }[] | undefined;
                     search?: string | undefined;
-                    sortBy?: "status" | "id" | "createdAt" | "title" | undefined;
+                    sortBy?: "id" | "createdAt" | "title" | "status" | undefined;
                     sortDir?: "asc" | "desc" | undefined;
                     page?: number | undefined;
                     pageSize?: number | undefined;
                 };
                 output: {
                     rows: {
-                        status: string;
                         id: number;
                         createdAt: Date;
                         updatedAt: Date;
+                        order: number;
                         _count: {
                             items: number;
                         };
-                        order: number;
                         title: string;
+                        status: string;
                         rules: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                     }[];
                     total: number;
@@ -1506,25 +1506,25 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    status: string;
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    order: number;
+                    title: string;
+                    status: string;
+                    rules: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                     items: {
-                        type: string;
+                        options: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                         id: number;
-                        parentId: number | null;
                         order: number;
                         slug: string;
-                        options: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+                        parentId: number | null;
                         title: string;
+                        type: string;
                         placeholder: string | null;
                         instructions: string | null;
                         defaultValue: string | null;
                     }[];
-                    order: number;
-                    title: string;
-                    rules: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                 };
                 meta: object;
             }>;
@@ -1568,12 +1568,12 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    status: string;
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
                     order: number;
                     title: string;
+                    status: string;
                     rules: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                 };
                 meta: object;
@@ -1583,25 +1583,25 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    status: string;
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    order: number;
+                    title: string;
+                    status: string;
+                    rules: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                     items: {
-                        type: string;
+                        options: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                         id: number;
-                        parentId: number | null;
                         order: number;
                         slug: string;
-                        options: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+                        parentId: number | null;
                         title: string;
+                        type: string;
                         placeholder: string | null;
                         instructions: string | null;
                         defaultValue: string | null;
                     }[];
-                    order: number;
-                    title: string;
-                    rules: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                 } | null;
                 meta: object;
             }>;
@@ -1613,15 +1613,15 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     postFormat?: string | undefined;
                 };
                 output: {
-                    status: string;
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    order: number;
                     _count: {
                         items: number;
                     };
-                    order: number;
                     title: string;
+                    status: string;
                     rules: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                 }[];
                 meta: object;
@@ -1647,7 +1647,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     groupId: number;
                     slug: string;
                     title: string;
-                    type: "number" | "email" | "url" | "select" | "date" | "file" | "image" | "color" | "text" | "textarea" | "checkbox" | "radio" | "wysiwyg" | "repeater";
+                    type: "number" | "select" | "email" | "url" | "image" | "color" | "text" | "date" | "file" | "textarea" | "checkbox" | "radio" | "wysiwyg" | "repeater";
                     placeholder?: string | undefined;
                     instructions?: string | undefined;
                     options?: {
@@ -1659,10 +1659,10 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     parentId?: number | undefined;
                 };
                 output: {
-                    type: string;
                     id: number;
                     slug: string;
                     title: string;
+                    type: string;
                 };
                 meta: object;
             }>;
@@ -1671,7 +1671,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                     slug?: string | undefined;
                     title?: string | undefined;
-                    type?: "number" | "email" | "url" | "select" | "date" | "file" | "image" | "color" | "text" | "textarea" | "checkbox" | "radio" | "wysiwyg" | "repeater" | undefined;
+                    type?: "number" | "select" | "email" | "url" | "image" | "color" | "text" | "date" | "file" | "textarea" | "checkbox" | "radio" | "wysiwyg" | "repeater" | undefined;
                     placeholder?: string | undefined;
                     instructions?: string | undefined;
                     options?: {
@@ -1683,10 +1683,10 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     parentId?: number | null | undefined;
                 };
                 output: {
-                    type: string;
                     id: number;
                     slug: string;
                     title: string;
+                    type: string;
                 };
                 meta: object;
             }>;
@@ -1695,16 +1695,16 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    type: string;
+                    options: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
-                    groupId: number;
-                    parentId: number | null;
                     order: number;
                     slug: string;
-                    options: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
+                    parentId: number | null;
                     title: string;
+                    type: string;
+                    groupId: number;
                     placeholder: string | null;
                     instructions: string | null;
                     defaultValue: string | null;
@@ -1846,14 +1846,14 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
             list: import("@trpc/server").TRPCQueryProcedure<{
                 input: void;
                 output: {
-                    code: string;
-                    locale: string;
-                    id: number;
-                    createdAt: Date;
                     name: string;
+                    id: number;
+                    code: string;
+                    createdAt: Date;
                     updatedAt: Date;
-                    isActive: boolean;
                     order: number;
+                    isActive: boolean;
+                    locale: string;
                     isDefault: boolean;
                     flag: string | null;
                     isRtl: boolean;
@@ -1870,14 +1870,14 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    code: string;
-                    locale: string;
-                    id: number;
-                    createdAt: Date;
                     name: string;
+                    id: number;
+                    code: string;
+                    createdAt: Date;
                     updatedAt: Date;
-                    isActive: boolean;
                     order: number;
+                    isActive: boolean;
+                    locale: string;
                     isDefault: boolean;
                     flag: string | null;
                     isRtl: boolean;
@@ -1899,14 +1899,14 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     order?: number | undefined;
                 };
                 output: {
-                    code: string;
-                    locale: string;
-                    id: number;
-                    createdAt: Date;
                     name: string;
+                    id: number;
+                    code: string;
+                    createdAt: Date;
                     updatedAt: Date;
-                    isActive: boolean;
                     order: number;
+                    isActive: boolean;
+                    locale: string;
                     isDefault: boolean;
                     flag: string | null;
                     isRtl: boolean;
@@ -1925,14 +1925,14 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     isActive?: boolean | undefined;
                 };
                 output: {
-                    code: string;
-                    locale: string;
-                    id: number;
-                    createdAt: Date;
                     name: string;
+                    id: number;
+                    code: string;
+                    createdAt: Date;
                     updatedAt: Date;
-                    isActive: boolean;
                     order: number;
+                    isActive: boolean;
+                    locale: string;
                     isDefault: boolean;
                     flag: string | null;
                     isRtl: boolean;
@@ -1953,14 +1953,14 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    code: string;
-                    locale: string;
-                    id: number;
-                    createdAt: Date;
                     name: string;
+                    id: number;
+                    code: string;
+                    createdAt: Date;
                     updatedAt: Date;
-                    isActive: boolean;
                     order: number;
+                    isActive: boolean;
+                    locale: string;
                     isDefault: boolean;
                     flag: string | null;
                     isRtl: boolean;
@@ -1974,17 +1974,17 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 };
                 output: {
                     id: number;
-                    referenceId: number;
-                    referenceType: string;
                     language: {
+                        name: string;
+                        id: number;
                         code: string;
                         locale: string;
-                        id: number;
-                        name: string;
                         flag: string | null;
                     };
-                    origin: string;
+                    referenceId: number;
+                    referenceType: string;
                     langCode: string;
+                    origin: string;
                 }[];
                 meta: object;
             }>;
@@ -1999,8 +1999,8 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                     referenceId: number;
                     referenceType: string;
-                    origin: string;
                     langCode: string;
+                    origin: string;
                 };
                 meta: object;
             }>;
@@ -2614,7 +2614,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 input: {
                     filters?: {
                         fieldKey: string;
-                        operator: "endsWith" | "startsWith" | "contains" | "equals" | "notContains" | "notEquals" | "between" | "betweenInclusive" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "empty" | "notEmpty";
+                        operator: "endsWith" | "startsWith" | "contains" | "notContains" | "equals" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "notEquals" | "between" | "betweenInclusive" | "empty" | "notEmpty";
                         value: string;
                         value2?: string | undefined;
                     }[] | undefined;
@@ -2625,22 +2625,22 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 };
                 output: {
                     items: {
-                        user: {
-                            email: string;
-                            id: string;
-                            name: string | null;
-                            avatarUrl: string | null;
-                        } | null;
                         id: number;
                         createdAt: Date;
-                        metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
-                        action: string;
+                        user: {
+                            name: string | null;
+                            id: string;
+                            email: string;
+                            avatarUrl: string | null;
+                        } | null;
                         ipAddress: string | null;
+                        action: string;
                         module: string;
                         entityId: string | null;
                         entityType: string | null;
                         oldValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                         newValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+                        metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                     }[];
                     total: number;
                     page: number;
@@ -2654,23 +2654,23 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    user: {
-                        email: string;
-                        id: string;
-                        name: string | null;
-                        avatarUrl: string | null;
-                    } | null;
-                    userAgent: string | null;
                     id: number;
                     createdAt: Date;
-                    metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
-                    action: string;
+                    user: {
+                        name: string | null;
+                        id: string;
+                        email: string;
+                        avatarUrl: string | null;
+                    } | null;
                     ipAddress: string | null;
+                    userAgent: string | null;
+                    action: string;
                     module: string;
                     entityId: string | null;
                     entityType: string | null;
                     oldValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                     newValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+                    metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                 } | null;
                 meta: object;
             }>;
@@ -2691,18 +2691,18 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    userAgent: string | null;
-                    userId: string | null;
                     id: number;
                     createdAt: Date;
-                    metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
-                    action: string;
+                    userId: string | null;
                     ipAddress: string | null;
+                    userAgent: string | null;
+                    action: string;
                     module: string;
                     entityId: string | null;
                     entityType: string | null;
                     oldValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                     newValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
+                    metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                 };
                 meta: object;
             }>;
@@ -2742,31 +2742,31 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 input: {
                     filters?: {
                         fieldKey: string;
-                        operator: "endsWith" | "startsWith" | "contains" | "equals" | "notContains" | "notEquals" | "between" | "betweenInclusive" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "empty" | "notEmpty";
+                        operator: "endsWith" | "startsWith" | "contains" | "notContains" | "equals" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "notEquals" | "between" | "betweenInclusive" | "empty" | "notEmpty";
                         value: string;
                         value2?: string | undefined;
                     }[] | undefined;
                     search?: string | undefined;
                     page?: number | undefined;
                     pageSize?: number | undefined;
-                    sortBy?: "duration" | "id" | "createdAt" | "statusCode" | undefined;
+                    sortBy?: "id" | "createdAt" | "statusCode" | "duration" | undefined;
                     sortDir?: "asc" | "desc" | undefined;
                 };
                 output: {
                     items: {
-                        url: string;
-                        user: {
-                            email: string;
-                            id: string;
-                            name: string | null;
-                        } | null;
-                        userAgent: string | null;
-                        duration: number | null;
                         id: number;
                         createdAt: Date;
+                        user: {
+                            name: string | null;
+                            id: string;
+                            email: string;
+                        } | null;
                         ipAddress: string | null;
-                        statusCode: number | null;
+                        userAgent: string | null;
                         method: string;
+                        url: string;
+                        statusCode: number | null;
+                        duration: number | null;
                         referer: string | null;
                     }[];
                     total: number;
@@ -2801,16 +2801,16 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    url: string;
-                    userAgent: string | null;
-                    userId: string | null;
-                    duration: number | null;
                     id: number;
                     createdAt: Date;
-                    metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
+                    userId: string | null;
                     ipAddress: string | null;
-                    statusCode: number | null;
+                    userAgent: string | null;
+                    metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                     method: string;
+                    url: string;
+                    statusCode: number | null;
+                    duration: number | null;
                     referer: string | null;
                 };
                 meta: object;
@@ -2879,11 +2879,11 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                         totalSize: number;
                     };
                     recentPosts: {
-                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                         id: number;
                         createdAt: Date;
                         slug: string;
                         title: string;
+                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     }[];
                     popularPosts: {
                         id: number;
@@ -2912,8 +2912,8 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                     slug: string;
                     title: string;
-                    publishedAt: Date | null;
                     views: number;
+                    publishedAt: Date | null;
                 }[];
                 meta: object;
             }>;
@@ -2997,10 +2997,10 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
             }>;
             clearCache: import("@trpc/server").TRPCMutationProcedure<{
                 input: {
-                    namespace: "category" | "permissions" | "settings" | "all" | "ratelimit";
+                    namespace: "settings" | "category" | "permissions" | "all" | "ratelimit";
                 };
                 output: {
-                    namespace: "category" | "permissions" | "settings" | "all" | "ratelimit";
+                    namespace: "settings" | "category" | "permissions" | "all" | "ratelimit";
                     cleared: number;
                 };
                 meta: object;
@@ -3052,7 +3052,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
             }>;
             queryRedis: import("@trpc/server").TRPCQueryProcedure<{
                 input: {
-                    action: "get" | "scan" | "del";
+                    action: "scan" | "get" | "del";
                     sudoPassword: string;
                     maintenanceKey: string;
                     pattern?: string | undefined;
@@ -3163,7 +3163,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
         }, import("@trpc/server").TRPCDecorateCreateRouterOptions<{
             list: import("@trpc/server").TRPCQueryProcedure<{
                 input: {
-                    status?: "ACTIVE" | "INACTIVE" | "BANNED" | undefined;
+                    status?: "ACTIVE" | "BANNED" | "INACTIVE" | undefined;
                     search?: string | undefined;
                     page?: number | undefined;
                     perPage?: number | undefined;
@@ -3172,27 +3172,27 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 };
                 output: {
                     items: {
-                        email: string;
-                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+                        name: string | null;
                         id: string;
                         createdAt: Date;
-                        name: string | null;
-                        customerCode: string | null;
-                        username: string;
-                        phone: string | null;
-                        avatarUrl: string | null;
-                        emailVerified: Date | null;
-                        lastLoginAt: Date | null;
-                        group: {
-                            code: string;
-                            id: number;
-                            name: string;
-                        } | null;
-                        groupId: number | null;
                         _count: {
                             socialAccounts: number;
                             activityLogs: number;
                         };
+                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+                        email: string;
+                        username: string;
+                        phone: string | null;
+                        avatarUrl: string | null;
+                        emailVerified: Date | null;
+                        customerCode: string | null;
+                        lastLoginAt: Date | null;
+                        groupId: number | null;
+                        group: {
+                            name: string;
+                            id: number;
+                            code: string;
+                        } | null;
                     }[];
                     total: number;
                     page: number;
@@ -3206,43 +3206,43 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: string;
                 };
                 output: {
-                    email: string;
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
-                    description: string | null;
+                    name: string | null;
                     id: string;
                     createdAt: Date;
-                    name: string | null;
-                    customerCode: string | null;
+                    updatedAt: Date;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+                    email: string;
                     username: string;
-                    usernameChangeCount: number;
-                    usernameChangedAt: Date | null;
                     phone: string | null;
                     avatarUrl: string | null;
                     emailVerified: Date | null;
+                    metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+                    description: string | null;
+                    customerCode: string | null;
+                    usernameChangeCount: number;
+                    usernameChangedAt: Date | null;
                     lastLoginAt: Date | null;
                     dob: Date | null;
                     gender: string | null;
-                    metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
-                    updatedAt: Date;
+                    groupId: number | null;
                     group: {
-                        code: string;
-                        id: number;
                         name: string;
+                        id: number;
+                        code: string;
                     } | null;
                     socialAccounts: {
-                        email: string | null;
+                        name: string | null;
                         id: number;
                         createdAt: Date;
-                        name: string | null;
+                        email: string | null;
                         provider: string;
                     }[];
                     activityLogs: {
                         id: number;
                         createdAt: Date;
-                        action: string;
                         ipAddress: string | null;
+                        action: string;
                     }[];
-                    groupId: number | null;
                 } | null;
                 meta: object;
             }>;
@@ -3253,17 +3253,17 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     name?: string | undefined;
                     phone?: string | undefined;
                     dob?: string | undefined;
-                    gender?: "male" | "female" | "other" | undefined;
+                    gender?: "other" | "male" | "female" | undefined;
                     description?: string | undefined;
                     password?: string | undefined;
                     groupId?: number | null | undefined;
                 };
                 output: {
-                    email: string;
-                    id: string;
                     name: string | null;
-                    customerCode: string | null;
+                    id: string;
+                    email: string;
                     username: string;
+                    customerCode: string | null;
                 };
                 meta: object;
             }>;
@@ -3275,16 +3275,16 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     phone?: string | undefined;
                     avatarUrl?: string | undefined;
                     dob?: string | null | undefined;
-                    gender?: "male" | "female" | "other" | null | undefined;
+                    gender?: "other" | "male" | "female" | null | undefined;
                     description?: string | null | undefined;
-                    status?: "ACTIVE" | "INACTIVE" | "BANNED" | undefined;
+                    status?: "ACTIVE" | "BANNED" | "INACTIVE" | undefined;
                     groupId?: number | null | undefined;
                 };
                 output: {
-                    email: string;
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
-                    id: string;
                     name: string | null;
+                    id: string;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+                    email: string;
                     username: string;
                 };
                 meta: object;
@@ -3343,22 +3343,22 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 };
                 output: {
                     items: {
-                        user: {
-                            email: string;
-                            id: string;
-                            name: string | null;
-                            avatarUrl: string | null;
-                        } | null;
                         id: number;
                         createdAt: Date;
-                        metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
-                        action: string;
+                        user: {
+                            name: string | null;
+                            id: string;
+                            email: string;
+                            avatarUrl: string | null;
+                        } | null;
                         ipAddress: string | null;
+                        action: string;
                         module: string;
                         entityId: string | null;
                         entityType: string | null;
                         oldValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                         newValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+                        metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                     }[];
                     total: number;
                     page: number;
@@ -3375,13 +3375,13 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 };
                 output: {
                     items: {
-                        code: string;
-                        email: string;
-                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.VerificationCodeStatus;
                         id: number;
-                        expiresAt: Date;
+                        code: string;
                         createdAt: Date;
                         updatedAt: Date;
+                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.VerificationCodeStatus;
+                        expiresAt: Date;
+                        email: string;
                         attempts: number;
                     }[];
                     total: number;
@@ -3421,15 +3421,15 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 };
                 output: {
                     items: {
-                        code: string;
-                        description: string | null;
-                        id: number;
-                        createdAt: Date;
                         name: string;
+                        id: number;
+                        code: string;
+                        createdAt: Date;
                         updatedAt: Date;
                         _count: {
                             customers: number;
                         };
+                        description: string | null;
                     }[];
                     total: number;
                     page: number;
@@ -3441,10 +3441,10 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
             listAll: import("@trpc/server").TRPCQueryProcedure<{
                 input: void;
                 output: {
+                    name: string;
+                    id: number;
                     code: string;
                     description: string | null;
-                    id: number;
-                    name: string;
                 }[];
                 meta: object;
             }>;
@@ -3453,16 +3453,16 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    code: string;
-                    description: string | null;
-                    id: number;
-                    createdAt: Date;
                     name: string;
+                    id: number;
+                    code: string;
+                    createdAt: Date;
                     updatedAt: Date;
                     _count: {
                         customers: number;
                         rateCards: number;
                     };
+                    description: string | null;
                 };
                 meta: object;
             }>;
@@ -3473,10 +3473,10 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     description?: string | null | undefined;
                 };
                 output: {
+                    name: string;
+                    id: number;
                     code: string;
                     description: string | null;
-                    id: number;
-                    name: string;
                 };
                 meta: object;
             }>;
@@ -3488,10 +3488,10 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     description?: string | null | undefined;
                 };
                 output: {
+                    name: string;
+                    id: number;
                     code: string;
                     description: string | null;
-                    id: number;
-                    name: string;
                 };
                 meta: object;
             }>;
@@ -3513,18 +3513,18 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 };
                 output: {
                     items: {
-                        email: string;
+                        name: string | null;
                         id: string;
                         createdAt: Date;
-                        name: string | null;
+                        email: string;
                         username: string;
                         phone: string | null;
-                        group: {
-                            code: string;
-                            id: number;
-                            name: string;
-                        } | null;
                         groupId: number | null;
+                        group: {
+                            name: string;
+                            id: number;
+                            code: string;
+                        } | null;
                     }[];
                     total: number;
                     page: number;
@@ -3540,17 +3540,17 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     limit?: number | undefined;
                 };
                 output: {
-                    email: string;
-                    id: string;
                     name: string | null;
+                    id: string;
+                    email: string;
                     username: string;
                     phone: string | null;
-                    group: {
-                        code: string;
-                        id: number;
-                        name: string;
-                    } | null;
                     groupId: number | null;
+                    group: {
+                        name: string;
+                        id: number;
+                        code: string;
+                    } | null;
                 }[];
                 meta: object;
             }>;
@@ -3592,61 +3592,60 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
         }, import("@trpc/server").TRPCDecorateCreateRouterOptions<{
             export: import("@trpc/server").TRPCQueryProcedure<{
                 input: {
-                    module: "customers" | "categories" | "tags" | "posts" | "pages" | "settings" | "all";
+                    module: "settings" | "posts" | "pages" | "categories" | "tags" | "customers" | "all";
                 };
                 output: {
                     exportedAt: string;
                     version: string;
                     data: {
                         posts: {
-                            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                             id: number;
                             createdAt: Date;
                             updatedAt: Date;
                             slug: string;
-                            isFeatured: boolean;
                             title: string;
-                            views: number;
                             content: string | null;
                             excerpt: string | null;
+                            isFeatured: boolean;
                             allowComments: boolean;
                             formatType: string | null;
+                            views: number;
+                            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                             author: {
-                                email: string;
-                                id: string;
                                 name: string | null;
+                                id: string;
+                                email: string;
                             };
                             categories: {
                                 category: {
-                                    id: number;
                                     name: string;
+                                    id: number;
                                 };
                             }[];
                             tags: {
                                 tag: {
-                                    id: number;
                                     name: string;
+                                    id: number;
                                 };
                             }[];
                         }[];
                         categories: {
-                            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                            description: string | null;
+                            name: string;
                             id: number;
                             createdAt: Date;
-                            name: string;
-                            parentId: number | null;
                             order: number;
                             slug: string;
+                            parentId: number | null;
+                            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                            description: string | null;
                         }[];
                         tags: {
+                            name: string;
                             id: number;
                             createdAt: Date;
-                            name: string;
                             slug: string;
                         }[];
                         pages: {
-                            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                             id: number;
                             createdAt: Date;
                             order: number;
@@ -3654,14 +3653,15 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                             title: string;
                             content: string | null;
                             excerpt: string | null;
+                            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                             template: string | null;
                         }[];
                         customers: {
-                            email: string;
-                            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+                            name: string | null;
                             id: string;
                             createdAt: Date;
-                            name: string | null;
+                            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+                            email: string;
                             username: string;
                             phone: string | null;
                             emailVerified: Date | null;
@@ -3677,48 +3677,47 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 } | {
                     module: string;
                     data: {
-                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                         id: number;
                         createdAt: Date;
                         updatedAt: Date;
                         slug: string;
-                        isFeatured: boolean;
                         title: string;
-                        views: number;
                         content: string | null;
                         excerpt: string | null;
+                        isFeatured: boolean;
                         allowComments: boolean;
                         formatType: string | null;
+                        views: number;
+                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                         author: {
-                            email: string;
-                            id: string;
                             name: string | null;
+                            id: string;
+                            email: string;
                         };
                         categories: {
                             category: {
-                                id: number;
                                 name: string;
+                                id: number;
                             };
                         }[];
                         tags: {
                             tag: {
-                                id: number;
                                 name: string;
+                                id: number;
                             };
                         }[];
                     }[];
                 } | {
                     module: string;
                     data: {
+                        name: string;
                         id: number;
                         createdAt: Date;
-                        name: string;
                         slug: string;
                     }[];
                 } | {
                     module: string;
                     data: {
-                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                         id: number;
                         createdAt: Date;
                         order: number;
@@ -3726,16 +3725,17 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                         title: string;
                         content: string | null;
                         excerpt: string | null;
+                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                         template: string | null;
                     }[];
                 } | {
                     module: string;
                     data: {
-                        email: string;
-                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+                        name: string | null;
                         id: string;
                         createdAt: Date;
-                        name: string | null;
+                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+                        email: string;
                         username: string;
                         phone: string | null;
                         emailVerified: Date | null;
@@ -3754,7 +3754,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
             }>;
             import: import("@trpc/server").TRPCMutationProcedure<{
                 input: {
-                    module: "categories" | "tags" | "posts" | "pages" | "settings";
+                    module: "settings" | "posts" | "pages" | "categories" | "tags";
                     data: Record<string, unknown>[];
                 };
                 output: import("@ecom/features/tools/services/ImportService").ImportResult;
@@ -3787,7 +3787,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
             checkDuplicates: import("@trpc/server").TRPCQueryProcedure<{
                 input: {
                     title: string;
-                    type: "page" | "post";
+                    type: "post" | "page";
                     slug?: string | undefined;
                     excludeId?: number | undefined;
                 };
@@ -3800,7 +3800,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
             fullTextSearch: import("@trpc/server").TRPCQueryProcedure<{
                 input: {
                     query: string;
-                    types?: ("page" | "post")[] | undefined;
+                    types?: ("post" | "page")[] | undefined;
                     page?: number | undefined;
                     perPage?: number | undefined;
                 };
@@ -3878,7 +3878,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 statusCustomers: import("@trpc/server").TRPCMutationProcedure<{
                     input: {
                         ids: string[];
-                        status: "ACTIVE" | "INACTIVE" | "BANNED";
+                        status: "ACTIVE" | "BANNED" | "INACTIVE";
                     };
                     output: import("@ecom/features/tools/services/BulkActionService").BulkResult<string>;
                     meta: object;
@@ -3906,7 +3906,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
         }, import("@trpc/server").TRPCDecorateCreateRouterOptions<{
             get: import("@trpc/server").TRPCQueryProcedure<{
                 input: {
-                    entityType: "page" | "post" | "category" | "tag";
+                    entityType: "post" | "category" | "tag" | "page";
                     entityId: number;
                 };
                 output: {
@@ -3920,7 +3920,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
             }>;
             save: import("@trpc/server").TRPCMutationProcedure<{
                 input: {
-                    entityType: "page" | "post" | "category" | "tag";
+                    entityType: "post" | "category" | "tag" | "page";
                     entityId: number;
                     data: {
                         seoTitle?: string | undefined;
@@ -3961,17 +3961,17 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
             list: import("@trpc/server").TRPCQueryProcedure<{
                 input: {
                     referenceId: number;
-                    referenceType: "page" | "post";
+                    referenceType: "post" | "page";
                 };
                 output: {
                     id: number;
                     createdAt: Date;
                     title: string;
-                    author: {
-                        id: string;
-                        name: string | null;
-                    };
                     note: string | null;
+                    author: {
+                        name: string | null;
+                        id: string;
+                    };
                 }[];
                 meta: object;
             }>;
@@ -3982,15 +3982,15 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 output: {
                     id: number;
                     createdAt: Date;
-                    referenceId: number;
-                    referenceType: string;
                     title: string;
                     content: string | null;
-                    author: {
-                        id: string;
-                        name: string | null;
-                    };
+                    referenceId: number;
+                    referenceType: string;
                     note: string | null;
+                    author: {
+                        name: string | null;
+                        id: string;
+                    };
                 };
                 meta: object;
             }>;
@@ -4017,9 +4017,9 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
             languages: import("@trpc/server").TRPCQueryProcedure<{
                 input: void;
                 output: {
-                    code: string;
-                    id: number;
                     name: string;
+                    id: number;
+                    code: string;
                     order: number;
                     isDefault: boolean;
                     flag: string | null;
@@ -4028,7 +4028,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
             }>;
             get: import("@trpc/server").TRPCQueryProcedure<{
                 input: {
-                    entityType: "page" | "post" | "category" | "tag" | "menuItem";
+                    entityType: "post" | "category" | "tag" | "menuItem" | "page";
                     entityId: number;
                     langCode: string;
                 };
@@ -4040,20 +4040,20 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     excerpt: string | null;
                     langCode: string;
                 } | {
-                    description: string | null;
-                    id: number;
                     name: string;
+                    id: number;
                     langCode: string;
+                    description: string | null;
                 } | {
                     id: number;
-                    label: string;
                     langCode: string;
+                    label: string;
                 } | null;
                 meta: object;
             }>;
             list: import("@trpc/server").TRPCQueryProcedure<{
                 input: {
-                    entityType: "page" | "post" | "category" | "tag" | "menuItem";
+                    entityType: "post" | "category" | "tag" | "menuItem" | "page";
                     entityId: number;
                 };
                 output: {
@@ -4064,20 +4064,20 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     excerpt: string | null;
                     langCode: string;
                 }[] | {
-                    description: string | null;
-                    id: number;
                     name: string;
+                    id: number;
                     langCode: string;
+                    description: string | null;
                 }[] | {
                     id: number;
-                    label: string;
                     langCode: string;
+                    label: string;
                 }[];
                 meta: object;
             }>;
             save: import("@trpc/server").TRPCMutationProcedure<{
                 input: {
-                    entityType: "page" | "post" | "category" | "tag" | "menuItem";
+                    entityType: "post" | "category" | "tag" | "menuItem" | "page";
                     entityId: number;
                     langCode: string;
                     data: Record<string, string | undefined>;
@@ -4090,20 +4090,20 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     excerpt: string | null;
                     langCode: string;
                 } | {
-                    description: string | null;
-                    id: number;
                     name: string;
+                    id: number;
                     langCode: string;
+                    description: string | null;
                 } | {
                     id: number;
-                    label: string;
                     langCode: string;
+                    label: string;
                 };
                 meta: object;
             }>;
             delete: import("@trpc/server").TRPCMutationProcedure<{
                 input: {
-                    entityType: "page" | "post" | "category" | "tag" | "menuItem";
+                    entityType: "post" | "category" | "tag" | "menuItem" | "page";
                     entityId: number;
                     langCode: string;
                 };
@@ -4112,7 +4112,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
             }>;
             translationStatus: import("@trpc/server").TRPCQueryProcedure<{
                 input: {
-                    entityType: "page" | "post" | "category" | "tag" | "menuItem";
+                    entityType: "post" | "category" | "tag" | "menuItem" | "page";
                     entityId: number;
                 };
                 output: {
@@ -4125,7 +4125,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
             }>;
             batchTranslationStatus: import("@trpc/server").TRPCQueryProcedure<{
                 input: {
-                    entityType: "page" | "post" | "category" | "tag" | "menuItem";
+                    entityType: "post" | "category" | "tag" | "menuItem" | "page";
                     entityIds: number[];
                 };
                 output: Record<number, string[]>;
@@ -4154,22 +4154,22 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
             list: import("@trpc/server").TRPCQueryProcedure<{
                 input: void;
                 output: {
-                    url: string;
-                    id: number;
-                    ownerId: string | null;
-                    ownerType: string | null;
-                    createdAt: Date;
                     name: string;
+                    id: number;
+                    createdAt: Date;
                     _count: {
                         logs: number;
                     };
                     isActive: boolean;
+                    url: string;
                     secret: string | null;
                     oldSecret: string | null;
                     secretUpdatedAt: Date | null;
                     events: string[];
                     retries: number;
                     timeout: number;
+                    ownerId: string | null;
+                    ownerType: string | null;
                     failureCount: number;
                     apiVersion: string;
                 }[];
@@ -4180,20 +4180,20 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    url: string;
-                    id: number;
-                    ownerId: string | null;
-                    ownerType: string | null;
-                    createdAt: Date;
                     name: string;
+                    id: number;
+                    createdAt: Date;
                     updatedAt: Date;
                     isActive: boolean;
+                    url: string;
                     secret: string | null;
                     oldSecret: string | null;
                     secretUpdatedAt: Date | null;
                     events: string[];
                     retries: number;
                     timeout: number;
+                    ownerId: string | null;
+                    ownerType: string | null;
                     failureCount: number;
                     apiVersion: string;
                 };
@@ -4201,7 +4201,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
             }>;
             availableEvents: import("@trpc/server").TRPCQueryProcedure<{
                 input: void;
-                output: ("ping" | "order.created" | "order.status_updated" | "order.checkpoint_added" | "member.registered" | "post.created" | "post.updated" | "post.published" | "post.deleted" | "page.created" | "page.updated" | "page.published" | "page.deleted")[];
+                output: ("order.created" | "order.status_updated" | "order.checkpoint_added" | "post.created" | "post.updated" | "post.published" | "post.deleted" | "page.created" | "page.updated" | "page.published" | "page.deleted" | "member.registered" | "ping")[];
                 meta: object;
             }>;
             create: import("@trpc/server").TRPCMutationProcedure<{
@@ -4214,8 +4214,8 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     timeout?: number | undefined;
                 };
                 output: {
-                    id: number;
                     name: string;
+                    id: number;
                     secret: string | null;
                 };
                 meta: object;
@@ -4232,8 +4232,8 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     timeout?: number | undefined;
                 };
                 output: {
-                    id: number;
                     name: string;
+                    id: number;
                 };
                 meta: object;
             }>;
@@ -4242,20 +4242,20 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    url: string;
-                    id: number;
-                    ownerId: string | null;
-                    ownerType: string | null;
-                    createdAt: Date;
                     name: string;
+                    id: number;
+                    createdAt: Date;
                     updatedAt: Date;
                     isActive: boolean;
+                    url: string;
                     secret: string | null;
                     oldSecret: string | null;
                     secretUpdatedAt: Date | null;
                     events: string[];
                     retries: number;
                     timeout: number;
+                    ownerId: string | null;
+                    ownerType: string | null;
                     failureCount: number;
                     apiVersion: string;
                 };
@@ -4269,12 +4269,12 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     error: string | null;
                     id: number;
                     createdAt: Date;
-                    success: boolean;
+                    statusCode: number | null;
+                    attempts: number;
                     event: string;
                     payload: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                     response: string | null;
-                    statusCode: number | null;
-                    attempts: number;
+                    success: boolean;
                 }[];
                 meta: object;
             }>;
@@ -4302,26 +4302,26 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 input: {
                     postId?: number | undefined;
                     pageId?: number | undefined;
-                    status?: "approved" | "pending" | "spam" | "trash" | undefined;
+                    status?: "pending" | "approved" | "spam" | "trash" | undefined;
                     page?: number | undefined;
                     perPage?: number | undefined;
                 };
                 output: {
                     items: {
-                        status: string;
                         id: number;
                         createdAt: Date;
                         _count: {
                             replies: number;
                         };
-                        customerId: string | null;
-                        ipAddress: string | null;
                         parentId: number | null;
                         content: string;
+                        status: string;
+                        ipAddress: string | null;
+                        customerId: string | null;
                         postId: number | null;
-                        pageId: number | null;
                         authorName: string | null;
                         authorEmail: string | null;
+                        pageId: number | null;
                     }[];
                     total: number;
                     page: number;
@@ -4334,22 +4334,22 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    status: string;
                     id: number;
                     createdAt: Date;
-                    customerId: string | null;
-                    ipAddress: string | null;
                     parentId: number | null;
                     content: string;
+                    status: string;
+                    ipAddress: string | null;
+                    customerId: string | null;
                     postId: number | null;
-                    pageId: number | null;
                     authorName: string | null;
                     authorEmail: string | null;
+                    pageId: number | null;
                     replies: {
-                        status: string;
                         id: number;
                         createdAt: Date;
                         content: string;
+                        status: string;
                         authorName: string | null;
                     }[];
                 };
@@ -4367,8 +4367,8 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    status: string;
                     id: number;
+                    status: string;
                 };
                 meta: object;
             }>;
@@ -4377,8 +4377,8 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    status: string;
                     id: number;
+                    status: string;
                 };
                 meta: object;
             }>;
@@ -4387,8 +4387,8 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    status: string;
                     id: number;
+                    status: string;
                 };
                 meta: object;
             }>;
@@ -4397,18 +4397,18 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    status: string;
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
-                    customerId: string | null;
-                    ipAddress: string | null;
                     parentId: number | null;
                     content: string;
+                    status: string;
+                    ipAddress: string | null;
+                    customerId: string | null;
                     postId: number | null;
-                    pageId: number | null;
                     authorName: string | null;
                     authorEmail: string | null;
+                    pageId: number | null;
                 };
                 meta: object;
             }>;
@@ -4441,15 +4441,15 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 };
                 output: {
                     items: {
-                        message: string;
-                        email: string;
-                        status: string;
+                        name: string;
                         id: number;
                         createdAt: Date;
-                        name: string;
+                        status: string;
+                        email: string;
                         phone: string | null;
                         formSlug: string;
                         subject: string | null;
+                        message: string;
                         assigneeId: string | null;
                         repliedAt: Date | null;
                     }[];
@@ -4464,23 +4464,23 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    message: string;
-                    email: string;
-                    status: string;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
-                    phone: string | null;
-                    metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                     updatedAt: Date;
+                    status: string;
+                    email: string;
+                    phone: string | null;
                     ipAddress: string | null;
+                    metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                     formSlug: string;
                     subject: string | null;
+                    message: string;
                     assigneeId: string | null;
                     repliedAt: Date | null;
                     assignee: {
-                        id: string;
                         name: string | null;
+                        id: string;
                     } | null;
                 };
                 meta: object;
@@ -4498,8 +4498,8 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     status: "new" | "read" | "replied" | "archived";
                 };
                 output: {
-                    status: string;
                     id: number;
+                    status: string;
                 };
                 meta: object;
             }>;
@@ -4519,8 +4519,8 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    status: string;
                     id: number;
+                    status: string;
                     repliedAt: Date | null;
                 };
                 meta: object;
@@ -4530,18 +4530,18 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    message: string;
-                    email: string;
-                    status: string;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
-                    phone: string | null;
-                    metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                     updatedAt: Date;
+                    status: string;
+                    email: string;
+                    phone: string | null;
                     ipAddress: string | null;
+                    metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                     formSlug: string;
                     subject: string | null;
+                    message: string;
                     assigneeId: string | null;
                     repliedAt: Date | null;
                 };
@@ -4578,10 +4578,10 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 } | undefined;
                 output: {
                     items: {
-                        type: string;
                         link: string | null;
                         id: number;
                         createdAt: Date;
+                        type: string;
                         titleKey: string;
                         messageKey: string;
                         variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
@@ -4595,10 +4595,10 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     nextCursor: number | undefined;
                 } | {
                     items: {
-                        type: string;
                         link: string | null;
                         id: number;
                         createdAt: Date;
+                        type: string;
                         titleKey: string;
                         messageKey: string;
                         variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
@@ -4644,14 +4644,14 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     deviceInfo?: string | undefined;
                 };
                 output: {
-                    userId: string | null;
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    userId: string | null;
+                    deviceInfo: string | null;
                     customerId: string | null;
                     token: string;
                     platform: string;
-                    deviceInfo: string | null;
                 };
                 meta: object;
             }>;
@@ -4666,7 +4666,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 input: void;
                 output: {
                     eventType: string;
-                    category: "order" | "system" | "blog" | "account" | "wallet";
+                    category: "order" | "account" | "system" | "blog" | "wallet";
                     labelKey: string;
                     descriptionKey: string;
                     channels: {
@@ -4703,10 +4703,10 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     dndConfig?: Record<string, any> | undefined;
                 };
                 output: {
-                    userId: string | null;
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    userId: string | null;
                     customerId: string | null;
                     eventType: string;
                     channelInApp: boolean;
@@ -4720,10 +4720,10 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
             listTemplates: import("@trpc/server").TRPCQueryProcedure<{
                 input: void;
                 output: {
-                    type: string;
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    type: string;
                     variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                     channelInApp: boolean;
                     channelPush: boolean;
@@ -4750,10 +4750,10 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     layoutType?: string | null | undefined;
                 };
                 output: {
-                    type: string;
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    type: string;
                     variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                     channelInApp: boolean;
                     channelPush: boolean;
@@ -4782,10 +4782,10 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    type: string;
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    type: string;
                     variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                     channelInApp: boolean;
                     channelPush: boolean;
@@ -4805,14 +4805,14 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 };
                 output: {
                     items: {
-                        message: string;
-                        status: string;
                         link: string | null;
                         id: number;
                         createdAt: Date;
                         updatedAt: Date;
                         title: string;
+                        status: string;
                         scheduledAt: Date;
+                        message: string;
                         targetType: string;
                         targetIds: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                         failedReason: string | null;
@@ -4832,14 +4832,14 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     link?: string | null | undefined;
                 };
                 output: {
-                    message: string;
-                    status: string;
                     link: string | null;
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
                     title: string;
+                    status: string;
                     scheduledAt: Date;
+                    message: string;
                     targetType: string;
                     targetIds: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                     failedReason: string | null;
@@ -4852,14 +4852,14 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    message: string;
-                    status: string;
                     link: string | null;
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
                     title: string;
+                    status: string;
                     scheduledAt: Date;
+                    message: string;
                     targetType: string;
                     targetIds: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                     failedReason: string | null;
@@ -4891,10 +4891,10 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     locale?: string | undefined;
                 };
                 output: {
-                    type: string;
                     link: string | null;
                     id: number;
                     createdAt: Date;
+                    type: string;
                     titleKey: string;
                     messageKey: string;
                     variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
@@ -4931,9 +4931,9 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     };
                     output: {
                         items: {
-                            email: string;
                             id: number;
                             createdAt: Date;
+                            email: string;
                             reason: string;
                         }[];
                         total: number;
@@ -4953,9 +4953,9 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                         reason: string;
                     };
                     output: {
-                        email: string;
                         id: number;
                         createdAt: Date;
+                        email: string;
                         reason: string;
                     };
                     meta: object;
@@ -4990,9 +4990,9 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                         reason: string;
                     };
                     output: {
-                        email: string;
                         id: number;
                         createdAt: Date;
+                        email: string;
                         reason: string;
                     };
                     meta: object;
@@ -5037,8 +5037,8 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                         id: number;
                         createdAt: Date;
                         isActive: boolean;
-                        statusCode: number;
                         note: string | null;
+                        statusCode: number;
                         fromPath: string;
                         toPath: string;
                         hitCount: number;
@@ -5092,8 +5092,8 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     createdAt: Date;
                     updatedAt: Date;
                     isActive: boolean;
-                    statusCode: number;
                     note: string | null;
+                    statusCode: number;
                     fromPath: string;
                     toPath: string;
                     hitCount: number;
@@ -5130,18 +5130,18 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 } | undefined;
                 output: {
                     items: {
-                        type: string;
-                        description: string | null;
+                        name: string;
                         id: number;
                         createdAt: Date;
-                        name: string;
-                        metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+                        order: number;
+                        slug: string;
                         _count: {
                             children: number;
                         };
                         parentId: number | null;
-                        order: number;
-                        slug: string;
+                        type: string;
+                        metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+                        description: string | null;
                     }[];
                     total: number;
                     page: number;
@@ -5154,21 +5154,21 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    type: string;
-                    description: string | null;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
-                    metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+                    order: number;
+                    slug: string;
                     parentId: number | null;
                     children: {
-                        id: number;
                         name: string;
+                        id: number;
                         order: number;
                         slug: string;
                     }[];
-                    order: number;
-                    slug: string;
+                    type: string;
+                    metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+                    description: string | null;
                 };
                 meta: object;
             }>;
@@ -5177,22 +5177,22 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     type: string;
                 };
                 output: {
-                    id: number;
                     name: string;
+                    id: number;
+                    order: number;
+                    slug: string;
                     children: {
-                        id: number;
                         name: string;
+                        id: number;
+                        order: number;
+                        slug: string;
                         children: {
-                            id: number;
                             name: string;
+                            id: number;
                             order: number;
                             slug: string;
                         }[];
-                        order: number;
-                        slug: string;
                     }[];
-                    order: number;
-                    slug: string;
                 }[];
                 meta: object;
             }>;
@@ -5215,16 +5215,16 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     metadata?: Record<string, unknown> | undefined;
                 };
                 output: {
-                    type: string;
-                    description: string | null;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
-                    metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                     updatedAt: Date;
-                    parentId: number | null;
                     order: number;
                     slug: string;
+                    parentId: number | null;
+                    type: string;
+                    metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
+                    description: string | null;
                 };
                 meta: object;
             }>;
@@ -5239,16 +5239,16 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     metadata?: Record<string, unknown> | undefined;
                 };
                 output: {
-                    type: string;
-                    description: string | null;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
-                    metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                     updatedAt: Date;
-                    parentId: number | null;
                     order: number;
                     slug: string;
+                    parentId: number | null;
+                    type: string;
+                    metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
+                    description: string | null;
                 };
                 meta: object;
             }>;
@@ -5257,16 +5257,16 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    type: string;
-                    description: string | null;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
-                    metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                     updatedAt: Date;
-                    parentId: number | null;
                     order: number;
                     slug: string;
+                    parentId: number | null;
+                    type: string;
+                    metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
+                    description: string | null;
                 };
                 meta: object;
             }>;
@@ -5297,12 +5297,12 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     isActive?: boolean | undefined;
                 } | undefined;
                 output: {
-                    type: string;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
-                    isActive: boolean;
                     slug: string;
+                    isActive: boolean;
+                    type: string;
                     thumbnail: string | null;
                 }[];
                 meta: object;
@@ -5312,16 +5312,16 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    type: string;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
-                    isActive: boolean;
                     slug: string;
+                    isActive: boolean;
                     content: string | null;
+                    type: string;
+                    createdBy: string | null;
                     structure: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                     thumbnail: string | null;
-                    createdBy: string | null;
                 };
                 meta: object;
             }>;
@@ -5329,23 +5329,23 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 input: {
                     name: string;
                     slug: string;
-                    type: "email" | "page" | "post";
+                    type: "post" | "page" | "email";
                     content?: string | undefined;
                     structure?: Record<string, unknown> | undefined;
                     thumbnail?: string | undefined;
                 };
                 output: {
-                    type: string;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
                     updatedAt: Date;
-                    isActive: boolean;
                     slug: string;
+                    isActive: boolean;
                     content: string | null;
+                    type: string;
+                    createdBy: string | null;
                     structure: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                     thumbnail: string | null;
-                    createdBy: string | null;
                 };
                 meta: object;
             }>;
@@ -5360,17 +5360,17 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     isActive?: boolean | undefined;
                 };
                 output: {
-                    type: string;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
                     updatedAt: Date;
-                    isActive: boolean;
                     slug: string;
+                    isActive: boolean;
                     content: string | null;
+                    type: string;
+                    createdBy: string | null;
                     structure: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                     thumbnail: string | null;
-                    createdBy: string | null;
                 };
                 meta: object;
             }>;
@@ -5379,17 +5379,17 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    type: string;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
                     updatedAt: Date;
-                    isActive: boolean;
                     slug: string;
+                    isActive: boolean;
                     content: string | null;
+                    type: string;
+                    createdBy: string | null;
                     structure: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                     thumbnail: string | null;
-                    createdBy: string | null;
                 };
                 meta: object;
             }>;
@@ -5398,17 +5398,17 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    type: string;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
                     updatedAt: Date;
-                    isActive: boolean;
                     slug: string;
+                    isActive: boolean;
                     content: string | null;
+                    type: string;
+                    createdBy: string | null;
                     structure: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                     thumbnail: string | null;
-                    createdBy: string | null;
                 };
                 meta: object;
             }>;
@@ -5434,7 +5434,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
         }, import("@trpc/server").TRPCDecorateCreateRouterOptions<{
             acquire: import("@trpc/server").TRPCMutationProcedure<{
                 input: {
-                    entityType: "page" | "post";
+                    entityType: "post" | "page";
                     entityId: number;
                 };
                 output: {
@@ -5445,7 +5445,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
             }>;
             release: import("@trpc/server").TRPCMutationProcedure<{
                 input: {
-                    entityType: "page" | "post";
+                    entityType: "post" | "page";
                     entityId: number;
                 };
                 output: boolean;
@@ -5453,7 +5453,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
             }>;
             check: import("@trpc/server").TRPCQueryProcedure<{
                 input: {
-                    entityType: "page" | "post";
+                    entityType: "post" | "page";
                     entityId: number;
                 };
                 output: import("@ecom/features/content-lock/ContentLockService").ContentLock | null;
@@ -5461,7 +5461,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
             }>;
             heartbeat: import("@trpc/server").TRPCMutationProcedure<{
                 input: {
-                    entityType: "page" | "post";
+                    entityType: "post" | "page";
                     entityId: number;
                 };
                 output: boolean;
@@ -5518,7 +5518,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id?: number | undefined;
                     code?: string | undefined;
                     type?: "DEFAULT" | "CUSTOM" | undefined;
-                    status?: "DRAFT" | "PENDING" | "REJECTED" | "PUBLISHED" | "REVIEW" | "ARCHIVED" | undefined;
+                    status?: "DRAFT" | "PENDING" | "REVIEW" | "REJECTED" | "PUBLISHED" | "ARCHIVED" | undefined;
                     shippingMethod?: "EXPRESS" | "EPACKET" | undefined;
                     country?: string | undefined;
                     origin?: string | undefined;
@@ -5529,31 +5529,31 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     customerGroupId?: number | undefined;
                     page?: number | undefined;
                     perPage?: number | undefined;
-                    sortBy?: "code" | "type" | "status" | "id" | "createdAt" | "name" | "updatedAt" | "startDate" | "endDate" | undefined;
+                    sortBy?: "name" | "id" | "code" | "createdAt" | "updatedAt" | "status" | "type" | "startDate" | "endDate" | undefined;
                     sortOrder?: "asc" | "desc" | undefined;
                 } | undefined;
                 output: import("@flash-ship/ecom-lib").PaginatedResult<{
-                    code: string;
-                    type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                    id: number;
-                    createdAt: Date;
                     name: string;
+                    id: number;
+                    code: string;
+                    createdAt: Date;
                     updatedAt: Date;
-                    shippingMethod: import("@ecom/prisma/src/generated/prisma/client").$Enums.ShippingMethod;
-                    startDate: Date | null;
-                    endDate: Date | null;
                     country: string;
-                    origin: string | null;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                    type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
+                    shippingMethod: import("@ecom/prisma/src/generated/prisma/client").$Enums.ShippingMethod;
                     currency: string;
+                    origin: string | null;
                     weightStep: import("@prisma/client-runtime-utils").Decimal;
                     minWeight: import("@prisma/client-runtime-utils").Decimal;
                     maxWeight: import("@prisma/client-runtime-utils").Decimal;
+                    startDate: Date | null;
+                    endDate: Date | null;
                     groups: {
                         customerGroup: {
-                            code: string;
-                            id: number;
                             name: string;
+                            id: number;
+                            code: string;
                         };
                         customerGroupId: number;
                     }[];
@@ -5565,34 +5565,34 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    code: string;
-                    type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                    id: number;
-                    createdAt: Date;
                     name: string;
+                    id: number;
+                    code: string;
+                    createdAt: Date;
                     updatedAt: Date;
+                    country: string;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                    type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
+                    shippingMethod: import("@ecom/prisma/src/generated/prisma/client").$Enums.ShippingMethod;
                     items: {
                         id: number;
+                        amount: import("@prisma/client-runtime-utils").Decimal;
                         startWeight: import("@prisma/client-runtime-utils").Decimal;
                         endWeight: import("@prisma/client-runtime-utils").Decimal;
                         rateType: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateItemType;
-                        amount: import("@prisma/client-runtime-utils").Decimal;
                     }[];
-                    shippingMethod: import("@ecom/prisma/src/generated/prisma/client").$Enums.ShippingMethod;
-                    startDate: Date | null;
-                    endDate: Date | null;
-                    country: string;
-                    origin: string | null;
                     currency: string;
+                    origin: string | null;
                     weightStep: import("@prisma/client-runtime-utils").Decimal;
                     minWeight: import("@prisma/client-runtime-utils").Decimal;
                     maxWeight: import("@prisma/client-runtime-utils").Decimal;
+                    startDate: Date | null;
+                    endDate: Date | null;
                     groups: {
                         customerGroup: {
-                            code: string;
-                            id: number;
                             name: string;
+                            id: number;
+                            code: string;
                         };
                         customerGroupId: number;
                     }[];
@@ -5616,11 +5616,11 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     customerGroupIds?: number[] | undefined;
                 };
                 output: {
-                    code: string;
-                    type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                    id: number;
                     name: string;
+                    id: number;
+                    code: string;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                    type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
                 };
                 meta: object;
             }>;
@@ -5642,11 +5642,11 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     customerGroupIds?: number[] | undefined;
                 };
                 output: {
-                    code: string;
-                    type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                    id: number;
                     name: string;
+                    id: number;
+                    code: string;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                    type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
                 };
                 meta: object;
             }>;
@@ -5655,11 +5655,11 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    code: string;
-                    type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                    id: number;
                     name: string;
+                    id: number;
+                    code: string;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                    type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
                 };
                 meta: object;
             }>;
@@ -5668,11 +5668,11 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    code: string;
-                    type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                    id: number;
                     name: string;
+                    id: number;
+                    code: string;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                    type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
                 };
                 meta: object;
             }>;
@@ -5682,11 +5682,11 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     reason?: string | undefined;
                 };
                 output: {
-                    code: string;
-                    type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                    id: number;
                     name: string;
+                    id: number;
+                    code: string;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                    type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
                 };
                 meta: object;
             }>;
@@ -5696,11 +5696,11 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     customerGroupIds: number[];
                 };
                 output: {
-                    code: string;
-                    type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                    id: number;
                     name: string;
+                    id: number;
+                    code: string;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                    type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
                 };
                 meta: object;
             }>;
@@ -5717,8 +5717,8 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 output: {
                     hasOverlap: boolean;
                     overlappingCards: {
-                        code: string;
                         id: number;
+                        code: string;
                         startDate: Date | null;
                         endDate: Date | null;
                     }[];
@@ -5739,14 +5739,14 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    user: {
-                        email: string;
-                        id: string;
-                        name: string | null;
-                    } | null;
-                    userId: string | null;
                     id: number;
                     createdAt: Date;
+                    user: {
+                        name: string | null;
+                        id: string;
+                        email: string;
+                    } | null;
+                    userId: string | null;
                     action: string;
                     oldValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                     newValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
@@ -5788,9 +5788,9 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
             listGroups: import("@trpc/server").TRPCQueryProcedure<{
                 input: void;
                 output: {
-                    code: string;
-                    id: number;
                     name: string;
+                    id: number;
+                    code: string;
                 }[];
                 meta: object;
             }>;
@@ -5799,10 +5799,10 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
+                    name: string;
+                    id: number;
                     code: string;
                     type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-                    id: number;
-                    name: string;
                 };
                 meta: object;
             }>;
@@ -5832,17 +5832,17 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     status?: "ACTIVE" | "INACTIVE" | undefined;
                     page?: number | undefined;
                     perPage?: number | undefined;
-                    sortBy?: "code" | "status" | "id" | "createdAt" | "name" | "updatedAt" | undefined;
+                    sortBy?: "name" | "id" | "code" | "createdAt" | "updatedAt" | "status" | undefined;
                     sortOrder?: "asc" | "desc" | undefined;
                 } | undefined;
                 output: import("@flash-ship/ecom-lib").PaginatedResult<{
+                    name: string;
+                    id: number;
                     code: string;
+                    createdAt: Date;
+                    updatedAt: Date;
                     status: import("@ecom/prisma/src/generated/prisma/client").$Enums.PartnerStatus;
                     description: string | null;
-                    id: number;
-                    createdAt: Date;
-                    name: string;
-                    updatedAt: Date;
                     contactName: string | null;
                     contactEmail: string | null;
                     contactPhone: string | null;
@@ -5855,13 +5855,13 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 };
                 output: {
                     apiConfig: Record<string, unknown> | null;
+                    name: string;
+                    id: number;
                     code: string;
+                    createdAt: Date;
+                    updatedAt: Date;
                     status: import("@ecom/prisma/src/generated/prisma/client").$Enums.PartnerStatus;
                     description: string | null;
-                    id: number;
-                    createdAt: Date;
-                    name: string;
-                    updatedAt: Date;
                     contactName: string | null;
                     contactEmail: string | null;
                     contactPhone: string | null;
@@ -5880,10 +5880,10 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     apiConfig?: Record<string, unknown> | null | undefined;
                 };
                 output: {
+                    name: string;
+                    id: number;
                     code: string;
                     status: import("@ecom/prisma/src/generated/prisma/client").$Enums.PartnerStatus;
-                    id: number;
-                    name: string;
                 };
                 meta: object;
             }>;
@@ -5900,10 +5900,10 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     apiConfig?: Record<string, unknown> | null | undefined;
                 };
                 output: {
+                    name: string;
+                    id: number;
                     code: string;
                     status: import("@ecom/prisma/src/generated/prisma/client").$Enums.PartnerStatus;
-                    id: number;
-                    name: string;
                 };
                 meta: object;
             }>;
@@ -5921,13 +5921,13 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     partnerId: number;
                 };
                 output: {
-                    code: string;
-                    type: import("@ecom/prisma/src/generated/prisma/client").$Enums.ServiceType;
-                    id: number;
-                    createdAt: Date;
                     name: string;
+                    id: number;
+                    code: string;
+                    createdAt: Date;
                     updatedAt: Date;
                     isActive: boolean;
+                    type: import("@ecom/prisma/src/generated/prisma/client").$Enums.ServiceType;
                     partnerId: number;
                     statusMapping: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                     webhookSecret: string | null;
@@ -5941,7 +5941,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     partnerId: number;
                     code: string;
                     name: string;
-                    type: "IMPORT" | "PICKUP" | "EXPORT" | "LASTMILE";
+                    type: "PICKUP" | "EXPORT" | "IMPORT" | "LASTMILE";
                     statusMapping?: Record<string, unknown> | null | undefined;
                     isActive?: boolean | undefined;
                     webhookSecret?: string | null | undefined;
@@ -5949,9 +5949,9 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     rateLimitPerMinute?: number | undefined;
                 };
                 output: {
-                    code: string;
-                    id: number;
                     name: string;
+                    id: number;
+                    code: string;
                     partnerId: number;
                 };
                 meta: object;
@@ -5961,7 +5961,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: unknown;
                     code?: string | undefined;
                     name?: string | undefined;
-                    type?: "IMPORT" | "PICKUP" | "EXPORT" | "LASTMILE" | undefined;
+                    type?: "PICKUP" | "EXPORT" | "IMPORT" | "LASTMILE" | undefined;
                     statusMapping?: Record<string, unknown> | null | undefined;
                     isActive?: boolean | undefined;
                     webhookSecret?: string | null | undefined;
@@ -5969,9 +5969,9 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     rateLimitPerMinute?: number | undefined;
                 };
                 output: {
-                    code: string;
-                    id: number;
                     name: string;
+                    id: number;
+                    code: string;
                     partnerId: number;
                 };
                 meta: object;
@@ -6019,19 +6019,19 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
             list: import("@trpc/server").TRPCQueryProcedure<{
                 input: {
                     search?: string | undefined;
-                    status?: "DRAFT" | "PENDING" | "REJECTED" | "PUBLISHED" | "REVIEW" | "ARCHIVED" | undefined;
+                    status?: "DRAFT" | "PENDING" | "REVIEW" | "REJECTED" | "PUBLISHED" | "ARCHIVED" | undefined;
                     page?: number | undefined;
                     limit?: number | undefined;
                     orderBy?: "asc" | "desc" | undefined;
                 };
                 output: {
                     items: {
-                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                        description: string | null;
+                        name: string;
                         id: number;
                         createdAt: Date;
-                        name: string;
                         updatedAt: Date;
+                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                        description: string | null;
                         image: string | null;
                     }[];
                     total: number;
@@ -6046,12 +6046,12 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                    description: string | null;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
                     updatedAt: Date;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                    description: string | null;
                     image: string | null;
                 };
                 meta: object;
@@ -6061,15 +6061,15 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     name: string;
                     image?: string | null | undefined;
                     description?: string | null | undefined;
-                    status?: "DRAFT" | "PENDING" | "REJECTED" | "PUBLISHED" | "REVIEW" | "ARCHIVED" | undefined;
+                    status?: "DRAFT" | "PENDING" | "REVIEW" | "REJECTED" | "PUBLISHED" | "ARCHIVED" | undefined;
                 };
                 output: {
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                    description: string | null;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
                     updatedAt: Date;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                    description: string | null;
                     image: string | null;
                 };
                 meta: object;
@@ -6080,15 +6080,15 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     name?: string | undefined;
                     image?: string | null | undefined;
                     description?: string | null | undefined;
-                    status?: "DRAFT" | "PENDING" | "REJECTED" | "PUBLISHED" | "REVIEW" | "ARCHIVED" | undefined;
+                    status?: "DRAFT" | "PENDING" | "REVIEW" | "REJECTED" | "PUBLISHED" | "ARCHIVED" | undefined;
                 };
                 output: {
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                    description: string | null;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
                     updatedAt: Date;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                    description: string | null;
                     image: string | null;
                 };
                 meta: object;
@@ -6132,14 +6132,14 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 };
                 output: {
                     items: {
-                        code: number;
-                        id: number;
-                        createdAt: Date;
                         name: string;
-                        updatedAt: Date;
+                        id: number;
+                        code: number;
                         divisionType: string;
                         codeName: string;
                         phoneCode: number;
+                        createdAt: Date;
+                        updatedAt: Date;
                     }[];
                     total: number;
                     page: number;
@@ -6153,14 +6153,14 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    code: number;
-                    id: number;
-                    createdAt: Date;
                     name: string;
-                    updatedAt: Date;
+                    id: number;
+                    code: number;
                     divisionType: string;
                     codeName: string;
                     phoneCode: number;
+                    createdAt: Date;
+                    updatedAt: Date;
                 };
                 meta: object;
             }>;
@@ -6173,14 +6173,14 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     codeName?: string | undefined;
                 };
                 output: {
-                    code: number;
-                    id: number;
-                    createdAt: Date;
                     name: string;
-                    updatedAt: Date;
+                    id: number;
+                    code: number;
                     divisionType: string;
                     codeName: string;
                     phoneCode: number;
+                    createdAt: Date;
+                    updatedAt: Date;
                 };
                 meta: object;
             }>;
@@ -6194,14 +6194,14 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     phoneCode?: number | undefined;
                 };
                 output: {
-                    code: number;
-                    id: number;
-                    createdAt: Date;
                     name: string;
-                    updatedAt: Date;
+                    id: number;
+                    code: number;
                     divisionType: string;
                     codeName: string;
                     phoneCode: number;
+                    createdAt: Date;
+                    updatedAt: Date;
                 };
                 meta: object;
             }>;
@@ -6225,16 +6225,16 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 };
                 output: {
                     items: {
-                        code: number;
-                        id: number;
-                        createdAt: Date;
                         name: string;
-                        updatedAt: Date;
                         province: {
                             name: string;
                         };
+                        id: number;
+                        code: number;
                         divisionType: string;
                         codeName: string;
+                        createdAt: Date;
+                        updatedAt: Date;
                         provinceCode: number;
                     }[];
                     total: number;
@@ -6249,13 +6249,13 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    code: number;
-                    id: number;
-                    createdAt: Date;
                     name: string;
-                    updatedAt: Date;
+                    id: number;
+                    code: number;
                     divisionType: string;
                     codeName: string;
+                    createdAt: Date;
+                    updatedAt: Date;
                     provinceCode: number;
                 };
                 meta: object;
@@ -6269,13 +6269,13 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     codeName?: string | undefined;
                 };
                 output: {
-                    code: number;
-                    id: number;
-                    createdAt: Date;
                     name: string;
-                    updatedAt: Date;
+                    id: number;
+                    code: number;
                     divisionType: string;
                     codeName: string;
+                    createdAt: Date;
+                    updatedAt: Date;
                     provinceCode: number;
                 };
                 meta: object;
@@ -6290,13 +6290,13 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     provinceCode?: number | undefined;
                 };
                 output: {
-                    code: number;
-                    id: number;
-                    createdAt: Date;
                     name: string;
-                    updatedAt: Date;
+                    id: number;
+                    code: number;
                     divisionType: string;
                     codeName: string;
+                    createdAt: Date;
+                    updatedAt: Date;
                     provinceCode: number;
                 };
                 meta: object;
@@ -6322,21 +6322,21 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 };
                 output: {
                     items: {
-                        code: string;
-                        id: number;
-                        createdAt: Date;
                         name: string;
-                        updatedAt: Date;
+                        id: number;
+                        code: string;
                         divisionType: string;
+                        createdAt: Date;
+                        updatedAt: Date;
                         countryCode: string;
                         nameEn: string | null;
                         level: number;
                         parentId: number | null;
                         isActive: boolean;
                         parent: {
-                            code: string;
-                            id: number;
                             name: string;
+                            id: number;
+                            code: string;
                         } | null;
                     }[];
                     total: number;
@@ -6351,21 +6351,21 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    code: string;
-                    id: number;
-                    createdAt: Date;
                     name: string;
-                    updatedAt: Date;
+                    id: number;
+                    code: string;
                     divisionType: string;
+                    createdAt: Date;
+                    updatedAt: Date;
                     countryCode: string;
                     nameEn: string | null;
                     level: number;
                     parentId: number | null;
                     isActive: boolean;
                     parent: {
-                        code: string;
-                        id: number;
                         name: string;
+                        id: number;
+                        code: string;
                     } | null;
                 };
                 meta: object;
@@ -6381,12 +6381,12 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     parentId?: number | undefined;
                 };
                 output: {
-                    code: string;
-                    id: number;
-                    createdAt: Date;
                     name: string;
-                    updatedAt: Date;
+                    id: number;
+                    code: string;
                     divisionType: string;
+                    createdAt: Date;
+                    updatedAt: Date;
                     countryCode: string;
                     nameEn: string | null;
                     level: number;
@@ -6404,12 +6404,12 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     isActive?: boolean | undefined;
                 };
                 output: {
-                    code: string;
-                    id: number;
-                    createdAt: Date;
                     name: string;
-                    updatedAt: Date;
+                    id: number;
+                    code: string;
                     divisionType: string;
+                    createdAt: Date;
+                    updatedAt: Date;
                     countryCode: string;
                     nameEn: string | null;
                     level: number;
@@ -6445,7 +6445,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     search?: string | undefined;
                     page?: number | undefined;
                     perPage?: number | undefined;
-                    sortBy?: "status" | "id" | "createdAt" | "orderCode" | undefined;
+                    sortBy?: "id" | "createdAt" | "status" | "orderCode" | undefined;
                     sortOrder?: "asc" | "desc" | undefined;
                 } | undefined;
                 output: {
@@ -6458,7 +6458,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 input: {
                     id: string;
                 };
-                output: import("./viewer/orders/procedures/orders.handler").CachedOrder | import("@ecom/features/order/mappers/AdminOrderMapper").AdminOrderDetailResponse | undefined;
+                output: import("@ecom/features/order/mappers/AdminOrderMapper").AdminOrderDetailResponse | import("./viewer/orders/procedures/orders.handler").CachedOrder | undefined;
                 meta: object;
             }>;
             updateStatus: import("@trpc/server").TRPCMutationProcedure<{
@@ -6469,9 +6469,9 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     expectedVersion?: number | undefined;
                 };
                 output: {
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
                     id: string;
                     updatedAt: Date;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
                     orderCode: string;
                     labelStatus: import("@ecom/prisma/src/generated/prisma/client").$Enums.LabelStatus;
                     exportCustomsStatus: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomsStatus;
@@ -6499,9 +6499,9 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     forceRefresh?: boolean | undefined;
                 };
                 output: {
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
                     id: string;
                     createdAt: Date;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
                     orderCode: string;
                     totalFee: import("@prisma/client-runtime-utils").Decimal;
                 };
@@ -6575,27 +6575,27 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                         perPage?: number | undefined;
                     } | undefined;
                     output: import("@flash-ship/ecom-lib").PaginatedResult<{
-                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                         id: number;
                         createdAt: Date;
                         deletedAt: Date | null;
                         slug: string;
-                        isFeatured: boolean;
                         title: string;
-                        publishedAt: Date | null;
-                        views: number;
                         excerpt: string | null;
                         featuredImage: string | null;
+                        isFeatured: boolean;
+                        views: number;
+                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                         authorId: string;
+                        publishedAt: Date | null;
                         author: {
-                            id: string;
                             name: string | null;
+                            id: string;
                             avatarUrl: string | null;
                         };
                         categories: {
                             category: {
-                                id: number;
                                 name: string;
+                                id: number;
                                 slug: string;
                             };
                         }[];
@@ -6607,37 +6607,37 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                         slug: string;
                     };
                     output: {
-                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                         id: number;
                         createdAt: Date;
                         slug: string;
-                        isFeatured: boolean;
                         title: string;
-                        publishedAt: Date | null;
-                        views: number;
                         content: string | null;
                         excerpt: string | null;
                         featuredImage: string | null;
                         bannerImage: string | null;
+                        isFeatured: boolean;
                         externalSource: string | null;
                         sponsoredBy: string | null;
+                        views: number;
+                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                         authorId: string;
+                        publishedAt: Date | null;
                         author: {
-                            id: string;
                             name: string | null;
+                            id: string;
                             avatarUrl: string | null;
                         };
                         categories: {
                             category: {
-                                id: number;
                                 name: string;
+                                id: number;
                                 slug: string;
                             };
                         }[];
                         tags: {
                             tag: {
-                                id: number;
                                 name: string;
+                                id: number;
                                 slug: string;
                             };
                         }[];
@@ -6649,27 +6649,27 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 categories: import("@trpc/server").TRPCQueryProcedure<{
                     input: void;
                     output: {
-                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                        id: number;
                         name: string;
-                        children: {
-                            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                            id: number;
-                            name: string;
-                            children: {
-                                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                                id: number;
-                                name: string;
-                                order: number;
-                                slug: string;
-                                icon: string | null;
-                            }[];
-                            order: number;
-                            slug: string;
-                            icon: string | null;
-                        }[];
+                        id: number;
                         order: number;
                         slug: string;
+                        children: {
+                            name: string;
+                            id: number;
+                            order: number;
+                            slug: string;
+                            children: {
+                                name: string;
+                                id: number;
+                                order: number;
+                                slug: string;
+                                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                                icon: string | null;
+                            }[];
+                            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                            icon: string | null;
+                        }[];
+                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                         icon: string | null;
                     }[];
                     meta: object;
@@ -6682,14 +6682,14 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     } | undefined;
                     output: {
                         rows: {
-                            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                            name: string;
                             id: number;
                             createdAt: Date;
-                            name: string;
+                            slug: string;
                             _count: {
                                 posts: number;
                             };
-                            slug: string;
+                            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                         }[];
                         total: number;
                         page: number;
@@ -6706,20 +6706,20 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     };
                     output: {
                         items: {
-                            status: string;
                             id: number;
                             createdAt: Date;
                             _count: {
                                 replies: number;
                             };
-                            customerId: string | null;
-                            ipAddress: string | null;
                             parentId: number | null;
                             content: string;
+                            status: string;
+                            ipAddress: string | null;
+                            customerId: string | null;
                             postId: number | null;
-                            pageId: number | null;
                             authorName: string | null;
                             authorEmail: string | null;
+                            pageId: number | null;
                         }[];
                         total: number;
                         page: number;
@@ -6767,27 +6767,27 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                         perPage?: number | undefined;
                     };
                     output: import("@flash-ship/ecom-lib").PaginatedResult<{
-                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                         id: number;
                         createdAt: Date;
                         deletedAt: Date | null;
                         slug: string;
-                        isFeatured: boolean;
                         title: string;
-                        publishedAt: Date | null;
-                        views: number;
                         excerpt: string | null;
                         featuredImage: string | null;
+                        isFeatured: boolean;
+                        views: number;
+                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                         authorId: string;
+                        publishedAt: Date | null;
                         author: {
-                            id: string;
                             name: string | null;
+                            id: string;
                             avatarUrl: string | null;
                         };
                         categories: {
                             category: {
-                                id: number;
                                 name: string;
+                                id: number;
                                 slug: string;
                             };
                         }[];
@@ -6817,24 +6817,24 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 list: import("@trpc/server").TRPCQueryProcedure<{
                     input: void;
                     output: ({
-                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                         id: number;
                         createdAt: Date;
                         updatedAt: Date;
+                        order: number;
+                        slug: string;
                         _count: {
                             children: number;
                         };
                         parentId: number | null;
-                        order: number;
-                        slug: string;
                         title: string;
-                        publishedAt: Date | null;
+                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                         authorId: string;
-                        author: {
-                            id: string;
-                            name: string | null;
-                        };
+                        publishedAt: Date | null;
                         template: string | null;
+                        author: {
+                            name: string | null;
+                            id: string;
+                        };
                     } & {
                         _translatedFrom?: string;
                     })[];
@@ -6854,10 +6854,10 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                             indexMode: string | null;
                         } | null;
                         title: string;
-                        publishedAt: Date | null;
                         content: string | null;
                         excerpt: string | null;
                         featuredImage: string | null;
+                        publishedAt: Date | null;
                         template: string | null;
                     } & {
                         _translatedFrom?: string;
@@ -7010,18 +7010,18 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     input: void;
                     output: {
                         flag: string | null;
-                        code: string;
-                        id: number;
                         name: string;
+                        id: number;
+                        code: string;
                     }[];
                     meta: object;
                 }>;
                 getTransportModes: import("@trpc/server").TRPCQueryProcedure<{
                     input: void;
                     output: {
-                        code: string;
-                        id: number;
                         name: string;
+                        id: number;
+                        code: string;
                     }[];
                     meta: object;
                 }>;
@@ -7055,27 +7055,27 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     perPage?: number | undefined;
                 } | undefined;
                 output: import("@flash-ship/ecom-lib").PaginatedResult<{
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     id: number;
                     createdAt: Date;
                     deletedAt: Date | null;
                     slug: string;
-                    isFeatured: boolean;
                     title: string;
-                    publishedAt: Date | null;
-                    views: number;
                     excerpt: string | null;
                     featuredImage: string | null;
+                    isFeatured: boolean;
+                    views: number;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     authorId: string;
+                    publishedAt: Date | null;
                     author: {
-                        id: string;
                         name: string | null;
+                        id: string;
                         avatarUrl: string | null;
                     };
                     categories: {
                         category: {
-                            id: number;
                             name: string;
+                            id: number;
                             slug: string;
                         };
                     }[];
@@ -7087,37 +7087,37 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     slug: string;
                 };
                 output: {
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     id: number;
                     createdAt: Date;
                     slug: string;
-                    isFeatured: boolean;
                     title: string;
-                    publishedAt: Date | null;
-                    views: number;
                     content: string | null;
                     excerpt: string | null;
                     featuredImage: string | null;
                     bannerImage: string | null;
+                    isFeatured: boolean;
                     externalSource: string | null;
                     sponsoredBy: string | null;
+                    views: number;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     authorId: string;
+                    publishedAt: Date | null;
                     author: {
-                        id: string;
                         name: string | null;
+                        id: string;
                         avatarUrl: string | null;
                     };
                     categories: {
                         category: {
-                            id: number;
                             name: string;
+                            id: number;
                             slug: string;
                         };
                     }[];
                     tags: {
                         tag: {
-                            id: number;
                             name: string;
+                            id: number;
                             slug: string;
                         };
                     }[];
@@ -7129,27 +7129,27 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
             categories: import("@trpc/server").TRPCQueryProcedure<{
                 input: void;
                 output: {
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                    id: number;
                     name: string;
-                    children: {
-                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                        id: number;
-                        name: string;
-                        children: {
-                            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                            id: number;
-                            name: string;
-                            order: number;
-                            slug: string;
-                            icon: string | null;
-                        }[];
-                        order: number;
-                        slug: string;
-                        icon: string | null;
-                    }[];
+                    id: number;
                     order: number;
                     slug: string;
+                    children: {
+                        name: string;
+                        id: number;
+                        order: number;
+                        slug: string;
+                        children: {
+                            name: string;
+                            id: number;
+                            order: number;
+                            slug: string;
+                            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                            icon: string | null;
+                        }[];
+                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                        icon: string | null;
+                    }[];
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     icon: string | null;
                 }[];
                 meta: object;
@@ -7162,14 +7162,14 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 } | undefined;
                 output: {
                     rows: {
-                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                        name: string;
                         id: number;
                         createdAt: Date;
-                        name: string;
+                        slug: string;
                         _count: {
                             posts: number;
                         };
-                        slug: string;
+                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     }[];
                     total: number;
                     page: number;
@@ -7186,20 +7186,20 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 };
                 output: {
                     items: {
-                        status: string;
                         id: number;
                         createdAt: Date;
                         _count: {
                             replies: number;
                         };
-                        customerId: string | null;
-                        ipAddress: string | null;
                         parentId: number | null;
                         content: string;
+                        status: string;
+                        ipAddress: string | null;
+                        customerId: string | null;
                         postId: number | null;
-                        pageId: number | null;
                         authorName: string | null;
                         authorEmail: string | null;
+                        pageId: number | null;
                     }[];
                     total: number;
                     page: number;
@@ -7247,27 +7247,27 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     perPage?: number | undefined;
                 };
                 output: import("@flash-ship/ecom-lib").PaginatedResult<{
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     id: number;
                     createdAt: Date;
                     deletedAt: Date | null;
                     slug: string;
-                    isFeatured: boolean;
                     title: string;
-                    publishedAt: Date | null;
-                    views: number;
                     excerpt: string | null;
                     featuredImage: string | null;
+                    isFeatured: boolean;
+                    views: number;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     authorId: string;
+                    publishedAt: Date | null;
                     author: {
-                        id: string;
                         name: string | null;
+                        id: string;
                         avatarUrl: string | null;
                     };
                     categories: {
                         category: {
-                            id: number;
                             name: string;
+                            id: number;
                             slug: string;
                         };
                     }[];
@@ -7297,24 +7297,24 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
             list: import("@trpc/server").TRPCQueryProcedure<{
                 input: void;
                 output: ({
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    order: number;
+                    slug: string;
                     _count: {
                         children: number;
                     };
                     parentId: number | null;
-                    order: number;
-                    slug: string;
                     title: string;
-                    publishedAt: Date | null;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     authorId: string;
-                    author: {
-                        id: string;
-                        name: string | null;
-                    };
+                    publishedAt: Date | null;
                     template: string | null;
+                    author: {
+                        name: string | null;
+                        id: string;
+                    };
                 } & {
                     _translatedFrom?: string;
                 })[];
@@ -7334,10 +7334,10 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                         indexMode: string | null;
                     } | null;
                     title: string;
-                    publishedAt: Date | null;
                     content: string | null;
                     excerpt: string | null;
                     featuredImage: string | null;
+                    publishedAt: Date | null;
                     template: string | null;
                 } & {
                     _translatedFrom?: string;
@@ -7515,18 +7515,18 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 input: void;
                 output: {
                     flag: string | null;
-                    code: string;
-                    id: number;
                     name: string;
+                    id: number;
+                    code: string;
                 }[];
                 meta: object;
             }>;
             getTransportModes: import("@trpc/server").TRPCQueryProcedure<{
                 input: void;
                 output: {
-                    code: string;
-                    id: number;
                     name: string;
+                    id: number;
+                    code: string;
                 }[];
                 meta: object;
             }>;
@@ -7589,11 +7589,11 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     accessToken: string;
                     refreshToken: string;
                     customer: {
-                        email: string;
-                        id: string;
                         name: string | null;
-                        customerCode: string | null;
+                        id: string;
+                        email: string;
                         username: string;
+                        customerCode: string | null;
                     };
                 };
                 meta: object;
@@ -7631,43 +7631,43 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     accessToken?: string | undefined;
                 } | undefined;
                 output: {
-                    email: string;
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
-                    description: string | null;
+                    name: string | null;
                     id: string;
                     createdAt: Date;
-                    name: string | null;
-                    customerCode: string | null;
+                    updatedAt: Date;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+                    email: string;
                     username: string;
-                    usernameChangeCount: number;
-                    usernameChangedAt: Date | null;
                     phone: string | null;
                     avatarUrl: string | null;
                     emailVerified: Date | null;
+                    metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+                    description: string | null;
+                    customerCode: string | null;
+                    usernameChangeCount: number;
+                    usernameChangedAt: Date | null;
                     lastLoginAt: Date | null;
                     dob: Date | null;
                     gender: string | null;
-                    metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
-                    updatedAt: Date;
+                    groupId: number | null;
                     group: {
-                        code: string;
-                        id: number;
                         name: string;
+                        id: number;
+                        code: string;
                     } | null;
                     socialAccounts: {
-                        email: string | null;
+                        name: string | null;
                         id: number;
                         createdAt: Date;
-                        name: string | null;
+                        email: string | null;
                         provider: string;
                     }[];
                     activityLogs: {
                         id: number;
                         createdAt: Date;
-                        action: string;
                         ipAddress: string | null;
+                        action: string;
                     }[];
-                    groupId: number | null;
                 } | null;
                 meta: object;
             }>;
@@ -7678,14 +7678,14 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     name?: string | undefined;
                     phone?: string | undefined;
                     dob?: string | null | undefined;
-                    gender?: "male" | "female" | "other" | null | undefined;
+                    gender?: "other" | "male" | "female" | null | undefined;
                     description?: string | null | undefined;
                 };
                 output: {
-                    email: string;
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
-                    id: string;
                     name: string | null;
+                    id: string;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+                    email: string;
                     username: string;
                 };
                 meta: object;
@@ -7772,14 +7772,14 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     search?: string | undefined;
                 } | undefined;
                 output: {
-                    code: number;
-                    id: number;
-                    createdAt: Date;
                     name: string;
-                    updatedAt: Date;
+                    id: number;
+                    code: number;
                     divisionType: string;
                     codeName: string;
                     phoneCode: number;
+                    createdAt: Date;
+                    updatedAt: Date;
                 }[];
                 meta: object;
             }>;
@@ -7789,16 +7789,16 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     search?: string | undefined;
                 };
                 output: {
-                    code: number;
-                    id: number;
-                    createdAt: Date;
                     name: string;
-                    updatedAt: Date;
                     province: {
                         name: string;
                     };
+                    id: number;
+                    code: number;
                     divisionType: string;
                     codeName: string;
+                    createdAt: Date;
+                    updatedAt: Date;
                     provinceCode: number;
                 }[];
                 meta: object;
@@ -7809,21 +7809,21 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     limit?: number | undefined;
                 } | undefined;
                 output: {
-                    code: string;
-                    id: number;
-                    createdAt: Date;
                     name: string;
-                    updatedAt: Date;
+                    id: number;
+                    code: string;
                     divisionType: string;
+                    createdAt: Date;
+                    updatedAt: Date;
                     countryCode: string;
                     nameEn: string | null;
                     level: number;
                     parentId: number | null;
                     isActive: boolean;
                     parent: {
-                        code: string;
-                        id: number;
                         name: string;
+                        id: number;
+                        code: string;
                     } | null;
                 }[];
                 meta: object;
@@ -7835,21 +7835,21 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     limit?: number | undefined;
                 };
                 output: {
-                    code: string;
-                    id: number;
-                    createdAt: Date;
                     name: string;
-                    updatedAt: Date;
+                    id: number;
+                    code: string;
                     divisionType: string;
+                    createdAt: Date;
+                    updatedAt: Date;
                     countryCode: string;
                     nameEn: string | null;
                     level: number;
                     parentId: number | null;
                     isActive: boolean;
                     parent: {
-                        code: string;
-                        id: number;
                         name: string;
+                        id: number;
+                        code: string;
                     } | null;
                 }[];
                 meta: object;
@@ -7942,9 +7942,9 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     volumeWeight: number;
                     chargeableWeight: number;
                     dimensionText: string | null;
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
                     id: string;
                     createdAt: Date;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
                     orderCode: string;
                 };
                 meta: object;
@@ -7958,19 +7958,21 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     shippingMethod?: "EXPRESS" | "EPACKET" | undefined;
                     page?: number | undefined;
                     perPage?: number | undefined;
-                    sortBy?: "status" | "id" | "createdAt" | "orderCode" | undefined;
+                    sortBy?: "id" | "createdAt" | "status" | "orderCode" | undefined;
                     sortOrder?: "asc" | "desc" | undefined;
                 } | undefined;
                 output: import("@flash-ship/ecom-lib").PaginatedResult<{
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
                     id: string;
                     createdAt: Date;
                     customer: {
-                        email: string;
                         name: string | null;
+                        email: string;
                         username: string;
                     };
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
                     customerId: string;
+                    orderCode: string;
+                    labelStatus: import("@ecom/prisma/src/generated/prisma/client").$Enums.LabelStatus;
                     shippingMethod: import("@ecom/prisma/src/generated/prisma/client").$Enums.ShippingMethod;
                     shippingOrigin: import("@ecom/prisma/src/generated/prisma/client").$Enums.ShippingOrigin;
                     sellerOrderId: string | null;
@@ -7982,8 +7984,6 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     receiverCountry: string;
                     receiverZipCode: string;
                     declaredWeight: number;
-                    orderCode: string;
-                    labelStatus: import("@ecom/prisma/src/generated/prisma/client").$Enums.LabelStatus;
                     ecomTrackingNumber: string | null;
                     baseShippingFee: import("@prisma/client-runtime-utils").Decimal;
                     surchargeFee: import("@prisma/client-runtime-utils").Decimal;
@@ -8007,7 +8007,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     shippingMethod?: "EXPRESS" | "EPACKET" | undefined;
                     page?: number | undefined;
                     perPage?: number | undefined;
-                    sortBy?: "status" | "id" | "createdAt" | "orderCode" | undefined;
+                    sortBy?: "id" | "createdAt" | "status" | "orderCode" | undefined;
                     sortOrder?: "asc" | "desc" | undefined;
                 } | undefined;
                 output: {
@@ -8098,8 +8098,8 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     status?: "completed" | "failed" | undefined;
                 };
                 output: {
-                    status: string;
                     id: string;
+                    status: string;
                 };
                 meta: object;
             }>;
@@ -8115,9 +8115,9 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 output: {
                     total: number;
                     items: {
-                        status: string;
                         id: string;
                         createdAt: Date;
+                        status: string;
                         fileName: string;
                         fileSize: number | null;
                         totalRows: number;
@@ -8134,9 +8134,9 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: string;
                 };
                 output: {
-                    status: string;
                     id: string;
                     createdAt: Date;
+                    status: string;
                     customerId: string;
                     fileName: string;
                     fileSize: number | null;
@@ -8155,12 +8155,12 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 } | undefined;
                 output: {
                     items: {
-                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                        description: string | null;
+                        name: string;
                         id: number;
                         createdAt: Date;
-                        name: string;
                         updatedAt: Date;
+                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                        description: string | null;
                         image: string | null;
                     }[];
                     total: number;
@@ -8194,14 +8194,14 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 input: void;
                 output: {
                     id: string;
+                    createdAt: Date;
+                    expiresAt: Date | null;
+                    lastUsedAt: Date | null;
+                    label: string | null;
                     ownerId: string;
                     ownerType: string;
                     maskedKey: string;
-                    label: string | null;
                     allowedIps: string[];
-                    expiresAt: Date | null;
-                    lastUsedAt: Date | null;
-                    createdAt: Date;
                 }[];
                 meta: object;
             }>;
@@ -8249,22 +8249,22 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
             list: import("@trpc/server").TRPCQueryProcedure<{
                 input: void;
                 output: {
-                    url: string;
-                    id: number;
-                    ownerId: string | null;
-                    ownerType: string | null;
-                    createdAt: Date;
                     name: string;
+                    id: number;
+                    createdAt: Date;
                     _count: {
                         logs: number;
                     };
                     isActive: boolean;
+                    url: string;
                     secret: string | null;
                     oldSecret: string | null;
                     secretUpdatedAt: Date | null;
                     events: string[];
                     retries: number;
                     timeout: number;
+                    ownerId: string | null;
+                    ownerType: string | null;
                     failureCount: number;
                     apiVersion: string;
                 }[];
@@ -8278,8 +8278,8 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     apiVersion?: string | undefined;
                 };
                 output: {
-                    id: number;
                     name: string;
+                    id: number;
                     secret: string | null;
                 };
                 meta: object;
@@ -8319,12 +8319,12 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     error: string | null;
                     id: number;
                     createdAt: Date;
-                    success: boolean;
+                    statusCode: number | null;
+                    attempts: number;
                     event: string;
                     payload: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                     response: string | null;
-                    statusCode: number | null;
-                    attempts: number;
+                    success: boolean;
                 }[];
                 meta: object;
             }>;
@@ -8357,10 +8357,10 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 } | undefined;
                 output: {
                     items: {
-                        type: string;
                         link: string | null;
                         id: number;
                         createdAt: Date;
+                        type: string;
                         titleKey: string;
                         messageKey: string;
                         variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
@@ -8374,10 +8374,10 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     nextCursor: number | undefined;
                 } | {
                     items: {
-                        type: string;
                         link: string | null;
                         id: number;
                         createdAt: Date;
+                        type: string;
                         titleKey: string;
                         messageKey: string;
                         variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
@@ -8422,14 +8422,14 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     deviceInfo?: string | undefined;
                 };
                 output: {
-                    userId: string | null;
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    userId: string | null;
+                    deviceInfo: string | null;
                     customerId: string | null;
                     token: string;
                     platform: string;
-                    deviceInfo: string | null;
                 };
                 meta: object;
             }>;
@@ -8444,7 +8444,7 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 input: void;
                 output: {
                     eventType: string;
-                    category: "order" | "system" | "blog" | "account" | "wallet";
+                    category: "order" | "account" | "system" | "blog" | "wallet";
                     labelKey: string;
                     descriptionKey: string;
                     channels: {
@@ -8481,10 +8481,10 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     dndConfig?: Record<string, any> | undefined;
                 };
                 output: {
-                    userId: string | null;
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    userId: string | null;
                     customerId: string | null;
                     eventType: string;
                     channelInApp: boolean;
@@ -8518,19 +8518,19 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
             list: import("@trpc/server").TRPCQueryProcedure<{
                 input: void;
                 output: ({
-                    email: string | null;
-                    id: number;
-                    label: string | null;
-                    createdAt: Date;
                     name: string;
-                    phone: string | null;
+                    id: number;
+                    createdAt: Date;
                     updatedAt: Date;
                     ward: string | null;
                     country: string;
+                    email: string | null;
+                    phone: string | null;
                     isDefault: boolean;
+                    label: string | null;
+                    address: string;
                     city: string;
                     zipCode: string | null;
-                    address: string;
                 } & {
                     cityName: string;
                     wardName: string | null;
@@ -8551,19 +8551,19 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     isDefault?: boolean | undefined;
                 };
                 output: ({
-                    email: string | null;
-                    id: number;
-                    label: string | null;
-                    createdAt: Date;
                     name: string;
-                    phone: string | null;
+                    id: number;
+                    createdAt: Date;
                     updatedAt: Date;
                     ward: string | null;
                     country: string;
+                    email: string | null;
+                    phone: string | null;
                     isDefault: boolean;
+                    label: string | null;
+                    address: string;
                     city: string;
                     zipCode: string | null;
-                    address: string;
                 } & {
                     cityName: string;
                     wardName: string | null;
@@ -8587,19 +8587,19 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     };
                 };
                 output: ({
-                    email: string | null;
-                    id: number;
-                    label: string | null;
-                    createdAt: Date;
                     name: string;
-                    phone: string | null;
+                    id: number;
+                    createdAt: Date;
                     updatedAt: Date;
                     ward: string | null;
                     country: string;
+                    email: string | null;
+                    phone: string | null;
                     isDefault: boolean;
+                    label: string | null;
+                    address: string;
                     city: string;
                     zipCode: string | null;
-                    address: string;
                 } & {
                     cityName: string;
                     wardName: string | null;
@@ -8620,19 +8620,19 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    email: string | null;
-                    id: number;
-                    label: string | null;
-                    createdAt: Date;
                     name: string;
-                    phone: string | null;
+                    id: number;
+                    createdAt: Date;
                     updatedAt: Date;
                     ward: string | null;
                     country: string;
+                    email: string | null;
+                    phone: string | null;
                     isDefault: boolean;
+                    label: string | null;
+                    address: string;
                     city: string;
                     zipCode: string | null;
-                    address: string;
                 };
                 meta: object;
             }>;
@@ -8661,20 +8661,20 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 output: {
                     stateName: string;
                     cityName: string;
-                    email: string | null;
-                    id: number;
-                    label: string | null;
-                    createdAt: Date;
                     name: string;
-                    phone: string | null;
+                    id: number;
+                    createdAt: Date;
                     updatedAt: Date;
                     country: string;
+                    email: string | null;
+                    phone: string | null;
                     isDefault: boolean;
+                    label: string | null;
+                    city: string;
+                    zipCode: string;
                     address1: string;
                     address2: string | null;
-                    city: string;
                     state: string;
-                    zipCode: string;
                 }[];
                 meta: object;
             }>;
@@ -8693,20 +8693,20 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     isDefault?: boolean | undefined;
                 };
                 output: {
-                    email: string | null;
-                    id: number;
-                    label: string | null;
-                    createdAt: Date;
                     name: string;
-                    phone: string | null;
+                    id: number;
+                    createdAt: Date;
                     updatedAt: Date;
                     country: string;
+                    email: string | null;
+                    phone: string | null;
                     isDefault: boolean;
+                    label: string | null;
+                    city: string;
+                    zipCode: string;
                     address1: string;
                     address2: string | null;
-                    city: string;
                     state: string;
-                    zipCode: string;
                 };
                 meta: object;
             }>;
@@ -8728,20 +8728,20 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     };
                 };
                 output: {
-                    email: string | null;
-                    id: number;
-                    label: string | null;
-                    createdAt: Date;
                     name: string;
-                    phone: string | null;
+                    id: number;
+                    createdAt: Date;
                     updatedAt: Date;
                     country: string;
+                    email: string | null;
+                    phone: string | null;
                     isDefault: boolean;
+                    label: string | null;
+                    city: string;
+                    zipCode: string;
                     address1: string;
                     address2: string | null;
-                    city: string;
                     state: string;
-                    zipCode: string;
                 };
                 meta: object;
             }>;
@@ -8759,20 +8759,20 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                     id: number;
                 };
                 output: {
-                    email: string | null;
-                    id: number;
-                    label: string | null;
-                    createdAt: Date;
                     name: string;
-                    phone: string | null;
+                    id: number;
+                    createdAt: Date;
                     updatedAt: Date;
                     country: string;
+                    email: string | null;
+                    phone: string | null;
                     isDefault: boolean;
+                    label: string | null;
+                    city: string;
+                    zipCode: string;
                     address1: string;
                     address2: string | null;
-                    city: string;
                     state: string;
-                    zipCode: string;
                 };
                 meta: object;
             }>;
@@ -8801,15 +8801,15 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 output: {
                     length: number | null;
                     id: number;
-                    label: string | null;
                     createdAt: Date;
                     updatedAt: Date;
-                    weight: number;
-                    packingTypeId: number | null;
-                    width: number | null;
                     isDefault: boolean;
+                    packingTypeId: number | null;
+                    label: string | null;
                     packageName: string;
+                    width: number | null;
                     height: number | null;
+                    weight: number;
                 }[];
                 meta: object;
             }>;
@@ -8827,15 +8827,15 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 output: {
                     length: number | null;
                     id: number;
-                    label: string | null;
                     createdAt: Date;
                     updatedAt: Date;
-                    weight: number;
-                    packingTypeId: number | null;
-                    width: number | null;
                     isDefault: boolean;
+                    packingTypeId: number | null;
+                    label: string | null;
                     packageName: string;
+                    width: number | null;
                     height: number | null;
+                    weight: number;
                 };
                 meta: object;
             }>;
@@ -8856,15 +8856,15 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 output: {
                     length: number | null;
                     id: number;
-                    label: string | null;
                     createdAt: Date;
                     updatedAt: Date;
-                    weight: number;
-                    packingTypeId: number | null;
-                    width: number | null;
                     isDefault: boolean;
+                    packingTypeId: number | null;
+                    label: string | null;
                     packageName: string;
+                    width: number | null;
                     height: number | null;
+                    weight: number;
                 };
                 meta: object;
             }>;
@@ -8884,15 +8884,15 @@ export declare const appRouter: import("@trpc/server").TRPCBuiltRouter<{
                 output: {
                     length: number | null;
                     id: number;
-                    label: string | null;
                     createdAt: Date;
                     updatedAt: Date;
-                    weight: number;
-                    packingTypeId: number | null;
-                    width: number | null;
                     isDefault: boolean;
+                    packingTypeId: number | null;
+                    label: string | null;
                     packageName: string;
+                    width: number | null;
                     height: number | null;
+                    weight: number;
                 };
                 meta: object;
             }>;
@@ -8974,13 +8974,13 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 locale?: "vi" | "en" | undefined;
             };
             output: {
-                email: string;
-                locale: string | null;
-                id: string;
                 name: string | null;
+                id: string;
+                email: string;
                 username: string | null;
                 phone: string | null;
                 avatarUrl: string | null;
+                locale: string | null;
             };
             meta: object;
         }>;
@@ -9039,7 +9039,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             input: {
                 filters?: {
                     fieldKey: string;
-                    operator: "endsWith" | "startsWith" | "contains" | "equals" | "notContains" | "notEquals" | "between" | "betweenInclusive" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "empty" | "notEmpty";
+                    operator: "endsWith" | "startsWith" | "contains" | "notContains" | "equals" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "notEquals" | "between" | "betweenInclusive" | "empty" | "notEmpty";
                     value: string;
                     value2?: string | undefined;
                 }[] | undefined;
@@ -9052,32 +9052,32 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 page?: number | undefined;
                 pageSize?: number | undefined;
                 perPage?: number | undefined;
-                sortBy?: "status" | "id" | "createdAt" | "title" | "publishedAt" | "views" | undefined;
+                sortBy?: "id" | "createdAt" | "title" | "views" | "status" | "publishedAt" | undefined;
                 sortOrder?: "asc" | "desc" | undefined;
                 sortDir?: "asc" | "desc" | undefined;
             } | undefined;
             output: import("@flash-ship/ecom-lib").PaginatedResult<{
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 id: number;
                 createdAt: Date;
                 deletedAt: Date | null;
                 slug: string;
-                isFeatured: boolean;
                 title: string;
-                publishedAt: Date | null;
-                views: number;
                 excerpt: string | null;
                 featuredImage: string | null;
+                isFeatured: boolean;
+                views: number;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 authorId: string;
+                publishedAt: Date | null;
                 author: {
-                    id: string;
                     name: string | null;
+                    id: string;
                     avatarUrl: string | null;
                 };
                 categories: {
                     category: {
-                        id: number;
                         name: string;
+                        id: number;
                         slug: string;
                     };
                 }[];
@@ -9246,40 +9246,40 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             input: {
                 filters?: {
                     fieldKey: string;
-                    operator: "endsWith" | "startsWith" | "contains" | "equals" | "notContains" | "notEquals" | "between" | "betweenInclusive" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "empty" | "notEmpty";
+                    operator: "endsWith" | "startsWith" | "contains" | "notContains" | "equals" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "notEquals" | "between" | "betweenInclusive" | "empty" | "notEmpty";
                     value: string;
                     value2?: string | undefined;
                 }[] | undefined;
                 search?: string | undefined;
-                status?: "DRAFT" | "PENDING" | "REJECTED" | "PUBLISHED" | "REVIEW" | "ARCHIVED" | undefined;
+                status?: "DRAFT" | "PENDING" | "REVIEW" | "REJECTED" | "PUBLISHED" | "ARCHIVED" | undefined;
                 parentId?: number | null | undefined;
                 page?: number | undefined;
                 pageSize?: number | undefined;
                 perPage?: number | undefined;
-                sortBy?: "status" | "id" | "createdAt" | "order" | "title" | undefined;
+                sortBy?: "id" | "createdAt" | "order" | "title" | "status" | undefined;
                 sortDir?: "asc" | "desc" | undefined;
                 sortOrder?: "asc" | "desc" | undefined;
             } | undefined;
             output: {
                 data: {
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    order: number;
+                    slug: string;
                     _count: {
                         children: number;
                     };
                     parentId: number | null;
-                    order: number;
-                    slug: string;
                     title: string;
-                    publishedAt: Date | null;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     authorId: string;
-                    author: {
-                        id: string;
-                        name: string | null;
-                    };
+                    publishedAt: Date | null;
                     template: string | null;
+                    author: {
+                        name: string | null;
+                        id: string;
+                    };
                 }[];
                 meta: {
                     total: number;
@@ -9295,26 +9295,21 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 id: number;
                 createdAt: Date;
-                deletedAt: Date | null;
                 updatedAt: Date;
-                parentId: number | null;
+                deletedAt: Date | null;
                 order: number;
                 slug: string;
+                parentId: number | null;
                 title: string;
-                publishedAt: Date | null;
                 content: string | null;
                 excerpt: string | null;
                 featuredImage: string | null;
                 bannerImage: string | null;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 authorId: string;
-                author: {
-                    email: string;
-                    id: string;
-                    name: string | null;
-                };
+                publishedAt: Date | null;
                 template: string | null;
                 heroBanner: string | null;
                 layout: string | null;
@@ -9326,6 +9321,11 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 subtitle: string | null;
                 ctaText: string | null;
                 ctaLink: string | null;
+                author: {
+                    name: string | null;
+                    id: string;
+                    email: string;
+                };
             };
             meta: object;
         }>;
@@ -9339,7 +9339,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 template?: string | undefined;
                 order?: number | undefined;
                 parentId?: number | undefined;
-                status?: "DRAFT" | "PENDING" | "REJECTED" | "PUBLISHED" | "REVIEW" | "ARCHIVED" | undefined;
+                status?: "DRAFT" | "PENDING" | "REVIEW" | "REJECTED" | "PUBLISHED" | "ARCHIVED" | undefined;
                 scheduledAt?: string | null | undefined;
                 bannerImage?: string | undefined;
                 heroBanner?: string | undefined;
@@ -9354,10 +9354,10 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 ctaLink?: string | undefined;
             };
             output: {
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 id: number;
                 slug: string;
                 title: string;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
             };
             meta: object;
         }>;
@@ -9372,7 +9372,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 template?: string | undefined;
                 order?: number | undefined;
                 parentId?: number | null | undefined;
-                status?: "DRAFT" | "PENDING" | "REJECTED" | "PUBLISHED" | "REVIEW" | "ARCHIVED" | undefined;
+                status?: "DRAFT" | "PENDING" | "REVIEW" | "REJECTED" | "PUBLISHED" | "ARCHIVED" | undefined;
                 scheduledAt?: string | null | undefined;
                 bannerImage?: string | undefined;
                 heroBanner?: string | undefined;
@@ -9387,10 +9387,10 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 ctaLink?: string | undefined;
             };
             output: {
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 id: number;
                 slug: string;
                 title: string;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
             };
             meta: object;
         }>;
@@ -9399,21 +9399,21 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 id: number;
                 createdAt: Date;
-                deletedAt: Date | null;
                 updatedAt: Date;
-                parentId: number | null;
+                deletedAt: Date | null;
                 order: number;
                 slug: string;
+                parentId: number | null;
                 title: string;
-                publishedAt: Date | null;
                 content: string | null;
                 excerpt: string | null;
                 featuredImage: string | null;
                 bannerImage: string | null;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 authorId: string;
+                publishedAt: Date | null;
                 scheduledAt: Date | null;
                 template: string | null;
                 heroBanner: string | null;
@@ -9438,11 +9438,11 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 createdAt: Date;
                 title: string;
                 authorId: string;
-                author: {
-                    id: string;
-                    name: string | null;
-                };
                 note: string | null;
+                author: {
+                    name: string | null;
+                    id: string;
+                };
             }[];
             meta: object;
         }>;
@@ -9453,16 +9453,16 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             output: {
                 id: number;
                 createdAt: Date;
-                referenceId: number;
-                referenceType: string;
                 title: string;
                 content: string | null;
                 authorId: string;
-                author: {
-                    id: string;
-                    name: string | null;
-                };
+                referenceId: number;
+                referenceType: string;
                 note: string | null;
+                author: {
+                    name: string | null;
+                    id: string;
+                };
             };
             meta: object;
         }>;
@@ -9490,14 +9490,14 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             input: {
                 filters?: {
                     fieldKey: string;
-                    operator: "endsWith" | "startsWith" | "contains" | "equals" | "notContains" | "notEquals" | "between" | "betweenInclusive" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "empty" | "notEmpty";
+                    operator: "endsWith" | "startsWith" | "contains" | "notContains" | "equals" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "notEquals" | "between" | "betweenInclusive" | "empty" | "notEmpty";
                     value: string;
                     value2?: string | undefined;
                 }[] | undefined;
                 search?: string | undefined;
                 page?: number | undefined;
                 pageSize?: number | undefined;
-                sortBy?: "status" | "id" | "createdAt" | "name" | "order" | undefined;
+                sortBy?: "name" | "id" | "createdAt" | "order" | "status" | undefined;
                 sortDir?: "asc" | "desc" | undefined;
             } | undefined;
             output: {
@@ -9512,27 +9512,27 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
         tree: import("@trpc/server").TRPCQueryProcedure<{
             input: void;
             output: {
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                id: number;
                 name: string;
-                children: {
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                    id: number;
-                    name: string;
-                    children: {
-                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                        id: number;
-                        name: string;
-                        order: number;
-                        slug: string;
-                        icon: string | null;
-                    }[];
-                    order: number;
-                    slug: string;
-                    icon: string | null;
-                }[];
+                id: number;
                 order: number;
                 slug: string;
+                children: {
+                    name: string;
+                    id: number;
+                    order: number;
+                    slug: string;
+                    children: {
+                        name: string;
+                        id: number;
+                        order: number;
+                        slug: string;
+                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                        icon: string | null;
+                    }[];
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                    icon: string | null;
+                }[];
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 icon: string | null;
             }[];
             meta: object;
@@ -9613,26 +9613,26 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             input: {
                 filters?: {
                     fieldKey: string;
-                    operator: "endsWith" | "startsWith" | "contains" | "equals" | "notContains" | "notEquals" | "between" | "betweenInclusive" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "empty" | "notEmpty";
+                    operator: "endsWith" | "startsWith" | "contains" | "notContains" | "equals" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "notEquals" | "between" | "betweenInclusive" | "empty" | "notEmpty";
                     value: string;
                     value2?: string | undefined;
                 }[] | undefined;
                 search?: string | undefined;
                 page?: number | undefined;
                 pageSize?: number | undefined;
-                sortBy?: "status" | "id" | "createdAt" | "name" | undefined;
+                sortBy?: "name" | "id" | "createdAt" | "status" | undefined;
                 sortDir?: "asc" | "desc" | undefined;
             } | undefined;
             output: {
                 rows: {
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
+                    slug: string;
                     _count: {
                         posts: number;
                     };
-                    slug: string;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 }[];
                 total: number;
                 page: number;
@@ -9646,23 +9646,23 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                description: string | null;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
                 updatedAt: Date;
+                slug: string;
                 _count: {
                     posts: number;
                 };
-                slug: string;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 authorId: string | null;
                 translations: {
-                    description: string | null;
-                    id: number;
                     name: string;
+                    id: number;
                     langCode: string;
+                    description: string | null;
                 }[];
+                description: string | null;
                 authorType: string;
             };
             meta: object;
@@ -9675,12 +9675,12 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 status?: "DRAFT" | "PENDING" | "PUBLISHED" | undefined;
             };
             output: {
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                description: string | null;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
                 slug: string;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                description: string | null;
             };
             meta: object;
         }>;
@@ -9693,23 +9693,23 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 status?: "DRAFT" | "PENDING" | "PUBLISHED" | undefined;
             };
             output: {
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                description: string | null;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
                 updatedAt: Date;
+                slug: string;
                 _count: {
                     posts: number;
                 };
-                slug: string;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 authorId: string | null;
                 translations: {
-                    description: string | null;
-                    id: number;
                     name: string;
+                    id: number;
                     langCode: string;
+                    description: string | null;
                 }[];
+                description: string | null;
                 authorType: string;
             } | null;
             meta: object;
@@ -9719,13 +9719,13 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                description: string | null;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
                 updatedAt: Date;
                 slug: string;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                description: string | null;
             };
             meta: object;
         }>;
@@ -9734,13 +9734,13 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                description: string | null;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
                 updatedAt: Date;
                 slug: string;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                description: string | null;
             };
             meta: object;
         }>;
@@ -9798,16 +9798,16 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                     search?: string | undefined;
                 } | undefined;
                 output: {
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
                     updatedAt: Date;
+                    slug: string;
                     _count: {
                         children: number;
                         files: number;
                     };
                     parentId: number | null;
-                    slug: string;
                 }[];
                 meta: object;
             }>;
@@ -9816,43 +9816,43 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                     id: number;
                 };
                 output: {
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
                     updatedAt: Date;
+                    slug: string;
                     _count: {
                         children: number;
                         files: number;
                     };
                     parentId: number | null;
                     children: {
-                        id: number;
                         name: string;
+                        id: number;
                         slug: string;
                     }[];
-                    slug: string;
                 };
                 meta: object;
             }>;
             tree: import("@trpc/server").TRPCQueryProcedure<{
                 input: void;
                 output: {
-                    id: number;
                     name: string;
+                    id: number;
+                    slug: string;
                     _count: {
                         files: number;
                     };
                     children: {
-                        id: number;
                         name: string;
+                        id: number;
+                        slug: string;
                         children: {
-                            id: number;
                             name: string;
+                            id: number;
                             slug: string;
                         }[];
-                        slug: string;
                     }[];
-                    slug: string;
                 }[];
                 meta: object;
             }>;
@@ -9863,11 +9863,11 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                     parentId?: number | null | undefined;
                 };
                 output: {
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
-                    parentId: number | null;
                     slug: string;
+                    parentId: number | null;
                 };
                 meta: object;
             }>;
@@ -9879,11 +9879,11 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                     parentId?: number | null | undefined;
                 };
                 output: {
-                    id: number;
                     name: string;
+                    id: number;
                     updatedAt: Date;
-                    parentId: number | null;
                     slug: string;
+                    parentId: number | null;
                 };
                 meta: object;
             }>;
@@ -9893,13 +9893,13 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                     force?: boolean | undefined;
                 };
                 output: {
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
-                    deletedAt: Date | null;
                     updatedAt: Date;
-                    parentId: number | null;
+                    deletedAt: Date | null;
                     slug: string;
+                    parentId: number | null;
                     color: string | null;
                     isFavorite: boolean;
                 };
@@ -9932,23 +9932,23 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                     search?: string | undefined;
                     page?: number | undefined;
                     perPage?: number | undefined;
-                    sortBy?: "createdAt" | "name" | "size" | undefined;
+                    sortBy?: "name" | "createdAt" | "size" | undefined;
                     sortOrder?: "asc" | "desc" | undefined;
                 } | undefined;
                 output: {
                     data: {
-                        url: string;
+                        name: string;
                         id: number;
                         createdAt: Date;
-                        name: string;
+                        url: string;
                         fileName: string;
                         width: number | null;
-                        size: number;
                         height: number | null;
-                        folderId: number | null;
                         mimeType: string;
+                        size: number;
                         disk: string;
                         alt: string | null;
+                        folderId: number | null;
                         uploadedBy: string | null;
                     }[];
                     meta: {
@@ -9965,24 +9965,24 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                     id: number;
                 };
                 output: {
-                    url: string;
-                    description: string | null;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
                     updatedAt: Date;
+                    url: string;
+                    description: string | null;
                     fileName: string;
                     width: number | null;
-                    size: number;
                     height: number | null;
-                    folderId: number | null;
                     mimeType: string;
+                    size: number;
                     disk: string;
                     alt: string | null;
+                    folderId: number | null;
                     uploadedBy: string | null;
                     folder: {
-                        id: number;
                         name: string;
+                        id: number;
                         slug: string;
                     } | null;
                 };
@@ -9997,18 +9997,18 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                     folderId?: number | null | undefined;
                 };
                 output: {
+                    name: string;
+                    id: number;
+                    updatedAt: Date;
                     url: string;
                     description: string | null;
-                    id: number;
-                    name: string;
-                    updatedAt: Date;
                     fileName: string;
                     width: number | null;
-                    size: number;
                     height: number | null;
-                    folderId: number | null;
                     mimeType: string;
+                    size: number;
                     alt: string | null;
+                    folderId: number | null;
                 };
                 meta: object;
             }>;
@@ -10017,25 +10017,25 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                     id: number;
                 };
                 output: {
-                    url: string;
-                    description: string | null;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
-                    deletedAt: Date | null;
                     updatedAt: Date;
+                    deletedAt: Date | null;
+                    url: string;
+                    description: string | null;
                     fileName: string;
                     width: number | null;
-                    size: number;
                     height: number | null;
-                    folderId: number | null;
+                    isFavorite: boolean;
                     mimeType: string;
+                    size: number;
                     disk: string;
                     alt: string | null;
+                    folderId: number | null;
                     uploadedBy: string | null;
                     visibility: string;
                     accessMode: string | null;
-                    isFavorite: boolean;
                 };
                 meta: object;
             }>;
@@ -10086,15 +10086,15 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
         list: import("@trpc/server").TRPCQueryProcedure<{
             input: void;
             output: {
-                description: string | null;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
                 updatedAt: Date;
                 _count: {
                     permissions: number;
                     users: number;
                 };
+                description: string | null;
                 displayName: string | null;
             }[];
             meta: object;
@@ -10104,19 +10104,19 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: unknown;
             };
             output: {
-                description: string | null;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
                 updatedAt: Date;
                 _count: {
                     users: number;
                 };
+                description: string | null;
                 displayName: string | null;
                 permissions: {
                     permission: {
-                        id: number;
                         name: string;
+                        id: number;
                         group: string | null;
                         displayName: string | null;
                     };
@@ -10131,9 +10131,9 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 description?: string | undefined;
             };
             output: {
-                description: string | null;
-                id: number;
                 name: string;
+                id: number;
+                description: string | null;
                 displayName: string | null;
             };
             meta: object;
@@ -10145,9 +10145,9 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 description?: string | undefined;
             };
             output: {
-                description: string | null;
-                id: number;
                 name: string;
+                id: number;
+                description: string | null;
                 displayName: string | null;
             };
             meta: object;
@@ -10157,11 +10157,11 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: unknown;
             };
             output: {
-                description: string | null;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
                 updatedAt: Date;
+                description: string | null;
                 displayName: string | null;
             };
             meta: object;
@@ -10172,19 +10172,19 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 permissionIds: unknown[];
             };
             output: {
-                description: string | null;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
                 updatedAt: Date;
                 _count: {
                     users: number;
                 };
+                description: string | null;
                 displayName: string | null;
                 permissions: {
                     permission: {
-                        id: number;
                         name: string;
+                        id: number;
                         group: string | null;
                         displayName: string | null;
                     };
@@ -10196,8 +10196,8 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             input: void;
             output: {
                 [k: string]: {
-                    id: number;
                     name: string;
+                    id: number;
                     group: string | null;
                     displayName: string | null;
                 }[];
@@ -10227,7 +10227,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
         list: import("@trpc/server").TRPCQueryProcedure<{
             input: {
                 search?: string | undefined;
-                status?: "ACTIVE" | "BANNED" | "SUSPENDED" | undefined;
+                status?: "ACTIVE" | "SUSPENDED" | "BANNED" | undefined;
                 page?: number | undefined;
                 perPage?: number | undefined;
             } | undefined;
@@ -10270,7 +10270,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 phone?: string | null | undefined;
                 avatarUrl?: string | undefined;
                 locale?: string | undefined;
-                status?: "ACTIVE" | "BANNED" | "SUSPENDED" | undefined;
+                status?: "ACTIVE" | "SUSPENDED" | "BANNED" | undefined;
             };
             output: import("@ecom/features/rbac/transformers/UserTransformer").UserResponseDto;
             meta: object;
@@ -10332,27 +10332,27 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             input: {
                 filters?: {
                     fieldKey: string;
-                    operator: "endsWith" | "startsWith" | "contains" | "equals" | "notContains" | "notEquals" | "between" | "betweenInclusive" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "empty" | "notEmpty";
+                    operator: "endsWith" | "startsWith" | "contains" | "notContains" | "equals" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "notEquals" | "between" | "betweenInclusive" | "empty" | "notEmpty";
                     value: string;
                     value2?: string | undefined;
                 }[] | undefined;
                 search?: string | undefined;
-                sortBy?: "status" | "id" | "createdAt" | "title" | undefined;
+                sortBy?: "id" | "createdAt" | "title" | "status" | undefined;
                 sortDir?: "asc" | "desc" | undefined;
                 page?: number | undefined;
                 pageSize?: number | undefined;
             };
             output: {
                 rows: {
-                    status: string;
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    order: number;
                     _count: {
                         items: number;
                     };
-                    order: number;
                     title: string;
+                    status: string;
                     rules: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                 }[];
                 total: number;
@@ -10364,25 +10364,25 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                status: string;
                 id: number;
                 createdAt: Date;
                 updatedAt: Date;
+                order: number;
+                title: string;
+                status: string;
+                rules: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                 items: {
-                    type: string;
+                    options: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                     id: number;
-                    parentId: number | null;
                     order: number;
                     slug: string;
-                    options: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+                    parentId: number | null;
                     title: string;
+                    type: string;
                     placeholder: string | null;
                     instructions: string | null;
                     defaultValue: string | null;
                 }[];
-                order: number;
-                title: string;
-                rules: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
             };
             meta: object;
         }>;
@@ -10426,12 +10426,12 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                status: string;
                 id: number;
                 createdAt: Date;
                 updatedAt: Date;
                 order: number;
                 title: string;
+                status: string;
                 rules: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
             };
             meta: object;
@@ -10441,25 +10441,25 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                status: string;
                 id: number;
                 createdAt: Date;
                 updatedAt: Date;
+                order: number;
+                title: string;
+                status: string;
+                rules: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                 items: {
-                    type: string;
+                    options: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                     id: number;
-                    parentId: number | null;
                     order: number;
                     slug: string;
-                    options: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+                    parentId: number | null;
                     title: string;
+                    type: string;
                     placeholder: string | null;
                     instructions: string | null;
                     defaultValue: string | null;
                 }[];
-                order: number;
-                title: string;
-                rules: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
             } | null;
             meta: object;
         }>;
@@ -10471,15 +10471,15 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 postFormat?: string | undefined;
             };
             output: {
-                status: string;
                 id: number;
                 createdAt: Date;
                 updatedAt: Date;
+                order: number;
                 _count: {
                     items: number;
                 };
-                order: number;
                 title: string;
+                status: string;
                 rules: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
             }[];
             meta: object;
@@ -10505,7 +10505,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 groupId: number;
                 slug: string;
                 title: string;
-                type: "number" | "email" | "url" | "select" | "date" | "file" | "image" | "color" | "text" | "textarea" | "checkbox" | "radio" | "wysiwyg" | "repeater";
+                type: "number" | "select" | "email" | "url" | "image" | "color" | "text" | "date" | "file" | "textarea" | "checkbox" | "radio" | "wysiwyg" | "repeater";
                 placeholder?: string | undefined;
                 instructions?: string | undefined;
                 options?: {
@@ -10517,10 +10517,10 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 parentId?: number | undefined;
             };
             output: {
-                type: string;
                 id: number;
                 slug: string;
                 title: string;
+                type: string;
             };
             meta: object;
         }>;
@@ -10529,7 +10529,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
                 slug?: string | undefined;
                 title?: string | undefined;
-                type?: "number" | "email" | "url" | "select" | "date" | "file" | "image" | "color" | "text" | "textarea" | "checkbox" | "radio" | "wysiwyg" | "repeater" | undefined;
+                type?: "number" | "select" | "email" | "url" | "image" | "color" | "text" | "date" | "file" | "textarea" | "checkbox" | "radio" | "wysiwyg" | "repeater" | undefined;
                 placeholder?: string | undefined;
                 instructions?: string | undefined;
                 options?: {
@@ -10541,10 +10541,10 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 parentId?: number | null | undefined;
             };
             output: {
-                type: string;
                 id: number;
                 slug: string;
                 title: string;
+                type: string;
             };
             meta: object;
         }>;
@@ -10553,16 +10553,16 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                type: string;
+                options: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                 id: number;
                 createdAt: Date;
                 updatedAt: Date;
-                groupId: number;
-                parentId: number | null;
                 order: number;
                 slug: string;
-                options: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
+                parentId: number | null;
                 title: string;
+                type: string;
+                groupId: number;
                 placeholder: string | null;
                 instructions: string | null;
                 defaultValue: string | null;
@@ -10704,14 +10704,14 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
         list: import("@trpc/server").TRPCQueryProcedure<{
             input: void;
             output: {
-                code: string;
-                locale: string;
-                id: number;
-                createdAt: Date;
                 name: string;
+                id: number;
+                code: string;
+                createdAt: Date;
                 updatedAt: Date;
-                isActive: boolean;
                 order: number;
+                isActive: boolean;
+                locale: string;
                 isDefault: boolean;
                 flag: string | null;
                 isRtl: boolean;
@@ -10728,14 +10728,14 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                code: string;
-                locale: string;
-                id: number;
-                createdAt: Date;
                 name: string;
+                id: number;
+                code: string;
+                createdAt: Date;
                 updatedAt: Date;
-                isActive: boolean;
                 order: number;
+                isActive: boolean;
+                locale: string;
                 isDefault: boolean;
                 flag: string | null;
                 isRtl: boolean;
@@ -10757,14 +10757,14 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 order?: number | undefined;
             };
             output: {
-                code: string;
-                locale: string;
-                id: number;
-                createdAt: Date;
                 name: string;
+                id: number;
+                code: string;
+                createdAt: Date;
                 updatedAt: Date;
-                isActive: boolean;
                 order: number;
+                isActive: boolean;
+                locale: string;
                 isDefault: boolean;
                 flag: string | null;
                 isRtl: boolean;
@@ -10783,14 +10783,14 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 isActive?: boolean | undefined;
             };
             output: {
-                code: string;
-                locale: string;
-                id: number;
-                createdAt: Date;
                 name: string;
+                id: number;
+                code: string;
+                createdAt: Date;
                 updatedAt: Date;
-                isActive: boolean;
                 order: number;
+                isActive: boolean;
+                locale: string;
                 isDefault: boolean;
                 flag: string | null;
                 isRtl: boolean;
@@ -10811,14 +10811,14 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                code: string;
-                locale: string;
-                id: number;
-                createdAt: Date;
                 name: string;
+                id: number;
+                code: string;
+                createdAt: Date;
                 updatedAt: Date;
-                isActive: boolean;
                 order: number;
+                isActive: boolean;
+                locale: string;
                 isDefault: boolean;
                 flag: string | null;
                 isRtl: boolean;
@@ -10832,17 +10832,17 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             };
             output: {
                 id: number;
-                referenceId: number;
-                referenceType: string;
                 language: {
+                    name: string;
+                    id: number;
                     code: string;
                     locale: string;
-                    id: number;
-                    name: string;
                     flag: string | null;
                 };
-                origin: string;
+                referenceId: number;
+                referenceType: string;
                 langCode: string;
+                origin: string;
             }[];
             meta: object;
         }>;
@@ -10857,8 +10857,8 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
                 referenceId: number;
                 referenceType: string;
-                origin: string;
                 langCode: string;
+                origin: string;
             };
             meta: object;
         }>;
@@ -11472,7 +11472,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             input: {
                 filters?: {
                     fieldKey: string;
-                    operator: "endsWith" | "startsWith" | "contains" | "equals" | "notContains" | "notEquals" | "between" | "betweenInclusive" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "empty" | "notEmpty";
+                    operator: "endsWith" | "startsWith" | "contains" | "notContains" | "equals" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "notEquals" | "between" | "betweenInclusive" | "empty" | "notEmpty";
                     value: string;
                     value2?: string | undefined;
                 }[] | undefined;
@@ -11483,22 +11483,22 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             };
             output: {
                 items: {
-                    user: {
-                        email: string;
-                        id: string;
-                        name: string | null;
-                        avatarUrl: string | null;
-                    } | null;
                     id: number;
                     createdAt: Date;
-                    metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
-                    action: string;
+                    user: {
+                        name: string | null;
+                        id: string;
+                        email: string;
+                        avatarUrl: string | null;
+                    } | null;
                     ipAddress: string | null;
+                    action: string;
                     module: string;
                     entityId: string | null;
                     entityType: string | null;
                     oldValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                     newValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+                    metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                 }[];
                 total: number;
                 page: number;
@@ -11512,23 +11512,23 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                user: {
-                    email: string;
-                    id: string;
-                    name: string | null;
-                    avatarUrl: string | null;
-                } | null;
-                userAgent: string | null;
                 id: number;
                 createdAt: Date;
-                metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
-                action: string;
+                user: {
+                    name: string | null;
+                    id: string;
+                    email: string;
+                    avatarUrl: string | null;
+                } | null;
                 ipAddress: string | null;
+                userAgent: string | null;
+                action: string;
                 module: string;
                 entityId: string | null;
                 entityType: string | null;
                 oldValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                 newValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+                metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
             } | null;
             meta: object;
         }>;
@@ -11549,18 +11549,18 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                userAgent: string | null;
-                userId: string | null;
                 id: number;
                 createdAt: Date;
-                metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
-                action: string;
+                userId: string | null;
                 ipAddress: string | null;
+                userAgent: string | null;
+                action: string;
                 module: string;
                 entityId: string | null;
                 entityType: string | null;
                 oldValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                 newValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
+                metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
             };
             meta: object;
         }>;
@@ -11600,31 +11600,31 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             input: {
                 filters?: {
                     fieldKey: string;
-                    operator: "endsWith" | "startsWith" | "contains" | "equals" | "notContains" | "notEquals" | "between" | "betweenInclusive" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "empty" | "notEmpty";
+                    operator: "endsWith" | "startsWith" | "contains" | "notContains" | "equals" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "notEquals" | "between" | "betweenInclusive" | "empty" | "notEmpty";
                     value: string;
                     value2?: string | undefined;
                 }[] | undefined;
                 search?: string | undefined;
                 page?: number | undefined;
                 pageSize?: number | undefined;
-                sortBy?: "duration" | "id" | "createdAt" | "statusCode" | undefined;
+                sortBy?: "id" | "createdAt" | "statusCode" | "duration" | undefined;
                 sortDir?: "asc" | "desc" | undefined;
             };
             output: {
                 items: {
-                    url: string;
-                    user: {
-                        email: string;
-                        id: string;
-                        name: string | null;
-                    } | null;
-                    userAgent: string | null;
-                    duration: number | null;
                     id: number;
                     createdAt: Date;
+                    user: {
+                        name: string | null;
+                        id: string;
+                        email: string;
+                    } | null;
                     ipAddress: string | null;
-                    statusCode: number | null;
+                    userAgent: string | null;
                     method: string;
+                    url: string;
+                    statusCode: number | null;
+                    duration: number | null;
                     referer: string | null;
                 }[];
                 total: number;
@@ -11659,16 +11659,16 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                url: string;
-                userAgent: string | null;
-                userId: string | null;
-                duration: number | null;
                 id: number;
                 createdAt: Date;
-                metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
+                userId: string | null;
                 ipAddress: string | null;
-                statusCode: number | null;
+                userAgent: string | null;
+                metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                 method: string;
+                url: string;
+                statusCode: number | null;
+                duration: number | null;
                 referer: string | null;
             };
             meta: object;
@@ -11737,11 +11737,11 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                     totalSize: number;
                 };
                 recentPosts: {
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     id: number;
                     createdAt: Date;
                     slug: string;
                     title: string;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 }[];
                 popularPosts: {
                     id: number;
@@ -11770,8 +11770,8 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
                 slug: string;
                 title: string;
-                publishedAt: Date | null;
                 views: number;
+                publishedAt: Date | null;
             }[];
             meta: object;
         }>;
@@ -11855,10 +11855,10 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
         }>;
         clearCache: import("@trpc/server").TRPCMutationProcedure<{
             input: {
-                namespace: "category" | "permissions" | "settings" | "all" | "ratelimit";
+                namespace: "settings" | "category" | "permissions" | "all" | "ratelimit";
             };
             output: {
-                namespace: "category" | "permissions" | "settings" | "all" | "ratelimit";
+                namespace: "settings" | "category" | "permissions" | "all" | "ratelimit";
                 cleared: number;
             };
             meta: object;
@@ -11910,7 +11910,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
         }>;
         queryRedis: import("@trpc/server").TRPCQueryProcedure<{
             input: {
-                action: "get" | "scan" | "del";
+                action: "scan" | "get" | "del";
                 sudoPassword: string;
                 maintenanceKey: string;
                 pattern?: string | undefined;
@@ -12021,7 +12021,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
     }, import("@trpc/server").TRPCDecorateCreateRouterOptions<{
         list: import("@trpc/server").TRPCQueryProcedure<{
             input: {
-                status?: "ACTIVE" | "INACTIVE" | "BANNED" | undefined;
+                status?: "ACTIVE" | "BANNED" | "INACTIVE" | undefined;
                 search?: string | undefined;
                 page?: number | undefined;
                 perPage?: number | undefined;
@@ -12030,27 +12030,27 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             };
             output: {
                 items: {
-                    email: string;
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+                    name: string | null;
                     id: string;
                     createdAt: Date;
-                    name: string | null;
-                    customerCode: string | null;
-                    username: string;
-                    phone: string | null;
-                    avatarUrl: string | null;
-                    emailVerified: Date | null;
-                    lastLoginAt: Date | null;
-                    group: {
-                        code: string;
-                        id: number;
-                        name: string;
-                    } | null;
-                    groupId: number | null;
                     _count: {
                         socialAccounts: number;
                         activityLogs: number;
                     };
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+                    email: string;
+                    username: string;
+                    phone: string | null;
+                    avatarUrl: string | null;
+                    emailVerified: Date | null;
+                    customerCode: string | null;
+                    lastLoginAt: Date | null;
+                    groupId: number | null;
+                    group: {
+                        name: string;
+                        id: number;
+                        code: string;
+                    } | null;
                 }[];
                 total: number;
                 page: number;
@@ -12064,43 +12064,43 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: string;
             };
             output: {
-                email: string;
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
-                description: string | null;
+                name: string | null;
                 id: string;
                 createdAt: Date;
-                name: string | null;
-                customerCode: string | null;
+                updatedAt: Date;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+                email: string;
                 username: string;
-                usernameChangeCount: number;
-                usernameChangedAt: Date | null;
                 phone: string | null;
                 avatarUrl: string | null;
                 emailVerified: Date | null;
+                metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+                description: string | null;
+                customerCode: string | null;
+                usernameChangeCount: number;
+                usernameChangedAt: Date | null;
                 lastLoginAt: Date | null;
                 dob: Date | null;
                 gender: string | null;
-                metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
-                updatedAt: Date;
+                groupId: number | null;
                 group: {
-                    code: string;
-                    id: number;
                     name: string;
+                    id: number;
+                    code: string;
                 } | null;
                 socialAccounts: {
-                    email: string | null;
+                    name: string | null;
                     id: number;
                     createdAt: Date;
-                    name: string | null;
+                    email: string | null;
                     provider: string;
                 }[];
                 activityLogs: {
                     id: number;
                     createdAt: Date;
-                    action: string;
                     ipAddress: string | null;
+                    action: string;
                 }[];
-                groupId: number | null;
             } | null;
             meta: object;
         }>;
@@ -12111,17 +12111,17 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 name?: string | undefined;
                 phone?: string | undefined;
                 dob?: string | undefined;
-                gender?: "male" | "female" | "other" | undefined;
+                gender?: "other" | "male" | "female" | undefined;
                 description?: string | undefined;
                 password?: string | undefined;
                 groupId?: number | null | undefined;
             };
             output: {
-                email: string;
-                id: string;
                 name: string | null;
-                customerCode: string | null;
+                id: string;
+                email: string;
                 username: string;
+                customerCode: string | null;
             };
             meta: object;
         }>;
@@ -12133,16 +12133,16 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 phone?: string | undefined;
                 avatarUrl?: string | undefined;
                 dob?: string | null | undefined;
-                gender?: "male" | "female" | "other" | null | undefined;
+                gender?: "other" | "male" | "female" | null | undefined;
                 description?: string | null | undefined;
-                status?: "ACTIVE" | "INACTIVE" | "BANNED" | undefined;
+                status?: "ACTIVE" | "BANNED" | "INACTIVE" | undefined;
                 groupId?: number | null | undefined;
             };
             output: {
-                email: string;
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
-                id: string;
                 name: string | null;
+                id: string;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+                email: string;
                 username: string;
             };
             meta: object;
@@ -12201,22 +12201,22 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             };
             output: {
                 items: {
-                    user: {
-                        email: string;
-                        id: string;
-                        name: string | null;
-                        avatarUrl: string | null;
-                    } | null;
                     id: number;
                     createdAt: Date;
-                    metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
-                    action: string;
+                    user: {
+                        name: string | null;
+                        id: string;
+                        email: string;
+                        avatarUrl: string | null;
+                    } | null;
                     ipAddress: string | null;
+                    action: string;
                     module: string;
                     entityId: string | null;
                     entityType: string | null;
                     oldValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                     newValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+                    metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                 }[];
                 total: number;
                 page: number;
@@ -12233,13 +12233,13 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             };
             output: {
                 items: {
-                    code: string;
-                    email: string;
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.VerificationCodeStatus;
                     id: number;
-                    expiresAt: Date;
+                    code: string;
                     createdAt: Date;
                     updatedAt: Date;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.VerificationCodeStatus;
+                    expiresAt: Date;
+                    email: string;
                     attempts: number;
                 }[];
                 total: number;
@@ -12279,15 +12279,15 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             };
             output: {
                 items: {
-                    code: string;
-                    description: string | null;
-                    id: number;
-                    createdAt: Date;
                     name: string;
+                    id: number;
+                    code: string;
+                    createdAt: Date;
                     updatedAt: Date;
                     _count: {
                         customers: number;
                     };
+                    description: string | null;
                 }[];
                 total: number;
                 page: number;
@@ -12299,10 +12299,10 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
         listAll: import("@trpc/server").TRPCQueryProcedure<{
             input: void;
             output: {
+                name: string;
+                id: number;
                 code: string;
                 description: string | null;
-                id: number;
-                name: string;
             }[];
             meta: object;
         }>;
@@ -12311,16 +12311,16 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                code: string;
-                description: string | null;
-                id: number;
-                createdAt: Date;
                 name: string;
+                id: number;
+                code: string;
+                createdAt: Date;
                 updatedAt: Date;
                 _count: {
                     customers: number;
                     rateCards: number;
                 };
+                description: string | null;
             };
             meta: object;
         }>;
@@ -12331,10 +12331,10 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 description?: string | null | undefined;
             };
             output: {
+                name: string;
+                id: number;
                 code: string;
                 description: string | null;
-                id: number;
-                name: string;
             };
             meta: object;
         }>;
@@ -12346,10 +12346,10 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 description?: string | null | undefined;
             };
             output: {
+                name: string;
+                id: number;
                 code: string;
                 description: string | null;
-                id: number;
-                name: string;
             };
             meta: object;
         }>;
@@ -12371,18 +12371,18 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             };
             output: {
                 items: {
-                    email: string;
+                    name: string | null;
                     id: string;
                     createdAt: Date;
-                    name: string | null;
+                    email: string;
                     username: string;
                     phone: string | null;
-                    group: {
-                        code: string;
-                        id: number;
-                        name: string;
-                    } | null;
                     groupId: number | null;
+                    group: {
+                        name: string;
+                        id: number;
+                        code: string;
+                    } | null;
                 }[];
                 total: number;
                 page: number;
@@ -12398,17 +12398,17 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 limit?: number | undefined;
             };
             output: {
-                email: string;
-                id: string;
                 name: string | null;
+                id: string;
+                email: string;
                 username: string;
                 phone: string | null;
-                group: {
-                    code: string;
-                    id: number;
-                    name: string;
-                } | null;
                 groupId: number | null;
+                group: {
+                    name: string;
+                    id: number;
+                    code: string;
+                } | null;
             }[];
             meta: object;
         }>;
@@ -12450,61 +12450,60 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
     }, import("@trpc/server").TRPCDecorateCreateRouterOptions<{
         export: import("@trpc/server").TRPCQueryProcedure<{
             input: {
-                module: "customers" | "categories" | "tags" | "posts" | "pages" | "settings" | "all";
+                module: "settings" | "posts" | "pages" | "categories" | "tags" | "customers" | "all";
             };
             output: {
                 exportedAt: string;
                 version: string;
                 data: {
                     posts: {
-                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                         id: number;
                         createdAt: Date;
                         updatedAt: Date;
                         slug: string;
-                        isFeatured: boolean;
                         title: string;
-                        views: number;
                         content: string | null;
                         excerpt: string | null;
+                        isFeatured: boolean;
                         allowComments: boolean;
                         formatType: string | null;
+                        views: number;
+                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                         author: {
-                            email: string;
-                            id: string;
                             name: string | null;
+                            id: string;
+                            email: string;
                         };
                         categories: {
                             category: {
-                                id: number;
                                 name: string;
+                                id: number;
                             };
                         }[];
                         tags: {
                             tag: {
-                                id: number;
                                 name: string;
+                                id: number;
                             };
                         }[];
                     }[];
                     categories: {
-                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                        description: string | null;
+                        name: string;
                         id: number;
                         createdAt: Date;
-                        name: string;
-                        parentId: number | null;
                         order: number;
                         slug: string;
+                        parentId: number | null;
+                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                        description: string | null;
                     }[];
                     tags: {
+                        name: string;
                         id: number;
                         createdAt: Date;
-                        name: string;
                         slug: string;
                     }[];
                     pages: {
-                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                         id: number;
                         createdAt: Date;
                         order: number;
@@ -12512,14 +12511,15 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                         title: string;
                         content: string | null;
                         excerpt: string | null;
+                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                         template: string | null;
                     }[];
                     customers: {
-                        email: string;
-                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+                        name: string | null;
                         id: string;
                         createdAt: Date;
-                        name: string | null;
+                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+                        email: string;
                         username: string;
                         phone: string | null;
                         emailVerified: Date | null;
@@ -12535,48 +12535,47 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             } | {
                 module: string;
                 data: {
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
                     slug: string;
-                    isFeatured: boolean;
                     title: string;
-                    views: number;
                     content: string | null;
                     excerpt: string | null;
+                    isFeatured: boolean;
                     allowComments: boolean;
                     formatType: string | null;
+                    views: number;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     author: {
-                        email: string;
-                        id: string;
                         name: string | null;
+                        id: string;
+                        email: string;
                     };
                     categories: {
                         category: {
-                            id: number;
                             name: string;
+                            id: number;
                         };
                     }[];
                     tags: {
                         tag: {
-                            id: number;
                             name: string;
+                            id: number;
                         };
                     }[];
                 }[];
             } | {
                 module: string;
                 data: {
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
                     slug: string;
                 }[];
             } | {
                 module: string;
                 data: {
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     id: number;
                     createdAt: Date;
                     order: number;
@@ -12584,16 +12583,17 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                     title: string;
                     content: string | null;
                     excerpt: string | null;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     template: string | null;
                 }[];
             } | {
                 module: string;
                 data: {
-                    email: string;
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+                    name: string | null;
                     id: string;
                     createdAt: Date;
-                    name: string | null;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+                    email: string;
                     username: string;
                     phone: string | null;
                     emailVerified: Date | null;
@@ -12612,7 +12612,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
         }>;
         import: import("@trpc/server").TRPCMutationProcedure<{
             input: {
-                module: "categories" | "tags" | "posts" | "pages" | "settings";
+                module: "settings" | "posts" | "pages" | "categories" | "tags";
                 data: Record<string, unknown>[];
             };
             output: import("@ecom/features/tools/services/ImportService").ImportResult;
@@ -12645,7 +12645,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
         checkDuplicates: import("@trpc/server").TRPCQueryProcedure<{
             input: {
                 title: string;
-                type: "page" | "post";
+                type: "post" | "page";
                 slug?: string | undefined;
                 excludeId?: number | undefined;
             };
@@ -12658,7 +12658,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
         fullTextSearch: import("@trpc/server").TRPCQueryProcedure<{
             input: {
                 query: string;
-                types?: ("page" | "post")[] | undefined;
+                types?: ("post" | "page")[] | undefined;
                 page?: number | undefined;
                 perPage?: number | undefined;
             };
@@ -12736,7 +12736,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             statusCustomers: import("@trpc/server").TRPCMutationProcedure<{
                 input: {
                     ids: string[];
-                    status: "ACTIVE" | "INACTIVE" | "BANNED";
+                    status: "ACTIVE" | "BANNED" | "INACTIVE";
                 };
                 output: import("@ecom/features/tools/services/BulkActionService").BulkResult<string>;
                 meta: object;
@@ -12764,7 +12764,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
     }, import("@trpc/server").TRPCDecorateCreateRouterOptions<{
         get: import("@trpc/server").TRPCQueryProcedure<{
             input: {
-                entityType: "page" | "post" | "category" | "tag";
+                entityType: "post" | "category" | "tag" | "page";
                 entityId: number;
             };
             output: {
@@ -12778,7 +12778,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
         }>;
         save: import("@trpc/server").TRPCMutationProcedure<{
             input: {
-                entityType: "page" | "post" | "category" | "tag";
+                entityType: "post" | "category" | "tag" | "page";
                 entityId: number;
                 data: {
                     seoTitle?: string | undefined;
@@ -12819,17 +12819,17 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
         list: import("@trpc/server").TRPCQueryProcedure<{
             input: {
                 referenceId: number;
-                referenceType: "page" | "post";
+                referenceType: "post" | "page";
             };
             output: {
                 id: number;
                 createdAt: Date;
                 title: string;
-                author: {
-                    id: string;
-                    name: string | null;
-                };
                 note: string | null;
+                author: {
+                    name: string | null;
+                    id: string;
+                };
             }[];
             meta: object;
         }>;
@@ -12840,15 +12840,15 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             output: {
                 id: number;
                 createdAt: Date;
-                referenceId: number;
-                referenceType: string;
                 title: string;
                 content: string | null;
-                author: {
-                    id: string;
-                    name: string | null;
-                };
+                referenceId: number;
+                referenceType: string;
                 note: string | null;
+                author: {
+                    name: string | null;
+                    id: string;
+                };
             };
             meta: object;
         }>;
@@ -12875,9 +12875,9 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
         languages: import("@trpc/server").TRPCQueryProcedure<{
             input: void;
             output: {
-                code: string;
-                id: number;
                 name: string;
+                id: number;
+                code: string;
                 order: number;
                 isDefault: boolean;
                 flag: string | null;
@@ -12886,7 +12886,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
         }>;
         get: import("@trpc/server").TRPCQueryProcedure<{
             input: {
-                entityType: "page" | "post" | "category" | "tag" | "menuItem";
+                entityType: "post" | "category" | "tag" | "menuItem" | "page";
                 entityId: number;
                 langCode: string;
             };
@@ -12898,20 +12898,20 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 excerpt: string | null;
                 langCode: string;
             } | {
-                description: string | null;
-                id: number;
                 name: string;
+                id: number;
                 langCode: string;
+                description: string | null;
             } | {
                 id: number;
-                label: string;
                 langCode: string;
+                label: string;
             } | null;
             meta: object;
         }>;
         list: import("@trpc/server").TRPCQueryProcedure<{
             input: {
-                entityType: "page" | "post" | "category" | "tag" | "menuItem";
+                entityType: "post" | "category" | "tag" | "menuItem" | "page";
                 entityId: number;
             };
             output: {
@@ -12922,20 +12922,20 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 excerpt: string | null;
                 langCode: string;
             }[] | {
-                description: string | null;
-                id: number;
                 name: string;
+                id: number;
                 langCode: string;
+                description: string | null;
             }[] | {
                 id: number;
-                label: string;
                 langCode: string;
+                label: string;
             }[];
             meta: object;
         }>;
         save: import("@trpc/server").TRPCMutationProcedure<{
             input: {
-                entityType: "page" | "post" | "category" | "tag" | "menuItem";
+                entityType: "post" | "category" | "tag" | "menuItem" | "page";
                 entityId: number;
                 langCode: string;
                 data: Record<string, string | undefined>;
@@ -12948,20 +12948,20 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 excerpt: string | null;
                 langCode: string;
             } | {
-                description: string | null;
-                id: number;
                 name: string;
+                id: number;
                 langCode: string;
+                description: string | null;
             } | {
                 id: number;
-                label: string;
                 langCode: string;
+                label: string;
             };
             meta: object;
         }>;
         delete: import("@trpc/server").TRPCMutationProcedure<{
             input: {
-                entityType: "page" | "post" | "category" | "tag" | "menuItem";
+                entityType: "post" | "category" | "tag" | "menuItem" | "page";
                 entityId: number;
                 langCode: string;
             };
@@ -12970,7 +12970,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
         }>;
         translationStatus: import("@trpc/server").TRPCQueryProcedure<{
             input: {
-                entityType: "page" | "post" | "category" | "tag" | "menuItem";
+                entityType: "post" | "category" | "tag" | "menuItem" | "page";
                 entityId: number;
             };
             output: {
@@ -12983,7 +12983,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
         }>;
         batchTranslationStatus: import("@trpc/server").TRPCQueryProcedure<{
             input: {
-                entityType: "page" | "post" | "category" | "tag" | "menuItem";
+                entityType: "post" | "category" | "tag" | "menuItem" | "page";
                 entityIds: number[];
             };
             output: Record<number, string[]>;
@@ -13012,22 +13012,22 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
         list: import("@trpc/server").TRPCQueryProcedure<{
             input: void;
             output: {
-                url: string;
-                id: number;
-                ownerId: string | null;
-                ownerType: string | null;
-                createdAt: Date;
                 name: string;
+                id: number;
+                createdAt: Date;
                 _count: {
                     logs: number;
                 };
                 isActive: boolean;
+                url: string;
                 secret: string | null;
                 oldSecret: string | null;
                 secretUpdatedAt: Date | null;
                 events: string[];
                 retries: number;
                 timeout: number;
+                ownerId: string | null;
+                ownerType: string | null;
                 failureCount: number;
                 apiVersion: string;
             }[];
@@ -13038,20 +13038,20 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                url: string;
-                id: number;
-                ownerId: string | null;
-                ownerType: string | null;
-                createdAt: Date;
                 name: string;
+                id: number;
+                createdAt: Date;
                 updatedAt: Date;
                 isActive: boolean;
+                url: string;
                 secret: string | null;
                 oldSecret: string | null;
                 secretUpdatedAt: Date | null;
                 events: string[];
                 retries: number;
                 timeout: number;
+                ownerId: string | null;
+                ownerType: string | null;
                 failureCount: number;
                 apiVersion: string;
             };
@@ -13059,7 +13059,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
         }>;
         availableEvents: import("@trpc/server").TRPCQueryProcedure<{
             input: void;
-            output: ("ping" | "order.created" | "order.status_updated" | "order.checkpoint_added" | "member.registered" | "post.created" | "post.updated" | "post.published" | "post.deleted" | "page.created" | "page.updated" | "page.published" | "page.deleted")[];
+            output: ("order.created" | "order.status_updated" | "order.checkpoint_added" | "post.created" | "post.updated" | "post.published" | "post.deleted" | "page.created" | "page.updated" | "page.published" | "page.deleted" | "member.registered" | "ping")[];
             meta: object;
         }>;
         create: import("@trpc/server").TRPCMutationProcedure<{
@@ -13072,8 +13072,8 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 timeout?: number | undefined;
             };
             output: {
-                id: number;
                 name: string;
+                id: number;
                 secret: string | null;
             };
             meta: object;
@@ -13090,8 +13090,8 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 timeout?: number | undefined;
             };
             output: {
-                id: number;
                 name: string;
+                id: number;
             };
             meta: object;
         }>;
@@ -13100,20 +13100,20 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                url: string;
-                id: number;
-                ownerId: string | null;
-                ownerType: string | null;
-                createdAt: Date;
                 name: string;
+                id: number;
+                createdAt: Date;
                 updatedAt: Date;
                 isActive: boolean;
+                url: string;
                 secret: string | null;
                 oldSecret: string | null;
                 secretUpdatedAt: Date | null;
                 events: string[];
                 retries: number;
                 timeout: number;
+                ownerId: string | null;
+                ownerType: string | null;
                 failureCount: number;
                 apiVersion: string;
             };
@@ -13127,12 +13127,12 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 error: string | null;
                 id: number;
                 createdAt: Date;
-                success: boolean;
+                statusCode: number | null;
+                attempts: number;
                 event: string;
                 payload: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                 response: string | null;
-                statusCode: number | null;
-                attempts: number;
+                success: boolean;
             }[];
             meta: object;
         }>;
@@ -13160,26 +13160,26 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             input: {
                 postId?: number | undefined;
                 pageId?: number | undefined;
-                status?: "approved" | "pending" | "spam" | "trash" | undefined;
+                status?: "pending" | "approved" | "spam" | "trash" | undefined;
                 page?: number | undefined;
                 perPage?: number | undefined;
             };
             output: {
                 items: {
-                    status: string;
                     id: number;
                     createdAt: Date;
                     _count: {
                         replies: number;
                     };
-                    customerId: string | null;
-                    ipAddress: string | null;
                     parentId: number | null;
                     content: string;
+                    status: string;
+                    ipAddress: string | null;
+                    customerId: string | null;
                     postId: number | null;
-                    pageId: number | null;
                     authorName: string | null;
                     authorEmail: string | null;
+                    pageId: number | null;
                 }[];
                 total: number;
                 page: number;
@@ -13192,22 +13192,22 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                status: string;
                 id: number;
                 createdAt: Date;
-                customerId: string | null;
-                ipAddress: string | null;
                 parentId: number | null;
                 content: string;
+                status: string;
+                ipAddress: string | null;
+                customerId: string | null;
                 postId: number | null;
-                pageId: number | null;
                 authorName: string | null;
                 authorEmail: string | null;
+                pageId: number | null;
                 replies: {
-                    status: string;
                     id: number;
                     createdAt: Date;
                     content: string;
+                    status: string;
                     authorName: string | null;
                 }[];
             };
@@ -13225,8 +13225,8 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                status: string;
                 id: number;
+                status: string;
             };
             meta: object;
         }>;
@@ -13235,8 +13235,8 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                status: string;
                 id: number;
+                status: string;
             };
             meta: object;
         }>;
@@ -13245,8 +13245,8 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                status: string;
                 id: number;
+                status: string;
             };
             meta: object;
         }>;
@@ -13255,18 +13255,18 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                status: string;
                 id: number;
                 createdAt: Date;
                 updatedAt: Date;
-                customerId: string | null;
-                ipAddress: string | null;
                 parentId: number | null;
                 content: string;
+                status: string;
+                ipAddress: string | null;
+                customerId: string | null;
                 postId: number | null;
-                pageId: number | null;
                 authorName: string | null;
                 authorEmail: string | null;
+                pageId: number | null;
             };
             meta: object;
         }>;
@@ -13299,15 +13299,15 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             };
             output: {
                 items: {
-                    message: string;
-                    email: string;
-                    status: string;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
+                    status: string;
+                    email: string;
                     phone: string | null;
                     formSlug: string;
                     subject: string | null;
+                    message: string;
                     assigneeId: string | null;
                     repliedAt: Date | null;
                 }[];
@@ -13322,23 +13322,23 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                message: string;
-                email: string;
-                status: string;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
-                phone: string | null;
-                metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                 updatedAt: Date;
+                status: string;
+                email: string;
+                phone: string | null;
                 ipAddress: string | null;
+                metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                 formSlug: string;
                 subject: string | null;
+                message: string;
                 assigneeId: string | null;
                 repliedAt: Date | null;
                 assignee: {
-                    id: string;
                     name: string | null;
+                    id: string;
                 } | null;
             };
             meta: object;
@@ -13356,8 +13356,8 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 status: "new" | "read" | "replied" | "archived";
             };
             output: {
-                status: string;
                 id: number;
+                status: string;
             };
             meta: object;
         }>;
@@ -13377,8 +13377,8 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                status: string;
                 id: number;
+                status: string;
                 repliedAt: Date | null;
             };
             meta: object;
@@ -13388,18 +13388,18 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                message: string;
-                email: string;
-                status: string;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
-                phone: string | null;
-                metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                 updatedAt: Date;
+                status: string;
+                email: string;
+                phone: string | null;
                 ipAddress: string | null;
+                metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                 formSlug: string;
                 subject: string | null;
+                message: string;
                 assigneeId: string | null;
                 repliedAt: Date | null;
             };
@@ -13436,10 +13436,10 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             } | undefined;
             output: {
                 items: {
-                    type: string;
                     link: string | null;
                     id: number;
                     createdAt: Date;
+                    type: string;
                     titleKey: string;
                     messageKey: string;
                     variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
@@ -13453,10 +13453,10 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 nextCursor: number | undefined;
             } | {
                 items: {
-                    type: string;
                     link: string | null;
                     id: number;
                     createdAt: Date;
+                    type: string;
                     titleKey: string;
                     messageKey: string;
                     variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
@@ -13502,14 +13502,14 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 deviceInfo?: string | undefined;
             };
             output: {
-                userId: string | null;
                 id: number;
                 createdAt: Date;
                 updatedAt: Date;
+                userId: string | null;
+                deviceInfo: string | null;
                 customerId: string | null;
                 token: string;
                 platform: string;
-                deviceInfo: string | null;
             };
             meta: object;
         }>;
@@ -13524,7 +13524,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             input: void;
             output: {
                 eventType: string;
-                category: "order" | "system" | "blog" | "account" | "wallet";
+                category: "order" | "account" | "system" | "blog" | "wallet";
                 labelKey: string;
                 descriptionKey: string;
                 channels: {
@@ -13561,10 +13561,10 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 dndConfig?: Record<string, any> | undefined;
             };
             output: {
-                userId: string | null;
                 id: number;
                 createdAt: Date;
                 updatedAt: Date;
+                userId: string | null;
                 customerId: string | null;
                 eventType: string;
                 channelInApp: boolean;
@@ -13578,10 +13578,10 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
         listTemplates: import("@trpc/server").TRPCQueryProcedure<{
             input: void;
             output: {
-                type: string;
                 id: number;
                 createdAt: Date;
                 updatedAt: Date;
+                type: string;
                 variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                 channelInApp: boolean;
                 channelPush: boolean;
@@ -13608,10 +13608,10 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 layoutType?: string | null | undefined;
             };
             output: {
-                type: string;
                 id: number;
                 createdAt: Date;
                 updatedAt: Date;
+                type: string;
                 variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                 channelInApp: boolean;
                 channelPush: boolean;
@@ -13640,10 +13640,10 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                type: string;
                 id: number;
                 createdAt: Date;
                 updatedAt: Date;
+                type: string;
                 variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                 channelInApp: boolean;
                 channelPush: boolean;
@@ -13663,14 +13663,14 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             };
             output: {
                 items: {
-                    message: string;
-                    status: string;
                     link: string | null;
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
                     title: string;
+                    status: string;
                     scheduledAt: Date;
+                    message: string;
                     targetType: string;
                     targetIds: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                     failedReason: string | null;
@@ -13690,14 +13690,14 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 link?: string | null | undefined;
             };
             output: {
-                message: string;
-                status: string;
                 link: string | null;
                 id: number;
                 createdAt: Date;
                 updatedAt: Date;
                 title: string;
+                status: string;
                 scheduledAt: Date;
+                message: string;
                 targetType: string;
                 targetIds: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                 failedReason: string | null;
@@ -13710,14 +13710,14 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                message: string;
-                status: string;
                 link: string | null;
                 id: number;
                 createdAt: Date;
                 updatedAt: Date;
                 title: string;
+                status: string;
                 scheduledAt: Date;
+                message: string;
                 targetType: string;
                 targetIds: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                 failedReason: string | null;
@@ -13749,10 +13749,10 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 locale?: string | undefined;
             };
             output: {
-                type: string;
                 link: string | null;
                 id: number;
                 createdAt: Date;
+                type: string;
                 titleKey: string;
                 messageKey: string;
                 variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
@@ -13789,9 +13789,9 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 };
                 output: {
                     items: {
-                        email: string;
                         id: number;
                         createdAt: Date;
+                        email: string;
                         reason: string;
                     }[];
                     total: number;
@@ -13811,9 +13811,9 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                     reason: string;
                 };
                 output: {
-                    email: string;
                     id: number;
                     createdAt: Date;
+                    email: string;
                     reason: string;
                 };
                 meta: object;
@@ -13848,9 +13848,9 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                     reason: string;
                 };
                 output: {
-                    email: string;
                     id: number;
                     createdAt: Date;
+                    email: string;
                     reason: string;
                 };
                 meta: object;
@@ -13895,8 +13895,8 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                     id: number;
                     createdAt: Date;
                     isActive: boolean;
-                    statusCode: number;
                     note: string | null;
+                    statusCode: number;
                     fromPath: string;
                     toPath: string;
                     hitCount: number;
@@ -13950,8 +13950,8 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 createdAt: Date;
                 updatedAt: Date;
                 isActive: boolean;
-                statusCode: number;
                 note: string | null;
+                statusCode: number;
                 fromPath: string;
                 toPath: string;
                 hitCount: number;
@@ -13988,18 +13988,18 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             } | undefined;
             output: {
                 items: {
-                    type: string;
-                    description: string | null;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
-                    metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+                    order: number;
+                    slug: string;
                     _count: {
                         children: number;
                     };
                     parentId: number | null;
-                    order: number;
-                    slug: string;
+                    type: string;
+                    metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+                    description: string | null;
                 }[];
                 total: number;
                 page: number;
@@ -14012,21 +14012,21 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                type: string;
-                description: string | null;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
-                metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+                order: number;
+                slug: string;
                 parentId: number | null;
                 children: {
-                    id: number;
                     name: string;
+                    id: number;
                     order: number;
                     slug: string;
                 }[];
-                order: number;
-                slug: string;
+                type: string;
+                metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+                description: string | null;
             };
             meta: object;
         }>;
@@ -14035,22 +14035,22 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 type: string;
             };
             output: {
-                id: number;
                 name: string;
+                id: number;
+                order: number;
+                slug: string;
                 children: {
-                    id: number;
                     name: string;
+                    id: number;
+                    order: number;
+                    slug: string;
                     children: {
-                        id: number;
                         name: string;
+                        id: number;
                         order: number;
                         slug: string;
                     }[];
-                    order: number;
-                    slug: string;
                 }[];
-                order: number;
-                slug: string;
             }[];
             meta: object;
         }>;
@@ -14073,16 +14073,16 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 metadata?: Record<string, unknown> | undefined;
             };
             output: {
-                type: string;
-                description: string | null;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
-                metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                 updatedAt: Date;
-                parentId: number | null;
                 order: number;
                 slug: string;
+                parentId: number | null;
+                type: string;
+                metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
+                description: string | null;
             };
             meta: object;
         }>;
@@ -14097,16 +14097,16 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 metadata?: Record<string, unknown> | undefined;
             };
             output: {
-                type: string;
-                description: string | null;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
-                metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                 updatedAt: Date;
-                parentId: number | null;
                 order: number;
                 slug: string;
+                parentId: number | null;
+                type: string;
+                metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
+                description: string | null;
             };
             meta: object;
         }>;
@@ -14115,16 +14115,16 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                type: string;
-                description: string | null;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
-                metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                 updatedAt: Date;
-                parentId: number | null;
                 order: number;
                 slug: string;
+                parentId: number | null;
+                type: string;
+                metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
+                description: string | null;
             };
             meta: object;
         }>;
@@ -14155,12 +14155,12 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 isActive?: boolean | undefined;
             } | undefined;
             output: {
-                type: string;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
-                isActive: boolean;
                 slug: string;
+                isActive: boolean;
+                type: string;
                 thumbnail: string | null;
             }[];
             meta: object;
@@ -14170,16 +14170,16 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                type: string;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
-                isActive: boolean;
                 slug: string;
+                isActive: boolean;
                 content: string | null;
+                type: string;
+                createdBy: string | null;
                 structure: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                 thumbnail: string | null;
-                createdBy: string | null;
             };
             meta: object;
         }>;
@@ -14187,23 +14187,23 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             input: {
                 name: string;
                 slug: string;
-                type: "email" | "page" | "post";
+                type: "post" | "page" | "email";
                 content?: string | undefined;
                 structure?: Record<string, unknown> | undefined;
                 thumbnail?: string | undefined;
             };
             output: {
-                type: string;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
                 updatedAt: Date;
-                isActive: boolean;
                 slug: string;
+                isActive: boolean;
                 content: string | null;
+                type: string;
+                createdBy: string | null;
                 structure: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                 thumbnail: string | null;
-                createdBy: string | null;
             };
             meta: object;
         }>;
@@ -14218,17 +14218,17 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 isActive?: boolean | undefined;
             };
             output: {
-                type: string;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
                 updatedAt: Date;
-                isActive: boolean;
                 slug: string;
+                isActive: boolean;
                 content: string | null;
+                type: string;
+                createdBy: string | null;
                 structure: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                 thumbnail: string | null;
-                createdBy: string | null;
             };
             meta: object;
         }>;
@@ -14237,17 +14237,17 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                type: string;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
                 updatedAt: Date;
-                isActive: boolean;
                 slug: string;
+                isActive: boolean;
                 content: string | null;
+                type: string;
+                createdBy: string | null;
                 structure: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                 thumbnail: string | null;
-                createdBy: string | null;
             };
             meta: object;
         }>;
@@ -14256,17 +14256,17 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                type: string;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
                 updatedAt: Date;
-                isActive: boolean;
                 slug: string;
+                isActive: boolean;
                 content: string | null;
+                type: string;
+                createdBy: string | null;
                 structure: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                 thumbnail: string | null;
-                createdBy: string | null;
             };
             meta: object;
         }>;
@@ -14292,7 +14292,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
     }, import("@trpc/server").TRPCDecorateCreateRouterOptions<{
         acquire: import("@trpc/server").TRPCMutationProcedure<{
             input: {
-                entityType: "page" | "post";
+                entityType: "post" | "page";
                 entityId: number;
             };
             output: {
@@ -14303,7 +14303,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
         }>;
         release: import("@trpc/server").TRPCMutationProcedure<{
             input: {
-                entityType: "page" | "post";
+                entityType: "post" | "page";
                 entityId: number;
             };
             output: boolean;
@@ -14311,7 +14311,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
         }>;
         check: import("@trpc/server").TRPCQueryProcedure<{
             input: {
-                entityType: "page" | "post";
+                entityType: "post" | "page";
                 entityId: number;
             };
             output: import("@ecom/features/content-lock/ContentLockService").ContentLock | null;
@@ -14319,7 +14319,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
         }>;
         heartbeat: import("@trpc/server").TRPCMutationProcedure<{
             input: {
-                entityType: "page" | "post";
+                entityType: "post" | "page";
                 entityId: number;
             };
             output: boolean;
@@ -14376,7 +14376,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id?: number | undefined;
                 code?: string | undefined;
                 type?: "DEFAULT" | "CUSTOM" | undefined;
-                status?: "DRAFT" | "PENDING" | "REJECTED" | "PUBLISHED" | "REVIEW" | "ARCHIVED" | undefined;
+                status?: "DRAFT" | "PENDING" | "REVIEW" | "REJECTED" | "PUBLISHED" | "ARCHIVED" | undefined;
                 shippingMethod?: "EXPRESS" | "EPACKET" | undefined;
                 country?: string | undefined;
                 origin?: string | undefined;
@@ -14387,31 +14387,31 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 customerGroupId?: number | undefined;
                 page?: number | undefined;
                 perPage?: number | undefined;
-                sortBy?: "code" | "type" | "status" | "id" | "createdAt" | "name" | "updatedAt" | "startDate" | "endDate" | undefined;
+                sortBy?: "name" | "id" | "code" | "createdAt" | "updatedAt" | "status" | "type" | "startDate" | "endDate" | undefined;
                 sortOrder?: "asc" | "desc" | undefined;
             } | undefined;
             output: import("@flash-ship/ecom-lib").PaginatedResult<{
-                code: string;
-                type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                id: number;
-                createdAt: Date;
                 name: string;
+                id: number;
+                code: string;
+                createdAt: Date;
                 updatedAt: Date;
-                shippingMethod: import("@ecom/prisma/src/generated/prisma/client").$Enums.ShippingMethod;
-                startDate: Date | null;
-                endDate: Date | null;
                 country: string;
-                origin: string | null;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
+                shippingMethod: import("@ecom/prisma/src/generated/prisma/client").$Enums.ShippingMethod;
                 currency: string;
+                origin: string | null;
                 weightStep: import("@prisma/client-runtime-utils").Decimal;
                 minWeight: import("@prisma/client-runtime-utils").Decimal;
                 maxWeight: import("@prisma/client-runtime-utils").Decimal;
+                startDate: Date | null;
+                endDate: Date | null;
                 groups: {
                     customerGroup: {
-                        code: string;
-                        id: number;
                         name: string;
+                        id: number;
+                        code: string;
                     };
                     customerGroupId: number;
                 }[];
@@ -14423,34 +14423,34 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                code: string;
-                type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                id: number;
-                createdAt: Date;
                 name: string;
+                id: number;
+                code: string;
+                createdAt: Date;
                 updatedAt: Date;
+                country: string;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
+                shippingMethod: import("@ecom/prisma/src/generated/prisma/client").$Enums.ShippingMethod;
                 items: {
                     id: number;
+                    amount: import("@prisma/client-runtime-utils").Decimal;
                     startWeight: import("@prisma/client-runtime-utils").Decimal;
                     endWeight: import("@prisma/client-runtime-utils").Decimal;
                     rateType: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateItemType;
-                    amount: import("@prisma/client-runtime-utils").Decimal;
                 }[];
-                shippingMethod: import("@ecom/prisma/src/generated/prisma/client").$Enums.ShippingMethod;
-                startDate: Date | null;
-                endDate: Date | null;
-                country: string;
-                origin: string | null;
                 currency: string;
+                origin: string | null;
                 weightStep: import("@prisma/client-runtime-utils").Decimal;
                 minWeight: import("@prisma/client-runtime-utils").Decimal;
                 maxWeight: import("@prisma/client-runtime-utils").Decimal;
+                startDate: Date | null;
+                endDate: Date | null;
                 groups: {
                     customerGroup: {
-                        code: string;
-                        id: number;
                         name: string;
+                        id: number;
+                        code: string;
                     };
                     customerGroupId: number;
                 }[];
@@ -14474,11 +14474,11 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 customerGroupIds?: number[] | undefined;
             };
             output: {
-                code: string;
-                type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                id: number;
                 name: string;
+                id: number;
+                code: string;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
             };
             meta: object;
         }>;
@@ -14500,11 +14500,11 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 customerGroupIds?: number[] | undefined;
             };
             output: {
-                code: string;
-                type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                id: number;
                 name: string;
+                id: number;
+                code: string;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
             };
             meta: object;
         }>;
@@ -14513,11 +14513,11 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                code: string;
-                type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                id: number;
                 name: string;
+                id: number;
+                code: string;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
             };
             meta: object;
         }>;
@@ -14526,11 +14526,11 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                code: string;
-                type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                id: number;
                 name: string;
+                id: number;
+                code: string;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
             };
             meta: object;
         }>;
@@ -14540,11 +14540,11 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 reason?: string | undefined;
             };
             output: {
-                code: string;
-                type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                id: number;
                 name: string;
+                id: number;
+                code: string;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
             };
             meta: object;
         }>;
@@ -14554,11 +14554,11 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 customerGroupIds: number[];
             };
             output: {
-                code: string;
-                type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                id: number;
                 name: string;
+                id: number;
+                code: string;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
             };
             meta: object;
         }>;
@@ -14575,8 +14575,8 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             output: {
                 hasOverlap: boolean;
                 overlappingCards: {
-                    code: string;
                     id: number;
+                    code: string;
                     startDate: Date | null;
                     endDate: Date | null;
                 }[];
@@ -14597,14 +14597,14 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                user: {
-                    email: string;
-                    id: string;
-                    name: string | null;
-                } | null;
-                userId: string | null;
                 id: number;
                 createdAt: Date;
+                user: {
+                    name: string | null;
+                    id: string;
+                    email: string;
+                } | null;
+                userId: string | null;
                 action: string;
                 oldValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                 newValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
@@ -14646,9 +14646,9 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
         listGroups: import("@trpc/server").TRPCQueryProcedure<{
             input: void;
             output: {
-                code: string;
-                id: number;
                 name: string;
+                id: number;
+                code: string;
             }[];
             meta: object;
         }>;
@@ -14657,10 +14657,10 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
+                name: string;
+                id: number;
                 code: string;
                 type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-                id: number;
-                name: string;
             };
             meta: object;
         }>;
@@ -14690,17 +14690,17 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 status?: "ACTIVE" | "INACTIVE" | undefined;
                 page?: number | undefined;
                 perPage?: number | undefined;
-                sortBy?: "code" | "status" | "id" | "createdAt" | "name" | "updatedAt" | undefined;
+                sortBy?: "name" | "id" | "code" | "createdAt" | "updatedAt" | "status" | undefined;
                 sortOrder?: "asc" | "desc" | undefined;
             } | undefined;
             output: import("@flash-ship/ecom-lib").PaginatedResult<{
+                name: string;
+                id: number;
                 code: string;
+                createdAt: Date;
+                updatedAt: Date;
                 status: import("@ecom/prisma/src/generated/prisma/client").$Enums.PartnerStatus;
                 description: string | null;
-                id: number;
-                createdAt: Date;
-                name: string;
-                updatedAt: Date;
                 contactName: string | null;
                 contactEmail: string | null;
                 contactPhone: string | null;
@@ -14713,13 +14713,13 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             };
             output: {
                 apiConfig: Record<string, unknown> | null;
+                name: string;
+                id: number;
                 code: string;
+                createdAt: Date;
+                updatedAt: Date;
                 status: import("@ecom/prisma/src/generated/prisma/client").$Enums.PartnerStatus;
                 description: string | null;
-                id: number;
-                createdAt: Date;
-                name: string;
-                updatedAt: Date;
                 contactName: string | null;
                 contactEmail: string | null;
                 contactPhone: string | null;
@@ -14738,10 +14738,10 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 apiConfig?: Record<string, unknown> | null | undefined;
             };
             output: {
+                name: string;
+                id: number;
                 code: string;
                 status: import("@ecom/prisma/src/generated/prisma/client").$Enums.PartnerStatus;
-                id: number;
-                name: string;
             };
             meta: object;
         }>;
@@ -14758,10 +14758,10 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 apiConfig?: Record<string, unknown> | null | undefined;
             };
             output: {
+                name: string;
+                id: number;
                 code: string;
                 status: import("@ecom/prisma/src/generated/prisma/client").$Enums.PartnerStatus;
-                id: number;
-                name: string;
             };
             meta: object;
         }>;
@@ -14779,13 +14779,13 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 partnerId: number;
             };
             output: {
-                code: string;
-                type: import("@ecom/prisma/src/generated/prisma/client").$Enums.ServiceType;
-                id: number;
-                createdAt: Date;
                 name: string;
+                id: number;
+                code: string;
+                createdAt: Date;
                 updatedAt: Date;
                 isActive: boolean;
+                type: import("@ecom/prisma/src/generated/prisma/client").$Enums.ServiceType;
                 partnerId: number;
                 statusMapping: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                 webhookSecret: string | null;
@@ -14799,7 +14799,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 partnerId: number;
                 code: string;
                 name: string;
-                type: "IMPORT" | "PICKUP" | "EXPORT" | "LASTMILE";
+                type: "PICKUP" | "EXPORT" | "IMPORT" | "LASTMILE";
                 statusMapping?: Record<string, unknown> | null | undefined;
                 isActive?: boolean | undefined;
                 webhookSecret?: string | null | undefined;
@@ -14807,9 +14807,9 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 rateLimitPerMinute?: number | undefined;
             };
             output: {
-                code: string;
-                id: number;
                 name: string;
+                id: number;
+                code: string;
                 partnerId: number;
             };
             meta: object;
@@ -14819,7 +14819,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: unknown;
                 code?: string | undefined;
                 name?: string | undefined;
-                type?: "IMPORT" | "PICKUP" | "EXPORT" | "LASTMILE" | undefined;
+                type?: "PICKUP" | "EXPORT" | "IMPORT" | "LASTMILE" | undefined;
                 statusMapping?: Record<string, unknown> | null | undefined;
                 isActive?: boolean | undefined;
                 webhookSecret?: string | null | undefined;
@@ -14827,9 +14827,9 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 rateLimitPerMinute?: number | undefined;
             };
             output: {
-                code: string;
-                id: number;
                 name: string;
+                id: number;
+                code: string;
                 partnerId: number;
             };
             meta: object;
@@ -14877,19 +14877,19 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
         list: import("@trpc/server").TRPCQueryProcedure<{
             input: {
                 search?: string | undefined;
-                status?: "DRAFT" | "PENDING" | "REJECTED" | "PUBLISHED" | "REVIEW" | "ARCHIVED" | undefined;
+                status?: "DRAFT" | "PENDING" | "REVIEW" | "REJECTED" | "PUBLISHED" | "ARCHIVED" | undefined;
                 page?: number | undefined;
                 limit?: number | undefined;
                 orderBy?: "asc" | "desc" | undefined;
             };
             output: {
                 items: {
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                    description: string | null;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
                     updatedAt: Date;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                    description: string | null;
                     image: string | null;
                 }[];
                 total: number;
@@ -14904,12 +14904,12 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                description: string | null;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
                 updatedAt: Date;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                description: string | null;
                 image: string | null;
             };
             meta: object;
@@ -14919,15 +14919,15 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 name: string;
                 image?: string | null | undefined;
                 description?: string | null | undefined;
-                status?: "DRAFT" | "PENDING" | "REJECTED" | "PUBLISHED" | "REVIEW" | "ARCHIVED" | undefined;
+                status?: "DRAFT" | "PENDING" | "REVIEW" | "REJECTED" | "PUBLISHED" | "ARCHIVED" | undefined;
             };
             output: {
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                description: string | null;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
                 updatedAt: Date;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                description: string | null;
                 image: string | null;
             };
             meta: object;
@@ -14938,15 +14938,15 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 name?: string | undefined;
                 image?: string | null | undefined;
                 description?: string | null | undefined;
-                status?: "DRAFT" | "PENDING" | "REJECTED" | "PUBLISHED" | "REVIEW" | "ARCHIVED" | undefined;
+                status?: "DRAFT" | "PENDING" | "REVIEW" | "REJECTED" | "PUBLISHED" | "ARCHIVED" | undefined;
             };
             output: {
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                description: string | null;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
                 updatedAt: Date;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                description: string | null;
                 image: string | null;
             };
             meta: object;
@@ -14990,14 +14990,14 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             };
             output: {
                 items: {
-                    code: number;
-                    id: number;
-                    createdAt: Date;
                     name: string;
-                    updatedAt: Date;
+                    id: number;
+                    code: number;
                     divisionType: string;
                     codeName: string;
                     phoneCode: number;
+                    createdAt: Date;
+                    updatedAt: Date;
                 }[];
                 total: number;
                 page: number;
@@ -15011,14 +15011,14 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                code: number;
-                id: number;
-                createdAt: Date;
                 name: string;
-                updatedAt: Date;
+                id: number;
+                code: number;
                 divisionType: string;
                 codeName: string;
                 phoneCode: number;
+                createdAt: Date;
+                updatedAt: Date;
             };
             meta: object;
         }>;
@@ -15031,14 +15031,14 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 codeName?: string | undefined;
             };
             output: {
-                code: number;
-                id: number;
-                createdAt: Date;
                 name: string;
-                updatedAt: Date;
+                id: number;
+                code: number;
                 divisionType: string;
                 codeName: string;
                 phoneCode: number;
+                createdAt: Date;
+                updatedAt: Date;
             };
             meta: object;
         }>;
@@ -15052,14 +15052,14 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 phoneCode?: number | undefined;
             };
             output: {
-                code: number;
-                id: number;
-                createdAt: Date;
                 name: string;
-                updatedAt: Date;
+                id: number;
+                code: number;
                 divisionType: string;
                 codeName: string;
                 phoneCode: number;
+                createdAt: Date;
+                updatedAt: Date;
             };
             meta: object;
         }>;
@@ -15083,16 +15083,16 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             };
             output: {
                 items: {
-                    code: number;
-                    id: number;
-                    createdAt: Date;
                     name: string;
-                    updatedAt: Date;
                     province: {
                         name: string;
                     };
+                    id: number;
+                    code: number;
                     divisionType: string;
                     codeName: string;
+                    createdAt: Date;
+                    updatedAt: Date;
                     provinceCode: number;
                 }[];
                 total: number;
@@ -15107,13 +15107,13 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                code: number;
-                id: number;
-                createdAt: Date;
                 name: string;
-                updatedAt: Date;
+                id: number;
+                code: number;
                 divisionType: string;
                 codeName: string;
+                createdAt: Date;
+                updatedAt: Date;
                 provinceCode: number;
             };
             meta: object;
@@ -15127,13 +15127,13 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 codeName?: string | undefined;
             };
             output: {
-                code: number;
-                id: number;
-                createdAt: Date;
                 name: string;
-                updatedAt: Date;
+                id: number;
+                code: number;
                 divisionType: string;
                 codeName: string;
+                createdAt: Date;
+                updatedAt: Date;
                 provinceCode: number;
             };
             meta: object;
@@ -15148,13 +15148,13 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 provinceCode?: number | undefined;
             };
             output: {
-                code: number;
-                id: number;
-                createdAt: Date;
                 name: string;
-                updatedAt: Date;
+                id: number;
+                code: number;
                 divisionType: string;
                 codeName: string;
+                createdAt: Date;
+                updatedAt: Date;
                 provinceCode: number;
             };
             meta: object;
@@ -15180,21 +15180,21 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             };
             output: {
                 items: {
-                    code: string;
-                    id: number;
-                    createdAt: Date;
                     name: string;
-                    updatedAt: Date;
+                    id: number;
+                    code: string;
                     divisionType: string;
+                    createdAt: Date;
+                    updatedAt: Date;
                     countryCode: string;
                     nameEn: string | null;
                     level: number;
                     parentId: number | null;
                     isActive: boolean;
                     parent: {
-                        code: string;
-                        id: number;
                         name: string;
+                        id: number;
+                        code: string;
                     } | null;
                 }[];
                 total: number;
@@ -15209,21 +15209,21 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 id: number;
             };
             output: {
-                code: string;
-                id: number;
-                createdAt: Date;
                 name: string;
-                updatedAt: Date;
+                id: number;
+                code: string;
                 divisionType: string;
+                createdAt: Date;
+                updatedAt: Date;
                 countryCode: string;
                 nameEn: string | null;
                 level: number;
                 parentId: number | null;
                 isActive: boolean;
                 parent: {
-                    code: string;
-                    id: number;
                     name: string;
+                    id: number;
+                    code: string;
                 } | null;
             };
             meta: object;
@@ -15239,12 +15239,12 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 parentId?: number | undefined;
             };
             output: {
-                code: string;
-                id: number;
-                createdAt: Date;
                 name: string;
-                updatedAt: Date;
+                id: number;
+                code: string;
                 divisionType: string;
+                createdAt: Date;
+                updatedAt: Date;
                 countryCode: string;
                 nameEn: string | null;
                 level: number;
@@ -15262,12 +15262,12 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 isActive?: boolean | undefined;
             };
             output: {
-                code: string;
-                id: number;
-                createdAt: Date;
                 name: string;
-                updatedAt: Date;
+                id: number;
+                code: string;
                 divisionType: string;
+                createdAt: Date;
+                updatedAt: Date;
                 countryCode: string;
                 nameEn: string | null;
                 level: number;
@@ -15303,7 +15303,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 search?: string | undefined;
                 page?: number | undefined;
                 perPage?: number | undefined;
-                sortBy?: "status" | "id" | "createdAt" | "orderCode" | undefined;
+                sortBy?: "id" | "createdAt" | "status" | "orderCode" | undefined;
                 sortOrder?: "asc" | "desc" | undefined;
             } | undefined;
             output: {
@@ -15316,7 +15316,7 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
             input: {
                 id: string;
             };
-            output: import("./viewer/orders/procedures/orders.handler").CachedOrder | import("@ecom/features/order/mappers/AdminOrderMapper").AdminOrderDetailResponse | undefined;
+            output: import("@ecom/features/order/mappers/AdminOrderMapper").AdminOrderDetailResponse | import("./viewer/orders/procedures/orders.handler").CachedOrder | undefined;
             meta: object;
         }>;
         updateStatus: import("@trpc/server").TRPCMutationProcedure<{
@@ -15327,9 +15327,9 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 expectedVersion?: number | undefined;
             };
             output: {
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
                 id: string;
                 updatedAt: Date;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
                 orderCode: string;
                 labelStatus: import("@ecom/prisma/src/generated/prisma/client").$Enums.LabelStatus;
                 exportCustomsStatus: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomsStatus;
@@ -15357,9 +15357,9 @@ export declare const adminRouter: import("@trpc/server").TRPCDecorateCreateRoute
                 forceRefresh?: boolean | undefined;
             };
             output: {
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
                 id: string;
                 createdAt: Date;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
                 orderCode: string;
                 totalFee: import("@prisma/client-runtime-utils").Decimal;
             };
@@ -15406,11 +15406,11 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
                 accessToken: string;
                 refreshToken: string;
                 customer: {
-                    email: string;
-                    id: string;
                     name: string | null;
-                    customerCode: string | null;
+                    id: string;
+                    email: string;
                     username: string;
+                    customerCode: string | null;
                 };
             };
             meta: object;
@@ -15448,43 +15448,43 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
                 accessToken?: string | undefined;
             } | undefined;
             output: {
-                email: string;
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
-                description: string | null;
+                name: string | null;
                 id: string;
                 createdAt: Date;
-                name: string | null;
-                customerCode: string | null;
+                updatedAt: Date;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+                email: string;
                 username: string;
-                usernameChangeCount: number;
-                usernameChangedAt: Date | null;
                 phone: string | null;
                 avatarUrl: string | null;
                 emailVerified: Date | null;
+                metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+                description: string | null;
+                customerCode: string | null;
+                usernameChangeCount: number;
+                usernameChangedAt: Date | null;
                 lastLoginAt: Date | null;
                 dob: Date | null;
                 gender: string | null;
-                metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
-                updatedAt: Date;
+                groupId: number | null;
                 group: {
-                    code: string;
-                    id: number;
                     name: string;
+                    id: number;
+                    code: string;
                 } | null;
                 socialAccounts: {
-                    email: string | null;
+                    name: string | null;
                     id: number;
                     createdAt: Date;
-                    name: string | null;
+                    email: string | null;
                     provider: string;
                 }[];
                 activityLogs: {
                     id: number;
                     createdAt: Date;
-                    action: string;
                     ipAddress: string | null;
+                    action: string;
                 }[];
-                groupId: number | null;
             } | null;
             meta: object;
         }>;
@@ -15495,14 +15495,14 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
                 name?: string | undefined;
                 phone?: string | undefined;
                 dob?: string | null | undefined;
-                gender?: "male" | "female" | "other" | null | undefined;
+                gender?: "other" | "male" | "female" | null | undefined;
                 description?: string | null | undefined;
             };
             output: {
-                email: string;
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
-                id: string;
                 name: string | null;
+                id: string;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+                email: string;
                 username: string;
             };
             meta: object;
@@ -15589,14 +15589,14 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
                 search?: string | undefined;
             } | undefined;
             output: {
-                code: number;
-                id: number;
-                createdAt: Date;
                 name: string;
-                updatedAt: Date;
+                id: number;
+                code: number;
                 divisionType: string;
                 codeName: string;
                 phoneCode: number;
+                createdAt: Date;
+                updatedAt: Date;
             }[];
             meta: object;
         }>;
@@ -15606,16 +15606,16 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
                 search?: string | undefined;
             };
             output: {
-                code: number;
-                id: number;
-                createdAt: Date;
                 name: string;
-                updatedAt: Date;
                 province: {
                     name: string;
                 };
+                id: number;
+                code: number;
                 divisionType: string;
                 codeName: string;
+                createdAt: Date;
+                updatedAt: Date;
                 provinceCode: number;
             }[];
             meta: object;
@@ -15626,21 +15626,21 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
                 limit?: number | undefined;
             } | undefined;
             output: {
-                code: string;
-                id: number;
-                createdAt: Date;
                 name: string;
-                updatedAt: Date;
+                id: number;
+                code: string;
                 divisionType: string;
+                createdAt: Date;
+                updatedAt: Date;
                 countryCode: string;
                 nameEn: string | null;
                 level: number;
                 parentId: number | null;
                 isActive: boolean;
                 parent: {
-                    code: string;
-                    id: number;
                     name: string;
+                    id: number;
+                    code: string;
                 } | null;
             }[];
             meta: object;
@@ -15652,21 +15652,21 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
                 limit?: number | undefined;
             };
             output: {
-                code: string;
-                id: number;
-                createdAt: Date;
                 name: string;
-                updatedAt: Date;
+                id: number;
+                code: string;
                 divisionType: string;
+                createdAt: Date;
+                updatedAt: Date;
                 countryCode: string;
                 nameEn: string | null;
                 level: number;
                 parentId: number | null;
                 isActive: boolean;
                 parent: {
-                    code: string;
-                    id: number;
                     name: string;
+                    id: number;
+                    code: string;
                 } | null;
             }[];
             meta: object;
@@ -15759,9 +15759,9 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
                 volumeWeight: number;
                 chargeableWeight: number;
                 dimensionText: string | null;
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
                 id: string;
                 createdAt: Date;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
                 orderCode: string;
             };
             meta: object;
@@ -15775,19 +15775,21 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
                 shippingMethod?: "EXPRESS" | "EPACKET" | undefined;
                 page?: number | undefined;
                 perPage?: number | undefined;
-                sortBy?: "status" | "id" | "createdAt" | "orderCode" | undefined;
+                sortBy?: "id" | "createdAt" | "status" | "orderCode" | undefined;
                 sortOrder?: "asc" | "desc" | undefined;
             } | undefined;
             output: import("@flash-ship/ecom-lib").PaginatedResult<{
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
                 id: string;
                 createdAt: Date;
                 customer: {
-                    email: string;
                     name: string | null;
+                    email: string;
                     username: string;
                 };
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
                 customerId: string;
+                orderCode: string;
+                labelStatus: import("@ecom/prisma/src/generated/prisma/client").$Enums.LabelStatus;
                 shippingMethod: import("@ecom/prisma/src/generated/prisma/client").$Enums.ShippingMethod;
                 shippingOrigin: import("@ecom/prisma/src/generated/prisma/client").$Enums.ShippingOrigin;
                 sellerOrderId: string | null;
@@ -15799,8 +15801,6 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
                 receiverCountry: string;
                 receiverZipCode: string;
                 declaredWeight: number;
-                orderCode: string;
-                labelStatus: import("@ecom/prisma/src/generated/prisma/client").$Enums.LabelStatus;
                 ecomTrackingNumber: string | null;
                 baseShippingFee: import("@prisma/client-runtime-utils").Decimal;
                 surchargeFee: import("@prisma/client-runtime-utils").Decimal;
@@ -15824,7 +15824,7 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
                 shippingMethod?: "EXPRESS" | "EPACKET" | undefined;
                 page?: number | undefined;
                 perPage?: number | undefined;
-                sortBy?: "status" | "id" | "createdAt" | "orderCode" | undefined;
+                sortBy?: "id" | "createdAt" | "status" | "orderCode" | undefined;
                 sortOrder?: "asc" | "desc" | undefined;
             } | undefined;
             output: {
@@ -15915,8 +15915,8 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
                 status?: "completed" | "failed" | undefined;
             };
             output: {
-                status: string;
                 id: string;
+                status: string;
             };
             meta: object;
         }>;
@@ -15932,9 +15932,9 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
             output: {
                 total: number;
                 items: {
-                    status: string;
                     id: string;
                     createdAt: Date;
+                    status: string;
                     fileName: string;
                     fileSize: number | null;
                     totalRows: number;
@@ -15951,9 +15951,9 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
                 id: string;
             };
             output: {
-                status: string;
                 id: string;
                 createdAt: Date;
+                status: string;
                 customerId: string;
                 fileName: string;
                 fileSize: number | null;
@@ -15972,12 +15972,12 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
             } | undefined;
             output: {
                 items: {
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                    description: string | null;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
                     updatedAt: Date;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                    description: string | null;
                     image: string | null;
                 }[];
                 total: number;
@@ -16011,14 +16011,14 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
             input: void;
             output: {
                 id: string;
+                createdAt: Date;
+                expiresAt: Date | null;
+                lastUsedAt: Date | null;
+                label: string | null;
                 ownerId: string;
                 ownerType: string;
                 maskedKey: string;
-                label: string | null;
                 allowedIps: string[];
-                expiresAt: Date | null;
-                lastUsedAt: Date | null;
-                createdAt: Date;
             }[];
             meta: object;
         }>;
@@ -16066,22 +16066,22 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
         list: import("@trpc/server").TRPCQueryProcedure<{
             input: void;
             output: {
-                url: string;
-                id: number;
-                ownerId: string | null;
-                ownerType: string | null;
-                createdAt: Date;
                 name: string;
+                id: number;
+                createdAt: Date;
                 _count: {
                     logs: number;
                 };
                 isActive: boolean;
+                url: string;
                 secret: string | null;
                 oldSecret: string | null;
                 secretUpdatedAt: Date | null;
                 events: string[];
                 retries: number;
                 timeout: number;
+                ownerId: string | null;
+                ownerType: string | null;
                 failureCount: number;
                 apiVersion: string;
             }[];
@@ -16095,8 +16095,8 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
                 apiVersion?: string | undefined;
             };
             output: {
-                id: number;
                 name: string;
+                id: number;
                 secret: string | null;
             };
             meta: object;
@@ -16136,12 +16136,12 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
                 error: string | null;
                 id: number;
                 createdAt: Date;
-                success: boolean;
+                statusCode: number | null;
+                attempts: number;
                 event: string;
                 payload: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                 response: string | null;
-                statusCode: number | null;
-                attempts: number;
+                success: boolean;
             }[];
             meta: object;
         }>;
@@ -16174,10 +16174,10 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
             } | undefined;
             output: {
                 items: {
-                    type: string;
                     link: string | null;
                     id: number;
                     createdAt: Date;
+                    type: string;
                     titleKey: string;
                     messageKey: string;
                     variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
@@ -16191,10 +16191,10 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
                 nextCursor: number | undefined;
             } | {
                 items: {
-                    type: string;
                     link: string | null;
                     id: number;
                     createdAt: Date;
+                    type: string;
                     titleKey: string;
                     messageKey: string;
                     variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
@@ -16239,14 +16239,14 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
                 deviceInfo?: string | undefined;
             };
             output: {
-                userId: string | null;
                 id: number;
                 createdAt: Date;
                 updatedAt: Date;
+                userId: string | null;
+                deviceInfo: string | null;
                 customerId: string | null;
                 token: string;
                 platform: string;
-                deviceInfo: string | null;
             };
             meta: object;
         }>;
@@ -16261,7 +16261,7 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
             input: void;
             output: {
                 eventType: string;
-                category: "order" | "system" | "blog" | "account" | "wallet";
+                category: "order" | "account" | "system" | "blog" | "wallet";
                 labelKey: string;
                 descriptionKey: string;
                 channels: {
@@ -16298,10 +16298,10 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
                 dndConfig?: Record<string, any> | undefined;
             };
             output: {
-                userId: string | null;
                 id: number;
                 createdAt: Date;
                 updatedAt: Date;
+                userId: string | null;
                 customerId: string | null;
                 eventType: string;
                 channelInApp: boolean;
@@ -16335,19 +16335,19 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
         list: import("@trpc/server").TRPCQueryProcedure<{
             input: void;
             output: ({
-                email: string | null;
-                id: number;
-                label: string | null;
-                createdAt: Date;
                 name: string;
-                phone: string | null;
+                id: number;
+                createdAt: Date;
                 updatedAt: Date;
                 ward: string | null;
                 country: string;
+                email: string | null;
+                phone: string | null;
                 isDefault: boolean;
+                label: string | null;
+                address: string;
                 city: string;
                 zipCode: string | null;
-                address: string;
             } & {
                 cityName: string;
                 wardName: string | null;
@@ -16368,19 +16368,19 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
                 isDefault?: boolean | undefined;
             };
             output: ({
-                email: string | null;
-                id: number;
-                label: string | null;
-                createdAt: Date;
                 name: string;
-                phone: string | null;
+                id: number;
+                createdAt: Date;
                 updatedAt: Date;
                 ward: string | null;
                 country: string;
+                email: string | null;
+                phone: string | null;
                 isDefault: boolean;
+                label: string | null;
+                address: string;
                 city: string;
                 zipCode: string | null;
-                address: string;
             } & {
                 cityName: string;
                 wardName: string | null;
@@ -16404,19 +16404,19 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
                 };
             };
             output: ({
-                email: string | null;
-                id: number;
-                label: string | null;
-                createdAt: Date;
                 name: string;
-                phone: string | null;
+                id: number;
+                createdAt: Date;
                 updatedAt: Date;
                 ward: string | null;
                 country: string;
+                email: string | null;
+                phone: string | null;
                 isDefault: boolean;
+                label: string | null;
+                address: string;
                 city: string;
                 zipCode: string | null;
-                address: string;
             } & {
                 cityName: string;
                 wardName: string | null;
@@ -16437,19 +16437,19 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
                 id: number;
             };
             output: {
-                email: string | null;
-                id: number;
-                label: string | null;
-                createdAt: Date;
                 name: string;
-                phone: string | null;
+                id: number;
+                createdAt: Date;
                 updatedAt: Date;
                 ward: string | null;
                 country: string;
+                email: string | null;
+                phone: string | null;
                 isDefault: boolean;
+                label: string | null;
+                address: string;
                 city: string;
                 zipCode: string | null;
-                address: string;
             };
             meta: object;
         }>;
@@ -16478,20 +16478,20 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
             output: {
                 stateName: string;
                 cityName: string;
-                email: string | null;
-                id: number;
-                label: string | null;
-                createdAt: Date;
                 name: string;
-                phone: string | null;
+                id: number;
+                createdAt: Date;
                 updatedAt: Date;
                 country: string;
+                email: string | null;
+                phone: string | null;
                 isDefault: boolean;
+                label: string | null;
+                city: string;
+                zipCode: string;
                 address1: string;
                 address2: string | null;
-                city: string;
                 state: string;
-                zipCode: string;
             }[];
             meta: object;
         }>;
@@ -16510,20 +16510,20 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
                 isDefault?: boolean | undefined;
             };
             output: {
-                email: string | null;
-                id: number;
-                label: string | null;
-                createdAt: Date;
                 name: string;
-                phone: string | null;
+                id: number;
+                createdAt: Date;
                 updatedAt: Date;
                 country: string;
+                email: string | null;
+                phone: string | null;
                 isDefault: boolean;
+                label: string | null;
+                city: string;
+                zipCode: string;
                 address1: string;
                 address2: string | null;
-                city: string;
                 state: string;
-                zipCode: string;
             };
             meta: object;
         }>;
@@ -16545,20 +16545,20 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
                 };
             };
             output: {
-                email: string | null;
-                id: number;
-                label: string | null;
-                createdAt: Date;
                 name: string;
-                phone: string | null;
+                id: number;
+                createdAt: Date;
                 updatedAt: Date;
                 country: string;
+                email: string | null;
+                phone: string | null;
                 isDefault: boolean;
+                label: string | null;
+                city: string;
+                zipCode: string;
                 address1: string;
                 address2: string | null;
-                city: string;
                 state: string;
-                zipCode: string;
             };
             meta: object;
         }>;
@@ -16576,20 +16576,20 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
                 id: number;
             };
             output: {
-                email: string | null;
-                id: number;
-                label: string | null;
-                createdAt: Date;
                 name: string;
-                phone: string | null;
+                id: number;
+                createdAt: Date;
                 updatedAt: Date;
                 country: string;
+                email: string | null;
+                phone: string | null;
                 isDefault: boolean;
+                label: string | null;
+                city: string;
+                zipCode: string;
                 address1: string;
                 address2: string | null;
-                city: string;
                 state: string;
-                zipCode: string;
             };
             meta: object;
         }>;
@@ -16618,15 +16618,15 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
             output: {
                 length: number | null;
                 id: number;
-                label: string | null;
                 createdAt: Date;
                 updatedAt: Date;
-                weight: number;
-                packingTypeId: number | null;
-                width: number | null;
                 isDefault: boolean;
+                packingTypeId: number | null;
+                label: string | null;
                 packageName: string;
+                width: number | null;
                 height: number | null;
+                weight: number;
             }[];
             meta: object;
         }>;
@@ -16644,15 +16644,15 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
             output: {
                 length: number | null;
                 id: number;
-                label: string | null;
                 createdAt: Date;
                 updatedAt: Date;
-                weight: number;
-                packingTypeId: number | null;
-                width: number | null;
                 isDefault: boolean;
+                packingTypeId: number | null;
+                label: string | null;
                 packageName: string;
+                width: number | null;
                 height: number | null;
+                weight: number;
             };
             meta: object;
         }>;
@@ -16673,15 +16673,15 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
             output: {
                 length: number | null;
                 id: number;
-                label: string | null;
                 createdAt: Date;
                 updatedAt: Date;
-                weight: number;
-                packingTypeId: number | null;
-                width: number | null;
                 isDefault: boolean;
+                packingTypeId: number | null;
+                label: string | null;
                 packageName: string;
+                width: number | null;
                 height: number | null;
+                weight: number;
             };
             meta: object;
         }>;
@@ -16701,15 +16701,15 @@ export declare const customerRouter: import("@trpc/server").TRPCDecorateCreateRo
             output: {
                 length: number | null;
                 id: number;
-                label: string | null;
                 createdAt: Date;
                 updatedAt: Date;
-                weight: number;
-                packingTypeId: number | null;
-                width: number | null;
                 isDefault: boolean;
+                packingTypeId: number | null;
+                label: string | null;
                 packageName: string;
+                width: number | null;
                 height: number | null;
+                weight: number;
             };
             meta: object;
         }>;
@@ -16763,27 +16763,27 @@ export declare const publicRouter: import("@trpc/server").TRPCDecorateCreateRout
                     perPage?: number | undefined;
                 } | undefined;
                 output: import("@flash-ship/ecom-lib").PaginatedResult<{
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     id: number;
                     createdAt: Date;
                     deletedAt: Date | null;
                     slug: string;
-                    isFeatured: boolean;
                     title: string;
-                    publishedAt: Date | null;
-                    views: number;
                     excerpt: string | null;
                     featuredImage: string | null;
+                    isFeatured: boolean;
+                    views: number;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     authorId: string;
+                    publishedAt: Date | null;
                     author: {
-                        id: string;
                         name: string | null;
+                        id: string;
                         avatarUrl: string | null;
                     };
                     categories: {
                         category: {
-                            id: number;
                             name: string;
+                            id: number;
                             slug: string;
                         };
                     }[];
@@ -16795,37 +16795,37 @@ export declare const publicRouter: import("@trpc/server").TRPCDecorateCreateRout
                     slug: string;
                 };
                 output: {
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     id: number;
                     createdAt: Date;
                     slug: string;
-                    isFeatured: boolean;
                     title: string;
-                    publishedAt: Date | null;
-                    views: number;
                     content: string | null;
                     excerpt: string | null;
                     featuredImage: string | null;
                     bannerImage: string | null;
+                    isFeatured: boolean;
                     externalSource: string | null;
                     sponsoredBy: string | null;
+                    views: number;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     authorId: string;
+                    publishedAt: Date | null;
                     author: {
-                        id: string;
                         name: string | null;
+                        id: string;
                         avatarUrl: string | null;
                     };
                     categories: {
                         category: {
-                            id: number;
                             name: string;
+                            id: number;
                             slug: string;
                         };
                     }[];
                     tags: {
                         tag: {
-                            id: number;
                             name: string;
+                            id: number;
                             slug: string;
                         };
                     }[];
@@ -16837,27 +16837,27 @@ export declare const publicRouter: import("@trpc/server").TRPCDecorateCreateRout
             categories: import("@trpc/server").TRPCQueryProcedure<{
                 input: void;
                 output: {
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                    id: number;
                     name: string;
-                    children: {
-                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                        id: number;
-                        name: string;
-                        children: {
-                            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                            id: number;
-                            name: string;
-                            order: number;
-                            slug: string;
-                            icon: string | null;
-                        }[];
-                        order: number;
-                        slug: string;
-                        icon: string | null;
-                    }[];
+                    id: number;
                     order: number;
                     slug: string;
+                    children: {
+                        name: string;
+                        id: number;
+                        order: number;
+                        slug: string;
+                        children: {
+                            name: string;
+                            id: number;
+                            order: number;
+                            slug: string;
+                            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                            icon: string | null;
+                        }[];
+                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                        icon: string | null;
+                    }[];
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     icon: string | null;
                 }[];
                 meta: object;
@@ -16870,14 +16870,14 @@ export declare const publicRouter: import("@trpc/server").TRPCDecorateCreateRout
                 } | undefined;
                 output: {
                     rows: {
-                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                        name: string;
                         id: number;
                         createdAt: Date;
-                        name: string;
+                        slug: string;
                         _count: {
                             posts: number;
                         };
-                        slug: string;
+                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     }[];
                     total: number;
                     page: number;
@@ -16894,20 +16894,20 @@ export declare const publicRouter: import("@trpc/server").TRPCDecorateCreateRout
                 };
                 output: {
                     items: {
-                        status: string;
                         id: number;
                         createdAt: Date;
                         _count: {
                             replies: number;
                         };
-                        customerId: string | null;
-                        ipAddress: string | null;
                         parentId: number | null;
                         content: string;
+                        status: string;
+                        ipAddress: string | null;
+                        customerId: string | null;
                         postId: number | null;
-                        pageId: number | null;
                         authorName: string | null;
                         authorEmail: string | null;
+                        pageId: number | null;
                     }[];
                     total: number;
                     page: number;
@@ -16955,27 +16955,27 @@ export declare const publicRouter: import("@trpc/server").TRPCDecorateCreateRout
                     perPage?: number | undefined;
                 };
                 output: import("@flash-ship/ecom-lib").PaginatedResult<{
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     id: number;
                     createdAt: Date;
                     deletedAt: Date | null;
                     slug: string;
-                    isFeatured: boolean;
                     title: string;
-                    publishedAt: Date | null;
-                    views: number;
                     excerpt: string | null;
                     featuredImage: string | null;
+                    isFeatured: boolean;
+                    views: number;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     authorId: string;
+                    publishedAt: Date | null;
                     author: {
-                        id: string;
                         name: string | null;
+                        id: string;
                         avatarUrl: string | null;
                     };
                     categories: {
                         category: {
-                            id: number;
                             name: string;
+                            id: number;
                             slug: string;
                         };
                     }[];
@@ -17005,24 +17005,24 @@ export declare const publicRouter: import("@trpc/server").TRPCDecorateCreateRout
             list: import("@trpc/server").TRPCQueryProcedure<{
                 input: void;
                 output: ({
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    order: number;
+                    slug: string;
                     _count: {
                         children: number;
                     };
                     parentId: number | null;
-                    order: number;
-                    slug: string;
                     title: string;
-                    publishedAt: Date | null;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                     authorId: string;
-                    author: {
-                        id: string;
-                        name: string | null;
-                    };
+                    publishedAt: Date | null;
                     template: string | null;
+                    author: {
+                        name: string | null;
+                        id: string;
+                    };
                 } & {
                     _translatedFrom?: string;
                 })[];
@@ -17042,10 +17042,10 @@ export declare const publicRouter: import("@trpc/server").TRPCDecorateCreateRout
                         indexMode: string | null;
                     } | null;
                     title: string;
-                    publishedAt: Date | null;
                     content: string | null;
                     excerpt: string | null;
                     featuredImage: string | null;
+                    publishedAt: Date | null;
                     template: string | null;
                 } & {
                     _translatedFrom?: string;
@@ -17198,18 +17198,18 @@ export declare const publicRouter: import("@trpc/server").TRPCDecorateCreateRout
                 input: void;
                 output: {
                     flag: string | null;
-                    code: string;
-                    id: number;
                     name: string;
+                    id: number;
+                    code: string;
                 }[];
                 meta: object;
             }>;
             getTransportModes: import("@trpc/server").TRPCQueryProcedure<{
                 input: void;
                 output: {
-                    code: string;
-                    id: number;
                     name: string;
+                    id: number;
+                    code: string;
                 }[];
                 meta: object;
             }>;
@@ -17243,27 +17243,27 @@ export declare const publicRouter: import("@trpc/server").TRPCDecorateCreateRout
                 perPage?: number | undefined;
             } | undefined;
             output: import("@flash-ship/ecom-lib").PaginatedResult<{
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 id: number;
                 createdAt: Date;
                 deletedAt: Date | null;
                 slug: string;
-                isFeatured: boolean;
                 title: string;
-                publishedAt: Date | null;
-                views: number;
                 excerpt: string | null;
                 featuredImage: string | null;
+                isFeatured: boolean;
+                views: number;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 authorId: string;
+                publishedAt: Date | null;
                 author: {
-                    id: string;
                     name: string | null;
+                    id: string;
                     avatarUrl: string | null;
                 };
                 categories: {
                     category: {
-                        id: number;
                         name: string;
+                        id: number;
                         slug: string;
                     };
                 }[];
@@ -17275,37 +17275,37 @@ export declare const publicRouter: import("@trpc/server").TRPCDecorateCreateRout
                 slug: string;
             };
             output: {
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 id: number;
                 createdAt: Date;
                 slug: string;
-                isFeatured: boolean;
                 title: string;
-                publishedAt: Date | null;
-                views: number;
                 content: string | null;
                 excerpt: string | null;
                 featuredImage: string | null;
                 bannerImage: string | null;
+                isFeatured: boolean;
                 externalSource: string | null;
                 sponsoredBy: string | null;
+                views: number;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 authorId: string;
+                publishedAt: Date | null;
                 author: {
-                    id: string;
                     name: string | null;
+                    id: string;
                     avatarUrl: string | null;
                 };
                 categories: {
                     category: {
-                        id: number;
                         name: string;
+                        id: number;
                         slug: string;
                     };
                 }[];
                 tags: {
                     tag: {
-                        id: number;
                         name: string;
+                        id: number;
                         slug: string;
                     };
                 }[];
@@ -17317,27 +17317,27 @@ export declare const publicRouter: import("@trpc/server").TRPCDecorateCreateRout
         categories: import("@trpc/server").TRPCQueryProcedure<{
             input: void;
             output: {
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                id: number;
                 name: string;
-                children: {
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                    id: number;
-                    name: string;
-                    children: {
-                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                        id: number;
-                        name: string;
-                        order: number;
-                        slug: string;
-                        icon: string | null;
-                    }[];
-                    order: number;
-                    slug: string;
-                    icon: string | null;
-                }[];
+                id: number;
                 order: number;
                 slug: string;
+                children: {
+                    name: string;
+                    id: number;
+                    order: number;
+                    slug: string;
+                    children: {
+                        name: string;
+                        id: number;
+                        order: number;
+                        slug: string;
+                        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                        icon: string | null;
+                    }[];
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                    icon: string | null;
+                }[];
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 icon: string | null;
             }[];
             meta: object;
@@ -17350,14 +17350,14 @@ export declare const publicRouter: import("@trpc/server").TRPCDecorateCreateRout
             } | undefined;
             output: {
                 rows: {
-                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
+                    slug: string;
                     _count: {
                         posts: number;
                     };
-                    slug: string;
+                    status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 }[];
                 total: number;
                 page: number;
@@ -17374,20 +17374,20 @@ export declare const publicRouter: import("@trpc/server").TRPCDecorateCreateRout
             };
             output: {
                 items: {
-                    status: string;
                     id: number;
                     createdAt: Date;
                     _count: {
                         replies: number;
                     };
-                    customerId: string | null;
-                    ipAddress: string | null;
                     parentId: number | null;
                     content: string;
+                    status: string;
+                    ipAddress: string | null;
+                    customerId: string | null;
                     postId: number | null;
-                    pageId: number | null;
                     authorName: string | null;
                     authorEmail: string | null;
+                    pageId: number | null;
                 }[];
                 total: number;
                 page: number;
@@ -17435,27 +17435,27 @@ export declare const publicRouter: import("@trpc/server").TRPCDecorateCreateRout
                 perPage?: number | undefined;
             };
             output: import("@flash-ship/ecom-lib").PaginatedResult<{
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 id: number;
                 createdAt: Date;
                 deletedAt: Date | null;
                 slug: string;
-                isFeatured: boolean;
                 title: string;
-                publishedAt: Date | null;
-                views: number;
                 excerpt: string | null;
                 featuredImage: string | null;
+                isFeatured: boolean;
+                views: number;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 authorId: string;
+                publishedAt: Date | null;
                 author: {
-                    id: string;
                     name: string | null;
+                    id: string;
                     avatarUrl: string | null;
                 };
                 categories: {
                     category: {
-                        id: number;
                         name: string;
+                        id: number;
                         slug: string;
                     };
                 }[];
@@ -17485,24 +17485,24 @@ export declare const publicRouter: import("@trpc/server").TRPCDecorateCreateRout
         list: import("@trpc/server").TRPCQueryProcedure<{
             input: void;
             output: ({
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 id: number;
                 createdAt: Date;
                 updatedAt: Date;
+                order: number;
+                slug: string;
                 _count: {
                     children: number;
                 };
                 parentId: number | null;
-                order: number;
-                slug: string;
                 title: string;
-                publishedAt: Date | null;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 authorId: string;
-                author: {
-                    id: string;
-                    name: string | null;
-                };
+                publishedAt: Date | null;
                 template: string | null;
+                author: {
+                    name: string | null;
+                    id: string;
+                };
             } & {
                 _translatedFrom?: string;
             })[];
@@ -17522,10 +17522,10 @@ export declare const publicRouter: import("@trpc/server").TRPCDecorateCreateRout
                     indexMode: string | null;
                 } | null;
                 title: string;
-                publishedAt: Date | null;
                 content: string | null;
                 excerpt: string | null;
                 featuredImage: string | null;
+                publishedAt: Date | null;
                 template: string | null;
             } & {
                 _translatedFrom?: string;
@@ -17703,18 +17703,18 @@ export declare const publicRouter: import("@trpc/server").TRPCDecorateCreateRout
             input: void;
             output: {
                 flag: string | null;
-                code: string;
-                id: number;
                 name: string;
+                id: number;
+                code: string;
             }[];
             meta: object;
         }>;
         getTransportModes: import("@trpc/server").TRPCQueryProcedure<{
             input: void;
             output: {
-                code: string;
-                id: number;
                 name: string;
+                id: number;
+                code: string;
             }[];
             meta: object;
         }>;

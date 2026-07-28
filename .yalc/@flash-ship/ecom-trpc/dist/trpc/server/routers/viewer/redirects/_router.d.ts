@@ -29,8 +29,8 @@ export declare const redirectsRouter: import("@trpc/server").TRPCBuiltRouter<{
                 id: number;
                 createdAt: Date;
                 isActive: boolean;
-                statusCode: number;
                 note: string | null;
+                statusCode: number;
                 fromPath: string;
                 toPath: string;
                 hitCount: number;
@@ -84,8 +84,8 @@ export declare const redirectsRouter: import("@trpc/server").TRPCBuiltRouter<{
             createdAt: Date;
             updatedAt: Date;
             isActive: boolean;
-            statusCode: number;
             note: string | null;
+            statusCode: number;
             fromPath: string;
             toPath: string;
             hitCount: number;

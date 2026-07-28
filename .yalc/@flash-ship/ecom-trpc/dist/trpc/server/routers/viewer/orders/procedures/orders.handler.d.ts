@@ -21,7 +21,7 @@ export declare const list: import("@trpc/server").TRPCQueryProcedure<{
         search?: string | undefined;
         page?: number | undefined;
         perPage?: number | undefined;
-        sortBy?: "status" | "id" | "createdAt" | "orderCode" | undefined;
+        sortBy?: "id" | "createdAt" | "status" | "orderCode" | undefined;
         sortOrder?: "asc" | "desc" | undefined;
     } | undefined;
     output: {
@@ -34,7 +34,7 @@ export declare const get: import("@trpc/server").TRPCQueryProcedure<{
     input: {
         id: string;
     };
-    output: CachedOrder | import("@ecom/features/order/mappers/AdminOrderMapper").AdminOrderDetailResponse | undefined;
+    output: import("@ecom/features/order/mappers/AdminOrderMapper").AdminOrderDetailResponse | CachedOrder | undefined;
     meta: object;
 }>;
 export declare const updateStatus: import("@trpc/server").TRPCMutationProcedure<{
@@ -45,9 +45,9 @@ export declare const updateStatus: import("@trpc/server").TRPCMutationProcedure<
         expectedVersion?: number | undefined;
     };
     output: {
-        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
         id: string;
         updatedAt: Date;
+        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
         orderCode: string;
         labelStatus: import("@ecom/prisma/src/generated/prisma/client").$Enums.LabelStatus;
         exportCustomsStatus: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomsStatus;
@@ -75,9 +75,9 @@ export declare const recalculate: import("@trpc/server").TRPCMutationProcedure<{
         forceRefresh?: boolean | undefined;
     };
     output: {
-        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
         id: string;
         createdAt: Date;
+        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
         orderCode: string;
         totalFee: Prisma.Decimal;
     };

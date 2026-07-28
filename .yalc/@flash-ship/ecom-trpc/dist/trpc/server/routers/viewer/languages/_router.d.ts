@@ -20,14 +20,14 @@ export declare const languagesRouter: import("@trpc/server").TRPCBuiltRouter<{
     list: import("@trpc/server").TRPCQueryProcedure<{
         input: void;
         output: {
-            code: string;
-            locale: string;
-            id: number;
-            createdAt: Date;
             name: string;
+            id: number;
+            code: string;
+            createdAt: Date;
             updatedAt: Date;
-            isActive: boolean;
             order: number;
+            isActive: boolean;
+            locale: string;
             isDefault: boolean;
             flag: string | null;
             isRtl: boolean;
@@ -44,14 +44,14 @@ export declare const languagesRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
         };
         output: {
-            code: string;
-            locale: string;
-            id: number;
-            createdAt: Date;
             name: string;
+            id: number;
+            code: string;
+            createdAt: Date;
             updatedAt: Date;
-            isActive: boolean;
             order: number;
+            isActive: boolean;
+            locale: string;
             isDefault: boolean;
             flag: string | null;
             isRtl: boolean;
@@ -73,14 +73,14 @@ export declare const languagesRouter: import("@trpc/server").TRPCBuiltRouter<{
             order?: number | undefined;
         };
         output: {
-            code: string;
-            locale: string;
-            id: number;
-            createdAt: Date;
             name: string;
+            id: number;
+            code: string;
+            createdAt: Date;
             updatedAt: Date;
-            isActive: boolean;
             order: number;
+            isActive: boolean;
+            locale: string;
             isDefault: boolean;
             flag: string | null;
             isRtl: boolean;
@@ -99,14 +99,14 @@ export declare const languagesRouter: import("@trpc/server").TRPCBuiltRouter<{
             isActive?: boolean | undefined;
         };
         output: {
-            code: string;
-            locale: string;
-            id: number;
-            createdAt: Date;
             name: string;
+            id: number;
+            code: string;
+            createdAt: Date;
             updatedAt: Date;
-            isActive: boolean;
             order: number;
+            isActive: boolean;
+            locale: string;
             isDefault: boolean;
             flag: string | null;
             isRtl: boolean;
@@ -127,14 +127,14 @@ export declare const languagesRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
         };
         output: {
-            code: string;
-            locale: string;
-            id: number;
-            createdAt: Date;
             name: string;
+            id: number;
+            code: string;
+            createdAt: Date;
             updatedAt: Date;
-            isActive: boolean;
             order: number;
+            isActive: boolean;
+            locale: string;
             isDefault: boolean;
             flag: string | null;
             isRtl: boolean;
@@ -148,17 +148,17 @@ export declare const languagesRouter: import("@trpc/server").TRPCBuiltRouter<{
         };
         output: {
             id: number;
-            referenceId: number;
-            referenceType: string;
             language: {
+                name: string;
+                id: number;
                 code: string;
                 locale: string;
-                id: number;
-                name: string;
                 flag: string | null;
             };
-            origin: string;
+            referenceId: number;
+            referenceType: string;
             langCode: string;
+            origin: string;
         }[];
         meta: object;
     }>;
@@ -173,8 +173,8 @@ export declare const languagesRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
             referenceId: number;
             referenceType: string;
-            origin: string;
             langCode: string;
+            origin: string;
         };
         meta: object;
     }>;

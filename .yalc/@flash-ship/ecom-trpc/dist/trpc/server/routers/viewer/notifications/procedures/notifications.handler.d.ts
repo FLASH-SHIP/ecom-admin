@@ -9,10 +9,10 @@ export declare const listNotifications: import("@trpc/server").TRPCQueryProcedur
     } | undefined;
     output: {
         items: {
-            type: string;
             link: string | null;
             id: number;
             createdAt: Date;
+            type: string;
             titleKey: string;
             messageKey: string;
             variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
@@ -26,10 +26,10 @@ export declare const listNotifications: import("@trpc/server").TRPCQueryProcedur
         nextCursor: number | undefined;
     } | {
         items: {
-            type: string;
             link: string | null;
             id: number;
             createdAt: Date;
+            type: string;
             titleKey: string;
             messageKey: string;
             variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
@@ -75,14 +75,14 @@ export declare const registerToken: import("@trpc/server").TRPCMutationProcedure
         deviceInfo?: string | undefined;
     };
     output: {
-        userId: string | null;
         id: number;
         createdAt: Date;
         updatedAt: Date;
+        userId: string | null;
+        deviceInfo: string | null;
         customerId: string | null;
         token: string;
         platform: string;
-        deviceInfo: string | null;
     };
     meta: object;
 }>;
@@ -97,7 +97,7 @@ export declare const getPreferences: import("@trpc/server").TRPCQueryProcedure<{
     input: void;
     output: {
         eventType: string;
-        category: "order" | "system" | "blog" | "account" | "wallet";
+        category: "order" | "account" | "system" | "blog" | "wallet";
         labelKey: string;
         descriptionKey: string;
         channels: {
@@ -134,10 +134,10 @@ export declare const updatePreference: import("@trpc/server").TRPCMutationProced
         dndConfig?: Record<string, any> | undefined;
     };
     output: {
-        userId: string | null;
         id: number;
         createdAt: Date;
         updatedAt: Date;
+        userId: string | null;
         customerId: string | null;
         eventType: string;
         channelInApp: boolean;
@@ -151,10 +151,10 @@ export declare const updatePreference: import("@trpc/server").TRPCMutationProced
 export declare const listTemplates: import("@trpc/server").TRPCQueryProcedure<{
     input: void;
     output: {
-        type: string;
         id: number;
         createdAt: Date;
         updatedAt: Date;
+        type: string;
         variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
         channelInApp: boolean;
         channelPush: boolean;
@@ -181,10 +181,10 @@ export declare const updateTemplate: import("@trpc/server").TRPCMutationProcedur
         layoutType?: string | null | undefined;
     };
     output: {
-        type: string;
         id: number;
         createdAt: Date;
         updatedAt: Date;
+        type: string;
         variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
         channelInApp: boolean;
         channelPush: boolean;
@@ -202,10 +202,10 @@ export declare const resetTemplate: import("@trpc/server").TRPCMutationProcedure
         id: number;
     };
     output: {
-        type: string;
         id: number;
         createdAt: Date;
         updatedAt: Date;
+        type: string;
         variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
         channelInApp: boolean;
         channelPush: boolean;
@@ -236,14 +236,14 @@ export declare const listScheduled: import("@trpc/server").TRPCQueryProcedure<{
     };
     output: {
         items: {
-            message: string;
-            status: string;
             link: string | null;
             id: number;
             createdAt: Date;
             updatedAt: Date;
             title: string;
+            status: string;
             scheduledAt: Date;
+            message: string;
             targetType: string;
             targetIds: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
             failedReason: string | null;
@@ -263,14 +263,14 @@ export declare const createScheduled: import("@trpc/server").TRPCMutationProcedu
         link?: string | null | undefined;
     };
     output: {
-        message: string;
-        status: string;
         link: string | null;
         id: number;
         createdAt: Date;
         updatedAt: Date;
         title: string;
+        status: string;
         scheduledAt: Date;
+        message: string;
         targetType: string;
         targetIds: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
         failedReason: string | null;
@@ -283,14 +283,14 @@ export declare const deleteScheduled: import("@trpc/server").TRPCMutationProcedu
         id: number;
     };
     output: {
-        message: string;
-        status: string;
         link: string | null;
         id: number;
         createdAt: Date;
         updatedAt: Date;
         title: string;
+        status: string;
         scheduledAt: Date;
+        message: string;
         targetType: string;
         targetIds: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
         failedReason: string | null;
@@ -322,10 +322,10 @@ export declare const testDispatch: import("@trpc/server").TRPCMutationProcedure<
         locale?: string | undefined;
     };
     output: {
-        type: string;
         link: string | null;
         id: number;
         createdAt: Date;
+        type: string;
         titleKey: string;
         messageKey: string;
         variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
@@ -343,9 +343,9 @@ export declare const listBlacklist: import("@trpc/server").TRPCQueryProcedure<{
     };
     output: {
         items: {
-            email: string;
             id: number;
             createdAt: Date;
+            email: string;
             reason: string;
         }[];
         total: number;
@@ -365,9 +365,9 @@ export declare const addToBlacklist: import("@trpc/server").TRPCMutationProcedur
         reason: string;
     };
     output: {
-        email: string;
         id: number;
         createdAt: Date;
+        email: string;
         reason: string;
     };
     meta: object;
@@ -402,9 +402,9 @@ export declare const updateBlacklistReason: import("@trpc/server").TRPCMutationP
         reason: string;
     };
     output: {
-        email: string;
         id: number;
         createdAt: Date;
+        email: string;
         reason: string;
     };
     meta: object;

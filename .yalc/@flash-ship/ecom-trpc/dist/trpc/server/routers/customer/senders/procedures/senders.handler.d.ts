@@ -1,19 +1,19 @@
 export declare const listSenders: import("@trpc/server").TRPCQueryProcedure<{
     input: void;
     output: ({
-        email: string | null;
-        id: number;
-        label: string | null;
-        createdAt: Date;
         name: string;
-        phone: string | null;
+        id: number;
+        createdAt: Date;
         updatedAt: Date;
         ward: string | null;
         country: string;
+        email: string | null;
+        phone: string | null;
         isDefault: boolean;
+        label: string | null;
+        address: string;
         city: string;
         zipCode: string | null;
-        address: string;
     } & {
         cityName: string;
         wardName: string | null;
@@ -34,19 +34,19 @@ export declare const createSender: import("@trpc/server").TRPCMutationProcedure<
         isDefault?: boolean | undefined;
     };
     output: ({
-        email: string | null;
-        id: number;
-        label: string | null;
-        createdAt: Date;
         name: string;
-        phone: string | null;
+        id: number;
+        createdAt: Date;
         updatedAt: Date;
         ward: string | null;
         country: string;
+        email: string | null;
+        phone: string | null;
         isDefault: boolean;
+        label: string | null;
+        address: string;
         city: string;
         zipCode: string | null;
-        address: string;
     } & {
         cityName: string;
         wardName: string | null;
@@ -70,19 +70,19 @@ export declare const updateSender: import("@trpc/server").TRPCMutationProcedure<
         };
     };
     output: ({
-        email: string | null;
-        id: number;
-        label: string | null;
-        createdAt: Date;
         name: string;
-        phone: string | null;
+        id: number;
+        createdAt: Date;
         updatedAt: Date;
         ward: string | null;
         country: string;
+        email: string | null;
+        phone: string | null;
         isDefault: boolean;
+        label: string | null;
+        address: string;
         city: string;
         zipCode: string | null;
-        address: string;
     } & {
         cityName: string;
         wardName: string | null;
@@ -103,19 +103,19 @@ export declare const setDefaultSender: import("@trpc/server").TRPCMutationProced
         id: number;
     };
     output: {
-        email: string | null;
-        id: number;
-        label: string | null;
-        createdAt: Date;
         name: string;
-        phone: string | null;
+        id: number;
+        createdAt: Date;
         updatedAt: Date;
         ward: string | null;
         country: string;
+        email: string | null;
+        phone: string | null;
         isDefault: boolean;
+        label: string | null;
+        address: string;
         city: string;
         zipCode: string | null;
-        address: string;
     };
     meta: object;
 }>;

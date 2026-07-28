@@ -2,14 +2,14 @@ export declare const list: import("@trpc/server").TRPCQueryProcedure<{
     input: {
         filters?: {
             fieldKey: string;
-            operator: "endsWith" | "startsWith" | "contains" | "equals" | "notContains" | "notEquals" | "between" | "betweenInclusive" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "empty" | "notEmpty";
+            operator: "endsWith" | "startsWith" | "contains" | "notContains" | "equals" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "notEquals" | "between" | "betweenInclusive" | "empty" | "notEmpty";
             value: string;
             value2?: string | undefined;
         }[] | undefined;
         search?: string | undefined;
         page?: number | undefined;
         pageSize?: number | undefined;
-        sortBy?: "status" | "id" | "createdAt" | "name" | "order" | undefined;
+        sortBy?: "name" | "id" | "createdAt" | "order" | "status" | undefined;
         sortDir?: "asc" | "desc" | undefined;
     } | undefined;
     output: {
@@ -24,27 +24,27 @@ export declare const list: import("@trpc/server").TRPCQueryProcedure<{
 export declare const tree: import("@trpc/server").TRPCQueryProcedure<{
     input: void;
     output: {
-        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-        id: number;
         name: string;
-        children: {
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-            id: number;
-            name: string;
-            children: {
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                id: number;
-                name: string;
-                order: number;
-                slug: string;
-                icon: string | null;
-            }[];
-            order: number;
-            slug: string;
-            icon: string | null;
-        }[];
+        id: number;
         order: number;
         slug: string;
+        children: {
+            name: string;
+            id: number;
+            order: number;
+            slug: string;
+            children: {
+                name: string;
+                id: number;
+                order: number;
+                slug: string;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                icon: string | null;
+            }[];
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+            icon: string | null;
+        }[];
+        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
         icon: string | null;
     }[];
     meta: object;

@@ -3,14 +3,14 @@ export declare const listProvinces: import("@trpc/server").TRPCQueryProcedure<{
         search?: string | undefined;
     } | undefined;
     output: {
-        code: number;
-        id: number;
-        createdAt: Date;
         name: string;
-        updatedAt: Date;
+        id: number;
+        code: number;
         divisionType: string;
         codeName: string;
         phoneCode: number;
+        createdAt: Date;
+        updatedAt: Date;
     }[];
     meta: object;
 }>;
@@ -20,16 +20,16 @@ export declare const listWards: import("@trpc/server").TRPCQueryProcedure<{
         search?: string | undefined;
     };
     output: {
-        code: number;
-        id: number;
-        createdAt: Date;
         name: string;
-        updatedAt: Date;
         province: {
             name: string;
         };
+        id: number;
+        code: number;
         divisionType: string;
         codeName: string;
+        createdAt: Date;
+        updatedAt: Date;
         provinceCode: number;
     }[];
     meta: object;
@@ -40,21 +40,21 @@ export declare const listStates: import("@trpc/server").TRPCQueryProcedure<{
         limit?: number | undefined;
     } | undefined;
     output: {
-        code: string;
-        id: number;
-        createdAt: Date;
         name: string;
-        updatedAt: Date;
+        id: number;
+        code: string;
         divisionType: string;
+        createdAt: Date;
+        updatedAt: Date;
         countryCode: string;
         nameEn: string | null;
         level: number;
         parentId: number | null;
         isActive: boolean;
         parent: {
-            code: string;
-            id: number;
             name: string;
+            id: number;
+            code: string;
         } | null;
     }[];
     meta: object;
@@ -66,21 +66,21 @@ export declare const listCities: import("@trpc/server").TRPCQueryProcedure<{
         limit?: number | undefined;
     };
     output: {
-        code: string;
-        id: number;
-        createdAt: Date;
         name: string;
-        updatedAt: Date;
+        id: number;
+        code: string;
         divisionType: string;
+        createdAt: Date;
+        updatedAt: Date;
         countryCode: string;
         nameEn: string | null;
         level: number;
         parentId: number | null;
         isActive: boolean;
         parent: {
-            code: string;
-            id: number;
             name: string;
+            id: number;
+            code: string;
         } | null;
     }[];
     meta: object;

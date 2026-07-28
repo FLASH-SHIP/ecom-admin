@@ -20,15 +20,15 @@ export declare const rolesRouter: import("@trpc/server").TRPCBuiltRouter<{
     list: import("@trpc/server").TRPCQueryProcedure<{
         input: void;
         output: {
-            description: string | null;
+            name: string;
             id: number;
             createdAt: Date;
-            name: string;
             updatedAt: Date;
             _count: {
                 permissions: number;
                 users: number;
             };
+            description: string | null;
             displayName: string | null;
         }[];
         meta: object;
@@ -38,19 +38,19 @@ export declare const rolesRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: unknown;
         };
         output: {
-            description: string | null;
+            name: string;
             id: number;
             createdAt: Date;
-            name: string;
             updatedAt: Date;
             _count: {
                 users: number;
             };
+            description: string | null;
             displayName: string | null;
             permissions: {
                 permission: {
-                    id: number;
                     name: string;
+                    id: number;
                     group: string | null;
                     displayName: string | null;
                 };
@@ -65,9 +65,9 @@ export declare const rolesRouter: import("@trpc/server").TRPCBuiltRouter<{
             description?: string | undefined;
         };
         output: {
-            description: string | null;
-            id: number;
             name: string;
+            id: number;
+            description: string | null;
             displayName: string | null;
         };
         meta: object;
@@ -79,9 +79,9 @@ export declare const rolesRouter: import("@trpc/server").TRPCBuiltRouter<{
             description?: string | undefined;
         };
         output: {
-            description: string | null;
-            id: number;
             name: string;
+            id: number;
+            description: string | null;
             displayName: string | null;
         };
         meta: object;
@@ -91,11 +91,11 @@ export declare const rolesRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: unknown;
         };
         output: {
-            description: string | null;
+            name: string;
             id: number;
             createdAt: Date;
-            name: string;
             updatedAt: Date;
+            description: string | null;
             displayName: string | null;
         };
         meta: object;
@@ -106,19 +106,19 @@ export declare const rolesRouter: import("@trpc/server").TRPCBuiltRouter<{
             permissionIds: unknown[];
         };
         output: {
-            description: string | null;
+            name: string;
             id: number;
             createdAt: Date;
-            name: string;
             updatedAt: Date;
             _count: {
                 users: number;
             };
+            description: string | null;
             displayName: string | null;
             permissions: {
                 permission: {
-                    id: number;
                     name: string;
+                    id: number;
                     group: string | null;
                     displayName: string | null;
                 };
@@ -130,8 +130,8 @@ export declare const rolesRouter: import("@trpc/server").TRPCBuiltRouter<{
         input: void;
         output: {
             [k: string]: {
-                id: number;
                 name: string;
+                id: number;
                 group: string | null;
                 displayName: string | null;
             }[];

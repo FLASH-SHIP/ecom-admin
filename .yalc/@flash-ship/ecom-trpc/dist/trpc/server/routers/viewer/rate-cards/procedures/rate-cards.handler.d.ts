@@ -30,7 +30,7 @@ export declare const list: import("@trpc/server").TRPCQueryProcedure<{
         id?: number | undefined;
         code?: string | undefined;
         type?: "DEFAULT" | "CUSTOM" | undefined;
-        status?: "DRAFT" | "PENDING" | "REJECTED" | "PUBLISHED" | "REVIEW" | "ARCHIVED" | undefined;
+        status?: "DRAFT" | "PENDING" | "REVIEW" | "REJECTED" | "PUBLISHED" | "ARCHIVED" | undefined;
         shippingMethod?: "EXPRESS" | "EPACKET" | undefined;
         country?: string | undefined;
         origin?: string | undefined;
@@ -41,31 +41,31 @@ export declare const list: import("@trpc/server").TRPCQueryProcedure<{
         customerGroupId?: number | undefined;
         page?: number | undefined;
         perPage?: number | undefined;
-        sortBy?: "code" | "type" | "status" | "id" | "createdAt" | "name" | "updatedAt" | "startDate" | "endDate" | undefined;
+        sortBy?: "name" | "id" | "code" | "createdAt" | "updatedAt" | "status" | "type" | "startDate" | "endDate" | undefined;
         sortOrder?: "asc" | "desc" | undefined;
     } | undefined;
     output: import("@flash-ship/ecom-lib").PaginatedResult<{
-        code: string;
-        type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-        id: number;
-        createdAt: Date;
         name: string;
+        id: number;
+        code: string;
+        createdAt: Date;
         updatedAt: Date;
-        shippingMethod: import("@ecom/prisma/src/generated/prisma/client").$Enums.ShippingMethod;
-        startDate: Date | null;
-        endDate: Date | null;
         country: string;
-        origin: string | null;
+        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+        type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
+        shippingMethod: import("@ecom/prisma/src/generated/prisma/client").$Enums.ShippingMethod;
         currency: string;
+        origin: string | null;
         weightStep: Prisma.Decimal;
         minWeight: Prisma.Decimal;
         maxWeight: Prisma.Decimal;
+        startDate: Date | null;
+        endDate: Date | null;
         groups: {
             customerGroup: {
-                code: string;
-                id: number;
                 name: string;
+                id: number;
+                code: string;
             };
             customerGroupId: number;
         }[];
@@ -77,34 +77,34 @@ export declare const get: import("@trpc/server").TRPCQueryProcedure<{
         id: number;
     };
     output: {
-        code: string;
-        type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-        id: number;
-        createdAt: Date;
         name: string;
+        id: number;
+        code: string;
+        createdAt: Date;
         updatedAt: Date;
+        country: string;
+        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+        type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
+        shippingMethod: import("@ecom/prisma/src/generated/prisma/client").$Enums.ShippingMethod;
         items: {
             id: number;
+            amount: Prisma.Decimal;
             startWeight: Prisma.Decimal;
             endWeight: Prisma.Decimal;
             rateType: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateItemType;
-            amount: Prisma.Decimal;
         }[];
-        shippingMethod: import("@ecom/prisma/src/generated/prisma/client").$Enums.ShippingMethod;
-        startDate: Date | null;
-        endDate: Date | null;
-        country: string;
-        origin: string | null;
         currency: string;
+        origin: string | null;
         weightStep: Prisma.Decimal;
         minWeight: Prisma.Decimal;
         maxWeight: Prisma.Decimal;
+        startDate: Date | null;
+        endDate: Date | null;
         groups: {
             customerGroup: {
-                code: string;
-                id: number;
                 name: string;
+                id: number;
+                code: string;
             };
             customerGroupId: number;
         }[];
@@ -128,11 +128,11 @@ export declare const create: import("@trpc/server").TRPCMutationProcedure<{
         customerGroupIds?: number[] | undefined;
     };
     output: {
-        code: string;
-        type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-        id: number;
         name: string;
+        id: number;
+        code: string;
+        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+        type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
     };
     meta: object;
 }>;
@@ -154,11 +154,11 @@ export declare const update: import("@trpc/server").TRPCMutationProcedure<{
         customerGroupIds?: number[] | undefined;
     };
     output: {
-        code: string;
-        type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-        id: number;
         name: string;
+        id: number;
+        code: string;
+        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+        type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
     };
     meta: object;
 }>;
@@ -167,11 +167,11 @@ export declare const submitForReview: import("@trpc/server").TRPCMutationProcedu
         id: number;
     };
     output: {
-        code: string;
-        type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-        id: number;
         name: string;
+        id: number;
+        code: string;
+        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+        type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
     };
     meta: object;
 }>;
@@ -180,11 +180,11 @@ export declare const approve: import("@trpc/server").TRPCMutationProcedure<{
         id: number;
     };
     output: {
-        code: string;
-        type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-        id: number;
         name: string;
+        id: number;
+        code: string;
+        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+        type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
     };
     meta: object;
 }>;
@@ -194,11 +194,11 @@ export declare const reject: import("@trpc/server").TRPCMutationProcedure<{
         reason?: string | undefined;
     };
     output: {
-        code: string;
-        type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-        id: number;
         name: string;
+        id: number;
+        code: string;
+        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+        type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
     };
     meta: object;
 }>;
@@ -215,8 +215,8 @@ export declare const checkOverlap: import("@trpc/server").TRPCQueryProcedure<{
     output: {
         hasOverlap: boolean;
         overlappingCards: {
-            code: string;
             id: number;
+            code: string;
             startDate: Date | null;
             endDate: Date | null;
         }[];
@@ -229,11 +229,11 @@ export declare const assignGroups: import("@trpc/server").TRPCMutationProcedure<
         customerGroupIds: number[];
     };
     output: {
-        code: string;
-        type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-        id: number;
         name: string;
+        id: number;
+        code: string;
+        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+        type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
     };
     meta: object;
 }>;
@@ -251,14 +251,14 @@ export declare const listLogs: import("@trpc/server").TRPCQueryProcedure<{
         id: number;
     };
     output: {
-        user: {
-            email: string;
-            id: string;
-            name: string | null;
-        } | null;
-        userId: string | null;
         id: number;
         createdAt: Date;
+        user: {
+            name: string | null;
+            id: string;
+            email: string;
+        } | null;
+        userId: string | null;
         action: string;
         oldValues: Prisma.JsonValue;
         newValues: Prisma.JsonValue;
@@ -300,9 +300,9 @@ export declare const exportSlabsTemplate: import("@trpc/server").TRPCQueryProced
 export declare const listGroups: import("@trpc/server").TRPCQueryProcedure<{
     input: void;
     output: {
-        code: string;
-        id: number;
         name: string;
+        id: number;
+        code: string;
     }[];
     meta: object;
 }>;
@@ -311,10 +311,10 @@ export declare const duplicate: import("@trpc/server").TRPCMutationProcedure<{
         id: number;
     };
     output: {
+        name: string;
+        id: number;
         code: string;
         type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-        id: number;
-        name: string;
     };
     meta: object;
 }>;

@@ -21,26 +21,26 @@ export declare const commentsRouter: import("@trpc/server").TRPCBuiltRouter<{
         input: {
             postId?: number | undefined;
             pageId?: number | undefined;
-            status?: "approved" | "pending" | "spam" | "trash" | undefined;
+            status?: "pending" | "approved" | "spam" | "trash" | undefined;
             page?: number | undefined;
             perPage?: number | undefined;
         };
         output: {
             items: {
-                status: string;
                 id: number;
                 createdAt: Date;
                 _count: {
                     replies: number;
                 };
-                customerId: string | null;
-                ipAddress: string | null;
                 parentId: number | null;
                 content: string;
+                status: string;
+                ipAddress: string | null;
+                customerId: string | null;
                 postId: number | null;
-                pageId: number | null;
                 authorName: string | null;
                 authorEmail: string | null;
+                pageId: number | null;
             }[];
             total: number;
             page: number;
@@ -53,22 +53,22 @@ export declare const commentsRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
         };
         output: {
-            status: string;
             id: number;
             createdAt: Date;
-            customerId: string | null;
-            ipAddress: string | null;
             parentId: number | null;
             content: string;
+            status: string;
+            ipAddress: string | null;
+            customerId: string | null;
             postId: number | null;
-            pageId: number | null;
             authorName: string | null;
             authorEmail: string | null;
+            pageId: number | null;
             replies: {
-                status: string;
                 id: number;
                 createdAt: Date;
                 content: string;
+                status: string;
                 authorName: string | null;
             }[];
         };
@@ -86,8 +86,8 @@ export declare const commentsRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
         };
         output: {
-            status: string;
             id: number;
+            status: string;
         };
         meta: object;
     }>;
@@ -96,8 +96,8 @@ export declare const commentsRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
         };
         output: {
-            status: string;
             id: number;
+            status: string;
         };
         meta: object;
     }>;
@@ -106,8 +106,8 @@ export declare const commentsRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
         };
         output: {
-            status: string;
             id: number;
+            status: string;
         };
         meta: object;
     }>;
@@ -116,18 +116,18 @@ export declare const commentsRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
         };
         output: {
-            status: string;
             id: number;
             createdAt: Date;
             updatedAt: Date;
-            customerId: string | null;
-            ipAddress: string | null;
             parentId: number | null;
             content: string;
+            status: string;
+            ipAddress: string | null;
+            customerId: string | null;
             postId: number | null;
-            pageId: number | null;
             authorName: string | null;
             authorEmail: string | null;
+            pageId: number | null;
         };
         meta: object;
     }>;

@@ -21,40 +21,40 @@ export declare const pagesRouter: import("@trpc/server").TRPCBuiltRouter<{
         input: {
             filters?: {
                 fieldKey: string;
-                operator: "endsWith" | "startsWith" | "contains" | "equals" | "notContains" | "notEquals" | "between" | "betweenInclusive" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "empty" | "notEmpty";
+                operator: "endsWith" | "startsWith" | "contains" | "notContains" | "equals" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "notEquals" | "between" | "betweenInclusive" | "empty" | "notEmpty";
                 value: string;
                 value2?: string | undefined;
             }[] | undefined;
             search?: string | undefined;
-            status?: "DRAFT" | "PENDING" | "REJECTED" | "PUBLISHED" | "REVIEW" | "ARCHIVED" | undefined;
+            status?: "DRAFT" | "PENDING" | "REVIEW" | "REJECTED" | "PUBLISHED" | "ARCHIVED" | undefined;
             parentId?: number | null | undefined;
             page?: number | undefined;
             pageSize?: number | undefined;
             perPage?: number | undefined;
-            sortBy?: "status" | "id" | "createdAt" | "order" | "title" | undefined;
+            sortBy?: "id" | "createdAt" | "order" | "title" | "status" | undefined;
             sortDir?: "asc" | "desc" | undefined;
             sortOrder?: "asc" | "desc" | undefined;
         } | undefined;
         output: {
             data: {
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 id: number;
                 createdAt: Date;
                 updatedAt: Date;
+                order: number;
+                slug: string;
                 _count: {
                     children: number;
                 };
                 parentId: number | null;
-                order: number;
-                slug: string;
                 title: string;
-                publishedAt: Date | null;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 authorId: string;
-                author: {
-                    id: string;
-                    name: string | null;
-                };
+                publishedAt: Date | null;
                 template: string | null;
+                author: {
+                    name: string | null;
+                    id: string;
+                };
             }[];
             meta: {
                 total: number;
@@ -70,26 +70,21 @@ export declare const pagesRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
         };
         output: {
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
             id: number;
             createdAt: Date;
-            deletedAt: Date | null;
             updatedAt: Date;
-            parentId: number | null;
+            deletedAt: Date | null;
             order: number;
             slug: string;
+            parentId: number | null;
             title: string;
-            publishedAt: Date | null;
             content: string | null;
             excerpt: string | null;
             featuredImage: string | null;
             bannerImage: string | null;
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
             authorId: string;
-            author: {
-                email: string;
-                id: string;
-                name: string | null;
-            };
+            publishedAt: Date | null;
             template: string | null;
             heroBanner: string | null;
             layout: string | null;
@@ -101,6 +96,11 @@ export declare const pagesRouter: import("@trpc/server").TRPCBuiltRouter<{
             subtitle: string | null;
             ctaText: string | null;
             ctaLink: string | null;
+            author: {
+                name: string | null;
+                id: string;
+                email: string;
+            };
         };
         meta: object;
     }>;
@@ -114,7 +114,7 @@ export declare const pagesRouter: import("@trpc/server").TRPCBuiltRouter<{
             template?: string | undefined;
             order?: number | undefined;
             parentId?: number | undefined;
-            status?: "DRAFT" | "PENDING" | "REJECTED" | "PUBLISHED" | "REVIEW" | "ARCHIVED" | undefined;
+            status?: "DRAFT" | "PENDING" | "REVIEW" | "REJECTED" | "PUBLISHED" | "ARCHIVED" | undefined;
             scheduledAt?: string | null | undefined;
             bannerImage?: string | undefined;
             heroBanner?: string | undefined;
@@ -129,10 +129,10 @@ export declare const pagesRouter: import("@trpc/server").TRPCBuiltRouter<{
             ctaLink?: string | undefined;
         };
         output: {
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
             id: number;
             slug: string;
             title: string;
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
         };
         meta: object;
     }>;
@@ -147,7 +147,7 @@ export declare const pagesRouter: import("@trpc/server").TRPCBuiltRouter<{
             template?: string | undefined;
             order?: number | undefined;
             parentId?: number | null | undefined;
-            status?: "DRAFT" | "PENDING" | "REJECTED" | "PUBLISHED" | "REVIEW" | "ARCHIVED" | undefined;
+            status?: "DRAFT" | "PENDING" | "REVIEW" | "REJECTED" | "PUBLISHED" | "ARCHIVED" | undefined;
             scheduledAt?: string | null | undefined;
             bannerImage?: string | undefined;
             heroBanner?: string | undefined;
@@ -162,10 +162,10 @@ export declare const pagesRouter: import("@trpc/server").TRPCBuiltRouter<{
             ctaLink?: string | undefined;
         };
         output: {
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
             id: number;
             slug: string;
             title: string;
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
         };
         meta: object;
     }>;
@@ -174,21 +174,21 @@ export declare const pagesRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
         };
         output: {
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
             id: number;
             createdAt: Date;
-            deletedAt: Date | null;
             updatedAt: Date;
-            parentId: number | null;
+            deletedAt: Date | null;
             order: number;
             slug: string;
+            parentId: number | null;
             title: string;
-            publishedAt: Date | null;
             content: string | null;
             excerpt: string | null;
             featuredImage: string | null;
             bannerImage: string | null;
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
             authorId: string;
+            publishedAt: Date | null;
             scheduledAt: Date | null;
             template: string | null;
             heroBanner: string | null;
@@ -213,11 +213,11 @@ export declare const pagesRouter: import("@trpc/server").TRPCBuiltRouter<{
             createdAt: Date;
             title: string;
             authorId: string;
-            author: {
-                id: string;
-                name: string | null;
-            };
             note: string | null;
+            author: {
+                name: string | null;
+                id: string;
+            };
         }[];
         meta: object;
     }>;
@@ -228,16 +228,16 @@ export declare const pagesRouter: import("@trpc/server").TRPCBuiltRouter<{
         output: {
             id: number;
             createdAt: Date;
-            referenceId: number;
-            referenceType: string;
             title: string;
             content: string | null;
             authorId: string;
-            author: {
-                id: string;
-                name: string | null;
-            };
+            referenceId: number;
+            referenceType: string;
             note: string | null;
+            author: {
+                name: string | null;
+                id: string;
+            };
         };
         meta: object;
     }>;

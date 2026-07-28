@@ -113,18 +113,18 @@ export declare const publicHsCodeRouter: import("@trpc/server").TRPCBuiltRouter<
         input: void;
         output: {
             flag: string | null;
-            code: string;
-            id: number;
             name: string;
+            id: number;
+            code: string;
         }[];
         meta: object;
     }>;
     getTransportModes: import("@trpc/server").TRPCQueryProcedure<{
         input: void;
         output: {
-            code: string;
-            id: number;
             name: string;
+            id: number;
+            code: string;
         }[];
         meta: object;
     }>;

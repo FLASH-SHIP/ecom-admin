@@ -7,10 +7,10 @@ export declare const listNotifications: import("@trpc/server").TRPCQueryProcedur
     } | undefined;
     output: {
         items: {
-            type: string;
             link: string | null;
             id: number;
             createdAt: Date;
+            type: string;
             titleKey: string;
             messageKey: string;
             variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
@@ -24,10 +24,10 @@ export declare const listNotifications: import("@trpc/server").TRPCQueryProcedur
         nextCursor: number | undefined;
     } | {
         items: {
-            type: string;
             link: string | null;
             id: number;
             createdAt: Date;
+            type: string;
             titleKey: string;
             messageKey: string;
             variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
@@ -72,14 +72,14 @@ export declare const registerToken: import("@trpc/server").TRPCMutationProcedure
         deviceInfo?: string | undefined;
     };
     output: {
-        userId: string | null;
         id: number;
         createdAt: Date;
         updatedAt: Date;
+        userId: string | null;
+        deviceInfo: string | null;
         customerId: string | null;
         token: string;
         platform: string;
-        deviceInfo: string | null;
     };
     meta: object;
 }>;
@@ -94,7 +94,7 @@ export declare const getPreferences: import("@trpc/server").TRPCQueryProcedure<{
     input: void;
     output: {
         eventType: string;
-        category: "order" | "system" | "blog" | "account" | "wallet";
+        category: "order" | "account" | "system" | "blog" | "wallet";
         labelKey: string;
         descriptionKey: string;
         channels: {
@@ -131,10 +131,10 @@ export declare const updatePreference: import("@trpc/server").TRPCMutationProced
         dndConfig?: Record<string, any> | undefined;
     };
     output: {
-        userId: string | null;
         id: number;
         createdAt: Date;
         updatedAt: Date;
+        userId: string | null;
         customerId: string | null;
         eventType: string;
         channelInApp: boolean;

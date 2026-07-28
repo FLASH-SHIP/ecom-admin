@@ -28,10 +28,10 @@ export declare const notificationsRouter: import("@trpc/server").TRPCBuiltRouter
         } | undefined;
         output: {
             items: {
-                type: string;
                 link: string | null;
                 id: number;
                 createdAt: Date;
+                type: string;
                 titleKey: string;
                 messageKey: string;
                 variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
@@ -45,10 +45,10 @@ export declare const notificationsRouter: import("@trpc/server").TRPCBuiltRouter
             nextCursor: number | undefined;
         } | {
             items: {
-                type: string;
                 link: string | null;
                 id: number;
                 createdAt: Date;
+                type: string;
                 titleKey: string;
                 messageKey: string;
                 variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
@@ -94,14 +94,14 @@ export declare const notificationsRouter: import("@trpc/server").TRPCBuiltRouter
             deviceInfo?: string | undefined;
         };
         output: {
-            userId: string | null;
             id: number;
             createdAt: Date;
             updatedAt: Date;
+            userId: string | null;
+            deviceInfo: string | null;
             customerId: string | null;
             token: string;
             platform: string;
-            deviceInfo: string | null;
         };
         meta: object;
     }>;
@@ -116,7 +116,7 @@ export declare const notificationsRouter: import("@trpc/server").TRPCBuiltRouter
         input: void;
         output: {
             eventType: string;
-            category: "order" | "system" | "blog" | "account" | "wallet";
+            category: "order" | "account" | "system" | "blog" | "wallet";
             labelKey: string;
             descriptionKey: string;
             channels: {
@@ -153,10 +153,10 @@ export declare const notificationsRouter: import("@trpc/server").TRPCBuiltRouter
             dndConfig?: Record<string, any> | undefined;
         };
         output: {
-            userId: string | null;
             id: number;
             createdAt: Date;
             updatedAt: Date;
+            userId: string | null;
             customerId: string | null;
             eventType: string;
             channelInApp: boolean;
@@ -170,10 +170,10 @@ export declare const notificationsRouter: import("@trpc/server").TRPCBuiltRouter
     listTemplates: import("@trpc/server").TRPCQueryProcedure<{
         input: void;
         output: {
-            type: string;
             id: number;
             createdAt: Date;
             updatedAt: Date;
+            type: string;
             variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
             channelInApp: boolean;
             channelPush: boolean;
@@ -200,10 +200,10 @@ export declare const notificationsRouter: import("@trpc/server").TRPCBuiltRouter
             layoutType?: string | null | undefined;
         };
         output: {
-            type: string;
             id: number;
             createdAt: Date;
             updatedAt: Date;
+            type: string;
             variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
             channelInApp: boolean;
             channelPush: boolean;
@@ -232,10 +232,10 @@ export declare const notificationsRouter: import("@trpc/server").TRPCBuiltRouter
             id: number;
         };
         output: {
-            type: string;
             id: number;
             createdAt: Date;
             updatedAt: Date;
+            type: string;
             variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
             channelInApp: boolean;
             channelPush: boolean;
@@ -255,14 +255,14 @@ export declare const notificationsRouter: import("@trpc/server").TRPCBuiltRouter
         };
         output: {
             items: {
-                message: string;
-                status: string;
                 link: string | null;
                 id: number;
                 createdAt: Date;
                 updatedAt: Date;
                 title: string;
+                status: string;
                 scheduledAt: Date;
+                message: string;
                 targetType: string;
                 targetIds: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
                 failedReason: string | null;
@@ -282,14 +282,14 @@ export declare const notificationsRouter: import("@trpc/server").TRPCBuiltRouter
             link?: string | null | undefined;
         };
         output: {
-            message: string;
-            status: string;
             link: string | null;
             id: number;
             createdAt: Date;
             updatedAt: Date;
             title: string;
+            status: string;
             scheduledAt: Date;
+            message: string;
             targetType: string;
             targetIds: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
             failedReason: string | null;
@@ -302,14 +302,14 @@ export declare const notificationsRouter: import("@trpc/server").TRPCBuiltRouter
             id: number;
         };
         output: {
-            message: string;
-            status: string;
             link: string | null;
             id: number;
             createdAt: Date;
             updatedAt: Date;
             title: string;
+            status: string;
             scheduledAt: Date;
+            message: string;
             targetType: string;
             targetIds: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
             failedReason: string | null;
@@ -341,10 +341,10 @@ export declare const notificationsRouter: import("@trpc/server").TRPCBuiltRouter
             locale?: string | undefined;
         };
         output: {
-            type: string;
             link: string | null;
             id: number;
             createdAt: Date;
+            type: string;
             titleKey: string;
             messageKey: string;
             variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
@@ -381,9 +381,9 @@ export declare const notificationsRouter: import("@trpc/server").TRPCBuiltRouter
             };
             output: {
                 items: {
-                    email: string;
                     id: number;
                     createdAt: Date;
+                    email: string;
                     reason: string;
                 }[];
                 total: number;
@@ -403,9 +403,9 @@ export declare const notificationsRouter: import("@trpc/server").TRPCBuiltRouter
                 reason: string;
             };
             output: {
-                email: string;
                 id: number;
                 createdAt: Date;
+                email: string;
                 reason: string;
             };
             meta: object;
@@ -440,9 +440,9 @@ export declare const notificationsRouter: import("@trpc/server").TRPCBuiltRouter
                 reason: string;
             };
             output: {
-                email: string;
                 id: number;
                 createdAt: Date;
+                email: string;
                 reason: string;
             };
             meta: object;

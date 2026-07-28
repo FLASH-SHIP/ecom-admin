@@ -1,60 +1,59 @@
 export declare const exportData: import("@trpc/server").TRPCQueryProcedure<{
     input: {
-        module: "customers" | "categories" | "tags" | "posts" | "pages" | "settings" | "all";
+        module: "settings" | "posts" | "pages" | "categories" | "tags" | "customers" | "all";
     };
     output: {
         exportedAt: string;
         version: string;
         data: {
             posts: {
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 id: number;
                 createdAt: Date;
                 updatedAt: Date;
                 slug: string;
-                isFeatured: boolean;
                 title: string;
-                views: number;
                 content: string | null;
                 excerpt: string | null;
+                isFeatured: boolean;
                 allowComments: boolean;
                 formatType: string | null;
+                views: number;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 author: {
-                    email: string;
-                    id: string;
                     name: string | null;
+                    id: string;
+                    email: string;
                 };
                 categories: {
                     category: {
-                        id: number;
                         name: string;
+                        id: number;
                     };
                 }[];
                 tags: {
                     tag: {
-                        id: number;
                         name: string;
+                        id: number;
                     };
                 }[];
             }[];
             categories: {
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                description: string | null;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
-                parentId: number | null;
                 order: number;
                 slug: string;
+                parentId: number | null;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                description: string | null;
             }[];
             tags: {
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
                 slug: string;
             }[];
             pages: {
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 id: number;
                 createdAt: Date;
                 order: number;
@@ -62,14 +61,15 @@ export declare const exportData: import("@trpc/server").TRPCQueryProcedure<{
                 title: string;
                 content: string | null;
                 excerpt: string | null;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 template: string | null;
             }[];
             customers: {
-                email: string;
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+                name: string | null;
                 id: string;
                 createdAt: Date;
-                name: string | null;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+                email: string;
                 username: string;
                 phone: string | null;
                 emailVerified: Date | null;
@@ -85,48 +85,47 @@ export declare const exportData: import("@trpc/server").TRPCQueryProcedure<{
     } | {
         module: string;
         data: {
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
             id: number;
             createdAt: Date;
             updatedAt: Date;
             slug: string;
-            isFeatured: boolean;
             title: string;
-            views: number;
             content: string | null;
             excerpt: string | null;
+            isFeatured: boolean;
             allowComments: boolean;
             formatType: string | null;
+            views: number;
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
             author: {
-                email: string;
-                id: string;
                 name: string | null;
+                id: string;
+                email: string;
             };
             categories: {
                 category: {
-                    id: number;
                     name: string;
+                    id: number;
                 };
             }[];
             tags: {
                 tag: {
-                    id: number;
                     name: string;
+                    id: number;
                 };
             }[];
         }[];
     } | {
         module: string;
         data: {
+            name: string;
             id: number;
             createdAt: Date;
-            name: string;
             slug: string;
         }[];
     } | {
         module: string;
         data: {
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
             id: number;
             createdAt: Date;
             order: number;
@@ -134,16 +133,17 @@ export declare const exportData: import("@trpc/server").TRPCQueryProcedure<{
             title: string;
             content: string | null;
             excerpt: string | null;
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
             template: string | null;
         }[];
     } | {
         module: string;
         data: {
-            email: string;
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+            name: string | null;
             id: string;
             createdAt: Date;
-            name: string | null;
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+            email: string;
             username: string;
             phone: string | null;
             emailVerified: Date | null;
@@ -162,7 +162,7 @@ export declare const exportData: import("@trpc/server").TRPCQueryProcedure<{
 }>;
 export declare const importData: import("@trpc/server").TRPCMutationProcedure<{
     input: {
-        module: "categories" | "tags" | "posts" | "pages" | "settings";
+        module: "settings" | "posts" | "pages" | "categories" | "tags";
         data: Record<string, unknown>[];
     };
     output: import("@ecom/features/tools/services/ImportService").ImportResult;
@@ -195,7 +195,7 @@ export declare const fullRestore: import("@trpc/server").TRPCMutationProcedure<{
 export declare const checkDuplicates: import("@trpc/server").TRPCQueryProcedure<{
     input: {
         title: string;
-        type: "page" | "post";
+        type: "post" | "page";
         slug?: string | undefined;
         excludeId?: number | undefined;
     };
@@ -208,7 +208,7 @@ export declare const checkDuplicates: import("@trpc/server").TRPCQueryProcedure<
 export declare const fullTextSearch: import("@trpc/server").TRPCQueryProcedure<{
     input: {
         query: string;
-        types?: ("page" | "post")[] | undefined;
+        types?: ("post" | "page")[] | undefined;
         page?: number | undefined;
         perPage?: number | undefined;
     };

@@ -20,7 +20,7 @@ export declare const usersRouter: import("@trpc/server").TRPCBuiltRouter<{
     list: import("@trpc/server").TRPCQueryProcedure<{
         input: {
             search?: string | undefined;
-            status?: "ACTIVE" | "BANNED" | "SUSPENDED" | undefined;
+            status?: "ACTIVE" | "SUSPENDED" | "BANNED" | undefined;
             page?: number | undefined;
             perPage?: number | undefined;
         } | undefined;
@@ -63,7 +63,7 @@ export declare const usersRouter: import("@trpc/server").TRPCBuiltRouter<{
             phone?: string | null | undefined;
             avatarUrl?: string | undefined;
             locale?: string | undefined;
-            status?: "ACTIVE" | "BANNED" | "SUSPENDED" | undefined;
+            status?: "ACTIVE" | "SUSPENDED" | "BANNED" | undefined;
         };
         output: import("@ecom/features/rbac/transformers/UserTransformer").UserResponseDto;
         meta: object;

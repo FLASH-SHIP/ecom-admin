@@ -26,10 +26,10 @@ export declare const customerNotificationsRouter: import("@trpc/server").TRPCBui
         } | undefined;
         output: {
             items: {
-                type: string;
                 link: string | null;
                 id: number;
                 createdAt: Date;
+                type: string;
                 titleKey: string;
                 messageKey: string;
                 variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
@@ -43,10 +43,10 @@ export declare const customerNotificationsRouter: import("@trpc/server").TRPCBui
             nextCursor: number | undefined;
         } | {
             items: {
-                type: string;
                 link: string | null;
                 id: number;
                 createdAt: Date;
+                type: string;
                 titleKey: string;
                 messageKey: string;
                 variables: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
@@ -91,14 +91,14 @@ export declare const customerNotificationsRouter: import("@trpc/server").TRPCBui
             deviceInfo?: string | undefined;
         };
         output: {
-            userId: string | null;
             id: number;
             createdAt: Date;
             updatedAt: Date;
+            userId: string | null;
+            deviceInfo: string | null;
             customerId: string | null;
             token: string;
             platform: string;
-            deviceInfo: string | null;
         };
         meta: object;
     }>;
@@ -113,7 +113,7 @@ export declare const customerNotificationsRouter: import("@trpc/server").TRPCBui
         input: void;
         output: {
             eventType: string;
-            category: "order" | "system" | "blog" | "account" | "wallet";
+            category: "order" | "account" | "system" | "blog" | "wallet";
             labelKey: string;
             descriptionKey: string;
             channels: {
@@ -150,10 +150,10 @@ export declare const customerNotificationsRouter: import("@trpc/server").TRPCBui
             dndConfig?: Record<string, any> | undefined;
         };
         output: {
-            userId: string | null;
             id: number;
             createdAt: Date;
             updatedAt: Date;
+            userId: string | null;
             customerId: string | null;
             eventType: string;
             channelInApp: boolean;

@@ -1,19 +1,19 @@
 export declare const list: import("@trpc/server").TRPCQueryProcedure<{
     input: {
         search?: string | undefined;
-        status?: "DRAFT" | "PENDING" | "REJECTED" | "PUBLISHED" | "REVIEW" | "ARCHIVED" | undefined;
+        status?: "DRAFT" | "PENDING" | "REVIEW" | "REJECTED" | "PUBLISHED" | "ARCHIVED" | undefined;
         page?: number | undefined;
         limit?: number | undefined;
         orderBy?: "asc" | "desc" | undefined;
     };
     output: {
         items: {
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-            description: string | null;
+            name: string;
             id: number;
             createdAt: Date;
-            name: string;
             updatedAt: Date;
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+            description: string | null;
             image: string | null;
         }[];
         total: number;
@@ -28,12 +28,12 @@ export declare const get: import("@trpc/server").TRPCQueryProcedure<{
         id: number;
     };
     output: {
-        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-        description: string | null;
+        name: string;
         id: number;
         createdAt: Date;
-        name: string;
         updatedAt: Date;
+        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+        description: string | null;
         image: string | null;
     };
     meta: object;
@@ -43,15 +43,15 @@ export declare const create: import("@trpc/server").TRPCMutationProcedure<{
         name: string;
         image?: string | null | undefined;
         description?: string | null | undefined;
-        status?: "DRAFT" | "PENDING" | "REJECTED" | "PUBLISHED" | "REVIEW" | "ARCHIVED" | undefined;
+        status?: "DRAFT" | "PENDING" | "REVIEW" | "REJECTED" | "PUBLISHED" | "ARCHIVED" | undefined;
     };
     output: {
-        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-        description: string | null;
+        name: string;
         id: number;
         createdAt: Date;
-        name: string;
         updatedAt: Date;
+        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+        description: string | null;
         image: string | null;
     };
     meta: object;
@@ -62,15 +62,15 @@ export declare const update: import("@trpc/server").TRPCMutationProcedure<{
         name?: string | undefined;
         image?: string | null | undefined;
         description?: string | null | undefined;
-        status?: "DRAFT" | "PENDING" | "REJECTED" | "PUBLISHED" | "REVIEW" | "ARCHIVED" | undefined;
+        status?: "DRAFT" | "PENDING" | "REVIEW" | "REJECTED" | "PUBLISHED" | "ARCHIVED" | undefined;
     };
     output: {
-        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-        description: string | null;
+        name: string;
         id: number;
         createdAt: Date;
-        name: string;
         updatedAt: Date;
+        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+        description: string | null;
         image: string | null;
     };
     meta: object;

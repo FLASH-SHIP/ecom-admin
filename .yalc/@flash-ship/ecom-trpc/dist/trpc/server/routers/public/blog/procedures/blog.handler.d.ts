@@ -7,27 +7,27 @@ export declare const listPosts: import("@trpc/server").TRPCQueryProcedure<{
         perPage?: number | undefined;
     } | undefined;
     output: import("@flash-ship/ecom-lib").PaginatedResult<{
-        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
         id: number;
         createdAt: Date;
         deletedAt: Date | null;
         slug: string;
-        isFeatured: boolean;
         title: string;
-        publishedAt: Date | null;
-        views: number;
         excerpt: string | null;
         featuredImage: string | null;
+        isFeatured: boolean;
+        views: number;
+        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
         authorId: string;
+        publishedAt: Date | null;
         author: {
-            id: string;
             name: string | null;
+            id: string;
             avatarUrl: string | null;
         };
         categories: {
             category: {
-                id: number;
                 name: string;
+                id: number;
                 slug: string;
             };
         }[];
@@ -39,37 +39,37 @@ export declare const getBySlug: import("@trpc/server").TRPCQueryProcedure<{
         slug: string;
     };
     output: {
-        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
         id: number;
         createdAt: Date;
         slug: string;
-        isFeatured: boolean;
         title: string;
-        publishedAt: Date | null;
-        views: number;
         content: string | null;
         excerpt: string | null;
         featuredImage: string | null;
         bannerImage: string | null;
+        isFeatured: boolean;
         externalSource: string | null;
         sponsoredBy: string | null;
+        views: number;
+        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
         authorId: string;
+        publishedAt: Date | null;
         author: {
-            id: string;
             name: string | null;
+            id: string;
             avatarUrl: string | null;
         };
         categories: {
             category: {
-                id: number;
                 name: string;
+                id: number;
                 slug: string;
             };
         }[];
         tags: {
             tag: {
-                id: number;
                 name: string;
+                id: number;
                 slug: string;
             };
         }[];
@@ -81,27 +81,27 @@ export declare const getBySlug: import("@trpc/server").TRPCQueryProcedure<{
 export declare const categories: import("@trpc/server").TRPCQueryProcedure<{
     input: void;
     output: {
-        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-        id: number;
         name: string;
-        children: {
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-            id: number;
-            name: string;
-            children: {
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-                id: number;
-                name: string;
-                order: number;
-                slug: string;
-                icon: string | null;
-            }[];
-            order: number;
-            slug: string;
-            icon: string | null;
-        }[];
+        id: number;
         order: number;
         slug: string;
+        children: {
+            name: string;
+            id: number;
+            order: number;
+            slug: string;
+            children: {
+                name: string;
+                id: number;
+                order: number;
+                slug: string;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                icon: string | null;
+            }[];
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+            icon: string | null;
+        }[];
+        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
         icon: string | null;
     }[];
     meta: object;
@@ -114,14 +114,14 @@ export declare const tags: import("@trpc/server").TRPCQueryProcedure<{
     } | undefined;
     output: {
         rows: {
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+            name: string;
             id: number;
             createdAt: Date;
-            name: string;
+            slug: string;
             _count: {
                 posts: number;
             };
-            slug: string;
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
         }[];
         total: number;
         page: number;
@@ -138,20 +138,20 @@ export declare const listComments: import("@trpc/server").TRPCQueryProcedure<{
     };
     output: {
         items: {
-            status: string;
             id: number;
             createdAt: Date;
             _count: {
                 replies: number;
             };
-            customerId: string | null;
-            ipAddress: string | null;
             parentId: number | null;
             content: string;
+            status: string;
+            ipAddress: string | null;
+            customerId: string | null;
             postId: number | null;
-            pageId: number | null;
             authorName: string | null;
             authorEmail: string | null;
+            pageId: number | null;
         }[];
         total: number;
         page: number;
@@ -199,27 +199,27 @@ export declare const search: import("@trpc/server").TRPCQueryProcedure<{
         perPage?: number | undefined;
     };
     output: import("@flash-ship/ecom-lib").PaginatedResult<{
-        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
         id: number;
         createdAt: Date;
         deletedAt: Date | null;
         slug: string;
-        isFeatured: boolean;
         title: string;
-        publishedAt: Date | null;
-        views: number;
         excerpt: string | null;
         featuredImage: string | null;
+        isFeatured: boolean;
+        views: number;
+        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
         authorId: string;
+        publishedAt: Date | null;
         author: {
-            id: string;
             name: string | null;
+            id: string;
             avatarUrl: string | null;
         };
         categories: {
             category: {
-                id: number;
                 name: string;
+                id: number;
                 slug: string;
             };
         }[];

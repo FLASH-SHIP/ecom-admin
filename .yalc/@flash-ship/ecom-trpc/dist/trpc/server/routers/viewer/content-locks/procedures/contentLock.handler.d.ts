@@ -1,6 +1,6 @@
 export declare const acquireLock: import("@trpc/server").TRPCMutationProcedure<{
     input: {
-        entityType: "page" | "post";
+        entityType: "post" | "page";
         entityId: number;
     };
     output: {
@@ -11,7 +11,7 @@ export declare const acquireLock: import("@trpc/server").TRPCMutationProcedure<{
 }>;
 export declare const releaseLock: import("@trpc/server").TRPCMutationProcedure<{
     input: {
-        entityType: "page" | "post";
+        entityType: "post" | "page";
         entityId: number;
     };
     output: boolean;
@@ -19,7 +19,7 @@ export declare const releaseLock: import("@trpc/server").TRPCMutationProcedure<{
 }>;
 export declare const checkLock: import("@trpc/server").TRPCQueryProcedure<{
     input: {
-        entityType: "page" | "post";
+        entityType: "post" | "page";
         entityId: number;
     };
     output: import("@ecom/features/content-lock/ContentLockService").ContentLock | null;
@@ -27,7 +27,7 @@ export declare const checkLock: import("@trpc/server").TRPCQueryProcedure<{
 }>;
 export declare const heartbeat: import("@trpc/server").TRPCMutationProcedure<{
     input: {
-        entityType: "page" | "post";
+        entityType: "post" | "page";
         entityId: number;
     };
     output: boolean;

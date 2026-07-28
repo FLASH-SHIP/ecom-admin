@@ -4,11 +4,10 @@
 export declare function requirePostPolicy(action: "canUpdate" | "canDelete"): import("@trpc/server").TRPCMiddlewareBuilder<import("..").Context, object, {
     user: import("@flash-ship/ecom-types").AuthUser;
     post: {
-        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
         id: number;
         createdAt: Date;
-        deletedAt: Date | null;
         updatedAt: Date;
+        deletedAt: Date | null;
         slug: string;
         seoMeta: {
             id: number;
@@ -17,36 +16,37 @@ export declare function requirePostPolicy(action: "canUpdate" | "canDelete"): im
             seoImage: string | null;
             indexMode: string | null;
         } | null;
-        isFeatured: boolean;
         title: string;
-        publishedAt: Date | null;
-        views: number;
         content: string | null;
         excerpt: string | null;
         featuredImage: string | null;
         bannerImage: string | null;
+        isFeatured: boolean;
         allowComments: boolean;
         formatType: string | null;
         externalSource: string | null;
         sponsoredBy: string | null;
+        views: number;
+        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
         authorId: string;
+        publishedAt: Date | null;
         author: {
-            email: string;
-            id: string;
             name: string | null;
+            id: string;
+            email: string;
             avatarUrl: string | null;
         };
         categories: {
             category: {
-                id: number;
                 name: string;
+                id: number;
                 slug: string;
             };
         }[];
         tags: {
             tag: {
-                id: number;
                 name: string;
+                id: number;
                 slug: string;
             };
         }[];
@@ -59,9 +59,9 @@ export declare function requirePostPolicy(action: "canUpdate" | "canDelete"): im
             langCode: string;
         }[];
     };
-    ip: string | null;
-    userAgent: string | null;
     locale: string | null;
     sessionToken: string | null;
+    userAgent: string | null;
+    ip: string | null;
 }, unknown>;
 //# sourceMappingURL=requirePolicy.d.ts.map

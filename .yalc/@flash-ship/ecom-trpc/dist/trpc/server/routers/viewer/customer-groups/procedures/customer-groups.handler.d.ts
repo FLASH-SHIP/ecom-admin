@@ -8,15 +8,15 @@ export declare const list: import("@trpc/server").TRPCQueryProcedure<{
     };
     output: {
         items: {
-            code: string;
-            description: string | null;
-            id: number;
-            createdAt: Date;
             name: string;
+            id: number;
+            code: string;
+            createdAt: Date;
             updatedAt: Date;
             _count: {
                 customers: number;
             };
+            description: string | null;
         }[];
         total: number;
         page: number;
@@ -28,10 +28,10 @@ export declare const list: import("@trpc/server").TRPCQueryProcedure<{
 export declare const listAll: import("@trpc/server").TRPCQueryProcedure<{
     input: void;
     output: {
+        name: string;
+        id: number;
         code: string;
         description: string | null;
-        id: number;
-        name: string;
     }[];
     meta: object;
 }>;
@@ -40,16 +40,16 @@ export declare const get: import("@trpc/server").TRPCQueryProcedure<{
         id: number;
     };
     output: {
-        code: string;
-        description: string | null;
-        id: number;
-        createdAt: Date;
         name: string;
+        id: number;
+        code: string;
+        createdAt: Date;
         updatedAt: Date;
         _count: {
             customers: number;
             rateCards: number;
         };
+        description: string | null;
     };
     meta: object;
 }>;
@@ -60,10 +60,10 @@ export declare const create: import("@trpc/server").TRPCMutationProcedure<{
         description?: string | null | undefined;
     };
     output: {
+        name: string;
+        id: number;
         code: string;
         description: string | null;
-        id: number;
-        name: string;
     };
     meta: object;
 }>;
@@ -75,10 +75,10 @@ export declare const update: import("@trpc/server").TRPCMutationProcedure<{
         description?: string | null | undefined;
     };
     output: {
+        name: string;
+        id: number;
         code: string;
         description: string | null;
-        id: number;
-        name: string;
     };
     meta: object;
 }>;
@@ -100,18 +100,18 @@ export declare const getMembers: import("@trpc/server").TRPCQueryProcedure<{
     };
     output: {
         items: {
-            email: string;
+            name: string | null;
             id: string;
             createdAt: Date;
-            name: string | null;
+            email: string;
             username: string;
             phone: string | null;
-            group: {
-                code: string;
-                id: number;
-                name: string;
-            } | null;
             groupId: number | null;
+            group: {
+                name: string;
+                id: number;
+                code: string;
+            } | null;
         }[];
         total: number;
         page: number;
@@ -127,17 +127,17 @@ export declare const getAvailableCustomers: import("@trpc/server").TRPCQueryProc
         limit?: number | undefined;
     };
     output: {
-        email: string;
-        id: string;
         name: string | null;
+        id: string;
+        email: string;
         username: string;
         phone: string | null;
-        group: {
-            code: string;
-            id: number;
-            name: string;
-        } | null;
         groupId: number | null;
+        group: {
+            name: string;
+            id: number;
+            code: string;
+        } | null;
     }[];
     meta: object;
 }>;

@@ -81,8 +81,8 @@ export declare const completeImportSession: import("@trpc/server").TRPCMutationP
         status?: "completed" | "failed" | undefined;
     };
     output: {
-        status: string;
         id: string;
+        status: string;
     };
     meta: object;
 }>;
@@ -98,9 +98,9 @@ export declare const listImportSessions: import("@trpc/server").TRPCQueryProcedu
     output: {
         total: number;
         items: {
-            status: string;
             id: string;
             createdAt: Date;
+            status: string;
             fileName: string;
             fileSize: number | null;
             totalRows: number;
@@ -117,9 +117,9 @@ export declare const getImportSessionDetail: import("@trpc/server").TRPCQueryPro
         id: string;
     };
     output: {
-        status: string;
         id: string;
         createdAt: Date;
+        status: string;
         customerId: string;
         fileName: string;
         fileSize: number | null;

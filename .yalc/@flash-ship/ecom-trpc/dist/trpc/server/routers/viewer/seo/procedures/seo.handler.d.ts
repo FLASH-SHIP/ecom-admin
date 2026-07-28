@@ -1,6 +1,6 @@
 export declare const getSeoMeta: import("@trpc/server").TRPCQueryProcedure<{
     input: {
-        entityType: "page" | "post" | "category" | "tag";
+        entityType: "post" | "category" | "tag" | "page";
         entityId: number;
     };
     output: {
@@ -14,7 +14,7 @@ export declare const getSeoMeta: import("@trpc/server").TRPCQueryProcedure<{
 }>;
 export declare const saveSeoMeta: import("@trpc/server").TRPCMutationProcedure<{
     input: {
-        entityType: "page" | "post" | "category" | "tag";
+        entityType: "post" | "category" | "tag" | "page";
         entityId: number;
         data: {
             seoTitle?: string | undefined;

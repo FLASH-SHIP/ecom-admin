@@ -21,27 +21,27 @@ export declare const customFieldsRouter: import("@trpc/server").TRPCBuiltRouter<
         input: {
             filters?: {
                 fieldKey: string;
-                operator: "endsWith" | "startsWith" | "contains" | "equals" | "notContains" | "notEquals" | "between" | "betweenInclusive" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "empty" | "notEmpty";
+                operator: "endsWith" | "startsWith" | "contains" | "notContains" | "equals" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "notEquals" | "between" | "betweenInclusive" | "empty" | "notEmpty";
                 value: string;
                 value2?: string | undefined;
             }[] | undefined;
             search?: string | undefined;
-            sortBy?: "status" | "id" | "createdAt" | "title" | undefined;
+            sortBy?: "id" | "createdAt" | "title" | "status" | undefined;
             sortDir?: "asc" | "desc" | undefined;
             page?: number | undefined;
             pageSize?: number | undefined;
         };
         output: {
             rows: {
-                status: string;
                 id: number;
                 createdAt: Date;
                 updatedAt: Date;
+                order: number;
                 _count: {
                     items: number;
                 };
-                order: number;
                 title: string;
+                status: string;
                 rules: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
             }[];
             total: number;
@@ -53,25 +53,25 @@ export declare const customFieldsRouter: import("@trpc/server").TRPCBuiltRouter<
             id: number;
         };
         output: {
-            status: string;
             id: number;
             createdAt: Date;
             updatedAt: Date;
+            order: number;
+            title: string;
+            status: string;
+            rules: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
             items: {
-                type: string;
+                options: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                 id: number;
-                parentId: number | null;
                 order: number;
                 slug: string;
-                options: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+                parentId: number | null;
                 title: string;
+                type: string;
                 placeholder: string | null;
                 instructions: string | null;
                 defaultValue: string | null;
             }[];
-            order: number;
-            title: string;
-            rules: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
         };
         meta: object;
     }>;
@@ -115,12 +115,12 @@ export declare const customFieldsRouter: import("@trpc/server").TRPCBuiltRouter<
             id: number;
         };
         output: {
-            status: string;
             id: number;
             createdAt: Date;
             updatedAt: Date;
             order: number;
             title: string;
+            status: string;
             rules: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
         };
         meta: object;
@@ -130,25 +130,25 @@ export declare const customFieldsRouter: import("@trpc/server").TRPCBuiltRouter<
             id: number;
         };
         output: {
-            status: string;
             id: number;
             createdAt: Date;
             updatedAt: Date;
+            order: number;
+            title: string;
+            status: string;
+            rules: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
             items: {
-                type: string;
+                options: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                 id: number;
-                parentId: number | null;
                 order: number;
                 slug: string;
-                options: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+                parentId: number | null;
                 title: string;
+                type: string;
                 placeholder: string | null;
                 instructions: string | null;
                 defaultValue: string | null;
             }[];
-            order: number;
-            title: string;
-            rules: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
         } | null;
         meta: object;
     }>;
@@ -160,15 +160,15 @@ export declare const customFieldsRouter: import("@trpc/server").TRPCBuiltRouter<
             postFormat?: string | undefined;
         };
         output: {
-            status: string;
             id: number;
             createdAt: Date;
             updatedAt: Date;
+            order: number;
             _count: {
                 items: number;
             };
-            order: number;
             title: string;
+            status: string;
             rules: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
         }[];
         meta: object;
@@ -194,7 +194,7 @@ export declare const customFieldsRouter: import("@trpc/server").TRPCBuiltRouter<
             groupId: number;
             slug: string;
             title: string;
-            type: "number" | "email" | "url" | "select" | "date" | "file" | "image" | "color" | "text" | "textarea" | "checkbox" | "radio" | "wysiwyg" | "repeater";
+            type: "number" | "select" | "email" | "url" | "image" | "color" | "text" | "date" | "file" | "textarea" | "checkbox" | "radio" | "wysiwyg" | "repeater";
             placeholder?: string | undefined;
             instructions?: string | undefined;
             options?: {
@@ -206,10 +206,10 @@ export declare const customFieldsRouter: import("@trpc/server").TRPCBuiltRouter<
             parentId?: number | undefined;
         };
         output: {
-            type: string;
             id: number;
             slug: string;
             title: string;
+            type: string;
         };
         meta: object;
     }>;
@@ -218,7 +218,7 @@ export declare const customFieldsRouter: import("@trpc/server").TRPCBuiltRouter<
             id: number;
             slug?: string | undefined;
             title?: string | undefined;
-            type?: "number" | "email" | "url" | "select" | "date" | "file" | "image" | "color" | "text" | "textarea" | "checkbox" | "radio" | "wysiwyg" | "repeater" | undefined;
+            type?: "number" | "select" | "email" | "url" | "image" | "color" | "text" | "date" | "file" | "textarea" | "checkbox" | "radio" | "wysiwyg" | "repeater" | undefined;
             placeholder?: string | undefined;
             instructions?: string | undefined;
             options?: {
@@ -230,10 +230,10 @@ export declare const customFieldsRouter: import("@trpc/server").TRPCBuiltRouter<
             parentId?: number | null | undefined;
         };
         output: {
-            type: string;
             id: number;
             slug: string;
             title: string;
+            type: string;
         };
         meta: object;
     }>;
@@ -242,16 +242,16 @@ export declare const customFieldsRouter: import("@trpc/server").TRPCBuiltRouter<
             id: number;
         };
         output: {
-            type: string;
+            options: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
             id: number;
             createdAt: Date;
             updatedAt: Date;
-            groupId: number;
-            parentId: number | null;
             order: number;
             slug: string;
-            options: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
+            parentId: number | null;
             title: string;
+            type: string;
+            groupId: number;
             placeholder: string | null;
             instructions: string | null;
             defaultValue: string | null;

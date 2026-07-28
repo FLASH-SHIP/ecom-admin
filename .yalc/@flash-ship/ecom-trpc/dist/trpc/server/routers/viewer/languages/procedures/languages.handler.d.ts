@@ -1,14 +1,14 @@
 export declare const list: import("@trpc/server").TRPCQueryProcedure<{
     input: void;
     output: {
-        code: string;
-        locale: string;
-        id: number;
-        createdAt: Date;
         name: string;
+        id: number;
+        code: string;
+        createdAt: Date;
         updatedAt: Date;
-        isActive: boolean;
         order: number;
+        isActive: boolean;
+        locale: string;
         isDefault: boolean;
         flag: string | null;
         isRtl: boolean;
@@ -25,14 +25,14 @@ export declare const getById: import("@trpc/server").TRPCQueryProcedure<{
         id: number;
     };
     output: {
-        code: string;
-        locale: string;
-        id: number;
-        createdAt: Date;
         name: string;
+        id: number;
+        code: string;
+        createdAt: Date;
         updatedAt: Date;
-        isActive: boolean;
         order: number;
+        isActive: boolean;
+        locale: string;
         isDefault: boolean;
         flag: string | null;
         isRtl: boolean;
@@ -54,14 +54,14 @@ export declare const create: import("@trpc/server").TRPCMutationProcedure<{
         order?: number | undefined;
     };
     output: {
-        code: string;
-        locale: string;
-        id: number;
-        createdAt: Date;
         name: string;
+        id: number;
+        code: string;
+        createdAt: Date;
         updatedAt: Date;
-        isActive: boolean;
         order: number;
+        isActive: boolean;
+        locale: string;
         isDefault: boolean;
         flag: string | null;
         isRtl: boolean;
@@ -80,14 +80,14 @@ export declare const update: import("@trpc/server").TRPCMutationProcedure<{
         isActive?: boolean | undefined;
     };
     output: {
-        code: string;
-        locale: string;
-        id: number;
-        createdAt: Date;
         name: string;
+        id: number;
+        code: string;
+        createdAt: Date;
         updatedAt: Date;
-        isActive: boolean;
         order: number;
+        isActive: boolean;
+        locale: string;
         isDefault: boolean;
         flag: string | null;
         isRtl: boolean;
@@ -108,14 +108,14 @@ export declare const setDefault: import("@trpc/server").TRPCMutationProcedure<{
         id: number;
     };
     output: {
-        code: string;
-        locale: string;
-        id: number;
-        createdAt: Date;
         name: string;
+        id: number;
+        code: string;
+        createdAt: Date;
         updatedAt: Date;
-        isActive: boolean;
         order: number;
+        isActive: boolean;
+        locale: string;
         isDefault: boolean;
         flag: string | null;
         isRtl: boolean;
@@ -129,17 +129,17 @@ export declare const getRelatedItems: import("@trpc/server").TRPCQueryProcedure<
     };
     output: {
         id: number;
-        referenceId: number;
-        referenceType: string;
         language: {
+            name: string;
+            id: number;
             code: string;
             locale: string;
-            id: number;
-            name: string;
             flag: string | null;
         };
-        origin: string;
+        referenceId: number;
+        referenceType: string;
         langCode: string;
+        origin: string;
     }[];
     meta: object;
 }>;
@@ -154,8 +154,8 @@ export declare const saveContentLanguage: import("@trpc/server").TRPCMutationPro
         id: number;
         referenceId: number;
         referenceType: string;
-        origin: string;
         langCode: string;
+        origin: string;
     };
     meta: object;
 }>;

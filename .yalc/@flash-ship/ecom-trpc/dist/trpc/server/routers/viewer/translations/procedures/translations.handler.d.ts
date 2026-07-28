@@ -1,9 +1,9 @@
 export declare const languages: import("@trpc/server").TRPCQueryProcedure<{
     input: void;
     output: {
-        code: string;
-        id: number;
         name: string;
+        id: number;
+        code: string;
         order: number;
         isDefault: boolean;
         flag: string | null;
@@ -12,7 +12,7 @@ export declare const languages: import("@trpc/server").TRPCQueryProcedure<{
 }>;
 export declare const getTranslation: import("@trpc/server").TRPCQueryProcedure<{
     input: {
-        entityType: "page" | "post" | "category" | "tag" | "menuItem";
+        entityType: "post" | "category" | "tag" | "menuItem" | "page";
         entityId: number;
         langCode: string;
     };
@@ -24,20 +24,20 @@ export declare const getTranslation: import("@trpc/server").TRPCQueryProcedure<{
         excerpt: string | null;
         langCode: string;
     } | {
-        description: string | null;
-        id: number;
         name: string;
+        id: number;
         langCode: string;
+        description: string | null;
     } | {
         id: number;
-        label: string;
         langCode: string;
+        label: string;
     } | null;
     meta: object;
 }>;
 export declare const listTranslations: import("@trpc/server").TRPCQueryProcedure<{
     input: {
-        entityType: "page" | "post" | "category" | "tag" | "menuItem";
+        entityType: "post" | "category" | "tag" | "menuItem" | "page";
         entityId: number;
     };
     output: {
@@ -48,20 +48,20 @@ export declare const listTranslations: import("@trpc/server").TRPCQueryProcedure
         excerpt: string | null;
         langCode: string;
     }[] | {
-        description: string | null;
-        id: number;
         name: string;
+        id: number;
         langCode: string;
+        description: string | null;
     }[] | {
         id: number;
-        label: string;
         langCode: string;
+        label: string;
     }[];
     meta: object;
 }>;
 export declare const saveTranslation: import("@trpc/server").TRPCMutationProcedure<{
     input: {
-        entityType: "page" | "post" | "category" | "tag" | "menuItem";
+        entityType: "post" | "category" | "tag" | "menuItem" | "page";
         entityId: number;
         langCode: string;
         data: Record<string, string | undefined>;
@@ -74,20 +74,20 @@ export declare const saveTranslation: import("@trpc/server").TRPCMutationProcedu
         excerpt: string | null;
         langCode: string;
     } | {
-        description: string | null;
-        id: number;
         name: string;
+        id: number;
         langCode: string;
+        description: string | null;
     } | {
         id: number;
-        label: string;
         langCode: string;
+        label: string;
     };
     meta: object;
 }>;
 export declare const deleteTranslation: import("@trpc/server").TRPCMutationProcedure<{
     input: {
-        entityType: "page" | "post" | "category" | "tag" | "menuItem";
+        entityType: "post" | "category" | "tag" | "menuItem" | "page";
         entityId: number;
         langCode: string;
     };
@@ -96,7 +96,7 @@ export declare const deleteTranslation: import("@trpc/server").TRPCMutationProce
 }>;
 export declare const translationStatus: import("@trpc/server").TRPCQueryProcedure<{
     input: {
-        entityType: "page" | "post" | "category" | "tag" | "menuItem";
+        entityType: "post" | "category" | "tag" | "menuItem" | "page";
         entityId: number;
     };
     output: {
@@ -113,7 +113,7 @@ export declare const translationStatus: import("@trpc/server").TRPCQueryProcedur
  */
 export declare const batchTranslationStatus: import("@trpc/server").TRPCQueryProcedure<{
     input: {
-        entityType: "page" | "post" | "category" | "tag" | "menuItem";
+        entityType: "post" | "category" | "tag" | "menuItem" | "page";
         entityIds: number[];
     };
     output: Record<number, string[]>;

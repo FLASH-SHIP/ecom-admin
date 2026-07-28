@@ -5,17 +5,17 @@ export declare const list: import("@trpc/server").TRPCQueryProcedure<{
         status?: "ACTIVE" | "INACTIVE" | undefined;
         page?: number | undefined;
         perPage?: number | undefined;
-        sortBy?: "code" | "status" | "id" | "createdAt" | "name" | "updatedAt" | undefined;
+        sortBy?: "name" | "id" | "code" | "createdAt" | "updatedAt" | "status" | undefined;
         sortOrder?: "asc" | "desc" | undefined;
     } | undefined;
     output: import("@flash-ship/ecom-lib").PaginatedResult<{
+        name: string;
+        id: number;
         code: string;
+        createdAt: Date;
+        updatedAt: Date;
         status: import("@ecom/prisma/src/generated/prisma/client").$Enums.PartnerStatus;
         description: string | null;
-        id: number;
-        createdAt: Date;
-        name: string;
-        updatedAt: Date;
         contactName: string | null;
         contactEmail: string | null;
         contactPhone: string | null;
@@ -28,13 +28,13 @@ export declare const get: import("@trpc/server").TRPCQueryProcedure<{
     };
     output: {
         apiConfig: Record<string, unknown> | null;
+        name: string;
+        id: number;
         code: string;
+        createdAt: Date;
+        updatedAt: Date;
         status: import("@ecom/prisma/src/generated/prisma/client").$Enums.PartnerStatus;
         description: string | null;
-        id: number;
-        createdAt: Date;
-        name: string;
-        updatedAt: Date;
         contactName: string | null;
         contactEmail: string | null;
         contactPhone: string | null;
@@ -53,10 +53,10 @@ export declare const create: import("@trpc/server").TRPCMutationProcedure<{
         apiConfig?: Record<string, unknown> | null | undefined;
     };
     output: {
+        name: string;
+        id: number;
         code: string;
         status: import("@ecom/prisma/src/generated/prisma/client").$Enums.PartnerStatus;
-        id: number;
-        name: string;
     };
     meta: object;
 }>;
@@ -73,10 +73,10 @@ export declare const update: import("@trpc/server").TRPCMutationProcedure<{
         apiConfig?: Record<string, unknown> | null | undefined;
     };
     output: {
+        name: string;
+        id: number;
         code: string;
         status: import("@ecom/prisma/src/generated/prisma/client").$Enums.PartnerStatus;
-        id: number;
-        name: string;
     };
     meta: object;
 }>;
@@ -94,13 +94,13 @@ export declare const listServices: import("@trpc/server").TRPCQueryProcedure<{
         partnerId: number;
     };
     output: {
-        code: string;
-        type: import("@ecom/prisma/src/generated/prisma/client").$Enums.ServiceType;
-        id: number;
-        createdAt: Date;
         name: string;
+        id: number;
+        code: string;
+        createdAt: Date;
         updatedAt: Date;
         isActive: boolean;
+        type: import("@ecom/prisma/src/generated/prisma/client").$Enums.ServiceType;
         partnerId: number;
         statusMapping: Prisma.JsonValue;
         webhookSecret: string | null;
@@ -114,7 +114,7 @@ export declare const addService: import("@trpc/server").TRPCMutationProcedure<{
         partnerId: number;
         code: string;
         name: string;
-        type: "IMPORT" | "PICKUP" | "EXPORT" | "LASTMILE";
+        type: "PICKUP" | "EXPORT" | "IMPORT" | "LASTMILE";
         statusMapping?: Record<string, unknown> | null | undefined;
         isActive?: boolean | undefined;
         webhookSecret?: string | null | undefined;
@@ -122,9 +122,9 @@ export declare const addService: import("@trpc/server").TRPCMutationProcedure<{
         rateLimitPerMinute?: number | undefined;
     };
     output: {
-        code: string;
-        id: number;
         name: string;
+        id: number;
+        code: string;
         partnerId: number;
     };
     meta: object;
@@ -134,7 +134,7 @@ export declare const updateService: import("@trpc/server").TRPCMutationProcedure
         id: unknown;
         code?: string | undefined;
         name?: string | undefined;
-        type?: "IMPORT" | "PICKUP" | "EXPORT" | "LASTMILE" | undefined;
+        type?: "PICKUP" | "EXPORT" | "IMPORT" | "LASTMILE" | undefined;
         statusMapping?: Record<string, unknown> | null | undefined;
         isActive?: boolean | undefined;
         webhookSecret?: string | null | undefined;
@@ -142,9 +142,9 @@ export declare const updateService: import("@trpc/server").TRPCMutationProcedure
         rateLimitPerMinute?: number | undefined;
     };
     output: {
-        code: string;
-        id: number;
         name: string;
+        id: number;
+        code: string;
         partnerId: number;
     };
     meta: object;

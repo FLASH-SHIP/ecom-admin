@@ -23,17 +23,17 @@ export declare const partnersRouter: import("@trpc/server").TRPCBuiltRouter<{
             status?: "ACTIVE" | "INACTIVE" | undefined;
             page?: number | undefined;
             perPage?: number | undefined;
-            sortBy?: "code" | "status" | "id" | "createdAt" | "name" | "updatedAt" | undefined;
+            sortBy?: "name" | "id" | "code" | "createdAt" | "updatedAt" | "status" | undefined;
             sortOrder?: "asc" | "desc" | undefined;
         } | undefined;
         output: import("@flash-ship/ecom-lib").PaginatedResult<{
+            name: string;
+            id: number;
             code: string;
+            createdAt: Date;
+            updatedAt: Date;
             status: import("@ecom/prisma/src/generated/prisma/client").$Enums.PartnerStatus;
             description: string | null;
-            id: number;
-            createdAt: Date;
-            name: string;
-            updatedAt: Date;
             contactName: string | null;
             contactEmail: string | null;
             contactPhone: string | null;
@@ -46,13 +46,13 @@ export declare const partnersRouter: import("@trpc/server").TRPCBuiltRouter<{
         };
         output: {
             apiConfig: Record<string, unknown> | null;
+            name: string;
+            id: number;
             code: string;
+            createdAt: Date;
+            updatedAt: Date;
             status: import("@ecom/prisma/src/generated/prisma/client").$Enums.PartnerStatus;
             description: string | null;
-            id: number;
-            createdAt: Date;
-            name: string;
-            updatedAt: Date;
             contactName: string | null;
             contactEmail: string | null;
             contactPhone: string | null;
@@ -71,10 +71,10 @@ export declare const partnersRouter: import("@trpc/server").TRPCBuiltRouter<{
             apiConfig?: Record<string, unknown> | null | undefined;
         };
         output: {
+            name: string;
+            id: number;
             code: string;
             status: import("@ecom/prisma/src/generated/prisma/client").$Enums.PartnerStatus;
-            id: number;
-            name: string;
         };
         meta: object;
     }>;
@@ -91,10 +91,10 @@ export declare const partnersRouter: import("@trpc/server").TRPCBuiltRouter<{
             apiConfig?: Record<string, unknown> | null | undefined;
         };
         output: {
+            name: string;
+            id: number;
             code: string;
             status: import("@ecom/prisma/src/generated/prisma/client").$Enums.PartnerStatus;
-            id: number;
-            name: string;
         };
         meta: object;
     }>;
@@ -112,13 +112,13 @@ export declare const partnersRouter: import("@trpc/server").TRPCBuiltRouter<{
             partnerId: number;
         };
         output: {
-            code: string;
-            type: import("@ecom/prisma/src/generated/prisma/client").$Enums.ServiceType;
-            id: number;
-            createdAt: Date;
             name: string;
+            id: number;
+            code: string;
+            createdAt: Date;
             updatedAt: Date;
             isActive: boolean;
+            type: import("@ecom/prisma/src/generated/prisma/client").$Enums.ServiceType;
             partnerId: number;
             statusMapping: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
             webhookSecret: string | null;
@@ -132,7 +132,7 @@ export declare const partnersRouter: import("@trpc/server").TRPCBuiltRouter<{
             partnerId: number;
             code: string;
             name: string;
-            type: "IMPORT" | "PICKUP" | "EXPORT" | "LASTMILE";
+            type: "PICKUP" | "EXPORT" | "IMPORT" | "LASTMILE";
             statusMapping?: Record<string, unknown> | null | undefined;
             isActive?: boolean | undefined;
             webhookSecret?: string | null | undefined;
@@ -140,9 +140,9 @@ export declare const partnersRouter: import("@trpc/server").TRPCBuiltRouter<{
             rateLimitPerMinute?: number | undefined;
         };
         output: {
-            code: string;
-            id: number;
             name: string;
+            id: number;
+            code: string;
             partnerId: number;
         };
         meta: object;
@@ -152,7 +152,7 @@ export declare const partnersRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: unknown;
             code?: string | undefined;
             name?: string | undefined;
-            type?: "IMPORT" | "PICKUP" | "EXPORT" | "LASTMILE" | undefined;
+            type?: "PICKUP" | "EXPORT" | "IMPORT" | "LASTMILE" | undefined;
             statusMapping?: Record<string, unknown> | null | undefined;
             isActive?: boolean | undefined;
             webhookSecret?: string | null | undefined;
@@ -160,9 +160,9 @@ export declare const partnersRouter: import("@trpc/server").TRPCBuiltRouter<{
             rateLimitPerMinute?: number | undefined;
         };
         output: {
-            code: string;
-            id: number;
             name: string;
+            id: number;
+            code: string;
             partnerId: number;
         };
         meta: object;

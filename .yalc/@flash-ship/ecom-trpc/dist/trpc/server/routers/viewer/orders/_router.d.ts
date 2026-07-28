@@ -24,7 +24,7 @@ export declare const adminOrdersRouter: import("@trpc/server").TRPCBuiltRouter<{
             search?: string | undefined;
             page?: number | undefined;
             perPage?: number | undefined;
-            sortBy?: "status" | "id" | "createdAt" | "orderCode" | undefined;
+            sortBy?: "id" | "createdAt" | "status" | "orderCode" | undefined;
             sortOrder?: "asc" | "desc" | undefined;
         } | undefined;
         output: {
@@ -37,7 +37,7 @@ export declare const adminOrdersRouter: import("@trpc/server").TRPCBuiltRouter<{
         input: {
             id: string;
         };
-        output: import("./procedures/orders.handler").CachedOrder | import("@ecom/features/order/mappers/AdminOrderMapper").AdminOrderDetailResponse | undefined;
+        output: import("@ecom/features/order/mappers/AdminOrderMapper").AdminOrderDetailResponse | import("./procedures/orders.handler").CachedOrder | undefined;
         meta: object;
     }>;
     updateStatus: import("@trpc/server").TRPCMutationProcedure<{
@@ -48,9 +48,9 @@ export declare const adminOrdersRouter: import("@trpc/server").TRPCBuiltRouter<{
             expectedVersion?: number | undefined;
         };
         output: {
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
             id: string;
             updatedAt: Date;
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
             orderCode: string;
             labelStatus: import("@ecom/prisma/src/generated/prisma/client").$Enums.LabelStatus;
             exportCustomsStatus: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomsStatus;
@@ -78,9 +78,9 @@ export declare const adminOrdersRouter: import("@trpc/server").TRPCBuiltRouter<{
             forceRefresh?: boolean | undefined;
         };
         output: {
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
             id: string;
             createdAt: Date;
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
             orderCode: string;
             totalFee: import("@prisma/client-runtime-utils").Decimal;
         };

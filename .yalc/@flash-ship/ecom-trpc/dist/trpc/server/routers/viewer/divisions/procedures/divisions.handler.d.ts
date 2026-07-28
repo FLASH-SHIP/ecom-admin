@@ -8,14 +8,14 @@ export declare const listProvinces: import("@trpc/server").TRPCQueryProcedure<{
     };
     output: {
         items: {
-            code: number;
-            id: number;
-            createdAt: Date;
             name: string;
-            updatedAt: Date;
+            id: number;
+            code: number;
             divisionType: string;
             codeName: string;
             phoneCode: number;
+            createdAt: Date;
+            updatedAt: Date;
         }[];
         total: number;
         page: number;
@@ -29,14 +29,14 @@ export declare const getProvince: import("@trpc/server").TRPCQueryProcedure<{
         id: number;
     };
     output: {
-        code: number;
-        id: number;
-        createdAt: Date;
         name: string;
-        updatedAt: Date;
+        id: number;
+        code: number;
         divisionType: string;
         codeName: string;
         phoneCode: number;
+        createdAt: Date;
+        updatedAt: Date;
     };
     meta: object;
 }>;
@@ -49,14 +49,14 @@ export declare const createProvince: import("@trpc/server").TRPCMutationProcedur
         codeName?: string | undefined;
     };
     output: {
-        code: number;
-        id: number;
-        createdAt: Date;
         name: string;
-        updatedAt: Date;
+        id: number;
+        code: number;
         divisionType: string;
         codeName: string;
         phoneCode: number;
+        createdAt: Date;
+        updatedAt: Date;
     };
     meta: object;
 }>;
@@ -70,14 +70,14 @@ export declare const updateProvince: import("@trpc/server").TRPCMutationProcedur
         phoneCode?: number | undefined;
     };
     output: {
-        code: number;
-        id: number;
-        createdAt: Date;
         name: string;
-        updatedAt: Date;
+        id: number;
+        code: number;
         divisionType: string;
         codeName: string;
         phoneCode: number;
+        createdAt: Date;
+        updatedAt: Date;
     };
     meta: object;
 }>;
@@ -101,16 +101,16 @@ export declare const listWards: import("@trpc/server").TRPCQueryProcedure<{
     };
     output: {
         items: {
-            code: number;
-            id: number;
-            createdAt: Date;
             name: string;
-            updatedAt: Date;
             province: {
                 name: string;
             };
+            id: number;
+            code: number;
             divisionType: string;
             codeName: string;
+            createdAt: Date;
+            updatedAt: Date;
             provinceCode: number;
         }[];
         total: number;
@@ -125,13 +125,13 @@ export declare const getWard: import("@trpc/server").TRPCQueryProcedure<{
         id: number;
     };
     output: {
-        code: number;
-        id: number;
-        createdAt: Date;
         name: string;
-        updatedAt: Date;
+        id: number;
+        code: number;
         divisionType: string;
         codeName: string;
+        createdAt: Date;
+        updatedAt: Date;
         provinceCode: number;
     };
     meta: object;
@@ -145,13 +145,13 @@ export declare const createWard: import("@trpc/server").TRPCMutationProcedure<{
         codeName?: string | undefined;
     };
     output: {
-        code: number;
-        id: number;
-        createdAt: Date;
         name: string;
-        updatedAt: Date;
+        id: number;
+        code: number;
         divisionType: string;
         codeName: string;
+        createdAt: Date;
+        updatedAt: Date;
         provinceCode: number;
     };
     meta: object;
@@ -166,13 +166,13 @@ export declare const updateWard: import("@trpc/server").TRPCMutationProcedure<{
         provinceCode?: number | undefined;
     };
     output: {
-        code: number;
-        id: number;
-        createdAt: Date;
         name: string;
-        updatedAt: Date;
+        id: number;
+        code: number;
         divisionType: string;
         codeName: string;
+        createdAt: Date;
+        updatedAt: Date;
         provinceCode: number;
     };
     meta: object;
@@ -198,21 +198,21 @@ export declare const listDivisions: import("@trpc/server").TRPCQueryProcedure<{
     };
     output: {
         items: {
-            code: string;
-            id: number;
-            createdAt: Date;
             name: string;
-            updatedAt: Date;
+            id: number;
+            code: string;
             divisionType: string;
+            createdAt: Date;
+            updatedAt: Date;
             countryCode: string;
             nameEn: string | null;
             level: number;
             parentId: number | null;
             isActive: boolean;
             parent: {
-                code: string;
-                id: number;
                 name: string;
+                id: number;
+                code: string;
             } | null;
         }[];
         total: number;
@@ -227,21 +227,21 @@ export declare const getDivision: import("@trpc/server").TRPCQueryProcedure<{
         id: number;
     };
     output: {
-        code: string;
-        id: number;
-        createdAt: Date;
         name: string;
-        updatedAt: Date;
+        id: number;
+        code: string;
         divisionType: string;
+        createdAt: Date;
+        updatedAt: Date;
         countryCode: string;
         nameEn: string | null;
         level: number;
         parentId: number | null;
         isActive: boolean;
         parent: {
-            code: string;
-            id: number;
             name: string;
+            id: number;
+            code: string;
         } | null;
     };
     meta: object;
@@ -257,12 +257,12 @@ export declare const createDivision: import("@trpc/server").TRPCMutationProcedur
         parentId?: number | undefined;
     };
     output: {
-        code: string;
-        id: number;
-        createdAt: Date;
         name: string;
-        updatedAt: Date;
+        id: number;
+        code: string;
         divisionType: string;
+        createdAt: Date;
+        updatedAt: Date;
         countryCode: string;
         nameEn: string | null;
         level: number;
@@ -280,12 +280,12 @@ export declare const updateDivision: import("@trpc/server").TRPCMutationProcedur
         isActive?: boolean | undefined;
     };
     output: {
-        code: string;
-        id: number;
-        createdAt: Date;
         name: string;
-        updatedAt: Date;
+        id: number;
+        code: string;
         divisionType: string;
+        createdAt: Date;
+        updatedAt: Date;
         countryCode: string;
         nameEn: string | null;
         level: number;

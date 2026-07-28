@@ -1,22 +1,22 @@
 export declare const listWebhooks: import("@trpc/server").TRPCQueryProcedure<{
     input: void;
     output: {
-        url: string;
-        id: number;
-        ownerId: string | null;
-        ownerType: string | null;
-        createdAt: Date;
         name: string;
+        id: number;
+        createdAt: Date;
         _count: {
             logs: number;
         };
         isActive: boolean;
+        url: string;
         secret: string | null;
         oldSecret: string | null;
         secretUpdatedAt: Date | null;
         events: string[];
         retries: number;
         timeout: number;
+        ownerId: string | null;
+        ownerType: string | null;
         failureCount: number;
         apiVersion: string;
     }[];
@@ -27,20 +27,20 @@ export declare const getWebhook: import("@trpc/server").TRPCQueryProcedure<{
         id: number;
     };
     output: {
-        url: string;
-        id: number;
-        ownerId: string | null;
-        ownerType: string | null;
-        createdAt: Date;
         name: string;
+        id: number;
+        createdAt: Date;
         updatedAt: Date;
         isActive: boolean;
+        url: string;
         secret: string | null;
         oldSecret: string | null;
         secretUpdatedAt: Date | null;
         events: string[];
         retries: number;
         timeout: number;
+        ownerId: string | null;
+        ownerType: string | null;
         failureCount: number;
         apiVersion: string;
     };
@@ -48,7 +48,7 @@ export declare const getWebhook: import("@trpc/server").TRPCQueryProcedure<{
 }>;
 export declare const availableEvents: import("@trpc/server").TRPCQueryProcedure<{
     input: void;
-    output: ("ping" | "order.created" | "order.status_updated" | "order.checkpoint_added" | "member.registered" | "post.created" | "post.updated" | "post.published" | "post.deleted" | "page.created" | "page.updated" | "page.published" | "page.deleted")[];
+    output: ("order.created" | "order.status_updated" | "order.checkpoint_added" | "post.created" | "post.updated" | "post.published" | "post.deleted" | "page.created" | "page.updated" | "page.published" | "page.deleted" | "member.registered" | "ping")[];
     meta: object;
 }>;
 export declare const createWebhook: import("@trpc/server").TRPCMutationProcedure<{
@@ -61,8 +61,8 @@ export declare const createWebhook: import("@trpc/server").TRPCMutationProcedure
         timeout?: number | undefined;
     };
     output: {
-        id: number;
         name: string;
+        id: number;
         secret: string | null;
     };
     meta: object;
@@ -79,8 +79,8 @@ export declare const updateWebhook: import("@trpc/server").TRPCMutationProcedure
         timeout?: number | undefined;
     };
     output: {
-        id: number;
         name: string;
+        id: number;
     };
     meta: object;
 }>;
@@ -89,20 +89,20 @@ export declare const deleteWebhook: import("@trpc/server").TRPCMutationProcedure
         id: number;
     };
     output: {
-        url: string;
-        id: number;
-        ownerId: string | null;
-        ownerType: string | null;
-        createdAt: Date;
         name: string;
+        id: number;
+        createdAt: Date;
         updatedAt: Date;
         isActive: boolean;
+        url: string;
         secret: string | null;
         oldSecret: string | null;
         secretUpdatedAt: Date | null;
         events: string[];
         retries: number;
         timeout: number;
+        ownerId: string | null;
+        ownerType: string | null;
         failureCount: number;
         apiVersion: string;
     };
@@ -116,12 +116,12 @@ export declare const getWebhookLogs: import("@trpc/server").TRPCQueryProcedure<{
         error: string | null;
         id: number;
         createdAt: Date;
-        success: boolean;
+        statusCode: number | null;
+        attempts: number;
         event: string;
         payload: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
         response: string | null;
-        statusCode: number | null;
-        attempts: number;
+        success: boolean;
     }[];
     meta: object;
 }>;

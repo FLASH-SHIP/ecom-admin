@@ -2,14 +2,14 @@ export declare const list: import("@trpc/server").TRPCQueryProcedure<{
     input: void;
     output: {
         id: string;
+        createdAt: Date;
+        expiresAt: Date | null;
+        lastUsedAt: Date | null;
+        label: string | null;
         ownerId: string;
         ownerType: string;
         maskedKey: string;
-        label: string | null;
         allowedIps: string[];
-        expiresAt: Date | null;
-        lastUsedAt: Date | null;
-        createdAt: Date;
     }[];
     meta: object;
 }>;

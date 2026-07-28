@@ -81,9 +81,9 @@ export declare const create: import("@trpc/server").TRPCMutationProcedure<{
         volumeWeight: number;
         chargeableWeight: number;
         dimensionText: string | null;
-        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
         id: string;
         createdAt: Date;
+        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
         orderCode: string;
     };
     meta: object;
@@ -97,19 +97,21 @@ export declare const list: import("@trpc/server").TRPCQueryProcedure<{
         shippingMethod?: "EXPRESS" | "EPACKET" | undefined;
         page?: number | undefined;
         perPage?: number | undefined;
-        sortBy?: "status" | "id" | "createdAt" | "orderCode" | undefined;
+        sortBy?: "id" | "createdAt" | "status" | "orderCode" | undefined;
         sortOrder?: "asc" | "desc" | undefined;
     } | undefined;
     output: import("@flash-ship/ecom-lib").PaginatedResult<{
-        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
         id: string;
         createdAt: Date;
         customer: {
-            email: string;
             name: string | null;
+            email: string;
             username: string;
         };
+        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.OrderStatus;
         customerId: string;
+        orderCode: string;
+        labelStatus: import("@ecom/prisma/src/generated/prisma/client").$Enums.LabelStatus;
         shippingMethod: import("@ecom/prisma/src/generated/prisma/client").$Enums.ShippingMethod;
         shippingOrigin: import("@ecom/prisma/src/generated/prisma/client").$Enums.ShippingOrigin;
         sellerOrderId: string | null;
@@ -121,8 +123,6 @@ export declare const list: import("@trpc/server").TRPCQueryProcedure<{
         receiverCountry: string;
         receiverZipCode: string;
         declaredWeight: number;
-        orderCode: string;
-        labelStatus: import("@ecom/prisma/src/generated/prisma/client").$Enums.LabelStatus;
         ecomTrackingNumber: string | null;
         baseShippingFee: Prisma.Decimal;
         surchargeFee: Prisma.Decimal;
@@ -145,12 +145,12 @@ export declare const listPackingTypes: import("@trpc/server").TRPCQueryProcedure
     } | undefined;
     output: {
         items: {
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-            description: string | null;
+            name: string;
             id: number;
             createdAt: Date;
-            name: string;
             updatedAt: Date;
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+            description: string | null;
             image: string | null;
         }[];
         total: number;
@@ -169,7 +169,7 @@ export declare const exportExcel: import("@trpc/server").TRPCMutationProcedure<{
         shippingMethod?: "EXPRESS" | "EPACKET" | undefined;
         page?: number | undefined;
         perPage?: number | undefined;
-        sortBy?: "status" | "id" | "createdAt" | "orderCode" | undefined;
+        sortBy?: "id" | "createdAt" | "status" | "orderCode" | undefined;
         sortOrder?: "asc" | "desc" | undefined;
     } | undefined;
     output: {

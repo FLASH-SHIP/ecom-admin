@@ -24,12 +24,12 @@ export declare const templatesRouter: import("@trpc/server").TRPCBuiltRouter<{
             isActive?: boolean | undefined;
         } | undefined;
         output: {
-            type: string;
+            name: string;
             id: number;
             createdAt: Date;
-            name: string;
-            isActive: boolean;
             slug: string;
+            isActive: boolean;
+            type: string;
             thumbnail: string | null;
         }[];
         meta: object;
@@ -39,16 +39,16 @@ export declare const templatesRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
         };
         output: {
-            type: string;
+            name: string;
             id: number;
             createdAt: Date;
-            name: string;
-            isActive: boolean;
             slug: string;
+            isActive: boolean;
             content: string | null;
+            type: string;
+            createdBy: string | null;
             structure: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
             thumbnail: string | null;
-            createdBy: string | null;
         };
         meta: object;
     }>;
@@ -56,23 +56,23 @@ export declare const templatesRouter: import("@trpc/server").TRPCBuiltRouter<{
         input: {
             name: string;
             slug: string;
-            type: "email" | "page" | "post";
+            type: "post" | "page" | "email";
             content?: string | undefined;
             structure?: Record<string, unknown> | undefined;
             thumbnail?: string | undefined;
         };
         output: {
-            type: string;
+            name: string;
             id: number;
             createdAt: Date;
-            name: string;
             updatedAt: Date;
-            isActive: boolean;
             slug: string;
+            isActive: boolean;
             content: string | null;
+            type: string;
+            createdBy: string | null;
             structure: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
             thumbnail: string | null;
-            createdBy: string | null;
         };
         meta: object;
     }>;
@@ -87,17 +87,17 @@ export declare const templatesRouter: import("@trpc/server").TRPCBuiltRouter<{
             isActive?: boolean | undefined;
         };
         output: {
-            type: string;
+            name: string;
             id: number;
             createdAt: Date;
-            name: string;
             updatedAt: Date;
-            isActive: boolean;
             slug: string;
+            isActive: boolean;
             content: string | null;
+            type: string;
+            createdBy: string | null;
             structure: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
             thumbnail: string | null;
-            createdBy: string | null;
         };
         meta: object;
     }>;
@@ -106,17 +106,17 @@ export declare const templatesRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
         };
         output: {
-            type: string;
+            name: string;
             id: number;
             createdAt: Date;
-            name: string;
             updatedAt: Date;
-            isActive: boolean;
             slug: string;
+            isActive: boolean;
             content: string | null;
+            type: string;
+            createdBy: string | null;
             structure: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
             thumbnail: string | null;
-            createdBy: string | null;
         };
         meta: object;
     }>;
@@ -125,17 +125,17 @@ export declare const templatesRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
         };
         output: {
-            type: string;
+            name: string;
             id: number;
             createdAt: Date;
-            name: string;
             updatedAt: Date;
-            isActive: boolean;
             slug: string;
+            isActive: boolean;
             content: string | null;
+            type: string;
+            createdBy: string | null;
             structure: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
             thumbnail: string | null;
-            createdBy: string | null;
         };
         meta: object;
     }>;

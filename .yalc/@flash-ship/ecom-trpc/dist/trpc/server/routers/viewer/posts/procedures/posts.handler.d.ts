@@ -2,7 +2,7 @@ export declare const list: import("@trpc/server").TRPCQueryProcedure<{
     input: {
         filters?: {
             fieldKey: string;
-            operator: "endsWith" | "startsWith" | "contains" | "equals" | "notContains" | "notEquals" | "between" | "betweenInclusive" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "empty" | "notEmpty";
+            operator: "endsWith" | "startsWith" | "contains" | "notContains" | "equals" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "notEquals" | "between" | "betweenInclusive" | "empty" | "notEmpty";
             value: string;
             value2?: string | undefined;
         }[] | undefined;
@@ -15,32 +15,32 @@ export declare const list: import("@trpc/server").TRPCQueryProcedure<{
         page?: number | undefined;
         pageSize?: number | undefined;
         perPage?: number | undefined;
-        sortBy?: "status" | "id" | "createdAt" | "title" | "publishedAt" | "views" | undefined;
+        sortBy?: "id" | "createdAt" | "title" | "views" | "status" | "publishedAt" | undefined;
         sortOrder?: "asc" | "desc" | undefined;
         sortDir?: "asc" | "desc" | undefined;
     } | undefined;
     output: import("@flash-ship/ecom-lib").PaginatedResult<{
-        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
         id: number;
         createdAt: Date;
         deletedAt: Date | null;
         slug: string;
-        isFeatured: boolean;
         title: string;
-        publishedAt: Date | null;
-        views: number;
         excerpt: string | null;
         featuredImage: string | null;
+        isFeatured: boolean;
+        views: number;
+        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
         authorId: string;
+        publishedAt: Date | null;
         author: {
-            id: string;
             name: string | null;
+            id: string;
             avatarUrl: string | null;
         };
         categories: {
             category: {
-                id: number;
                 name: string;
+                id: number;
                 slug: string;
             };
         }[];

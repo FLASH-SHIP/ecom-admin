@@ -48,7 +48,7 @@ export declare const rateCardsRouter: import("@trpc/server").TRPCBuiltRouter<{
             id?: number | undefined;
             code?: string | undefined;
             type?: "DEFAULT" | "CUSTOM" | undefined;
-            status?: "DRAFT" | "PENDING" | "REJECTED" | "PUBLISHED" | "REVIEW" | "ARCHIVED" | undefined;
+            status?: "DRAFT" | "PENDING" | "REVIEW" | "REJECTED" | "PUBLISHED" | "ARCHIVED" | undefined;
             shippingMethod?: "EXPRESS" | "EPACKET" | undefined;
             country?: string | undefined;
             origin?: string | undefined;
@@ -59,31 +59,31 @@ export declare const rateCardsRouter: import("@trpc/server").TRPCBuiltRouter<{
             customerGroupId?: number | undefined;
             page?: number | undefined;
             perPage?: number | undefined;
-            sortBy?: "code" | "type" | "status" | "id" | "createdAt" | "name" | "updatedAt" | "startDate" | "endDate" | undefined;
+            sortBy?: "name" | "id" | "code" | "createdAt" | "updatedAt" | "status" | "type" | "startDate" | "endDate" | undefined;
             sortOrder?: "asc" | "desc" | undefined;
         } | undefined;
         output: import("@flash-ship/ecom-lib").PaginatedResult<{
-            code: string;
-            type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-            id: number;
-            createdAt: Date;
             name: string;
+            id: number;
+            code: string;
+            createdAt: Date;
             updatedAt: Date;
-            shippingMethod: import("@ecom/prisma/src/generated/prisma/client").$Enums.ShippingMethod;
-            startDate: Date | null;
-            endDate: Date | null;
             country: string;
-            origin: string | null;
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+            type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
+            shippingMethod: import("@ecom/prisma/src/generated/prisma/client").$Enums.ShippingMethod;
             currency: string;
+            origin: string | null;
             weightStep: import("@prisma/client-runtime-utils").Decimal;
             minWeight: import("@prisma/client-runtime-utils").Decimal;
             maxWeight: import("@prisma/client-runtime-utils").Decimal;
+            startDate: Date | null;
+            endDate: Date | null;
             groups: {
                 customerGroup: {
-                    code: string;
-                    id: number;
                     name: string;
+                    id: number;
+                    code: string;
                 };
                 customerGroupId: number;
             }[];
@@ -95,34 +95,34 @@ export declare const rateCardsRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
         };
         output: {
-            code: string;
-            type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-            id: number;
-            createdAt: Date;
             name: string;
+            id: number;
+            code: string;
+            createdAt: Date;
             updatedAt: Date;
+            country: string;
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+            type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
+            shippingMethod: import("@ecom/prisma/src/generated/prisma/client").$Enums.ShippingMethod;
             items: {
                 id: number;
+                amount: import("@prisma/client-runtime-utils").Decimal;
                 startWeight: import("@prisma/client-runtime-utils").Decimal;
                 endWeight: import("@prisma/client-runtime-utils").Decimal;
                 rateType: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateItemType;
-                amount: import("@prisma/client-runtime-utils").Decimal;
             }[];
-            shippingMethod: import("@ecom/prisma/src/generated/prisma/client").$Enums.ShippingMethod;
-            startDate: Date | null;
-            endDate: Date | null;
-            country: string;
-            origin: string | null;
             currency: string;
+            origin: string | null;
             weightStep: import("@prisma/client-runtime-utils").Decimal;
             minWeight: import("@prisma/client-runtime-utils").Decimal;
             maxWeight: import("@prisma/client-runtime-utils").Decimal;
+            startDate: Date | null;
+            endDate: Date | null;
             groups: {
                 customerGroup: {
-                    code: string;
-                    id: number;
                     name: string;
+                    id: number;
+                    code: string;
                 };
                 customerGroupId: number;
             }[];
@@ -146,11 +146,11 @@ export declare const rateCardsRouter: import("@trpc/server").TRPCBuiltRouter<{
             customerGroupIds?: number[] | undefined;
         };
         output: {
-            code: string;
-            type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-            id: number;
             name: string;
+            id: number;
+            code: string;
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+            type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
         };
         meta: object;
     }>;
@@ -172,11 +172,11 @@ export declare const rateCardsRouter: import("@trpc/server").TRPCBuiltRouter<{
             customerGroupIds?: number[] | undefined;
         };
         output: {
-            code: string;
-            type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-            id: number;
             name: string;
+            id: number;
+            code: string;
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+            type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
         };
         meta: object;
     }>;
@@ -185,11 +185,11 @@ export declare const rateCardsRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
         };
         output: {
-            code: string;
-            type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-            id: number;
             name: string;
+            id: number;
+            code: string;
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+            type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
         };
         meta: object;
     }>;
@@ -198,11 +198,11 @@ export declare const rateCardsRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
         };
         output: {
-            code: string;
-            type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-            id: number;
             name: string;
+            id: number;
+            code: string;
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+            type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
         };
         meta: object;
     }>;
@@ -212,11 +212,11 @@ export declare const rateCardsRouter: import("@trpc/server").TRPCBuiltRouter<{
             reason?: string | undefined;
         };
         output: {
-            code: string;
-            type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-            id: number;
             name: string;
+            id: number;
+            code: string;
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+            type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
         };
         meta: object;
     }>;
@@ -226,11 +226,11 @@ export declare const rateCardsRouter: import("@trpc/server").TRPCBuiltRouter<{
             customerGroupIds: number[];
         };
         output: {
-            code: string;
-            type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-            id: number;
             name: string;
+            id: number;
+            code: string;
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+            type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
         };
         meta: object;
     }>;
@@ -247,8 +247,8 @@ export declare const rateCardsRouter: import("@trpc/server").TRPCBuiltRouter<{
         output: {
             hasOverlap: boolean;
             overlappingCards: {
-                code: string;
                 id: number;
+                code: string;
                 startDate: Date | null;
                 endDate: Date | null;
             }[];
@@ -269,14 +269,14 @@ export declare const rateCardsRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
         };
         output: {
-            user: {
-                email: string;
-                id: string;
-                name: string | null;
-            } | null;
-            userId: string | null;
             id: number;
             createdAt: Date;
+            user: {
+                name: string | null;
+                id: string;
+                email: string;
+            } | null;
+            userId: string | null;
             action: string;
             oldValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
             newValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
@@ -318,9 +318,9 @@ export declare const rateCardsRouter: import("@trpc/server").TRPCBuiltRouter<{
     listGroups: import("@trpc/server").TRPCQueryProcedure<{
         input: void;
         output: {
-            code: string;
-            id: number;
             name: string;
+            id: number;
+            code: string;
         }[];
         meta: object;
     }>;
@@ -329,10 +329,10 @@ export declare const rateCardsRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
         };
         output: {
+            name: string;
+            id: number;
             code: string;
             type: import("@ecom/prisma/src/generated/prisma/client").$Enums.RateCardType;
-            id: number;
-            name: string;
         };
         meta: object;
     }>;

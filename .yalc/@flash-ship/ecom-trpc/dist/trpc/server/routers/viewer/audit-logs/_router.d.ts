@@ -21,7 +21,7 @@ export declare const auditLogsRouter: import("@trpc/server").TRPCBuiltRouter<{
         input: {
             filters?: {
                 fieldKey: string;
-                operator: "endsWith" | "startsWith" | "contains" | "equals" | "notContains" | "notEquals" | "between" | "betweenInclusive" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "empty" | "notEmpty";
+                operator: "endsWith" | "startsWith" | "contains" | "notContains" | "equals" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "notEquals" | "between" | "betweenInclusive" | "empty" | "notEmpty";
                 value: string;
                 value2?: string | undefined;
             }[] | undefined;
@@ -32,22 +32,22 @@ export declare const auditLogsRouter: import("@trpc/server").TRPCBuiltRouter<{
         };
         output: {
             items: {
-                user: {
-                    email: string;
-                    id: string;
-                    name: string | null;
-                    avatarUrl: string | null;
-                } | null;
                 id: number;
                 createdAt: Date;
-                metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
-                action: string;
+                user: {
+                    name: string | null;
+                    id: string;
+                    email: string;
+                    avatarUrl: string | null;
+                } | null;
                 ipAddress: string | null;
+                action: string;
                 module: string;
                 entityId: string | null;
                 entityType: string | null;
                 oldValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
                 newValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+                metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
             }[];
             total: number;
             page: number;
@@ -61,23 +61,23 @@ export declare const auditLogsRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
         };
         output: {
-            user: {
-                email: string;
-                id: string;
-                name: string | null;
-                avatarUrl: string | null;
-            } | null;
-            userAgent: string | null;
             id: number;
             createdAt: Date;
-            metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
-            action: string;
+            user: {
+                name: string | null;
+                id: string;
+                email: string;
+                avatarUrl: string | null;
+            } | null;
             ipAddress: string | null;
+            userAgent: string | null;
+            action: string;
             module: string;
             entityId: string | null;
             entityType: string | null;
             oldValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
             newValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+            metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
         } | null;
         meta: object;
     }>;
@@ -98,18 +98,18 @@ export declare const auditLogsRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
         };
         output: {
-            userAgent: string | null;
-            userId: string | null;
             id: number;
             createdAt: Date;
-            metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
-            action: string;
+            userId: string | null;
             ipAddress: string | null;
+            userAgent: string | null;
+            action: string;
             module: string;
             entityId: string | null;
             entityType: string | null;
             oldValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
             newValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
+            metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
         };
         meta: object;
     }>;

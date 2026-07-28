@@ -9,9 +9,9 @@
  */
 export declare function requirePermission(...permissions: string[]): import("@trpc/server").TRPCMiddlewareBuilder<import("..").Context, object, {
     user: import("@flash-ship/ecom-types").AuthUser;
-    ip: string | null;
-    userAgent: string | null;
     locale: string | null;
     sessionToken: string | null;
+    userAgent: string | null;
+    ip: string | null;
 }, unknown>;
 //# sourceMappingURL=requirePermission.d.ts.map

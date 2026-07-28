@@ -1,24 +1,24 @@
 export declare const list: import("@trpc/server").TRPCQueryProcedure<{
     input: void;
     output: ({
-        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
         id: number;
         createdAt: Date;
         updatedAt: Date;
+        order: number;
+        slug: string;
         _count: {
             children: number;
         };
         parentId: number | null;
-        order: number;
-        slug: string;
         title: string;
-        publishedAt: Date | null;
+        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
         authorId: string;
-        author: {
-            id: string;
-            name: string | null;
-        };
+        publishedAt: Date | null;
         template: string | null;
+        author: {
+            name: string | null;
+            id: string;
+        };
     } & {
         _translatedFrom?: string;
     })[];
@@ -38,10 +38,10 @@ export declare const getBySlug: import("@trpc/server").TRPCQueryProcedure<{
             indexMode: string | null;
         } | null;
         title: string;
-        publishedAt: Date | null;
         content: string | null;
         excerpt: string | null;
         featuredImage: string | null;
+        publishedAt: Date | null;
         template: string | null;
     } & {
         _translatedFrom?: string;

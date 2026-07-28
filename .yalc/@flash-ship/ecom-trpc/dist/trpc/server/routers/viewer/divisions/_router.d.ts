@@ -27,14 +27,14 @@ export declare const divisionsRouter: import("@trpc/server").TRPCBuiltRouter<{
         };
         output: {
             items: {
-                code: number;
-                id: number;
-                createdAt: Date;
                 name: string;
-                updatedAt: Date;
+                id: number;
+                code: number;
                 divisionType: string;
                 codeName: string;
                 phoneCode: number;
+                createdAt: Date;
+                updatedAt: Date;
             }[];
             total: number;
             page: number;
@@ -48,14 +48,14 @@ export declare const divisionsRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
         };
         output: {
-            code: number;
-            id: number;
-            createdAt: Date;
             name: string;
-            updatedAt: Date;
+            id: number;
+            code: number;
             divisionType: string;
             codeName: string;
             phoneCode: number;
+            createdAt: Date;
+            updatedAt: Date;
         };
         meta: object;
     }>;
@@ -68,14 +68,14 @@ export declare const divisionsRouter: import("@trpc/server").TRPCBuiltRouter<{
             codeName?: string | undefined;
         };
         output: {
-            code: number;
-            id: number;
-            createdAt: Date;
             name: string;
-            updatedAt: Date;
+            id: number;
+            code: number;
             divisionType: string;
             codeName: string;
             phoneCode: number;
+            createdAt: Date;
+            updatedAt: Date;
         };
         meta: object;
     }>;
@@ -89,14 +89,14 @@ export declare const divisionsRouter: import("@trpc/server").TRPCBuiltRouter<{
             phoneCode?: number | undefined;
         };
         output: {
-            code: number;
-            id: number;
-            createdAt: Date;
             name: string;
-            updatedAt: Date;
+            id: number;
+            code: number;
             divisionType: string;
             codeName: string;
             phoneCode: number;
+            createdAt: Date;
+            updatedAt: Date;
         };
         meta: object;
     }>;
@@ -120,16 +120,16 @@ export declare const divisionsRouter: import("@trpc/server").TRPCBuiltRouter<{
         };
         output: {
             items: {
-                code: number;
-                id: number;
-                createdAt: Date;
                 name: string;
-                updatedAt: Date;
                 province: {
                     name: string;
                 };
+                id: number;
+                code: number;
                 divisionType: string;
                 codeName: string;
+                createdAt: Date;
+                updatedAt: Date;
                 provinceCode: number;
             }[];
             total: number;
@@ -144,13 +144,13 @@ export declare const divisionsRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
         };
         output: {
-            code: number;
-            id: number;
-            createdAt: Date;
             name: string;
-            updatedAt: Date;
+            id: number;
+            code: number;
             divisionType: string;
             codeName: string;
+            createdAt: Date;
+            updatedAt: Date;
             provinceCode: number;
         };
         meta: object;
@@ -164,13 +164,13 @@ export declare const divisionsRouter: import("@trpc/server").TRPCBuiltRouter<{
             codeName?: string | undefined;
         };
         output: {
-            code: number;
-            id: number;
-            createdAt: Date;
             name: string;
-            updatedAt: Date;
+            id: number;
+            code: number;
             divisionType: string;
             codeName: string;
+            createdAt: Date;
+            updatedAt: Date;
             provinceCode: number;
         };
         meta: object;
@@ -185,13 +185,13 @@ export declare const divisionsRouter: import("@trpc/server").TRPCBuiltRouter<{
             provinceCode?: number | undefined;
         };
         output: {
-            code: number;
-            id: number;
-            createdAt: Date;
             name: string;
-            updatedAt: Date;
+            id: number;
+            code: number;
             divisionType: string;
             codeName: string;
+            createdAt: Date;
+            updatedAt: Date;
             provinceCode: number;
         };
         meta: object;
@@ -217,21 +217,21 @@ export declare const divisionsRouter: import("@trpc/server").TRPCBuiltRouter<{
         };
         output: {
             items: {
-                code: string;
-                id: number;
-                createdAt: Date;
                 name: string;
-                updatedAt: Date;
+                id: number;
+                code: string;
                 divisionType: string;
+                createdAt: Date;
+                updatedAt: Date;
                 countryCode: string;
                 nameEn: string | null;
                 level: number;
                 parentId: number | null;
                 isActive: boolean;
                 parent: {
-                    code: string;
-                    id: number;
                     name: string;
+                    id: number;
+                    code: string;
                 } | null;
             }[];
             total: number;
@@ -246,21 +246,21 @@ export declare const divisionsRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
         };
         output: {
-            code: string;
-            id: number;
-            createdAt: Date;
             name: string;
-            updatedAt: Date;
+            id: number;
+            code: string;
             divisionType: string;
+            createdAt: Date;
+            updatedAt: Date;
             countryCode: string;
             nameEn: string | null;
             level: number;
             parentId: number | null;
             isActive: boolean;
             parent: {
-                code: string;
-                id: number;
                 name: string;
+                id: number;
+                code: string;
             } | null;
         };
         meta: object;
@@ -276,12 +276,12 @@ export declare const divisionsRouter: import("@trpc/server").TRPCBuiltRouter<{
             parentId?: number | undefined;
         };
         output: {
-            code: string;
-            id: number;
-            createdAt: Date;
             name: string;
-            updatedAt: Date;
+            id: number;
+            code: string;
             divisionType: string;
+            createdAt: Date;
+            updatedAt: Date;
             countryCode: string;
             nameEn: string | null;
             level: number;
@@ -299,12 +299,12 @@ export declare const divisionsRouter: import("@trpc/server").TRPCBuiltRouter<{
             isActive?: boolean | undefined;
         };
         output: {
-            code: string;
-            id: number;
-            createdAt: Date;
             name: string;
-            updatedAt: Date;
+            id: number;
+            code: string;
             divisionType: string;
+            createdAt: Date;
+            updatedAt: Date;
             countryCode: string;
             nameEn: string | null;
             level: number;

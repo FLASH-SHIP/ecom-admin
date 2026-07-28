@@ -1,6 +1,6 @@
 export declare const list: import("@trpc/server").TRPCQueryProcedure<{
     input: {
-        status?: "ACTIVE" | "INACTIVE" | "BANNED" | undefined;
+        status?: "ACTIVE" | "BANNED" | "INACTIVE" | undefined;
         search?: string | undefined;
         page?: number | undefined;
         perPage?: number | undefined;
@@ -9,27 +9,27 @@ export declare const list: import("@trpc/server").TRPCQueryProcedure<{
     };
     output: {
         items: {
-            email: string;
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+            name: string | null;
             id: string;
             createdAt: Date;
-            name: string | null;
-            customerCode: string | null;
-            username: string;
-            phone: string | null;
-            avatarUrl: string | null;
-            emailVerified: Date | null;
-            lastLoginAt: Date | null;
-            group: {
-                code: string;
-                id: number;
-                name: string;
-            } | null;
-            groupId: number | null;
             _count: {
                 socialAccounts: number;
                 activityLogs: number;
             };
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+            email: string;
+            username: string;
+            phone: string | null;
+            avatarUrl: string | null;
+            emailVerified: Date | null;
+            customerCode: string | null;
+            lastLoginAt: Date | null;
+            groupId: number | null;
+            group: {
+                name: string;
+                id: number;
+                code: string;
+            } | null;
         }[];
         total: number;
         page: number;
@@ -43,43 +43,43 @@ export declare const get: import("@trpc/server").TRPCQueryProcedure<{
         id: string;
     };
     output: {
-        email: string;
-        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
-        description: string | null;
+        name: string | null;
         id: string;
         createdAt: Date;
-        name: string | null;
-        customerCode: string | null;
+        updatedAt: Date;
+        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+        email: string;
         username: string;
-        usernameChangeCount: number;
-        usernameChangedAt: Date | null;
         phone: string | null;
         avatarUrl: string | null;
         emailVerified: Date | null;
+        metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+        description: string | null;
+        customerCode: string | null;
+        usernameChangeCount: number;
+        usernameChangedAt: Date | null;
         lastLoginAt: Date | null;
         dob: Date | null;
         gender: string | null;
-        metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
-        updatedAt: Date;
+        groupId: number | null;
         group: {
-            code: string;
-            id: number;
             name: string;
+            id: number;
+            code: string;
         } | null;
         socialAccounts: {
-            email: string | null;
+            name: string | null;
             id: number;
             createdAt: Date;
-            name: string | null;
+            email: string | null;
             provider: string;
         }[];
         activityLogs: {
             id: number;
             createdAt: Date;
-            action: string;
             ipAddress: string | null;
+            action: string;
         }[];
-        groupId: number | null;
     } | null;
     meta: object;
 }>;
@@ -90,17 +90,17 @@ export declare const create: import("@trpc/server").TRPCMutationProcedure<{
         name?: string | undefined;
         phone?: string | undefined;
         dob?: string | undefined;
-        gender?: "male" | "female" | "other" | undefined;
+        gender?: "other" | "male" | "female" | undefined;
         description?: string | undefined;
         password?: string | undefined;
         groupId?: number | null | undefined;
     };
     output: {
-        email: string;
-        id: string;
         name: string | null;
-        customerCode: string | null;
+        id: string;
+        email: string;
         username: string;
+        customerCode: string | null;
     };
     meta: object;
 }>;
@@ -112,16 +112,16 @@ export declare const update: import("@trpc/server").TRPCMutationProcedure<{
         phone?: string | undefined;
         avatarUrl?: string | undefined;
         dob?: string | null | undefined;
-        gender?: "male" | "female" | "other" | null | undefined;
+        gender?: "other" | "male" | "female" | null | undefined;
         description?: string | null | undefined;
-        status?: "ACTIVE" | "INACTIVE" | "BANNED" | undefined;
+        status?: "ACTIVE" | "BANNED" | "INACTIVE" | undefined;
         groupId?: number | null | undefined;
     };
     output: {
-        email: string;
-        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
-        id: string;
         name: string | null;
+        id: string;
+        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+        email: string;
         username: string;
     };
     meta: object;
@@ -180,22 +180,22 @@ export declare const auditHistory: import("@trpc/server").TRPCQueryProcedure<{
     };
     output: {
         items: {
-            user: {
-                email: string;
-                id: string;
-                name: string | null;
-                avatarUrl: string | null;
-            } | null;
             id: number;
             createdAt: Date;
-            metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
-            action: string;
+            user: {
+                name: string | null;
+                id: string;
+                email: string;
+                avatarUrl: string | null;
+            } | null;
             ipAddress: string | null;
+            action: string;
             module: string;
             entityId: string | null;
             entityType: string | null;
             oldValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
             newValues: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+            metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
         }[];
         total: number;
         page: number;
@@ -212,13 +212,13 @@ export declare const verificationCodesList: import("@trpc/server").TRPCQueryProc
     };
     output: {
         items: {
-            code: string;
-            email: string;
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.VerificationCodeStatus;
             id: number;
-            expiresAt: Date;
+            code: string;
             createdAt: Date;
             updatedAt: Date;
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.VerificationCodeStatus;
+            expiresAt: Date;
+            email: string;
             attempts: number;
         }[];
         total: number;

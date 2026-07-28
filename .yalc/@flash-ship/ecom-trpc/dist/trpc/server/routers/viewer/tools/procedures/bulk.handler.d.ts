@@ -45,7 +45,7 @@ export declare const bulkDeletePages: import("@trpc/server").TRPCMutationProcedu
 export declare const bulkStatusCustomers: import("@trpc/server").TRPCMutationProcedure<{
     input: {
         ids: string[];
-        status: "ACTIVE" | "INACTIVE" | "BANNED";
+        status: "ACTIVE" | "BANNED" | "INACTIVE";
     };
     output: import("@ecom/features/tools/services/BulkActionService").BulkResult<string>;
     meta: object;

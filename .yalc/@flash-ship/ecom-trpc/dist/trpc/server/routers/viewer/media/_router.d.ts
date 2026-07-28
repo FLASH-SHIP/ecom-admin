@@ -42,16 +42,16 @@ export declare const mediaRouter: import("@trpc/server").TRPCBuiltRouter<{
                 search?: string | undefined;
             } | undefined;
             output: {
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
                 updatedAt: Date;
+                slug: string;
                 _count: {
                     children: number;
                     files: number;
                 };
                 parentId: number | null;
-                slug: string;
             }[];
             meta: object;
         }>;
@@ -60,43 +60,43 @@ export declare const mediaRouter: import("@trpc/server").TRPCBuiltRouter<{
                 id: number;
             };
             output: {
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
                 updatedAt: Date;
+                slug: string;
                 _count: {
                     children: number;
                     files: number;
                 };
                 parentId: number | null;
                 children: {
-                    id: number;
                     name: string;
+                    id: number;
                     slug: string;
                 }[];
-                slug: string;
             };
             meta: object;
         }>;
         tree: import("@trpc/server").TRPCQueryProcedure<{
             input: void;
             output: {
-                id: number;
                 name: string;
+                id: number;
+                slug: string;
                 _count: {
                     files: number;
                 };
                 children: {
-                    id: number;
                     name: string;
+                    id: number;
+                    slug: string;
                     children: {
-                        id: number;
                         name: string;
+                        id: number;
                         slug: string;
                     }[];
-                    slug: string;
                 }[];
-                slug: string;
             }[];
             meta: object;
         }>;
@@ -107,11 +107,11 @@ export declare const mediaRouter: import("@trpc/server").TRPCBuiltRouter<{
                 parentId?: number | null | undefined;
             };
             output: {
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
-                parentId: number | null;
                 slug: string;
+                parentId: number | null;
             };
             meta: object;
         }>;
@@ -123,11 +123,11 @@ export declare const mediaRouter: import("@trpc/server").TRPCBuiltRouter<{
                 parentId?: number | null | undefined;
             };
             output: {
-                id: number;
                 name: string;
+                id: number;
                 updatedAt: Date;
-                parentId: number | null;
                 slug: string;
+                parentId: number | null;
             };
             meta: object;
         }>;
@@ -137,13 +137,13 @@ export declare const mediaRouter: import("@trpc/server").TRPCBuiltRouter<{
                 force?: boolean | undefined;
             };
             output: {
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
-                deletedAt: Date | null;
                 updatedAt: Date;
-                parentId: number | null;
+                deletedAt: Date | null;
                 slug: string;
+                parentId: number | null;
                 color: string | null;
                 isFavorite: boolean;
             };
@@ -176,23 +176,23 @@ export declare const mediaRouter: import("@trpc/server").TRPCBuiltRouter<{
                 search?: string | undefined;
                 page?: number | undefined;
                 perPage?: number | undefined;
-                sortBy?: "createdAt" | "name" | "size" | undefined;
+                sortBy?: "name" | "createdAt" | "size" | undefined;
                 sortOrder?: "asc" | "desc" | undefined;
             } | undefined;
             output: {
                 data: {
-                    url: string;
+                    name: string;
                     id: number;
                     createdAt: Date;
-                    name: string;
+                    url: string;
                     fileName: string;
                     width: number | null;
-                    size: number;
                     height: number | null;
-                    folderId: number | null;
                     mimeType: string;
+                    size: number;
                     disk: string;
                     alt: string | null;
+                    folderId: number | null;
                     uploadedBy: string | null;
                 }[];
                 meta: {
@@ -209,24 +209,24 @@ export declare const mediaRouter: import("@trpc/server").TRPCBuiltRouter<{
                 id: number;
             };
             output: {
-                url: string;
-                description: string | null;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
                 updatedAt: Date;
+                url: string;
+                description: string | null;
                 fileName: string;
                 width: number | null;
-                size: number;
                 height: number | null;
-                folderId: number | null;
                 mimeType: string;
+                size: number;
                 disk: string;
                 alt: string | null;
+                folderId: number | null;
                 uploadedBy: string | null;
                 folder: {
-                    id: number;
                     name: string;
+                    id: number;
                     slug: string;
                 } | null;
             };
@@ -241,18 +241,18 @@ export declare const mediaRouter: import("@trpc/server").TRPCBuiltRouter<{
                 folderId?: number | null | undefined;
             };
             output: {
+                name: string;
+                id: number;
+                updatedAt: Date;
                 url: string;
                 description: string | null;
-                id: number;
-                name: string;
-                updatedAt: Date;
                 fileName: string;
                 width: number | null;
-                size: number;
                 height: number | null;
-                folderId: number | null;
                 mimeType: string;
+                size: number;
                 alt: string | null;
+                folderId: number | null;
             };
             meta: object;
         }>;
@@ -261,25 +261,25 @@ export declare const mediaRouter: import("@trpc/server").TRPCBuiltRouter<{
                 id: number;
             };
             output: {
-                url: string;
-                description: string | null;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
-                deletedAt: Date | null;
                 updatedAt: Date;
+                deletedAt: Date | null;
+                url: string;
+                description: string | null;
                 fileName: string;
                 width: number | null;
-                size: number;
                 height: number | null;
-                folderId: number | null;
+                isFavorite: boolean;
                 mimeType: string;
+                size: number;
                 disk: string;
                 alt: string | null;
+                folderId: number | null;
                 uploadedBy: string | null;
                 visibility: string;
                 accessMode: string | null;
-                isFavorite: boolean;
             };
             meta: object;
         }>;

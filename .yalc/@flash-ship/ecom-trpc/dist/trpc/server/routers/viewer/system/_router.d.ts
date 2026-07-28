@@ -21,31 +21,31 @@ export declare const systemRouter: import("@trpc/server").TRPCBuiltRouter<{
         input: {
             filters?: {
                 fieldKey: string;
-                operator: "endsWith" | "startsWith" | "contains" | "equals" | "notContains" | "notEquals" | "between" | "betweenInclusive" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "empty" | "notEmpty";
+                operator: "endsWith" | "startsWith" | "contains" | "notContains" | "equals" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "notEquals" | "between" | "betweenInclusive" | "empty" | "notEmpty";
                 value: string;
                 value2?: string | undefined;
             }[] | undefined;
             search?: string | undefined;
             page?: number | undefined;
             pageSize?: number | undefined;
-            sortBy?: "duration" | "id" | "createdAt" | "statusCode" | undefined;
+            sortBy?: "id" | "createdAt" | "statusCode" | "duration" | undefined;
             sortDir?: "asc" | "desc" | undefined;
         };
         output: {
             items: {
-                url: string;
-                user: {
-                    email: string;
-                    id: string;
-                    name: string | null;
-                } | null;
-                userAgent: string | null;
-                duration: number | null;
                 id: number;
                 createdAt: Date;
+                user: {
+                    name: string | null;
+                    id: string;
+                    email: string;
+                } | null;
                 ipAddress: string | null;
-                statusCode: number | null;
+                userAgent: string | null;
                 method: string;
+                url: string;
+                statusCode: number | null;
+                duration: number | null;
                 referer: string | null;
             }[];
             total: number;
@@ -80,16 +80,16 @@ export declare const systemRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
         };
         output: {
-            url: string;
-            userAgent: string | null;
-            userId: string | null;
-            duration: number | null;
             id: number;
             createdAt: Date;
-            metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
+            userId: string | null;
             ipAddress: string | null;
-            statusCode: number | null;
+            userAgent: string | null;
+            metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
             method: string;
+            url: string;
+            statusCode: number | null;
+            duration: number | null;
             referer: string | null;
         };
         meta: object;
@@ -158,11 +158,11 @@ export declare const systemRouter: import("@trpc/server").TRPCBuiltRouter<{
                 totalSize: number;
             };
             recentPosts: {
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
                 id: number;
                 createdAt: Date;
                 slug: string;
                 title: string;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
             }[];
             popularPosts: {
                 id: number;
@@ -191,8 +191,8 @@ export declare const systemRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
             slug: string;
             title: string;
-            publishedAt: Date | null;
             views: number;
+            publishedAt: Date | null;
         }[];
         meta: object;
     }>;
@@ -276,10 +276,10 @@ export declare const systemRouter: import("@trpc/server").TRPCBuiltRouter<{
     }>;
     clearCache: import("@trpc/server").TRPCMutationProcedure<{
         input: {
-            namespace: "category" | "permissions" | "settings" | "all" | "ratelimit";
+            namespace: "settings" | "category" | "permissions" | "all" | "ratelimit";
         };
         output: {
-            namespace: "category" | "permissions" | "settings" | "all" | "ratelimit";
+            namespace: "settings" | "category" | "permissions" | "all" | "ratelimit";
             cleared: number;
         };
         meta: object;
@@ -331,7 +331,7 @@ export declare const systemRouter: import("@trpc/server").TRPCBuiltRouter<{
     }>;
     queryRedis: import("@trpc/server").TRPCQueryProcedure<{
         input: {
-            action: "get" | "scan" | "del";
+            action: "scan" | "get" | "del";
             sudoPassword: string;
             maintenanceKey: string;
             pattern?: string | undefined;

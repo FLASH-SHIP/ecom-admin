@@ -1,22 +1,22 @@
 export declare const list: import("@trpc/server").TRPCQueryProcedure<{
     input: void;
     output: {
-        url: string;
-        id: number;
-        ownerId: string | null;
-        ownerType: string | null;
-        createdAt: Date;
         name: string;
+        id: number;
+        createdAt: Date;
         _count: {
             logs: number;
         };
         isActive: boolean;
+        url: string;
         secret: string | null;
         oldSecret: string | null;
         secretUpdatedAt: Date | null;
         events: string[];
         retries: number;
         timeout: number;
+        ownerId: string | null;
+        ownerType: string | null;
         failureCount: number;
         apiVersion: string;
     }[];
@@ -30,8 +30,8 @@ export declare const create: import("@trpc/server").TRPCMutationProcedure<{
         apiVersion?: string | undefined;
     };
     output: {
-        id: number;
         name: string;
+        id: number;
         secret: string | null;
     };
     meta: object;
@@ -71,12 +71,12 @@ export declare const listLogs: import("@trpc/server").TRPCQueryProcedure<{
         error: string | null;
         id: number;
         createdAt: Date;
-        success: boolean;
+        statusCode: number | null;
+        attempts: number;
         event: string;
         payload: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
         response: string | null;
-        statusCode: number | null;
-        attempts: number;
+        success: boolean;
     }[];
     meta: object;
 }>;

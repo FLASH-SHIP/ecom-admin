@@ -10,8 +10,8 @@ export declare const list: import("@trpc/server").TRPCQueryProcedure<{
             id: number;
             createdAt: Date;
             isActive: boolean;
-            statusCode: number;
             note: string | null;
+            statusCode: number;
             fromPath: string;
             toPath: string;
             hitCount: number;
@@ -65,8 +65,8 @@ export declare const remove: import("@trpc/server").TRPCMutationProcedure<{
         createdAt: Date;
         updatedAt: Date;
         isActive: boolean;
-        statusCode: number;
         note: string | null;
+        statusCode: number;
         fromPath: string;
         toPath: string;
         hitCount: number;

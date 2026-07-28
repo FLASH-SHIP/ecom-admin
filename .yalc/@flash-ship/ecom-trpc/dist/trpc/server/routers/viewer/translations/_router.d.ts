@@ -20,9 +20,9 @@ export declare const translationsRouter: import("@trpc/server").TRPCBuiltRouter<
     languages: import("@trpc/server").TRPCQueryProcedure<{
         input: void;
         output: {
-            code: string;
-            id: number;
             name: string;
+            id: number;
+            code: string;
             order: number;
             isDefault: boolean;
             flag: string | null;
@@ -31,7 +31,7 @@ export declare const translationsRouter: import("@trpc/server").TRPCBuiltRouter<
     }>;
     get: import("@trpc/server").TRPCQueryProcedure<{
         input: {
-            entityType: "page" | "post" | "category" | "tag" | "menuItem";
+            entityType: "post" | "category" | "tag" | "menuItem" | "page";
             entityId: number;
             langCode: string;
         };
@@ -43,20 +43,20 @@ export declare const translationsRouter: import("@trpc/server").TRPCBuiltRouter<
             excerpt: string | null;
             langCode: string;
         } | {
-            description: string | null;
-            id: number;
             name: string;
+            id: number;
             langCode: string;
+            description: string | null;
         } | {
             id: number;
-            label: string;
             langCode: string;
+            label: string;
         } | null;
         meta: object;
     }>;
     list: import("@trpc/server").TRPCQueryProcedure<{
         input: {
-            entityType: "page" | "post" | "category" | "tag" | "menuItem";
+            entityType: "post" | "category" | "tag" | "menuItem" | "page";
             entityId: number;
         };
         output: {
@@ -67,20 +67,20 @@ export declare const translationsRouter: import("@trpc/server").TRPCBuiltRouter<
             excerpt: string | null;
             langCode: string;
         }[] | {
-            description: string | null;
-            id: number;
             name: string;
+            id: number;
             langCode: string;
+            description: string | null;
         }[] | {
             id: number;
-            label: string;
             langCode: string;
+            label: string;
         }[];
         meta: object;
     }>;
     save: import("@trpc/server").TRPCMutationProcedure<{
         input: {
-            entityType: "page" | "post" | "category" | "tag" | "menuItem";
+            entityType: "post" | "category" | "tag" | "menuItem" | "page";
             entityId: number;
             langCode: string;
             data: Record<string, string | undefined>;
@@ -93,20 +93,20 @@ export declare const translationsRouter: import("@trpc/server").TRPCBuiltRouter<
             excerpt: string | null;
             langCode: string;
         } | {
-            description: string | null;
-            id: number;
             name: string;
+            id: number;
             langCode: string;
+            description: string | null;
         } | {
             id: number;
-            label: string;
             langCode: string;
+            label: string;
         };
         meta: object;
     }>;
     delete: import("@trpc/server").TRPCMutationProcedure<{
         input: {
-            entityType: "page" | "post" | "category" | "tag" | "menuItem";
+            entityType: "post" | "category" | "tag" | "menuItem" | "page";
             entityId: number;
             langCode: string;
         };
@@ -115,7 +115,7 @@ export declare const translationsRouter: import("@trpc/server").TRPCBuiltRouter<
     }>;
     translationStatus: import("@trpc/server").TRPCQueryProcedure<{
         input: {
-            entityType: "page" | "post" | "category" | "tag" | "menuItem";
+            entityType: "post" | "category" | "tag" | "menuItem" | "page";
             entityId: number;
         };
         output: {
@@ -128,7 +128,7 @@ export declare const translationsRouter: import("@trpc/server").TRPCBuiltRouter<
     }>;
     batchTranslationStatus: import("@trpc/server").TRPCQueryProcedure<{
         input: {
-            entityType: "page" | "post" | "category" | "tag" | "menuItem";
+            entityType: "post" | "category" | "tag" | "menuItem" | "page";
             entityIds: number[];
         };
         output: Record<number, string[]>;

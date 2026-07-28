@@ -17,11 +17,11 @@ export declare const register: import("@trpc/server").TRPCMutationProcedure<{
         accessToken: string;
         refreshToken: string;
         customer: {
-            email: string;
-            id: string;
             name: string | null;
-            customerCode: string | null;
+            id: string;
+            email: string;
             username: string;
+            customerCode: string | null;
         };
     };
     meta: object;
@@ -59,43 +59,43 @@ export declare const me: import("@trpc/server").TRPCQueryProcedure<{
         accessToken?: string | undefined;
     } | undefined;
     output: {
-        email: string;
-        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
-        description: string | null;
+        name: string | null;
         id: string;
         createdAt: Date;
-        name: string | null;
-        customerCode: string | null;
+        updatedAt: Date;
+        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+        email: string;
         username: string;
-        usernameChangeCount: number;
-        usernameChangedAt: Date | null;
         phone: string | null;
         avatarUrl: string | null;
         emailVerified: Date | null;
+        metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+        description: string | null;
+        customerCode: string | null;
+        usernameChangeCount: number;
+        usernameChangedAt: Date | null;
         lastLoginAt: Date | null;
         dob: Date | null;
         gender: string | null;
-        metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
-        updatedAt: Date;
+        groupId: number | null;
         group: {
-            code: string;
-            id: number;
             name: string;
+            id: number;
+            code: string;
         } | null;
         socialAccounts: {
-            email: string | null;
+            name: string | null;
             id: number;
             createdAt: Date;
-            name: string | null;
+            email: string | null;
             provider: string;
         }[];
         activityLogs: {
             id: number;
             createdAt: Date;
-            action: string;
             ipAddress: string | null;
+            action: string;
         }[];
-        groupId: number | null;
     } | null;
     meta: object;
 }>;
@@ -106,14 +106,14 @@ export declare const updateProfile: import("@trpc/server").TRPCMutationProcedure
         name?: string | undefined;
         phone?: string | undefined;
         dob?: string | null | undefined;
-        gender?: "male" | "female" | "other" | null | undefined;
+        gender?: "other" | "male" | "female" | null | undefined;
         description?: string | null | undefined;
     };
     output: {
-        email: string;
-        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
-        id: string;
         name: string | null;
+        id: string;
+        status: import("@ecom/prisma/src/generated/prisma/client").$Enums.CustomerStatus;
+        email: string;
         username: string;
     };
     meta: object;

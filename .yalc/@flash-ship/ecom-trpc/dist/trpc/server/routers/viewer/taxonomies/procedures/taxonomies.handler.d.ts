@@ -8,18 +8,18 @@ export declare const list: import("@trpc/server").TRPCQueryProcedure<{
     } | undefined;
     output: {
         items: {
-            type: string;
-            description: string | null;
+            name: string;
             id: number;
             createdAt: Date;
-            name: string;
-            metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+            order: number;
+            slug: string;
             _count: {
                 children: number;
             };
             parentId: number | null;
-            order: number;
-            slug: string;
+            type: string;
+            metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+            description: string | null;
         }[];
         total: number;
         page: number;
@@ -32,21 +32,21 @@ export declare const get: import("@trpc/server").TRPCQueryProcedure<{
         id: number;
     };
     output: {
-        type: string;
-        description: string | null;
+        name: string;
         id: number;
         createdAt: Date;
-        name: string;
-        metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+        order: number;
+        slug: string;
         parentId: number | null;
         children: {
-            id: number;
             name: string;
+            id: number;
             order: number;
             slug: string;
         }[];
-        order: number;
-        slug: string;
+        type: string;
+        metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
+        description: string | null;
     };
     meta: object;
 }>;
@@ -55,22 +55,22 @@ export declare const tree: import("@trpc/server").TRPCQueryProcedure<{
         type: string;
     };
     output: {
-        id: number;
         name: string;
+        id: number;
+        order: number;
+        slug: string;
         children: {
-            id: number;
             name: string;
+            id: number;
+            order: number;
+            slug: string;
             children: {
-                id: number;
                 name: string;
+                id: number;
                 order: number;
                 slug: string;
             }[];
-            order: number;
-            slug: string;
         }[];
-        order: number;
-        slug: string;
     }[];
     meta: object;
 }>;
@@ -93,16 +93,16 @@ export declare const create: import("@trpc/server").TRPCMutationProcedure<{
         metadata?: Record<string, unknown> | undefined;
     };
     output: {
-        type: string;
-        description: string | null;
+        name: string;
         id: number;
         createdAt: Date;
-        name: string;
-        metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
         updatedAt: Date;
-        parentId: number | null;
         order: number;
         slug: string;
+        parentId: number | null;
+        type: string;
+        metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
+        description: string | null;
     };
     meta: object;
 }>;
@@ -117,16 +117,16 @@ export declare const update: import("@trpc/server").TRPCMutationProcedure<{
         metadata?: Record<string, unknown> | undefined;
     };
     output: {
-        type: string;
-        description: string | null;
+        name: string;
         id: number;
         createdAt: Date;
-        name: string;
-        metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
         updatedAt: Date;
-        parentId: number | null;
         order: number;
         slug: string;
+        parentId: number | null;
+        type: string;
+        metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
+        description: string | null;
     };
     meta: object;
 }>;
@@ -135,16 +135,16 @@ export declare const remove: import("@trpc/server").TRPCMutationProcedure<{
         id: number;
     };
     output: {
-        type: string;
-        description: string | null;
+        name: string;
         id: number;
         createdAt: Date;
-        name: string;
-        metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
         updatedAt: Date;
-        parentId: number | null;
         order: number;
         slug: string;
+        parentId: number | null;
+        type: string;
+        metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
+        description: string | null;
     };
     meta: object;
 }>;

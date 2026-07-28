@@ -3,15 +3,15 @@ export declare const listPackages: import("@trpc/server").TRPCQueryProcedure<{
     output: {
         length: number | null;
         id: number;
-        label: string | null;
         createdAt: Date;
         updatedAt: Date;
-        weight: number;
-        packingTypeId: number | null;
-        width: number | null;
         isDefault: boolean;
+        packingTypeId: number | null;
+        label: string | null;
         packageName: string;
+        width: number | null;
         height: number | null;
+        weight: number;
     }[];
     meta: object;
 }>;
@@ -29,15 +29,15 @@ export declare const createPackage: import("@trpc/server").TRPCMutationProcedure
     output: {
         length: number | null;
         id: number;
-        label: string | null;
         createdAt: Date;
         updatedAt: Date;
-        weight: number;
-        packingTypeId: number | null;
-        width: number | null;
         isDefault: boolean;
+        packingTypeId: number | null;
+        label: string | null;
         packageName: string;
+        width: number | null;
         height: number | null;
+        weight: number;
     };
     meta: object;
 }>;
@@ -58,15 +58,15 @@ export declare const updatePackage: import("@trpc/server").TRPCMutationProcedure
     output: {
         length: number | null;
         id: number;
-        label: string | null;
         createdAt: Date;
         updatedAt: Date;
-        weight: number;
-        packingTypeId: number | null;
-        width: number | null;
         isDefault: boolean;
+        packingTypeId: number | null;
+        label: string | null;
         packageName: string;
+        width: number | null;
         height: number | null;
+        weight: number;
     };
     meta: object;
 }>;
@@ -86,15 +86,15 @@ export declare const setDefaultPackage: import("@trpc/server").TRPCMutationProce
     output: {
         length: number | null;
         id: number;
-        label: string | null;
         createdAt: Date;
         updatedAt: Date;
-        weight: number;
-        packingTypeId: number | null;
-        width: number | null;
         isDefault: boolean;
+        packingTypeId: number | null;
+        label: string | null;
         packageName: string;
+        width: number | null;
         height: number | null;
+        weight: number;
     };
     meta: object;
 }>;

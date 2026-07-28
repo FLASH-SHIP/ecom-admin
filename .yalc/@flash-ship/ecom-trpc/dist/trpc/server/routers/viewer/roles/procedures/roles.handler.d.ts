@@ -1,15 +1,15 @@
 export declare const list: import("@trpc/server").TRPCQueryProcedure<{
     input: void;
     output: {
-        description: string | null;
+        name: string;
         id: number;
         createdAt: Date;
-        name: string;
         updatedAt: Date;
         _count: {
             permissions: number;
             users: number;
         };
+        description: string | null;
         displayName: string | null;
     }[];
     meta: object;
@@ -19,19 +19,19 @@ export declare const get: import("@trpc/server").TRPCQueryProcedure<{
         id: unknown;
     };
     output: {
-        description: string | null;
+        name: string;
         id: number;
         createdAt: Date;
-        name: string;
         updatedAt: Date;
         _count: {
             users: number;
         };
+        description: string | null;
         displayName: string | null;
         permissions: {
             permission: {
-                id: number;
                 name: string;
+                id: number;
                 group: string | null;
                 displayName: string | null;
             };
@@ -46,9 +46,9 @@ export declare const create: import("@trpc/server").TRPCMutationProcedure<{
         description?: string | undefined;
     };
     output: {
-        description: string | null;
-        id: number;
         name: string;
+        id: number;
+        description: string | null;
         displayName: string | null;
     };
     meta: object;
@@ -60,9 +60,9 @@ export declare const update: import("@trpc/server").TRPCMutationProcedure<{
         description?: string | undefined;
     };
     output: {
-        description: string | null;
-        id: number;
         name: string;
+        id: number;
+        description: string | null;
         displayName: string | null;
     };
     meta: object;
@@ -72,11 +72,11 @@ export declare const remove: import("@trpc/server").TRPCMutationProcedure<{
         id: unknown;
     };
     output: {
-        description: string | null;
+        name: string;
         id: number;
         createdAt: Date;
-        name: string;
         updatedAt: Date;
+        description: string | null;
         displayName: string | null;
     };
     meta: object;
@@ -87,19 +87,19 @@ export declare const syncPermissions: import("@trpc/server").TRPCMutationProcedu
         permissionIds: unknown[];
     };
     output: {
-        description: string | null;
+        name: string;
         id: number;
         createdAt: Date;
-        name: string;
         updatedAt: Date;
         _count: {
             users: number;
         };
+        description: string | null;
         displayName: string | null;
         permissions: {
             permission: {
-                id: number;
                 name: string;
+                id: number;
                 group: string | null;
                 displayName: string | null;
             };
@@ -111,8 +111,8 @@ export declare const permissions: import("@trpc/server").TRPCQueryProcedure<{
     input: void;
     output: {
         [k: string]: {
-            id: number;
             name: string;
+            id: number;
             group: string | null;
             displayName: string | null;
         }[];

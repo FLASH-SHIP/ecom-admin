@@ -21,26 +21,26 @@ export declare const tagsRouter: import("@trpc/server").TRPCBuiltRouter<{
         input: {
             filters?: {
                 fieldKey: string;
-                operator: "endsWith" | "startsWith" | "contains" | "equals" | "notContains" | "notEquals" | "between" | "betweenInclusive" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "empty" | "notEmpty";
+                operator: "endsWith" | "startsWith" | "contains" | "notContains" | "equals" | "greaterThan" | "greaterThanOrEqual" | "lessThan" | "lessThanOrEqual" | "notEquals" | "between" | "betweenInclusive" | "empty" | "notEmpty";
                 value: string;
                 value2?: string | undefined;
             }[] | undefined;
             search?: string | undefined;
             page?: number | undefined;
             pageSize?: number | undefined;
-            sortBy?: "status" | "id" | "createdAt" | "name" | undefined;
+            sortBy?: "name" | "id" | "createdAt" | "status" | undefined;
             sortDir?: "asc" | "desc" | undefined;
         } | undefined;
         output: {
             rows: {
-                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
+                slug: string;
                 _count: {
                     posts: number;
                 };
-                slug: string;
+                status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
             }[];
             total: number;
             page: number;
@@ -54,23 +54,23 @@ export declare const tagsRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
         };
         output: {
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-            description: string | null;
+            name: string;
             id: number;
             createdAt: Date;
-            name: string;
             updatedAt: Date;
+            slug: string;
             _count: {
                 posts: number;
             };
-            slug: string;
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
             authorId: string | null;
             translations: {
-                description: string | null;
-                id: number;
                 name: string;
+                id: number;
                 langCode: string;
+                description: string | null;
             }[];
+            description: string | null;
             authorType: string;
         };
         meta: object;
@@ -83,12 +83,12 @@ export declare const tagsRouter: import("@trpc/server").TRPCBuiltRouter<{
             status?: "DRAFT" | "PENDING" | "PUBLISHED" | undefined;
         };
         output: {
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-            description: string | null;
+            name: string;
             id: number;
             createdAt: Date;
-            name: string;
             slug: string;
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+            description: string | null;
         };
         meta: object;
     }>;
@@ -101,23 +101,23 @@ export declare const tagsRouter: import("@trpc/server").TRPCBuiltRouter<{
             status?: "DRAFT" | "PENDING" | "PUBLISHED" | undefined;
         };
         output: {
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-            description: string | null;
+            name: string;
             id: number;
             createdAt: Date;
-            name: string;
             updatedAt: Date;
+            slug: string;
             _count: {
                 posts: number;
             };
-            slug: string;
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
             authorId: string | null;
             translations: {
-                description: string | null;
-                id: number;
                 name: string;
+                id: number;
                 langCode: string;
+                description: string | null;
             }[];
+            description: string | null;
             authorType: string;
         } | null;
         meta: object;
@@ -127,13 +127,13 @@ export declare const tagsRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
         };
         output: {
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-            description: string | null;
+            name: string;
             id: number;
             createdAt: Date;
-            name: string;
             updatedAt: Date;
             slug: string;
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+            description: string | null;
         };
         meta: object;
     }>;
@@ -142,13 +142,13 @@ export declare const tagsRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
         };
         output: {
-            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
-            description: string | null;
+            name: string;
             id: number;
             createdAt: Date;
-            name: string;
             updatedAt: Date;
             slug: string;
+            status: import("@ecom/prisma/src/generated/prisma/client").$Enums.ContentStatus;
+            description: string | null;
         };
         meta: object;
     }>;

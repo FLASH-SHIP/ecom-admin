@@ -19,7 +19,7 @@ export declare const contentLocksRouter: import("@trpc/server").TRPCBuiltRouter<
 }, import("@trpc/server").TRPCDecorateCreateRouterOptions<{
     acquire: import("@trpc/server").TRPCMutationProcedure<{
         input: {
-            entityType: "page" | "post";
+            entityType: "post" | "page";
             entityId: number;
         };
         output: {
@@ -30,7 +30,7 @@ export declare const contentLocksRouter: import("@trpc/server").TRPCBuiltRouter<
     }>;
     release: import("@trpc/server").TRPCMutationProcedure<{
         input: {
-            entityType: "page" | "post";
+            entityType: "post" | "page";
             entityId: number;
         };
         output: boolean;
@@ -38,7 +38,7 @@ export declare const contentLocksRouter: import("@trpc/server").TRPCBuiltRouter<
     }>;
     check: import("@trpc/server").TRPCQueryProcedure<{
         input: {
-            entityType: "page" | "post";
+            entityType: "post" | "page";
             entityId: number;
         };
         output: import("@ecom/features/content-lock/ContentLockService").ContentLock | null;
@@ -46,7 +46,7 @@ export declare const contentLocksRouter: import("@trpc/server").TRPCBuiltRouter<
     }>;
     heartbeat: import("@trpc/server").TRPCMutationProcedure<{
         input: {
-            entityType: "page" | "post";
+            entityType: "post" | "page";
             entityId: number;
         };
         output: boolean;

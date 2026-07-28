@@ -71,13 +71,13 @@ export declare const authRouter: import("@trpc/server").TRPCBuiltRouter<{
             locale?: "vi" | "en" | undefined;
         };
         output: {
-            email: string;
-            locale: string | null;
-            id: string;
             name: string | null;
+            id: string;
+            email: string;
             username: string | null;
             phone: string | null;
             avatarUrl: string | null;
+            locale: string | null;
         };
         meta: object;
     }>;

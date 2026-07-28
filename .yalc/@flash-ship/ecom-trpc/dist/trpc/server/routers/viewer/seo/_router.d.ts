@@ -19,7 +19,7 @@ export declare const seoRouter: import("@trpc/server").TRPCBuiltRouter<{
 }, import("@trpc/server").TRPCDecorateCreateRouterOptions<{
     get: import("@trpc/server").TRPCQueryProcedure<{
         input: {
-            entityType: "page" | "post" | "category" | "tag";
+            entityType: "post" | "category" | "tag" | "page";
             entityId: number;
         };
         output: {
@@ -33,7 +33,7 @@ export declare const seoRouter: import("@trpc/server").TRPCBuiltRouter<{
     }>;
     save: import("@trpc/server").TRPCMutationProcedure<{
         input: {
-            entityType: "page" | "post" | "category" | "tag";
+            entityType: "post" | "category" | "tag" | "page";
             entityId: number;
             data: {
                 seoTitle?: string | undefined;

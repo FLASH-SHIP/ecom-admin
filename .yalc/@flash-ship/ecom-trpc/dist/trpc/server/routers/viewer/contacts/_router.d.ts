@@ -26,15 +26,15 @@ export declare const contactsRouter: import("@trpc/server").TRPCBuiltRouter<{
         };
         output: {
             items: {
-                message: string;
-                email: string;
-                status: string;
+                name: string;
                 id: number;
                 createdAt: Date;
-                name: string;
+                status: string;
+                email: string;
                 phone: string | null;
                 formSlug: string;
                 subject: string | null;
+                message: string;
                 assigneeId: string | null;
                 repliedAt: Date | null;
             }[];
@@ -49,23 +49,23 @@ export declare const contactsRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
         };
         output: {
-            message: string;
-            email: string;
-            status: string;
+            name: string;
             id: number;
             createdAt: Date;
-            name: string;
-            phone: string | null;
-            metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
             updatedAt: Date;
+            status: string;
+            email: string;
+            phone: string | null;
             ipAddress: string | null;
+            metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue;
             formSlug: string;
             subject: string | null;
+            message: string;
             assigneeId: string | null;
             repliedAt: Date | null;
             assignee: {
-                id: string;
                 name: string | null;
+                id: string;
             } | null;
         };
         meta: object;
@@ -83,8 +83,8 @@ export declare const contactsRouter: import("@trpc/server").TRPCBuiltRouter<{
             status: "new" | "read" | "replied" | "archived";
         };
         output: {
-            status: string;
             id: number;
+            status: string;
         };
         meta: object;
     }>;
@@ -104,8 +104,8 @@ export declare const contactsRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
         };
         output: {
-            status: string;
             id: number;
+            status: string;
             repliedAt: Date | null;
         };
         meta: object;
@@ -115,18 +115,18 @@ export declare const contactsRouter: import("@trpc/server").TRPCBuiltRouter<{
             id: number;
         };
         output: {
-            message: string;
-            email: string;
-            status: string;
+            name: string;
             id: number;
             createdAt: Date;
-            name: string;
-            phone: string | null;
-            metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
             updatedAt: Date;
+            status: string;
+            email: string;
+            phone: string | null;
             ipAddress: string | null;
+            metadata: import("@ecom/prisma/src/generated/prisma/runtime/client").JsonValue | null;
             formSlug: string;
             subject: string | null;
+            message: string;
             assigneeId: string | null;
             repliedAt: Date | null;
         };

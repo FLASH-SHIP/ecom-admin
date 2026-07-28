@@ -5,23 +5,23 @@ export declare const list: import("@trpc/server").TRPCQueryProcedure<{
         search?: string | undefined;
         page?: number | undefined;
         perPage?: number | undefined;
-        sortBy?: "createdAt" | "name" | "size" | undefined;
+        sortBy?: "name" | "createdAt" | "size" | undefined;
         sortOrder?: "asc" | "desc" | undefined;
     } | undefined;
     output: {
         data: {
-            url: string;
+            name: string;
             id: number;
             createdAt: Date;
-            name: string;
+            url: string;
             fileName: string;
             width: number | null;
-            size: number;
             height: number | null;
-            folderId: number | null;
             mimeType: string;
+            size: number;
             disk: string;
             alt: string | null;
+            folderId: number | null;
             uploadedBy: string | null;
         }[];
         meta: {
@@ -38,24 +38,24 @@ export declare const get: import("@trpc/server").TRPCQueryProcedure<{
         id: number;
     };
     output: {
-        url: string;
-        description: string | null;
+        name: string;
         id: number;
         createdAt: Date;
-        name: string;
         updatedAt: Date;
+        url: string;
+        description: string | null;
         fileName: string;
         width: number | null;
-        size: number;
         height: number | null;
-        folderId: number | null;
         mimeType: string;
+        size: number;
         disk: string;
         alt: string | null;
+        folderId: number | null;
         uploadedBy: string | null;
         folder: {
-            id: number;
             name: string;
+            id: number;
             slug: string;
         } | null;
     };
@@ -70,18 +70,18 @@ export declare const update: import("@trpc/server").TRPCMutationProcedure<{
         folderId?: number | null | undefined;
     };
     output: {
+        name: string;
+        id: number;
+        updatedAt: Date;
         url: string;
         description: string | null;
-        id: number;
-        name: string;
-        updatedAt: Date;
         fileName: string;
         width: number | null;
-        size: number;
         height: number | null;
-        folderId: number | null;
         mimeType: string;
+        size: number;
         alt: string | null;
+        folderId: number | null;
     };
     meta: object;
 }>;
@@ -90,25 +90,25 @@ export declare const remove: import("@trpc/server").TRPCMutationProcedure<{
         id: number;
     };
     output: {
-        url: string;
-        description: string | null;
+        name: string;
         id: number;
         createdAt: Date;
-        name: string;
-        deletedAt: Date | null;
         updatedAt: Date;
+        deletedAt: Date | null;
+        url: string;
+        description: string | null;
         fileName: string;
         width: number | null;
-        size: number;
         height: number | null;
-        folderId: number | null;
+        isFavorite: boolean;
         mimeType: string;
+        size: number;
         disk: string;
         alt: string | null;
+        folderId: number | null;
         uploadedBy: string | null;
         visibility: string;
         accessMode: string | null;
-        isFavorite: boolean;
     };
     meta: object;
 }>;
