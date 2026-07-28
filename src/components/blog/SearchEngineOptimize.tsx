@@ -1,6 +1,7 @@
 "use client";
 
 import { MediaPickerDialog } from "@admin/components/base/MediaPickerDialog";
+import { env } from "@admin/env";
 import { Button } from "@ecom/ui/components/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@ecom/ui/components/card";
 import { Input } from "@ecom/ui/components/input";
@@ -12,7 +13,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@ecom/ui/components/select";
-import { Separator } from "@ecom/ui/components/separator";
 import { Textarea } from "@ecom/ui/components/textarea";
 import { ImageIcon, X } from "lucide-react";
 import Image from "next/image";
@@ -53,7 +53,7 @@ export function SearchEngineOptimize({
     if (typeof window !== "undefined") {
       const host = window.location.hostname;
       if (host.includes("localhost")) {
-        setOrigin(process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000");
+        setOrigin(env.NEXT_PUBLIC_APP_URL);
       } else {
         setOrigin(window.location.origin);
       }
@@ -86,8 +86,6 @@ export function SearchEngineOptimize({
   const previewDescription =
     seoDescription.trim() ||
     "Setup meta title & description to make your site easy to discovered on search engines such as Google";
-
-  const hasInputData = seoTitle.trim() || seoDescription.trim() || seoImage.trim();
 
   return (
     <Card className="w-full">

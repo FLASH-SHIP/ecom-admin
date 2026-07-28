@@ -1,15 +1,17 @@
-const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+import { env } from "@admin/env";
+
+const NEXT_PUBLIC_API_URL = env.NEXT_PUBLIC_API_URL;
 
 const api = {
   get: async <T>(url: string, config?: RequestInit): Promise<{ data: T }> => {
-    // Map /v1/media to the NestJS endpoint prefix /api/v2/media
-    const cleanUrl = url.replace(/^\/v1\/media/, "/api/v2/media");
+    // Map /v1/media to the NestJS endpoint prefix /api/v1/media
+    const cleanUrl = url.replace(/^\/v1\/media/, "/api/v1/media");
 
     const res = await fetch(`${NEXT_PUBLIC_API_URL}${cleanUrl}`, {
       method: "GET",
       headers: {
         Accept: "application/json",
-        ...(config?.headers as any),
+        ...(config?.headers as Record<string, string>),
       },
       ...config,
     });
@@ -23,8 +25,8 @@ const api = {
     return { data };
   },
 
-  post: async <T>(url: string, payload?: any, config?: RequestInit): Promise<{ data: T }> => {
-    const cleanUrl = url.replace(/^\/v1\/media/, "/api/v2/media");
+  post: async <T>(url: string, payload?: unknown, config?: RequestInit): Promise<{ data: T }> => {
+    const cleanUrl = url.replace(/^\/v1\/media/, "/api/v1/media");
 
     const isFormData = payload instanceof FormData;
     const headers: Record<string, string> = {
@@ -34,9 +36,9 @@ const api = {
       headers["Content-Type"] = "application/json";
     }
 
-    const mergedHeaders = {
+    const mergedHeaders: Record<string, string> = {
       ...headers,
-      ...(config?.headers as any),
+      ...(config?.headers as Record<string, string>),
     };
     if (isFormData) {
       delete mergedHeaders["Content-Type"];
@@ -46,7 +48,7 @@ const api = {
     const res = await fetch(`${NEXT_PUBLIC_API_URL}${cleanUrl}`, {
       method: "POST",
       headers: mergedHeaders,
-      body: isFormData ? payload : JSON.stringify(payload),
+      body: isFormData ? (payload as FormData) : JSON.stringify(payload),
       ...config,
     });
 

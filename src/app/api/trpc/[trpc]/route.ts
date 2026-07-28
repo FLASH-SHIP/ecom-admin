@@ -1,102 +1,90 @@
-import { auth } from "@admin/lib/auth";
-import { resolveUserPermissions as resolvePermissionsFromUser } from "@ecom/features/auth/utils/permissionUtils";
-import { defaultLocale } from "@ecom/i18n";
-import { RedisCache } from "@ecom/lib/redis";
-import { prisma } from "@ecom/prisma";
-import { appRouter, createContext } from "@ecom/trpc/server";
-import type { AuthUser } from "@ecom/types";
-import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
+import { env } from "@admin/env";
+import { getAdminSessionCookieName } from "@admin/lib/auth";
+import { decodeToken, signAccessToken } from "@ecom/lib/jwt";
+import type { NextRequest } from "next/server";
+import { getToken } from "next-auth/jwt";
 
-const permissionsCache = new RedisCache<string[]>("user-permissions", 3600); // 1 hour TTL
+async function resolveAuthorizationHeader(req: Request): Promise<string | null> {
+  try {
+    const cookieName = getAdminSessionCookieName(env.NODE_ENV === "production");
 
-async function resolveUserPermissions(userId: string): Promise<string[]> {
-  const cacheKey = `user:${userId}`;
-  const cachedPermissions = await permissionsCache.get(cacheKey);
+    const nextAuthToken = await getToken({
+      req: req as unknown as NextRequest,
+      secret: env.AUTH_SECRET,
+      cookieName,
+    });
 
-  if (cachedPermissions) {
-    return cachedPermissions;
+    let jwtToken = nextAuthToken?.accessToken as string | undefined;
+
+    if (jwtToken) {
+      try {
+        const decoded = decodeToken(jwtToken);
+        if (!decoded?.exp || decoded.exp * 1000 <= Date.now() + 10000) {
+          jwtToken = undefined;
+        }
+      } catch {
+        jwtToken = undefined;
+      }
+    }
+
+    if (!jwtToken && nextAuthToken?.id) {
+      jwtToken = signAccessToken({
+        userId: String(nextAuthToken.id),
+        tokenVersion: (nextAuthToken.tokenVersion as number) || 1,
+      });
+    }
+
+    return jwtToken ? `Bearer ${jwtToken}` : null;
+  } catch (e) {
+    console.warn("[tRPC Proxy] Failed to extract NextAuth session token:", e);
+    return null;
   }
-
-  const roleData = await prisma.user.findUnique({
-    where: { id: userId },
-    select: {
-      roles: {
-        select: {
-          role: {
-            select: {
-              name: true,
-              permissions: {
-                select: {
-                  permission: {
-                    select: { name: true },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-  });
-
-  if (!roleData) {
-    return [];
-  }
-
-  const uniquePermissions = resolvePermissionsFromUser(roleData);
-  await permissionsCache.set(cacheKey, uniquePermissions);
-  return uniquePermissions;
 }
 
 const handler = async (req: Request) => {
-  const session = await auth();
+  const url = new URL(req.url);
+  const backendUrl = `${env.NEXT_PUBLIC_API_URL}/api/trpc${url.pathname.replace("/api/trpc", "")}${url.search}`;
 
-  let user: AuthUser | null = null;
+  const headers = new Headers(req.headers);
+  headers.set("host", new URL(env.NEXT_PUBLIC_API_URL).host);
 
-  if (session?.user?.id) {
-    const userId = session.user.id;
-    const dbUser = await prisma.user.findUnique({
-      where: { id: userId },
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        username: true,
-        locale: true,
-      },
-    });
+  // Forward client IP and User-Agent for audit logs & rate limiters
+  const clientIp = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip");
+  if (clientIp) headers.set("x-forwarded-for", clientIp);
 
-    if (dbUser) {
-      const cachedPermissions = await resolveUserPermissions(userId);
-      user = {
-        id: dbUser.id,
-        email: dbUser.email,
-        name: dbUser.name,
-        username: dbUser.username,
-        locale: dbUser.locale,
-        permissions: cachedPermissions,
-      };
-    }
+  // SEC-01: Delete any client-supplied authorization header to prevent spoofing
+  headers.delete("authorization");
+
+  const authHeader = await resolveAuthorizationHeader(req);
+  if (authHeader) {
+    headers.set("authorization", authHeader);
   }
 
-  const ip =
-    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? req.headers.get("x-real-ip");
-  const userAgent = req.headers.get("user-agent");
+  // SEC-02: Delete raw browser cookies before forwarding to backend
+  headers.delete("cookie");
 
-  const url = new URL(req.url);
-  const cookieHeader = req.headers.get("cookie") ?? "";
-  const nextLocaleMatch = cookieHeader.match(/(?:^|;)\s*NEXT_LOCALE\s*=\s*([^;]+)/);
-  const nextLocale = nextLocaleMatch?.[1]?.trim() ?? null;
+  try {
+    const res = await fetch(backendUrl, {
+      method: req.method,
+      headers,
+      body: req.method !== "GET" && req.method !== "HEAD" ? await req.text() : undefined,
+    });
 
-  const locale =
-    url.searchParams.get("ref_lang") ?? req.headers.get("x-locale") ?? nextLocale ?? defaultLocale;
+    const responseHeaders = new Headers(res.headers);
+    responseHeaders.delete("content-encoding");
+    responseHeaders.delete("content-length");
 
-  return fetchRequestHandler({
-    endpoint: "/api/trpc",
-    req,
-    router: appRouter,
-    createContext: () => createContext({ user, ip, userAgent, locale }),
-  });
+    return new Response(res.body, {
+      status: res.status,
+      headers: responseHeaders,
+    });
+  } catch (error) {
+    console.warn("[tRPC Proxy] Backend API unavailable or starting up:", (error as Error).message);
+    return Response.json(
+      [{ error: { json: { message: "Backend API unavailable or warming up", code: -32603 } } }],
+      { status: 503 },
+    );
+  }
 };
 
 export { handler as GET, handler as POST };

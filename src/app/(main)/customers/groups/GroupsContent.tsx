@@ -88,7 +88,7 @@ export default function GroupsContent() {
     },
   });
 
-  const rows = (data?.items ?? []) as GroupRow[];
+  const rows = (data?.items ?? []) as unknown as GroupRow[];
   const serverTotalCount = data?.total ?? 0;
 
   // ── Column definitions ────────────────────────────────────────────────

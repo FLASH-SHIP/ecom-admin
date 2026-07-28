@@ -3,7 +3,7 @@
 import { PermissionGuard } from "@admin/components/layout/PermissionGuard";
 import PageBreadcrumb from "@admin/components/PageBreadcrumb";
 import { useToast } from "@admin/components/toast-provider";
-import { COUNTRIES } from "@admin/components/ui/PhoneInput";
+import { COUNTRIES } from "@ecom/ui/domain";
 import { trpc } from "@admin/lib/trpc";
 import { Permissions } from "@ecom/lib/permissions";
 import { Button } from "@ecom/ui/components/button";

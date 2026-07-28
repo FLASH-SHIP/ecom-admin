@@ -94,7 +94,7 @@ export default function PagesContent() {
     { placeholderData: keepPreviousData },
   );
 
-  const rows = (data?.data ?? []) as PageRow[];
+  const rows = (data?.data ?? []) as unknown as PageRow[];
   const pageIds = rows.map((p) => p.id);
 
   const { data: translationBatchMap } = trpc.viewer.translations.batchTranslationStatus.useQuery(

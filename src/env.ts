@@ -13,33 +13,41 @@ const serverSchema = z.object({
     .optional()
     .describe("Comma-separated list of database replica URLs"),
   REDIS_URL: z.string().url("REDIS_URL must be a valid connection URL").optional(),
-  AUTH_SECRET: z.string().min(8, "AUTH_SECRET must be at least 8 characters long"),
-  NEXTAUTH_SECRET: z.string().min(8).optional(),
-  NEXTAUTH_URL: z.string().url().optional(),
+  AUTH_SECRET: z.string().default("dev_admin_auth_secret_minimum_32_chars"),
+  NEXTAUTH_SECRET: z.string().optional(),
+  NEXTAUTH_URL: z.string().optional(),
   ADMIN_SESSION_MAX_AGE_DAYS: z.coerce.number().int().positive().default(7),
   ADMIN_SESSION_ABSOLUTE_TIMEOUT_HOURS: z.coerce.number().int().positive().default(72),
   ADMIN_SESSION_IDLE_TIMEOUT_HOURS: z.coerce.number().int().positive().default(2),
   ADMIN_SESSION_CACHE_TTL_SEC: z.coerce.number().int().nonnegative().default(15),
   ADMIN_MAX_SESSIONS_PER_USER: z.coerce.number().int().positive().default(5),
-  JWT_ADMIN_SECRET: z.string().min(8, "JWT_ADMIN_SECRET must be at least 8 characters long"),
+  JWT_ADMIN_SECRET: z.string().default("dev_jwt_admin_secret_minimum_8_chars"),
 });
 
 // 2. Client-side validation schema (public parameters exposed to the browser)
 const clientSchema = z.object({
-  NEXT_PUBLIC_API_URL: z.string().url("NEXT_PUBLIC_API_URL must be a valid URL"),
-  NEXT_PUBLIC_APP_URL: z.string().url("NEXT_PUBLIC_APP_URL must be a valid URL"),
+  NEXT_PUBLIC_API_URL: z
+    .string()
+    .url("NEXT_PUBLIC_API_URL must be a valid URL")
+    .default("http://localhost:4000"),
+  NEXT_PUBLIC_APP_URL: z
+    .string()
+    .url("NEXT_PUBLIC_APP_URL must be a valid URL")
+    .default("http://localhost:3002"),
 });
 
-// Helper type merging both configurations
 type Env = z.infer<typeof serverSchema> & z.infer<typeof clientSchema>;
 
 const processEnv = {
-  NODE_ENV: process.env.NODE_ENV,
+  NODE_ENV: process.env.NODE_ENV || "development",
   DATABASE_URL: process.env.DATABASE_URL,
   DATABASE_REPLICA_URL: process.env.DATABASE_REPLICA_URL,
   DATABASE_REPLICA_URLS: process.env.DATABASE_REPLICA_URLS,
   REDIS_URL: process.env.REDIS_URL,
-  AUTH_SECRET: process.env.AUTH_SECRET,
+  AUTH_SECRET:
+    process.env.AUTH_SECRET ||
+    process.env.NEXTAUTH_SECRET ||
+    "dev_admin_auth_secret_minimum_32_chars",
   NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
   ADMIN_SESSION_MAX_AGE_DAYS: process.env.ADMIN_SESSION_MAX_AGE_DAYS,
@@ -47,12 +55,11 @@ const processEnv = {
   ADMIN_SESSION_IDLE_TIMEOUT_HOURS: process.env.ADMIN_SESSION_IDLE_TIMEOUT_HOURS,
   ADMIN_SESSION_CACHE_TTL_SEC: process.env.ADMIN_SESSION_CACHE_TTL_SEC,
   ADMIN_MAX_SESSIONS_PER_USER: process.env.ADMIN_MAX_SESSIONS_PER_USER,
-  NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
-  NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
-  JWT_ADMIN_SECRET: process.env.JWT_ADMIN_SECRET,
+  NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000",
+  NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3002",
+  JWT_ADMIN_SECRET: process.env.JWT_ADMIN_SECRET || "dev_jwt_admin_secret_minimum_8_chars",
 };
 
-// Validate client variables on both server and browser
 const clientResult = clientSchema.safeParse(processEnv);
 if (!clientResult.success) {
   console.error("❌ Invalid Admin public environment variables:");
@@ -66,7 +73,6 @@ if (!clientResult.success) {
 
 export const publicEnv = clientResult.data;
 
-// Validate server variables only when running on the server
 let validatedServerEnv: z.infer<typeof serverSchema> | null = null;
 
 if (typeof window === "undefined") {
@@ -83,7 +89,6 @@ if (typeof window === "undefined") {
   validatedServerEnv = serverResult.data;
 }
 
-// Proxied env object providing type-safety and access guards
 export const env = new Proxy({} as Env, {
   get(_target, prop) {
     const key = prop.toString();

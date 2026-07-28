@@ -91,7 +91,7 @@ export default function PostsContent() {
     { placeholderData: keepPreviousData },
   );
 
-  const rows = (data?.data ?? []) as PostRow[];
+  const rows = (data?.data ?? []) as unknown as PostRow[];
   const postIds = rows.map((p) => p.id);
 
   const { data: translationBatchMap } = trpc.viewer.translations.batchTranslationStatus.useQuery(

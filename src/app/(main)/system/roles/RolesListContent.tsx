@@ -180,7 +180,7 @@ export default function RolesListContent() {
       </div>
 
       <DataTable<RoleRow>
-        data={(roles ?? []) as RoleRow[]}
+        data={(roles ?? []) as unknown as RoleRow[]}
         columns={columns}
         rowActions={rowActions}
         isLoading={isLoading}

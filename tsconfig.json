@@ -1,26 +1,48 @@
 {
-  "extends": "@ecom/tsconfig/nextjs.json",
   "compilerOptions": {
-    "declaration": false,
-    "declarationMap": false,
+    "target": "es2022",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
     "skipLibCheck": true,
-    "noUncheckedIndexedAccess": false,
-    "strictNullChecks": false,
-    "noImplicitAny": false,
+    "strict": false,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "paths": {
       "@admin/*": ["./src/*"],
-      "@app/*": ["../../packages/shared/src/@app/*"],
-      "@i18n/*": ["../../packages/shared/src/@i18n/*"],
-      "@auth/*": ["../../packages/shared/src/@auth/*"],
-      "@configs/*": ["../../packages/shared/src/configs/*"],
-      "@/": ["../../packages/shared/src/"],
-      "src/*": ["../../packages/shared/src/*"],
-      "@ecom/shared/*": ["../../packages/shared/src/*"],
-      "@ecom/lib/*": ["../../packages/lib/src/*"],
-      "@ecom/config": ["../../packages/config/src/index.ts"],
-      "@ecom/types": ["../../packages/types/src/index.ts"],
-      "@ecom/trpc/*": ["../../packages/trpc/*"],
-      "@ecom/features/*": ["../../packages/features/*"]
+      "@app/*": ["./src/shared/@app/*"],
+      "@i18n/*": ["./src/shared/@i18n/*"],
+      "@auth/*": ["./src/shared/@auth/*"],
+      "@configs/*": ["./src/shared/configs/*"],
+      "@/": ["./src/shared/"],
+      "src/*": ["./src/shared/*"],
+      "@ecom/i18n/locales/*": ["../ecom-shared-packages/packages/i18n/locales/*"],
+      "@ecom/i18n": ["../ecom-shared-packages/packages/i18n/src/index.ts"],
+      "@ecom/i18n/*": ["../ecom-shared-packages/packages/i18n/src/*"],
+      "@ecom/shared/@i18n": ["./src/shared/@i18n"],
+      "@ecom/shared/@auth/*": ["./src/shared/@auth/*"],
+      "@ecom/shared/*": ["./src/shared/*"],
+      "@ecom/types": ["../ecom-shared-packages/packages/types/src/index.ts"],
+      "@ecom/types/*": ["../ecom-shared-packages/packages/types/src/*"],
+      "@ecom/lib": ["../ecom-shared-packages/packages/lib/src/index.ts"],
+      "@ecom/lib/*": ["../ecom-shared-packages/packages/lib/src/*"],
+      "@ecom/ui": ["../ecom-shared-packages/packages/ui/src/index.ts"],
+      "@ecom/ui/domain": ["../ecom-shared-packages/packages/ui/src/domain/index.ts"],
+      "@ecom/ui/components/*": ["../ecom-shared-packages/packages/ui/src/components/*"],
+      "@ecom/ui/lib/utils": ["../ecom-shared-packages/packages/ui/src/lib/utils.ts"],
+      "@ecom/ui/*": ["../ecom-shared-packages/packages/ui/src/*"],
+      "@ecom/trpc-contract": ["../ecom-shared-packages/packages/trpc/server/index.ts"],
+      "@ecom/trpc-contract/*": ["../ecom-shared-packages/packages/trpc/*"]
     }
   },
   "include": [
@@ -29,15 +51,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "**/*.mts",
-    "../../packages/shared/src/@auth/next-auth.d.ts"
+    "**/*.mts"
   ],
-  "exclude": [
-    "node_modules",
-    "../../packages/shared/src/@app",
-    "../../packages/shared/src/@i18n",
-    "../../packages/shared/src/components",
-    "../../packages/shared/src/contexts",
-    "../../packages/shared/src/configs"
-  ]
+  "exclude": ["node_modules"]
 }

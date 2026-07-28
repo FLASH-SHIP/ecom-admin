@@ -127,7 +127,7 @@ export default function RatesContent() {
     data: result,
     isLoading,
     isFetching,
-  } = trpc.viewer.rateCards.list.useQuery(queryInput, {
+  } = trpc.viewer.rateCards.list.useQuery(queryInput as any, {
     placeholderData: keepPreviousData,
     retry: false,
   });

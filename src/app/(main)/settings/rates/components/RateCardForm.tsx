@@ -444,12 +444,12 @@ function GeneralInfoTab({
 
   const { data: overlapRes } = trpc.viewer.rateCards.checkOverlap.useQuery(
     {
-      shippingMethod,
+      shippingMethod: shippingMethod as any,
       country,
-      origin: origin || null,
-      startDate: startDateStr ? new Date(startDateStr) : null,
-      endDate: endDateStr ? new Date(endDateStr) : null,
-    },
+      origin: origin || undefined,
+      startDate: startDateStr ? new Date(startDateStr).toISOString() : undefined,
+      endDate: endDateStr ? new Date(endDateStr).toISOString() : undefined,
+    } as any,
     {
       enabled: type === "CUSTOM" && !!shippingMethod && !!country && !!startDateStr,
       staleTime: 10 * 1000,
@@ -458,7 +458,9 @@ function GeneralInfoTab({
 
   return (
     <div className="flex flex-col gap-5">
-      {overlapRes?.hasOverlap && <OverlapWarningBanner cards={overlapRes.overlappingCards} />}
+      {overlapRes?.hasOverlap && (
+        <OverlapWarningBanner cards={overlapRes.overlappingCards as any} />
+      )}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="code" className="font-semibold text-xs">
@@ -1413,9 +1415,9 @@ export function RateCardForm({ rateCardId }: RateCardFormProps) {
     (values) => {
       const payload = prepareSavePayload(values);
       if (isCreate) {
-        createMut.mutate(payload);
+        createMut.mutate(payload as any);
       } else if (rateCardId) {
-        updateMut.mutate({ id: rateCardId, ...payload });
+        updateMut.mutate({ id: rateCardId, ...payload } as any);
       }
     },
     () => {

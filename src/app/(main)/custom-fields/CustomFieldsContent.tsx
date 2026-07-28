@@ -72,15 +72,7 @@ export default function CustomFieldsContent() {
       placeholderData: keepPreviousData,
     });
 
-  const rows: FieldGroup[] = (data?.rows ?? []).filter(
-    (g): g is FieldGroup =>
-      g.id !== undefined &&
-      g.title !== undefined &&
-      g.status !== undefined &&
-      g.order !== undefined &&
-      g.createdAt !== undefined &&
-      g._count !== undefined,
-  );
+  const rows = (data?.rows ?? []) as unknown as FieldGroup[];
 
   const serverTotalCount = data?.total ?? 0;
 

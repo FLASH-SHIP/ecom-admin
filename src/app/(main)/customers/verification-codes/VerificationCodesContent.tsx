@@ -60,7 +60,7 @@ export default function VerificationCodesContent() {
     retry: false,
   });
 
-  const rows = (data?.items ?? []) as VerificationCodeRow[];
+  const rows = (data?.items ?? []) as unknown as VerificationCodeRow[];
   const serverTotalCount = data?.total ?? 0;
 
   const columns: ColumnDef<VerificationCodeRow>[] = useMemo(

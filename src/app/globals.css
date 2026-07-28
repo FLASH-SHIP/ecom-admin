@@ -10,7 +10,7 @@
  * @ecom/shared hooks/providers and @ecom/ui components are scanned.
  */
 @source "../../../../packages/shared/src";
-@source "../../../../packages/ui/components";
+@source "../../../ecom-shared-packages/packages/ui";
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    Ecom — Design System Tokens

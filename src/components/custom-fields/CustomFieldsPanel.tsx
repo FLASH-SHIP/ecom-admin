@@ -1,7 +1,7 @@
 "use client";
 
 import { trpc } from "@admin/lib/trpc";
-import type { AppRouter } from "@ecom/trpc/server";
+import type { AppRouter } from "@ecom/trpc-contract";
 import { Button } from "@ecom/ui/components/button";
 import { Card } from "@ecom/ui/components/card";
 

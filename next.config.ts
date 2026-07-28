@@ -11,7 +11,10 @@ const nextConfig: NextConfig = {
   reactStrictMode: false,
 
   turbopack: {
-    root: path.join(__dirname, "../.."),
+    root: path.join(__dirname, ".."),
+    resolveAlias: {
+      "next-intl/config": "./src/i18n/request.ts",
+    },
   },
 
   // Don't bundle optional server-only dependencies
@@ -34,6 +37,17 @@ const nextConfig: NextConfig = {
     "@ecom/i18n",
     "@ecom/shared",
   ],
+
+  async rewrites() {
+    const apiUrl =
+      process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+    return [
+      {
+        source: "/api/v1/:path*",
+        destination: `${apiUrl}/api/v1/:path*`,
+      },
+    ];
+  },
 
   // Webpack config only when NOT using Turbopack
   ...(!isTurbopack && {
@@ -64,4 +78,19 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withNextIntl(nextConfig);
+const finalConfig = withNextIntl(nextConfig);
+
+// Ensure Turbopack resolveAlias is always set for next-intl/config
+if (!finalConfig.turbopack) {
+  finalConfig.turbopack = {};
+}
+finalConfig.turbopack.resolveAlias = {
+  ...finalConfig.turbopack.resolveAlias,
+  "next-intl/config": "./src/i18n/request.ts",
+};
+
+if (finalConfig.experimental) {
+  delete (finalConfig.experimental as Record<string, unknown>).turbo;
+}
+
+export default finalConfig;

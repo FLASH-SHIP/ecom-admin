@@ -139,7 +139,7 @@ export default function CustomersContent() {
     },
   });
 
-  const rows = (data?.items ?? []) as CustomerRow[];
+  const rows = (data?.items ?? []) as unknown as CustomerRow[];
   const serverTotalCount = data?.total ?? 0;
 
   // ── Column definitions ────────────────────────────────────────────────

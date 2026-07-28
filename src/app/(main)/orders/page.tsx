@@ -111,9 +111,12 @@ export default function AdminOrdersPage() {
     toQueryInput,
   });
 
-  const { data, isLoading, isFetching, refetch } = trpc.viewer.orders.list.useQuery(queryInput, {
-    placeholderData: keepPreviousData,
-  });
+  const { data, isLoading, isFetching, refetch } = trpc.viewer.orders.list.useQuery(
+    queryInput as any,
+    {
+      placeholderData: keepPreviousData,
+    },
+  );
 
   const rows = (data?.data ?? []) as OrderRow[];
   const serverTotalCount = data?.meta.total ?? 0;

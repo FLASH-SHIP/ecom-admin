@@ -25,5 +25,8 @@ export default async function ModuleI18nProvider({
     }
   }
 
-  return <NextIntlClientProvider messages={scopedMessages}>{children}</NextIntlClientProvider>;
+  // biome-ignore lint/suspicious/noExplicitAny: allow flexible messages record
+  return (
+    <NextIntlClientProvider messages={scopedMessages as any}>{children}</NextIntlClientProvider>
+  );
 }

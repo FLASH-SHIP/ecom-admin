@@ -157,7 +157,7 @@ export function BlacklistTab() {
       t("blacklist.columns.reason"),
       t("blacklist.columns.createdAt"),
     ];
-    const rows = data.items.map((item: { email?: string; reason?: string; createdAt?: string }) => [
+    const rows = data.items.map((item: any) => [
       item.email || "",
       item.reason ? t(`blacklist.reasons.${item.reason}` as Parameters<typeof t>[0]) : "",
       item.createdAt ? new Date(item.createdAt).toLocaleString("vi-VN") : "",

@@ -1,11 +1,12 @@
 "use client";
 
 import { env } from "@admin/env";
-import type { AppRouter } from "@ecom/trpc/server/routers/_app";
+import type { AppRouter } from "@ecom/trpc-contract";
 import { QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 import { createTRPCReact } from "@trpc/react-query";
 import type { inferRouterOutputs } from "@trpc/server";
+import { signOut } from "next-auth/react";
 import { useState } from "react";
 import superjson from "superjson";
 
@@ -25,7 +26,7 @@ function handleUnauthorized(error: unknown) {
     const data = (error as { data?: { httpStatus?: number } }).data;
     if (data?.httpStatus === 401) {
       redirecting = true;
-      window.location.href = "/login";
+      signOut({ callbackUrl: "/login" });
     }
   }
 }

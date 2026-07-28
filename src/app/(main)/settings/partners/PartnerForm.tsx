@@ -1,5 +1,6 @@
 "use client";
 
+import { env } from "@admin/env";
 import { useToast } from "@admin/components/toast-provider";
 import { ConfirmDialog } from "@admin/components/ui/ConfirmDialog";
 import { useConfirm } from "@admin/components/ui/useConfirm";
@@ -135,7 +136,6 @@ const SERVICE_TYPE_STYLES = {
   },
 };
 
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Component contains nested forms and multiple tabs
 export function PartnerForm({ partnerId }: PartnerFormProps) {
   const t = useTranslations("settings");
   const router = useRouter();
@@ -311,8 +311,8 @@ export function PartnerForm({ partnerId }: PartnerFormProps) {
 
   // Webhook display computation
   const getWebhookUrl = (serviceId: number | string) => {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
-    return `${baseUrl}/api/v2/webhooks/carriers/${serviceId}`;
+    const baseUrl = env.NEXT_PUBLIC_API_URL;
+    return `${baseUrl}/api/v1/webhooks/carriers/${serviceId}`;
   };
 
   // Connection validation trigger at Partner level
@@ -765,7 +765,6 @@ export function PartnerForm({ partnerId }: PartnerFormProps) {
                   </thead>
                   <tbody>
                     {services && services.length > 0 ? (
-                      // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Services mapping contains multi-conditional translation badges
                       services.map((service) => {
                         let typeText: string = service.type;
                         if (service.type === ServiceType.PICKUP)

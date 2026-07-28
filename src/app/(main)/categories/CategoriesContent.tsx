@@ -101,7 +101,7 @@ export default function CategoriesContent() {
     { enabled: viewMode === "tree" },
   );
 
-  const rows = (data?.items ?? []) as CategoryRow[];
+  const rows = (data?.items ?? []) as unknown as CategoryRow[];
   const categoryIds = rows.map((c) => c.id);
 
   const { data: translationBatchMap } = trpc.viewer.translations.batchTranslationStatus.useQuery(
@@ -437,7 +437,7 @@ export default function CategoriesContent() {
               </div>
             ) : (
               <ul className="m-0 list-none p-0">
-                {treeData.map((cat) => (
+                {(treeData as unknown as TreeCategory[])?.map((cat) => (
                   <TreeNode key={cat.id} category={cat} depth={0} />
                 ))}
               </ul>

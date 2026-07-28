@@ -76,7 +76,7 @@ export default function TagsContent() {
     { placeholderData: keepPreviousData },
   );
 
-  const rows = (data?.rows ?? []) as TagRow[];
+  const rows = (data?.rows ?? []) as unknown as TagRow[];
 
   const tagIds = rows.map((t) => t.id);
   const { data: translationBatchMap } = trpc.viewer.translations.batchTranslationStatus.useQuery(

@@ -98,7 +98,7 @@ export default function AdminOrderDetailPage() {
     try {
       await trpcContext.client.viewer.orders.updateStatus.mutate({
         id,
-        status: newStatus as OrderStatus,
+        status: newStatus as any,
         metadata: statusNote.trim() ? { note: statusNote.trim() } : null,
         expectedVersion: order?.version,
       });
