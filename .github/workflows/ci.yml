@@ -16,16 +16,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Setup Node.js & Enable Cache
         uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: 'yarn'
 
-      - name: Enable Corepack & Install Dependencies
-        run: |
-          corepack enable
-          yarn install
+      - name: Install Dependencies
+        run: yarn install
 
       - name: Run Type Check
         run: yarn type-check
