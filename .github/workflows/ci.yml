@@ -11,44 +11,46 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: read
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          path: ecom-admin
+
+      - name: Checkout ecom-shared-packages
+        uses: actions/checkout@v4
+        with:
+          repository: FLASH-SHIP/ecom-shared-packages
+          path: ecom-shared-packages
+
+      - name: Checkout ecom-api
+        uses: actions/checkout@v4
+        with:
+          repository: FLASH-SHIP/ecom-api
+          path: ecom-api
 
       - name: Enable Corepack
         run: corepack enable
+        working-directory: ecom-admin
 
       - name: Setup Node.js & Enable Cache
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@flash-ship'
           cache: 'yarn'
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN || secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
-          YARN_NPM_AUTH_TOKEN: ${{ secrets.GH_TOKEN || secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
-
-      - name: Setup npmrc
-        run: |
-          echo "@flash-ship:registry=https://npm.pkg.github.com/" > .npmrc
-          echo "//npm.pkg.github.com/:_authToken=${YARN_NPM_AUTH_TOKEN}" >> .npmrc
-        env:
-          YARN_NPM_AUTH_TOKEN: ${{ secrets.GH_TOKEN || secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
+          cache-dependency-path: ecom-admin/yarn.lock
 
       - name: Install Dependencies
         run: yarn install
-        env:
-          YARN_NPM_AUTH_TOKEN: ${{ secrets.GH_TOKEN || secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
+        working-directory: ecom-admin
 
       - name: Run Type Check
         run: yarn type-check
+        working-directory: ecom-admin
 
       - name: Run Production Build
         run: yarn build
+        working-directory: ecom-admin
         env:
           NEXT_PUBLIC_APP_URL: "http://localhost:4001"
