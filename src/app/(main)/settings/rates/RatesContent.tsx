@@ -11,8 +11,8 @@ import { ConfirmDialog } from "@admin/components/ui/ConfirmDialog";
 import { useConfirm } from "@admin/components/ui/useConfirm";
 import { trpc } from "@admin/lib/trpc";
 import { formatDate } from "@admin/utils/dateFormat";
-import { Permissions } from "@flash-ship/ecom-lib/permissions";
 import type { ContentStatus, RateCardType, ShippingMethod } from "@ecom/prisma";
+import { Permissions } from "@flash-ship/ecom-lib/permissions";
 import { Badge } from "@flash-ship/ecom-ui/components/badge";
 import { Button } from "@flash-ship/ecom-ui/components/button";
 import {
@@ -127,7 +127,7 @@ export default function RatesContent() {
     data: result,
     isLoading,
     isFetching,
-  } = trpc.viewer.rateCards.list.useQuery(queryInput as any, {
+  } = trpc.viewer.rateCards.list.useQuery(queryInput, {
     placeholderData: keepPreviousData,
     retry: false,
   });
@@ -447,9 +447,7 @@ export default function RatesContent() {
           });
         },
         hidden: (row) =>
-          !canDelete ||
-          ["epacket.default.us", "express.default.us"].includes(row.code) ||
-          (row.status !== "DRAFT" && row.status !== "REJECTED"),
+          !canDelete || (row.status !== "DRAFT" && row.status !== "REJECTED"),
       },
     ],
     [
@@ -520,8 +518,8 @@ export default function RatesContent() {
         label: t("rates.lblStartDate"),
         type: "date",
         operators: [
-          { value: "greaterThanOrEqual", label: "sau hoặc bằng" },
-          { value: "lessThanOrEqual", label: "trước hoặc bằng" },
+          { value: "greaterThanOrEqual", label: "greaterThanOrEqual" },
+          { value: "lessThanOrEqual", label: "lessThanOrEqual" },
         ],
       },
       {
@@ -529,8 +527,8 @@ export default function RatesContent() {
         label: t("rates.lblEndDate"),
         type: "date",
         operators: [
-          { value: "greaterThanOrEqual", label: "sau hoặc bằng" },
-          { value: "lessThanOrEqual", label: "trước hoặc bằng" },
+          { value: "greaterThanOrEqual", label: "greaterThanOrEqual" },
+          { value: "lessThanOrEqual", label: "lessThanOrEqual" },
         ],
       },
       {
@@ -633,9 +631,9 @@ export default function RatesContent() {
       {/* Assign Groups Modal */}
       {assignGroupCard && (
         <Dialog open={!!assignGroupCard} onOpenChange={() => setAssignGroupCard(null)}>
-          <DialogContent className="max-w-md">
+          <DialogContent className="max-w-lg sm:max-w-xl overflow-hidden">
             <DialogHeader>
-              <DialogTitle className="text-base font-bold">
+              <DialogTitle className="text-base font-bold break-all pr-6">
                 {t("rates.btnAssignGroups")}: {assignGroupCard.code}
               </DialogTitle>
             </DialogHeader>
@@ -644,16 +642,18 @@ export default function RatesContent() {
               <span className="text-xs text-muted-foreground">
                 Vui lòng chọn các nhóm khách hàng được áp dụng bảng giá cước tuỳ chỉnh này:
               </span>
+
               <Input
                 type="text"
                 placeholder="Tìm kiếm nhóm khách hàng (mã, tên)..."
                 value={groupSearch}
                 onChange={(e) => setGroupSearch(e.target.value)}
-                className="h-8 text-xs"
+                className="h-9 text-xs"
               />
-              <div className="grid grid-cols-1 gap-2 border border-input rounded-md p-3 max-h-48 overflow-y-auto bg-muted/10">
+
+              <div className="flex flex-col gap-1.5 border border-input rounded-lg p-2 max-h-64 sm:max-h-72 overflow-y-auto bg-muted/10">
                 {filteredGroups.length === 0 ? (
-                  <span className="text-xs text-muted-foreground italic text-center py-2">
+                  <span className="text-xs text-muted-foreground italic text-center py-6">
                     Không tìm thấy nhóm khách hàng nào
                   </span>
                 ) : (
@@ -662,7 +662,7 @@ export default function RatesContent() {
                     return (
                       <label
                         key={group.id}
-                        className="flex items-center gap-2 text-sm cursor-pointer select-none hover:bg-muted/30 p-1 rounded"
+                        className="flex items-start gap-2.5 text-xs sm:text-sm cursor-pointer select-none hover:bg-accent/60 p-2 rounded-md transition-colors border border-transparent hover:border-border/60"
                       >
                         <input
                           type="checkbox"
@@ -672,11 +672,16 @@ export default function RatesContent() {
                               checked ? prev.filter((id) => id !== group.id) : [...prev, group.id],
                             );
                           }}
-                          className="rounded border-input text-primary focus:ring-primary size-4"
+                          className="mt-0.5 rounded border-input text-primary focus:ring-primary size-4 shrink-0"
                         />
-                        <span>
-                          {group.name} ({group.code})
-                        </span>
+                        <div className="flex flex-col min-w-0 flex-1">
+                          <span className="font-medium text-foreground break-all leading-tight">
+                            {group.name}
+                          </span>
+                          <span className="text-[11px] font-mono text-muted-foreground break-all mt-0.5">
+                            ({group.code})
+                          </span>
+                        </div>
                       </label>
                     );
                   })
@@ -684,22 +689,29 @@ export default function RatesContent() {
               </div>
             </div>
 
-            <DialogFooter className="gap-2 sm:gap-0">
-              <Button variant="outline" size="sm" onClick={() => setAssignGroupCard(null)}>
-                Hủy
-              </Button>
-              <Button
-                size="sm"
-                disabled={assignGroupsMut.isPending}
-                onClick={() => {
-                  assignGroupsMut.mutate({
-                    id: assignGroupCard.id,
-                    customerGroupIds: selectedGroupIds,
-                  });
-                }}
-              >
-                Lưu Nhóm Khách Hàng
-              </Button>
+            <DialogFooter className="flex flex-row items-center justify-between sm:justify-between gap-2 border-t border-border/60 pt-3">
+              <span className="text-xs text-muted-foreground">
+                Đã chọn:{" "}
+                <strong className="font-semibold text-primary">{selectedGroupIds.length}</strong>{" "}
+                nhóm
+              </span>
+              <div className="flex items-center gap-2">
+                <Button variant="outline" size="sm" onClick={() => setAssignGroupCard(null)}>
+                  Hủy
+                </Button>
+                <Button
+                  size="sm"
+                  disabled={assignGroupsMut.isPending}
+                  onClick={() => {
+                    assignGroupsMut.mutate({
+                      id: assignGroupCard.id,
+                      customerGroupIds: selectedGroupIds,
+                    });
+                  }}
+                >
+                  Lưu Nhóm Khách Hàng
+                </Button>
+              </div>
             </DialogFooter>
           </DialogContent>
         </Dialog>

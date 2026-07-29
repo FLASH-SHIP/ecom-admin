@@ -231,7 +231,9 @@ function SearchButton() {
         if (item.translate) {
           const key = item.translate.startsWith("nav.") ? item.translate.slice(4) : item.translate;
           try {
-            label = t(key as Parameters<typeof t>[0]);
+            if (t.has(key as any)) {
+              label = t(key as Parameters<typeof t>[0]);
+            }
           } catch {
             // fallback
           }
@@ -418,7 +420,9 @@ function ToolbarShortcuts() {
         if (item.translate) {
           const key = item.translate.startsWith("nav.") ? item.translate.slice(4) : item.translate;
           try {
-            label = t(key as Parameters<typeof t>[0]);
+            if (t.has(key as any)) {
+              label = t(key as Parameters<typeof t>[0]);
+            }
           } catch {
             // fallback
           }

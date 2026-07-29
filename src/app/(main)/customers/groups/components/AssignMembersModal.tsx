@@ -33,6 +33,7 @@ interface CustomerItem {
   id: string;
   email: string;
   username: string;
+  customerCode?: string | null;
   name: string | null;
   phone: string | null;
   groupId: number | null;
@@ -110,6 +111,7 @@ export function AssignMembersModal({
       setPage(1);
       setSelectedTableMemberIds([]);
       setStagedToAdd([]);
+      setAddPopoverOpen(false);
     }
   }, [open]);
 
@@ -183,6 +185,8 @@ export function AssignMembersModal({
         reassignCandidates.length > 3
           ? t("assignModal.andMore", { count: reassignCandidates.length - 3 })
           : "";
+
+      setAddPopoverOpen(false);
 
       askConfirm({
         title: t("assignModal.reassignConfirmTitle"),
@@ -427,7 +431,8 @@ export function AssignMembersModal({
                                   {candidate.name || candidate.username}
                                 </span>
                                 <span className="truncate text-xs text-muted-foreground">
-                                  @{candidate.username} ({candidate.email})
+                                  {candidate.customerCode ? `${candidate.customerCode} • ` : ""}@
+                                  {candidate.username} ({candidate.email})
                                 </span>
                               </div>
                             </div>
@@ -547,7 +552,9 @@ export function AssignMembersModal({
                             />
                           </TableCell>
                           <TableCell className="font-medium text-primary">
-                            STD-US-2026 / @{member.username}
+                            {member.customerCode
+                              ? `${member.customerCode} / @${member.username}`
+                              : `@${member.username}`}
                           </TableCell>
                           <TableCell className="font-medium text-foreground">
                             {member.name || member.username}

@@ -3,10 +3,15 @@
 import { useToast } from "@admin/components/toast-provider";
 import { trpc } from "@admin/lib/trpc";
 import { Button } from "@flash-ship/ecom-ui/components/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@flash-ship/ecom-ui/components/dialog";
 import { Input } from "@flash-ship/ecom-ui/components/input";
 import { Label } from "@flash-ship/ecom-ui/components/label";
-import { PerfectScroll } from "@flash-ship/ecom-ui/components/perfect-scroll";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@flash-ship/ecom-ui/components/sheet";
 import { Textarea } from "@flash-ship/ecom-ui/components/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertCircle, Loader2, Save } from "lucide-react";
@@ -29,14 +34,14 @@ const defaultValues: FormValues = {
   description: "",
 };
 
-interface GroupFormDrawerProps {
+interface GroupFormModalProps {
   groupId?: number | null;
   open: boolean;
   onClose: () => void;
   onSaved: () => void;
 }
 
-export function GroupFormDrawer({ groupId, open, onClose, onSaved }: GroupFormDrawerProps) {
+export function GroupFormModal({ groupId, open, onClose, onSaved }: GroupFormModalProps) {
   const t = useTranslations("customer-groups");
   const tCommon = useTranslations("common");
   const { toast } = useToast();
@@ -123,24 +128,22 @@ export function GroupFormDrawer({ groupId, open, onClose, onSaved }: GroupFormDr
   const anyError = createMut.error || updateMut.error;
 
   return (
-    <Sheet open={open} onOpenChange={(o) => !o && onClose()}>
-      <SheetContent side="right" className="flex w-full flex-col p-0 sm:max-w-[520px]">
+    <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
+      <DialogContent className="max-w-lg p-0 overflow-hidden sm:max-w-xl">
         {/* Header */}
-        <SheetHeader className="border-b border-border px-6 py-4">
-          <SheetTitle>{isEdit ? t("editGroup") : t("createNew")}</SheetTitle>
-        </SheetHeader>
+        <DialogHeader className="border-b border-border px-6 py-4">
+          <DialogTitle className="text-lg font-semibold text-foreground">
+            {isEdit ? t("editGroup") : t("createNew")}
+          </DialogTitle>
+        </DialogHeader>
 
         {isEdit && isGroupLoading ? (
-          <div className="flex flex-1 items-center justify-center">
+          <div className="flex h-48 items-center justify-center">
             <Loader2 className="size-8 animate-spin text-muted-foreground" />
           </div>
         ) : (
-          <form
-            noValidate
-            onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-1 flex-col overflow-hidden"
-          >
-            <PerfectScroll className="flex flex-1 flex-col gap-5 px-6 py-6">
+          <form noValidate onSubmit={handleSubmit(onSubmit)}>
+            <div className="flex flex-col gap-5 px-6 py-6">
               {/* Group Name */}
               <Controller
                 name="name"
@@ -220,11 +223,11 @@ export function GroupFormDrawer({ groupId, open, onClose, onSaved }: GroupFormDr
                   {anyError.message}
                 </div>
               )}
-            </PerfectScroll>
+            </div>
 
             {/* Footer */}
-            <div className="flex justify-end gap-2 border-t border-border px-6 py-4">
-              <Button type="button" variant="ghost" onClick={onClose}>
+            <DialogFooter className="border-t border-border px-6 py-4">
+              <Button type="button" variant="ghost" onClick={onClose} disabled={isMutPending}>
                 {tCommon("cancel")}
               </Button>
               <Button id="group-form-save" type="submit" disabled={isSubmitting || isMutPending}>
@@ -235,10 +238,10 @@ export function GroupFormDrawer({ groupId, open, onClose, onSaved }: GroupFormDr
                 )}
                 {tCommon("save")}
               </Button>
-            </div>
+            </DialogFooter>
           </form>
         )}
-      </SheetContent>
-    </Sheet>
+      </DialogContent>
+    </Dialog>
   );
 }
