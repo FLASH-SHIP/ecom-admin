@@ -41,8 +41,8 @@
       "@flash-ship/ecom-ui/components/*": ["../ecom-shared-packages/packages/ui/src/components/*"],
       "@flash-ship/ecom-ui/lib/utils": ["../ecom-shared-packages/packages/ui/src/lib/utils.ts"],
       "@flash-ship/ecom-ui/*": ["../ecom-shared-packages/packages/ui/src/*"],
-      "@flash-ship/ecom-trpc-types": ["../ecom-api/packages/trpc/server/index.ts"],
-      "@flash-ship/ecom-trpc-types/*": ["../ecom-api/packages/trpc/*"]
+      "@flash-ship/ecom-trpc-types": ["../ecom-shared-packages/packages/trpc-types/src/index.ts"],
+      "@flash-ship/ecom-trpc-types/*": ["../ecom-shared-packages/packages/trpc-types/*"]
     }
   },
   "include": [

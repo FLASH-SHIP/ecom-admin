@@ -15,7 +15,7 @@
     "@auth/prisma-adapter": "^2.11.0",
     "@flash-ship/ecom-i18n": "portal:../ecom-shared-packages/packages/i18n",
     "@flash-ship/ecom-lib": "portal:../ecom-shared-packages/packages/lib",
-    "@flash-ship/ecom-trpc-types": "portal:../ecom-api/packages/trpc",
+    "@flash-ship/ecom-trpc-types": "portal:../ecom-shared-packages/packages/trpc-types",
     "@flash-ship/ecom-ui": "portal:../ecom-shared-packages/packages/ui",
     "@hookform/resolvers": "^5.2.2",
     "@prisma/client": "^7.8.0",
