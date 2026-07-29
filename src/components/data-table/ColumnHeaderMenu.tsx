@@ -198,7 +198,9 @@ export function ColumnHeaderMenu<T>({
                                 {OPERATOR_ICONS[op.value]}
                               </span>
                             )}
-                            {t(`filter.operators.${op.value}` as Parameters<typeof t>[0])}
+                            {t.has(`filter.operators.${op.value}` as Parameters<typeof t.has>[0])
+                              ? t(`filter.operators.${op.value}` as Parameters<typeof t>[0])
+                              : op.label}
                           </DropdownMenuItem>
                           {OPERATOR_GROUP_ENDS.has(op.value) && <DropdownMenuSeparator />}
                         </div>

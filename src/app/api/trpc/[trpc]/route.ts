@@ -4,12 +4,12 @@ import { decodeToken, signAccessToken } from "@flash-ship/ecom-lib/jwt";
 import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 
-async function resolveAuthorizationHeader(req: Request): Promise<string | null> {
+async function resolveAuthorizationHeader(req: NextRequest): Promise<string | null> {
   try {
     const cookieName = getAdminSessionCookieName(env.NODE_ENV === "production");
 
     const nextAuthToken = await getToken({
-      req: req as unknown as NextRequest,
+      req,
       secret: env.AUTH_SECRET,
       cookieName,
     });
@@ -30,6 +30,8 @@ async function resolveAuthorizationHeader(req: Request): Promise<string | null> 
     if (!jwtToken && nextAuthToken?.id) {
       jwtToken = signAccessToken({
         userId: String(nextAuthToken.id),
+        sub: String(nextAuthToken.id),
+        email: (nextAuthToken.email as string) || undefined,
         tokenVersion: (nextAuthToken.tokenVersion as number) || 1,
       });
     }
@@ -41,7 +43,7 @@ async function resolveAuthorizationHeader(req: Request): Promise<string | null> 
   }
 }
 
-const handler = async (req: Request) => {
+const handler = async (req: NextRequest) => {
   const url = new URL(req.url);
   const backendUrl = `${env.NEXT_PUBLIC_API_URL}/api/trpc${url.pathname.replace("/api/trpc", "")}${url.search}`;
 

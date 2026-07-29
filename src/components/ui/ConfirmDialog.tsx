@@ -82,7 +82,11 @@ export function ConfirmDialog({
   return (
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onCancel()}>
       <DialogContent
-        className={cn("min-w-[380px] border-t-[3px] pt-4 sm:max-w-sm", colors.border)}
+        overlayClassName="z-[500]"
+        className={cn(
+          "z-[500] min-w-[380px] border-t-[3px] pt-4 sm:max-w-sm overflow-hidden",
+          colors.border,
+        )}
         onEscapeKeyDown={(e) => {
           e.stopPropagation();
         }}
@@ -95,10 +99,16 @@ export function ConfirmDialog({
       >
         <DialogHeader className="items-center flex flex-col gap-3 text-center">
           <AlertTriangle className={cn("size-12", colors.icon)} strokeWidth={1.5} />
-          <DialogTitle id="confirm-dialog-title" className="text-lg font-bold">
+          <DialogTitle
+            id="confirm-dialog-title"
+            className="text-lg font-bold break-words [word-break:break-word]"
+          >
             {resolvedTitle}
           </DialogTitle>
-          <DialogDescription id="confirm-dialog-description" className="text-center">
+          <DialogDescription
+            id="confirm-dialog-description"
+            className="text-center whitespace-pre-line break-words [word-break:break-word]"
+          >
             {message}
           </DialogDescription>
         </DialogHeader>

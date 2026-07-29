@@ -1,6 +1,5 @@
 "use client";
 
-import { useDebounce } from "@admin/lib/hooks/useDebounce";
 import { Input } from "@flash-ship/ecom-ui/components/input";
 import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import { Search, X } from "lucide-react";
@@ -28,7 +27,6 @@ export function SearchInput({
   inputClassName,
 }: SearchInputProps) {
   const [internalValue, setInternalValue] = useState(externalValue);
-  const debouncedValue = useDebounce(internalValue, debounceMs);
 
   // Sync internal value when external value changes (e.g. form reset or clear from parent)
   useEffect(() => {
@@ -37,21 +35,28 @@ export function SearchInput({
 
   // Handle debounced search with minChars check
   useEffect(() => {
-    const trimmed = debouncedValue.trim();
-
-    // 1. Reset search if empty
-    if (trimmed.length === 0) {
+    // 1. If internal value is empty, clear immediately
+    if (internalValue === "") {
       if (externalValue !== "") {
         onChange("");
       }
       return;
     }
 
-    // 2. Only trigger search if length >= minChars
-    if (trimmed.length >= minChars && trimmed !== externalValue) {
-      onChange(trimmed);
-    }
-  }, [debouncedValue, minChars, externalValue, onChange]);
+    // 2. Debounce search changes
+    const timer = setTimeout(() => {
+      const trimmed = internalValue.trim();
+      if (trimmed.length < minChars) {
+        if (externalValue !== "") {
+          onChange("");
+        }
+      } else if (trimmed !== externalValue) {
+        onChange(trimmed);
+      }
+    }, debounceMs);
+
+    return () => clearTimeout(timer);
+  }, [internalValue, minChars, debounceMs, externalValue, onChange]);
 
   const handleClear = () => {
     setInternalValue("");

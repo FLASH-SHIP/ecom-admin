@@ -26,20 +26,26 @@ function getNavigationItem(url: string, navigationItems: NavItemType[]): NavItem
   return null;
 }
 
+function kebabToCamel(str: string): string {
+  return str.replace(/-([a-z0-9])/gi, (_, letter) => letter.toUpperCase());
+}
+
 function getActionLabel(segment: string, commonT: (key: string) => string): string | null {
   const lower = segment.toLowerCase();
   if (lower === "edit") {
     try {
-      return commonT("detail");
+      const val = commonT("edit");
+      return val && !val.startsWith("common.") ? val : "Chỉnh sửa";
     } catch {
-      return "Detail";
+      return "Chỉnh sửa";
     }
   }
-  if (lower === "create") {
+  if (lower === "create" || lower === "new") {
     try {
-      return commonT("create");
+      const val = commonT("create") || commonT("add");
+      return val && !val.startsWith("common.") ? val : "Tạo mới";
     } catch {
-      return "Create";
+      return "Tạo mới";
     }
   }
   return null;
@@ -51,16 +57,52 @@ function resolveLabel(
   t: (key: string) => string,
   commonT: (key: string) => string,
 ): string {
-  if (!item) {
-    return getActionLabel(segment, commonT) ?? segment.charAt(0).toUpperCase() + segment.slice(1);
+  const tHas = (t as any).has ? (key: string) => (t as any).has(key) : () => true;
+
+  if (item?.translate) {
+    const key = item.translate.startsWith("nav.") ? item.translate.slice(4) : item.translate;
+    try {
+      if (tHas(key)) {
+        const translated = t(key as Parameters<typeof t>[0]);
+        if (translated && !translated.startsWith("nav.")) {
+          return translated;
+        }
+      }
+    } catch {
+      // Fallthrough
+    }
+    if (item.title) return item.title;
+  } else if (item?.title) {
+    return item.title;
   }
-  if (!item.translate) return item.title ?? segment;
-  const key = item.translate.startsWith("nav.") ? item.translate.slice(4) : item.translate;
+
+  const actionLabel = getActionLabel(segment, commonT);
+  if (actionLabel) return actionLabel;
+
+  const camelKey = kebabToCamel(segment);
   try {
-    return t(key as Parameters<typeof t>[0]);
+    if (tHas(camelKey)) {
+      const translated = t(camelKey as Parameters<typeof t>[0]);
+      if (translated && !translated.startsWith("nav.")) {
+        return translated;
+      }
+    }
   } catch {
-    return item.title ?? segment;
+    // Fallthrough
   }
+
+  try {
+    if (tHas(segment)) {
+      const translated = t(segment as Parameters<typeof t>[0]);
+      if (translated && !translated.startsWith("nav.")) {
+        return translated;
+      }
+    }
+  } catch {
+    // Fallthrough
+  }
+
+  return segment.charAt(0).toUpperCase() + segment.slice(1);
 }
 
 /**

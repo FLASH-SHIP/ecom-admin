@@ -138,7 +138,9 @@ function FilterRow({
 
   const operatorOptions = operators.map((op: FilterOperator) => ({
     value: op.value,
-    label: t(`filter.operators.${op.label}` as Parameters<typeof t>[0]),
+    label: t.has(`filter.operators.${op.label}` as Parameters<typeof t.has>[0])
+      ? t(`filter.operators.${op.label}` as Parameters<typeof t>[0])
+      : op.label,
     icon: OPERATOR_ICONS[op.value],
     separatorAfter: OPERATOR_GROUP_ENDS.has(op.value),
   }));
@@ -236,7 +238,9 @@ function FilterValueInput({
     return (
       <div className="flex h-8 items-center rounded-md border border-input bg-background px-2 text-xs">
         <span className="inline-flex items-center gap-1 rounded-sm bg-primary/10 px-1.5 py-0.5 text-xs font-medium text-primary">
-          {t(`filter.operators.${op}` as Parameters<typeof t>[0])}
+          {t.has(`filter.operators.${op}` as Parameters<typeof t.has>[0])
+            ? t(`filter.operators.${op}` as Parameters<typeof t>[0])
+            : op}
           <button
             type="button"
             className="ml-0.5 cursor-pointer rounded-sm opacity-60 hover:opacity-100 transition-opacity"

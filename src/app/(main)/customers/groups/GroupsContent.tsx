@@ -18,7 +18,7 @@ import { AlertCircle, Pencil, Plus, Trash2, UserPlus, Users } from "lucide-react
 import { useTranslations } from "next-intl";
 import { useMemo, useRef, useState } from "react";
 import { AssignMembersModal } from "./components/AssignMembersModal";
-import { GroupFormDrawer } from "./components/GroupFormDrawer";
+import { GroupFormModal } from "./components/GroupFormModal";
 
 type GroupRow = {
   id: number;
@@ -322,7 +322,7 @@ export default function GroupsContent() {
         }}
       />
 
-      <GroupFormDrawer
+      <GroupFormModal
         groupId={editId}
         open={createOpen || editId !== null}
         onClose={() => {
