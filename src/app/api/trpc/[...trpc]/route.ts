@@ -1,10 +1,8 @@
 import { env } from "@admin/env";
-import { getAdminSessionCookieName } from "@admin/lib/auth";
+import { auth, getAdminSessionCookieName } from "@admin/lib/auth";
 import { decodeToken, signAccessToken } from "@flash-ship/ecom-lib/jwt";
 import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
-
-import { auth } from "@admin/lib/auth";
 
 async function resolveAuthorizationHeader(req: NextRequest): Promise<string | null> {
   try {
