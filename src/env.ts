@@ -13,7 +13,6 @@ const serverSchema = z.object({
   ADMIN_SESSION_IDLE_TIMEOUT_HOURS: z.coerce.number().int().positive().default(2),
   ADMIN_SESSION_CACHE_TTL_SEC: z.coerce.number().int().nonnegative().default(15),
   ADMIN_MAX_SESSIONS_PER_USER: z.coerce.number().int().positive().default(5),
-  JWT_SECRET: z.string().default("dev-jwt-secret-do-not-use-in-production"),
   JWT_ADMIN_SECRET: z.string().default("dev_jwt_admin_secret_minimum_8_chars"),
 });
 
@@ -48,7 +47,6 @@ const processEnv = {
   ADMIN_MAX_SESSIONS_PER_USER: process.env.ADMIN_MAX_SESSIONS_PER_USER,
   NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000",
   NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:4001",
-  JWT_SECRET: process.env.JWT_SECRET || "dev-jwt-secret-do-not-use-in-production",
   JWT_ADMIN_SECRET: process.env.JWT_ADMIN_SECRET || "dev_jwt_admin_secret_minimum_8_chars",
 };
 
