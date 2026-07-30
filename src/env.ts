@@ -13,7 +13,8 @@ const serverSchema = z.object({
   ADMIN_SESSION_IDLE_TIMEOUT_HOURS: z.coerce.number().int().positive().default(2),
   ADMIN_SESSION_CACHE_TTL_SEC: z.coerce.number().int().nonnegative().default(15),
   ADMIN_MAX_SESSIONS_PER_USER: z.coerce.number().int().positive().default(5),
-  JWT_ADMIN_SECRET: z.string().default("dev_jwt_admin_secret_minimum_8_chars"),
+  JWT_ADMIN_SECRET: z.string().optional(),
+  JWT_ADMIN_REFRESH_SECRET: z.string().optional(),
 });
 
 // 2. Client-side validation schema (public parameters exposed to the browser)
