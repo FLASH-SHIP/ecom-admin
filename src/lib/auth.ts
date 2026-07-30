@@ -114,7 +114,6 @@ const nextAuth: NextAuthResult = NextAuth({
     async session({ session, token }) {
       if (token?.id) {
         session.user.id = token.id as string;
-        session.accessToken = token.accessToken as string;
         session.db = {
           id: token.id as string,
           displayName: (token.name as string) || "Admin",
