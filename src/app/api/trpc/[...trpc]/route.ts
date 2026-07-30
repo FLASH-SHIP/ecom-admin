@@ -4,17 +4,34 @@ import { decodeToken, signAccessToken } from "@flash-ship/ecom-lib/jwt";
 import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 
+import { auth } from "@admin/lib/auth";
+
 async function resolveAuthorizationHeader(req: NextRequest): Promise<string | null> {
   try {
-    const cookieName = getAdminSessionCookieName(env.NODE_ENV === "production");
+    // 1. Try NextAuth auth() native helper (handles all cookie names & proxy headers)
+    const session = (await auth()) as unknown as (Record<string, unknown> & { accessToken?: string; user?: { id?: string; email?: string } }) | null;
 
-    const nextAuthToken = await getToken({
-      req,
-      secret: env.AUTH_SECRET,
-      cookieName,
-    });
+    let jwtToken = session?.accessToken;
+    let userId = session?.user?.id;
+    let userEmail = session?.user?.email;
 
-    let jwtToken = nextAuthToken?.accessToken as string | undefined;
+    // 2. Fallback to getToken if auth() session is empty
+    if (!session?.user) {
+      const cookieName = getAdminSessionCookieName(env.NODE_ENV === "production");
+      const nextAuthToken = await getToken({
+        req,
+        secret: env.AUTH_SECRET,
+        cookieName,
+      });
+
+      if (nextAuthToken) {
+        jwtToken = nextAuthToken.accessToken as string | undefined;
+        userId = nextAuthToken.id as string | undefined;
+        userEmail = nextAuthToken.email as string | undefined;
+      }
+    }
+
+    if (!userId && !jwtToken) return null;
 
     if (jwtToken) {
       try {
@@ -27,12 +44,12 @@ async function resolveAuthorizationHeader(req: NextRequest): Promise<string | nu
       }
     }
 
-    if (!jwtToken && nextAuthToken?.id) {
+    if (!jwtToken && userId) {
       jwtToken = signAccessToken({
-        userId: String(nextAuthToken.id),
-        sub: String(nextAuthToken.id),
-        email: (nextAuthToken.email as string) || undefined,
-        tokenVersion: (nextAuthToken.tokenVersion as number) || 1,
+        userId: String(userId),
+        sub: String(userId),
+        email: userEmail,
+        tokenVersion: 1,
       });
     }
 
