@@ -3,16 +3,6 @@ import { z } from "zod";
 // 1. Server-side validation schema (secrets not exposed to the browser)
 const serverSchema = z.object({
   NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
-  DATABASE_URL: z.string().url("DATABASE_URL must be a valid connection URL").optional(),
-  DATABASE_REPLICA_URL: z
-    .string()
-    .url("DATABASE_REPLICA_URL must be a valid connection URL")
-    .optional(),
-  DATABASE_REPLICA_URLS: z
-    .string()
-    .optional()
-    .describe("Comma-separated list of database replica URLs"),
-  REDIS_URL: z.string().url("REDIS_URL must be a valid connection URL").optional(),
   AUTH_SECRET: z.string().default("dev_admin_auth_secret_minimum_32_chars"),
   NEXTAUTH_SECRET: z.string().optional(),
   NEXTAUTH_URL: z.string().optional(),
@@ -36,17 +26,13 @@ const clientSchema = z.object({
   NEXT_PUBLIC_APP_URL: z
     .string()
     .url("NEXT_PUBLIC_APP_URL must be a valid URL")
-    .default("http://localhost:3002"),
+    .default("http://localhost:4001"),
 });
 
 type Env = z.infer<typeof serverSchema> & z.infer<typeof clientSchema>;
 
 const processEnv = {
   NODE_ENV: process.env.NODE_ENV || "development",
-  DATABASE_URL: process.env.DATABASE_URL,
-  DATABASE_REPLICA_URL: process.env.DATABASE_REPLICA_URL,
-  DATABASE_REPLICA_URLS: process.env.DATABASE_REPLICA_URLS,
-  REDIS_URL: process.env.REDIS_URL,
   AUTH_SECRET:
     process.env.AUTH_SECRET ||
     process.env.NEXTAUTH_SECRET ||
@@ -61,7 +47,7 @@ const processEnv = {
   ADMIN_SESSION_CACHE_TTL_SEC: process.env.ADMIN_SESSION_CACHE_TTL_SEC,
   ADMIN_MAX_SESSIONS_PER_USER: process.env.ADMIN_MAX_SESSIONS_PER_USER,
   NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000",
-  NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3002",
+  NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:4001",
   JWT_SECRET: process.env.JWT_SECRET || "dev-jwt-secret-do-not-use-in-production",
   JWT_ADMIN_SECRET: process.env.JWT_ADMIN_SECRET || "dev_jwt_admin_secret_minimum_8_chars",
 };
