@@ -74,8 +74,8 @@ export default function GeneralSettingsPage() {
   useEffect(() => {
     if (!settings) return;
     const vals: Record<string, string> = {};
-    for (const [k, v] of Object.entries(settings)) {
-      vals[k] = v ?? "";
+    for (const [k, v] of Object.entries((settings as Record<string, string | null | undefined>) ?? {})) {
+      vals[k] = String(v ?? "");
     }
     setLocalValues(vals);
     setDirty(new Set());
@@ -101,8 +101,10 @@ export default function GeneralSettingsPage() {
     if (items.length > 0) bulkSetMut.mutate({ items });
   }
 
-  const customSettings = allSettings
-    ? Object.entries(allSettings).filter(([k]) => !ALL_KEYS.includes(k))
+  const customSettings: [string, string | null][] = allSettings
+    ? (Object.entries(allSettings as Record<string, string | null>).filter(
+        ([k]) => !ALL_KEYS.includes(k),
+      ) as [string, string | null][])
     : [];
 
   return (

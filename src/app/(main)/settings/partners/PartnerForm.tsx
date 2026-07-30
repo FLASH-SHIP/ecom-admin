@@ -594,14 +594,15 @@ export function PartnerForm({ partnerId }: PartnerFormProps) {
                       </span>
                     ) : services && services.length > 0 ? (
                       Array.from(new Set(services.map((s) => s.type))).map((type) => {
-                        const style = SERVICE_TYPE_STYLES[type];
-                        const label = style ? t(style.labelKey) : type;
+                        const typeStr = String(type);
+                        const style = SERVICE_TYPE_STYLES[typeStr];
+                        const label = style ? t(style.labelKey) : typeStr;
                         const colorClass = style
                           ? style.colorClass
                           : "bg-muted text-muted-foreground border-border";
                         return (
                           <span
-                            key={type}
+                            key={typeStr}
                             className={`text-xs font-semibold px-2.5 py-1 rounded-full border ${colorClass}`}
                           >
                             {label}

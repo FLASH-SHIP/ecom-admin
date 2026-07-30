@@ -71,8 +71,8 @@ export default function CommentsPage() {
           {STATUS_KEYS.map((tab) => {
             const count =
               tab.key === undefined
-                ? Object.values(counts ?? {}).reduce((a: number, b) => a + (b as number), 0)
-                : ((counts as Record<string, number> | undefined)?.[tab.key] ?? 0);
+                ? (Object.values(counts ?? {}) as number[]).reduce((a, b) => a + Number(b ?? 0), 0)
+                : Number((counts as Record<string, number> | undefined)?.[tab.key] ?? 0);
             const isActive = statusFilter === tab.key;
             return (
               <button
