@@ -136,7 +136,7 @@ export function RulesBuilder({ value, onChange }: RulesBuilderProps) {
               <div className="flex flex-col gap-2">
                 {group.map((condition, condIdx) => {
                   const selectedRule = ruleBySlug[condition.name];
-                  const valueOptions = selectedRule?.data ?? {};
+                  const valueOptions = (selectedRule?.data ?? {}) as Record<string, string>;
 
                   return (
                     // biome-ignore lint/suspicious/noArrayIndexKey: conditions within a group have no stable IDs
