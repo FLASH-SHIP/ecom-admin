@@ -2,17 +2,7 @@
 
 import { useToast } from "@admin/components/toast-provider";
 import { trpc } from "@admin/lib/trpc";
-import { TopupStatus } from "@flash-ship/ecom-types";
-import { Button } from "@flash-ship/ecom-ui/components/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@flash-ship/ecom-ui/components/dialog";
-import { Textarea } from "@flash-ship/ecom-ui/components/textarea";
-import { Loader2 } from "lucide-react";
+import { ConfirmModalType, TopupConfirmModal } from "@flash-ship/ecom-ui";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import type { TopupTransactionRow } from "./TopupManagementContent";
@@ -23,6 +13,11 @@ export interface RejectTopupModalProps {
   onSuccess: () => void;
 }
 
+/**
+ * Component Modal Từ Chối Giao Dịch Nạp Tiền (Dành cho Admin)
+ * - Tái sử dụng `TopupConfirmModal` từ `@flash-ship/ecom-ui` với kiểu `ConfirmModalType.DANGER` enum.
+ * - Hỗ trợ ô nhập Lý do từ chối (Textarea) và kiểm tra bắt buộc nhập.
+ */
 export function RejectTopupModal({
   transaction,
   onClose,
@@ -39,8 +34,9 @@ export function RejectTopupModal({
 
   const handleConfirm = () => {
     if (!reason.trim()) {
-      setErrorText(t("dialog.rejectReasonPlaceholder") || "Vui lòng nhập lý do từ chối");
-      toast("Vui lòng nhập lý do từ chối", "error");
+      const err = t("dialog.rejectReasonPlaceholder") || "Vui lòng nhập lý do từ chối";
+      setErrorText(err);
+      toast(err, "error");
       return;
     }
 
@@ -62,78 +58,41 @@ export function RejectTopupModal({
     );
   };
 
+  const handleCancel = () => {
+    setReason("");
+    setErrorText("");
+    onClose();
+  };
+
   return (
-    <Dialog
+    <TopupConfirmModal
       open={Boolean(transaction)}
-      onOpenChange={() => {
-        setReason("");
-        setErrorText("");
-        onClose();
+      onOpenChange={handleCancel}
+      type={ConfirmModalType.DANGER}
+      title={String(t("dialog.rejectTitle"))}
+      amountLabel={String(t("dialog.wireAmount"))}
+      transactionCode={transaction.transactionCode}
+      transactionCodeLabel={String(t("dialog.transactionCode"))}
+      customerName={transaction.customerName}
+      customerLabel={String(t("dialog.customer"))}
+      amount={transaction.wireAmount ? Number(transaction.wireAmount) : undefined}
+      paymentMethod={transaction.paymentMethod ? String(transaction.paymentMethod) : undefined}
+      paymentMethodLabel={String(t("dialog.paymentMethod"))}
+      paymentMethodIcon={transaction.paymentMethodIcon}
+      cancelText={String(t("dialog.cancel"))}
+      confirmText={String(t("dialog.confirmReject"))}
+      onCancel={handleCancel}
+      onConfirm={handleConfirm}
+      isSubmitting={cancelMutation.isPending}
+      showReasonInput={true}
+      reasonValue={reason}
+      onReasonChange={(val) => {
+        setReason(val);
+        if (val.trim()) setErrorText("");
       }}
-    >
-      <DialogContent className="max-w-md">
-        <DialogHeader>
-          <DialogTitle className="text-base font-bold text-slate-900 dark:text-slate-100">
-            {t("dialog.rejectTitle")}
-          </DialogTitle>
-        </DialogHeader>
-
-        <div className="flex flex-col gap-3 py-2">
-          <p className="text-xs text-slate-600 dark:text-slate-400">
-            {t("dialog.rejectTitle")}{" "}
-            <strong className="text-slate-900 dark:text-slate-100">#{transaction.transactionCode}</strong>{" "}
-            ({transaction.customerName})
-          </p>
-
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-              {t("dialog.rejectReason")} <span className="text-red-500">*</span>:
-            </label>
-            <Textarea
-              value={reason}
-              onChange={(e) => {
-                setReason(e.target.value);
-                if (e.target.value.trim()) setErrorText("");
-              }}
-              placeholder={t("dialog.rejectReasonPlaceholder")}
-              rows={3}
-              className={`text-xs resize-none ${errorText ? "border-red-500 focus-visible:ring-red-500" : ""}`}
-            />
-            {errorText && <span className="text-[11px] text-red-500">{errorText}</span>}
-          </div>
-        </div>
-
-        <DialogFooter className="gap-2 sm:gap-0">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              setReason("");
-              setErrorText("");
-              onClose();
-            }}
-            className="h-8 text-xs"
-          >
-            {t("dialog.cancel")}
-          </Button>
-          <Button
-            variant="default"
-            size="sm"
-            disabled={cancelMutation.isPending}
-            className="h-8 text-xs bg-red-600 hover:bg-red-700 text-white min-w-[90px] flex items-center justify-center gap-1.5"
-            onClick={handleConfirm}
-          >
-            {cancelMutation.isPending ? (
-              <>
-                <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                <span>{t("dialog.confirmReject")}</span>
-              </>
-            ) : (
-              t("dialog.confirmReject")
-            )}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+      reasonErrorText={errorText}
+      reasonPlaceholder={String(t("dialog.rejectReasonPlaceholder"))}
+      reasonLabel={String(t("dialog.rejectReason"))}
+    />
   );
 }
