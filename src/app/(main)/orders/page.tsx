@@ -8,7 +8,7 @@ import type {
   RowAction,
 } from "@admin/components/data-table/types";
 import { trpc } from "@admin/lib/trpc";
-import type { OrderStatus } from "@ecom/prisma";
+import type { OrderStatus } from "@flash-ship/ecom-types";
 import { Badge } from "@flash-ship/ecom-ui/components/badge";
 import { keepPreviousData } from "@tanstack/react-query";
 import type { ColumnDef } from "@tanstack/react-table";
