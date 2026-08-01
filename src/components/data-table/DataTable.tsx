@@ -59,6 +59,7 @@ import type {
   ColumnDef,
   ColumnOrderState,
   ColumnPinningState,
+  ColumnSizingState,
   Row,
   SortingState,
   Table as TanStackTable,
@@ -241,6 +242,7 @@ export function DataTable<T extends Record<string, unknown>>({
     };
   }, []);
   const [columnPinning, setColumnPinning] = useState<ColumnPinningState>({});
+  const [columnSizing, setColumnSizing] = useState<ColumnSizingState>({});
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: pinning logic checks selection, meta pins, and action columns
   useEffect(() => {
@@ -585,12 +587,14 @@ export function DataTable<T extends Record<string, unknown>>({
       pagination,
       columnPinning,
       columnOrder,
+      columnSizing,
     },
     onSortingChange: isServerMode ? handleSortingChange : setSorting,
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
     onColumnPinningChange: setColumnPinning,
     onColumnOrderChange: setColumnOrder,
+    onColumnSizingChange: setColumnSizing,
     onGlobalFilterChange: isServerMode
       ? (updater) => {
           const next = typeof updater === "function" ? updater(globalFilter) : updater;
@@ -957,8 +961,9 @@ export function DataTable<T extends Record<string, unknown>>({
                     <TableHead
                       key={header.id}
                       style={{
-                        width: header.getSize() !== 150 ? header.getSize() : undefined,
+                        width: header.getSize(),
                         minWidth: header.column.columnDef.minSize,
+                        maxWidth: header.column.columnDef.maxSize,
                         ...(isPinned
                           ? {
                               position: "sticky" as const,
@@ -993,16 +998,7 @@ export function DataTable<T extends Record<string, unknown>>({
                     >
                       {header.isPlaceholder ? null : header.column.id === "select" ||
                         header.column.id === "actions" ? (
-                        <div
-                          className={cn(
-                            "flex items-center gap-1 w-full",
-                            ((header.column.columnDef.meta as Record<string, string> | undefined)?.align === "center" ||
-                              header.column.id === "actions") &&
-                              "justify-center",
-                            (header.column.columnDef.meta as Record<string, string> | undefined)?.align === "right" &&
-                              "justify-end",
-                          )}
-                        >
+                        <div className="flex items-center gap-1">
                           {flexRender(header.column.columnDef.header, header.getContext())}
                         </div>
                       ) : (
@@ -1086,8 +1082,8 @@ export function DataTable<T extends Record<string, unknown>>({
                             ?.align === "right" && "text-right",
                         )}
                         style={{
-                          width: cell.column.getSize() !== 150 ? cell.column.getSize() : undefined,
                           minWidth: cell.column.columnDef.minSize,
+                          maxWidth: cell.column.columnDef.maxSize,
                           ...(isPinned
                             ? {
                                 position: "sticky" as const,
