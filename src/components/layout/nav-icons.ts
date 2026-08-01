@@ -1,6 +1,7 @@
 import {
   Activity,
   ClipboardList,
+  CreditCard,
   DatabaseBackup,
   File,
   FileText,
@@ -22,6 +23,7 @@ import {
   Tag,
   UserCheck,
   Users,
+  Wallet,
   Webhook,
   Wrench,
 } from "lucide-react";
@@ -55,6 +57,8 @@ const ICON_MAP: Record<string, LucideIcon> = {
   activity: Activity,
   "database-backup": DatabaseBackup,
   info: Info,
+  wallet: Wallet,
+  "credit-card": CreditCard,
 };
 
 export function getNavIcon(icon?: string): LucideIcon | null {

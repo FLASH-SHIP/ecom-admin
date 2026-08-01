@@ -137,6 +137,8 @@ export interface DataTableProps<T> {
   defaultPage?: number;
   /** Enable global search input in toolbar. Default: true */
   enableGlobalSearch?: boolean;
+  /** Custom search input placeholder text */
+  searchPlaceholder?: string;
   /** Enable column resizing. Default: true */
   enableColumnResizing?: boolean;
   /** Enable column pinning. Default: true */
@@ -173,6 +175,7 @@ export function DataTable<T extends Record<string, unknown>>({
   defaultPageSize = 25,
   defaultPage = 1,
   enableGlobalSearch = true,
+  searchPlaceholder,
   enableColumnResizing = true,
   enableColumnPinning = true,
   enableColumnOrdering = true,
@@ -736,7 +739,7 @@ export function DataTable<T extends Record<string, unknown>>({
                   setGlobalFilter(val);
                 }
               }}
-              placeholder={t("search")}
+              placeholder={searchPlaceholder || t("search")}
               minChars={2}
               debounceMs={300}
               className="w-full sm:w-auto sm:flex-1 sm:max-w-xs"
@@ -990,7 +993,16 @@ export function DataTable<T extends Record<string, unknown>>({
                     >
                       {header.isPlaceholder ? null : header.column.id === "select" ||
                         header.column.id === "actions" ? (
-                        <div className="flex items-center gap-1">
+                        <div
+                          className={cn(
+                            "flex items-center gap-1 w-full",
+                            ((header.column.columnDef.meta as Record<string, string> | undefined)?.align === "center" ||
+                              header.column.id === "actions") &&
+                              "justify-center",
+                            (header.column.columnDef.meta as Record<string, string> | undefined)?.align === "right" &&
+                              "justify-end",
+                          )}
+                        >
                           {flexRender(header.column.columnDef.header, header.getContext())}
                         </div>
                       ) : (
@@ -1074,6 +1086,7 @@ export function DataTable<T extends Record<string, unknown>>({
                             ?.align === "right" && "text-right",
                         )}
                         style={{
+                          width: cell.column.getSize() !== 150 ? cell.column.getSize() : undefined,
                           minWidth: cell.column.columnDef.minSize,
                           ...(isPinned
                             ? {

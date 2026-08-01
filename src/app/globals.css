@@ -268,6 +268,28 @@ body {
   background: var(--neutral-700);
 }
 
+/* Isolated 3px scrollbar for SearchableSelect */
+.searchable-select-scrollbar::-webkit-scrollbar {
+  width: 3px !important;
+  height: 3px !important;
+}
+.searchable-select-scrollbar::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+.searchable-select-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.18) !important;
+  border-radius: 9999px !important;
+}
+.dark .searchable-select-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.22) !important;
+}
+.searchable-select-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.35) !important;
+}
+.dark .searchable-select-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.45) !important;
+}
+
 /*
  * perfect-scrollbar overrides
  * PerfectScroll component uses perfect-scrollbar (like Fuse React theme).

@@ -93,4 +93,5 @@ if (finalConfig.experimental) {
   delete (finalConfig.experimental as Record<string, unknown>).turbo;
 }
 
+// Re-bundle i18n request modules
 export default finalConfig;

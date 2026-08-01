@@ -105,6 +105,25 @@ const navigationConfig: NavItemType[] = [
     ],
   },
 
+  // ── Finance ───────────────────────────────────────────────────────
+  {
+    id: "finance",
+    title: "Tài chính",
+    translate: "nav.finance",
+    type: "group",
+    children: [
+      {
+        id: "topup-management",
+        title: "Quản lý nạp tiền",
+        translate: "nav.topupManagement",
+        type: "item",
+        icon: "lucide:wallet",
+        url: "/topup-management",
+        auth: [Permissions.TOPUP_TRANSACTIONS_READ],
+      },
+    ],
+  },
+
   // ── Content ─────────────────────────────────────────────────────
   {
     id: "content",

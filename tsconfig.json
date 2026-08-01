@@ -44,8 +44,8 @@
       "@flash-ship/ecom-trpc-types": ["../ecom-shared-packages/packages/trpc-types/src/index.ts"],
       "@flash-ship/ecom-trpc-types/*": ["../ecom-shared-packages/packages/trpc-types/*"],
       "@ecom/features/*": ["../ecom-shared-packages/packages/trpc-types/stubs/index.d.ts"],
-      "@ecom/prisma": ["../ecom-shared-packages/packages/trpc-types/stubs/index.d.ts"],
-      "@ecom/prisma/*": ["../ecom-shared-packages/packages/trpc-types/stubs/index.d.ts"]
+      "@ecom/prisma": ["../ecom-api/packages/prisma/src/index.ts"],
+      "@ecom/prisma/*": ["../ecom-api/packages/prisma/src/*"]
     }
   },
   "include": [

@@ -54,6 +54,7 @@ export default getRequestConfig(async () => {
           orders: (await import("@flash-ship/ecom-i18n/locales/vi/orders.json")).default,
           auth: (await import("@flash-ship/ecom-i18n/locales/vi/auth.json")).default,
           nav: (await import("@flash-ship/ecom-i18n/locales/vi/nav.json")).default,
+          topup: (await import("@flash-ship/ecom-i18n/locales/vi/topup.json")).default,
         }
       : {
           ...(await import("@flash-ship/ecom-i18n/locales/en/common.json")).default,
@@ -84,6 +85,7 @@ export default getRequestConfig(async () => {
           orders: (await import("@flash-ship/ecom-i18n/locales/en/orders.json")).default,
           auth: (await import("@flash-ship/ecom-i18n/locales/en/auth.json")).default,
           nav: (await import("@flash-ship/ecom-i18n/locales/en/nav.json")).default,
+          topup: (await import("@flash-ship/ecom-i18n/locales/en/topup.json")).default,
         };
 
   return {

@@ -100,7 +100,17 @@ export function ColumnHeaderMenu<T>({
   }, [onColumnDragChange]);
 
   return (
-    <div className={cn("flex items-center gap-1 w-full", isDragging && "opacity-50")}>
+    <div
+      className={cn(
+        "flex items-center gap-1 w-full",
+        ((column.columnDef.meta as Record<string, string> | undefined)?.align === "center" ||
+          column.id === "actions") &&
+          "justify-center",
+        (column.columnDef.meta as Record<string, string> | undefined)?.align === "right" &&
+          "justify-end",
+        isDragging && "opacity-50",
+      )}
+    >
       {/* Column name + sort indicator (clickable to sort) */}
       {/* biome-ignore lint/a11y/noStaticElementInteractions: TanStack Table pattern for sort toggle */}
       {/* biome-ignore lint/a11y/useKeyWithClickEvents: keyboard sort handled via TanStack's getToggleSortingHandler */}
