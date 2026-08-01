@@ -9,7 +9,7 @@ import { useConfirm } from "@admin/components/ui/useConfirm";
 import { useDebounce } from "@admin/lib/hooks/useDebounce";
 import { trpc } from "@admin/lib/trpc";
 import { formatDate } from "@admin/utils/dateFormat";
-import type { ContentStatus } from "@ecom/prisma";
+import type { ContentStatus } from "@flash-ship/ecom-types";
 import { Badge } from "@flash-ship/ecom-ui/components/badge";
 import { Button } from "@flash-ship/ecom-ui/components/button";
 import { Input } from "@flash-ship/ecom-ui/components/input";
