@@ -7,6 +7,7 @@ import { Input } from "@flash-ship/ecom-ui/components/input";
 import { SearchableSelect } from "@flash-ship/ecom-ui/components/searchable-select";
 import { Filter, Plus, Trash2, X } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useMemo } from "react";
 import { getDefaultOperators, OPERATOR_GROUP_ENDS, OPERATOR_ICONS } from "./filter-operators";
 import { validateFilter } from "./filter-validation";
 import type { ActiveFilter, FilterFieldDef, FilterOperator } from "./types";
@@ -42,6 +43,12 @@ export function FilterPanel({
 }: FilterPanelProps) {
   const t = useTranslations("dataTable");
 
+  const usedFieldKeys = useMemo(() => {
+    return new Set(filters.map((f) => f.fieldKey).filter(Boolean));
+  }, [filters]);
+
+  const allFieldsUsed = fields.length > 0 && usedFieldKeys.size >= fields.length;
+
   if (!open) return null;
 
   return (
@@ -72,6 +79,7 @@ export function FilterPanel({
               key={filter.id}
               filter={filter}
               fields={fields}
+              allFilters={filters}
               onUpdate={(patch) => onUpdate(filter.id, patch)}
               onRemove={() => onRemove(filter.id)}
               onApply={onApply}
@@ -83,7 +91,13 @@ export function FilterPanel({
 
       {/* Actions */}
       <div className="flex items-center gap-2 border-t border-border px-4 py-2.5">
-        <Button variant="outline" size="sm" onClick={onAdd}>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={onAdd}
+          disabled={allFieldsUsed}
+          title={allFieldsUsed ? t("filter.allFieldsUsed") : undefined}
+        >
           <Plus className="mr-1.5 size-3.5" />
           {t("filter.addFilter")}
         </Button>
@@ -110,6 +124,7 @@ export function FilterPanel({
 function FilterRow({
   filter,
   fields,
+  allFilters,
   onUpdate,
   onRemove,
   onApply,
@@ -117,6 +132,7 @@ function FilterRow({
 }: {
   filter: ActiveFilter;
   fields: FilterFieldDef[];
+  allFilters: ActiveFilter[];
   onUpdate: (patch: Partial<ActiveFilter>) => void;
   onRemove: () => void;
   onApply: () => void;
@@ -134,7 +150,25 @@ function FilterRow({
     onUpdate({ fieldKey: key, operator: firstOp, value: "" });
   };
 
-  const fieldOptions = fields.map((f) => ({ value: f.key, label: f.label }));
+  const otherUsedFieldKeys = useMemo(() => {
+    return new Set(
+      allFilters
+        .filter((f) => f.id !== filter.id)
+        .map((f) => f.fieldKey)
+        .filter(Boolean),
+    );
+  }, [allFilters, filter.id]);
+
+  const fieldOptions = useMemo(() => {
+    return fields.map((f) => {
+      const isUsedInOtherRow = otherUsedFieldKeys.has(f.key);
+      return {
+        value: f.key,
+        label: isUsedInOtherRow ? `${f.label} ${t("filter.alreadySelected")}` : f.label,
+        disabled: isUsedInOtherRow,
+      };
+    });
+  }, [fields, otherUsedFieldKeys, t]);
 
   const operatorOptions = operators.map((op: FilterOperator) => ({
     value: op.value,

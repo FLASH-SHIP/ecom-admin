@@ -378,7 +378,10 @@ export default function RatesContent() {
         tooltip: t("rates.btnSubmitReview"),
         icon: <CheckCircle size={15} />,
         color: "primary",
-        hidden: (row) => !canUpdate || (row.status !== "DRAFT" && row.status !== "REJECTED"),
+        hidden: (row) =>
+          !canUpdate ||
+          (row.status !== "DRAFT" && row.status !== "REJECTED") ||
+          (row.type === "CUSTOM" && (!row.groups || row.groups.length === 0)),
         onClick: (row) => {
           askConfirm({
             title: t("rates.btnSubmitReview"),

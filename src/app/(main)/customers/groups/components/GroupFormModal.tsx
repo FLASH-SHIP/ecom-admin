@@ -21,8 +21,8 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
 const _schemaShape = z.object({
-  name: z.string().min(1).max(100),
-  code: z.string().min(1).max(50),
+  name: z.string().min(2).max(100),
+  code: z.string().min(2).max(50),
   description: z.string().max(500).optional().nullable(),
 });
 
@@ -54,13 +54,27 @@ export function GroupFormModal({ groupId, open, onClose, onSaved }: GroupFormMod
   );
 
   const schema = z.object({
-    name: z.string().min(1, t("validation.nameRequired")),
-    code: z.string().min(1, t("validation.codeRequired")),
-    description: z.string().max(500).optional().nullable(),
+    name: z
+      .string()
+      .trim()
+      .min(1, t("validation.nameRequired"))
+      .min(2, t("validation.nameMinLength", { min: 2 }))
+      .max(100, t("validation.nameMaxLength", { max: 100 })),
+    code: z
+      .string()
+      .trim()
+      .min(1, t("validation.codeRequired"))
+      .min(2, t("validation.codeMinLength", { min: 2 }))
+      .max(50, t("validation.codeMaxLength", { max: 50 })),
+    description: z
+      .string()
+      .max(500, t("validation.descriptionMaxLength", { max: 500 }))
+      .optional()
+      .nullable(),
   });
 
-  const { control, handleSubmit, formState, reset } = useForm<FormValues>({
-    mode: "onChange",
+  const { control, handleSubmit, formState, reset, setError } = useForm<FormValues>({
+    mode: "onTouched",
     defaultValues,
     resolver: zodResolver(schema),
   });
@@ -83,15 +97,25 @@ export function GroupFormModal({ groupId, open, onClose, onSaved }: GroupFormMod
 
   const utils = trpc.useUtils();
 
+  function handleServerError(err: { message: string }) {
+    const msg = err.message || "";
+    const lowerMsg = msg.toLowerCase();
+    if (lowerMsg.includes("mã nhóm") || lowerMsg.includes("code")) {
+      setError("code", { type: "server", message: msg });
+    } else if (lowerMsg.includes("tên nhóm") || lowerMsg.includes("name")) {
+      setError("name", { type: "server", message: msg });
+    } else {
+      toast(msg, "error");
+    }
+  }
+
   const createMut = trpc.viewer.customerGroups.create.useMutation({
     onSuccess: () => {
       utils.viewer.customerGroups.list.invalidate();
       toast(t("messages.createSuccess"), "success");
       onSaved();
     },
-    onError: (err) => {
-      toast(err.message, "error");
-    },
+    onError: handleServerError,
   });
 
   const updateMut = trpc.viewer.customerGroups.update.useMutation({
@@ -101,9 +125,7 @@ export function GroupFormModal({ groupId, open, onClose, onSaved }: GroupFormMod
       toast(t("messages.updateSuccess"), "success");
       onSaved();
     },
-    onError: (err) => {
-      toast(err.message, "error");
-    },
+    onError: handleServerError,
   });
 
   async function onSubmit(data: FormValues) {
@@ -216,8 +238,8 @@ export function GroupFormModal({ groupId, open, onClose, onSaved }: GroupFormMod
                 )}
               />
 
-              {/* Server error */}
-              {anyError && (
+              {/* Server error (only show if not mapped to a specific field error) */}
+              {anyError && !formState.errors.code && !formState.errors.name && (
                 <div className="flex items-center gap-2 rounded-md border border-destructive/30 bg-red-50 px-4 py-3 text-sm text-destructive dark:bg-red-950">
                   <AlertCircle className="size-4 shrink-0" />
                   {anyError.message}

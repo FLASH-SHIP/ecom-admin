@@ -28,6 +28,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@flash-ship/ecom-ui/co
 import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@flash-ship/ecom-ui/components/dialog";
+import {
   AlertCircle,
   CheckCircle,
   ChevronLeft,
@@ -38,6 +45,7 @@ import {
   Save,
   Scale,
   Trash2,
+  UserPlus,
   Users,
   Wand2,
 } from "lucide-react";
@@ -421,6 +429,8 @@ interface GeneralInfoTabProps {
   tSettings: (key: string, values?: Record<string, string | number | Date>) => string;
   status: ContentStatus;
   rateCardId: number | null;
+  assignedGroups: { id: number; code: string; name: string }[];
+  onOpenAssignGroups: () => void;
 }
 
 function getFieldErrorMessage(
@@ -549,6 +559,8 @@ function GeneralInfoTab({
   tSettings,
   status,
   rateCardId,
+  assignedGroups,
+  onOpenAssignGroups,
 }: GeneralInfoTabProps) {
   const shippingMethod = watch("shippingMethod");
   const type = watch("type");
@@ -582,6 +594,48 @@ function GeneralInfoTab({
       {overlapRes?.hasOverlap && overlapRes.overlappingCards && (
         <OverlapWarningBanner cards={overlapRes.overlappingCards} />
       )}
+
+      {/* Customer Groups Callout for CUSTOM Rate Card */}
+      {type === "CUSTOM" && !isCreate && (
+        <div className="flex flex-col gap-2 rounded-lg border border-border bg-muted/20 p-4">
+          <div className="flex items-center justify-between gap-2">
+            <Label className="font-semibold text-xs flex items-center gap-1.5">
+              <Users className="size-4 text-primary" />
+              Nhóm khách hàng áp dụng <span className="text-destructive">*</span>
+            </Label>
+            {!isReadOnly && (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="h-8 text-xs gap-1"
+                onClick={onOpenAssignGroups}
+              >
+                <UserPlus className="size-3.5" />
+                {assignedGroups.length > 0 ? "Chỉnh sửa nhóm" : "Gán nhóm khách hàng"}
+              </Button>
+            )}
+          </div>
+
+          {assignedGroups.length > 0 ? (
+            <div className="flex flex-wrap gap-1.5 pt-1">
+              {assignedGroups.map((g) => (
+                <Badge key={g.id} variant="secondary" className="text-xs">
+                  {g.name} ({g.code})
+                </Badge>
+              ))}
+            </div>
+          ) : (
+            <div className="flex items-center gap-2 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-800 dark:bg-amber-950/30 dark:text-amber-300">
+              <AlertCircle className="size-4 shrink-0" />
+              <span>
+                <strong>Chưa gán nhóm khách hàng:</strong> Bảng giá tùy chỉnh bắt buộc phải được gán ít nhất một nhóm khách hàng trước khi gửi duyệt.
+              </span>
+            </div>
+          )}
+        </div>
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="code" className="font-semibold text-xs">
@@ -1283,6 +1337,7 @@ interface FormHeaderProps {
   isPending: boolean;
   slabsCount: number;
   totalSlabErrors?: number;
+  hasAssignedGroups?: boolean;
   tSettings: (key: string, values?: Record<string, string | number | Date>) => string;
   onBack: () => void;
   onSaveInfo: () => void;
@@ -1367,6 +1422,7 @@ function InfoTabButtons({
   isPending,
   isInfoDirty,
   totalSlabErrors = 0,
+  hasAssignedGroups = true,
   tSettings,
   onSaveInfo,
   onSubmitReview,
@@ -1378,7 +1434,7 @@ function InfoTabButtons({
 }: Omit<FormHeaderProps, "activeTab" | "slabsCount" | "onBack" | "onSaveSlabs" | "isSlabsDirty">) {
   const isDraftOrRejected = status === "DRAFT" || status === "REJECTED";
   const canSave = isCreate ? canCreate : canUpdate && isDraftOrRejected;
-  const canSubmit = !isCreate && canUpdate && isDraftOrRejected;
+  const canSubmit = !isCreate && canUpdate && isDraftOrRejected && hasAssignedGroups;
   const canApproveReject = !isCreate && canApprove && status === "PENDING";
 
   return (
@@ -1701,6 +1757,51 @@ export function RateCardForm({ rateCardId }: RateCardFormProps) {
     }
   }, [isInfoDirty, isSlabsDirty, askConfirm, router, tSettings]);
 
+  const assignedGroups = useMemo(() => {
+    if (!existingRate?.groups) return [];
+    return existingRate.groups.map((g) => ({
+      id: g.customerGroup.id,
+      code: g.customerGroup.code,
+      name: g.customerGroup.name,
+    }));
+  }, [existingRate]);
+
+  const hasAssignedGroups = formData.type === "CUSTOM" ? assignedGroups.length > 0 : true;
+
+  const [assignGroupModalOpen, setAssignGroupModalOpen] = useState(false);
+  const [selectedGroupIds, setSelectedGroupIds] = useState<number[]>([]);
+  const [groupSearch, setGroupSearch] = useState("");
+
+  const { data: allGroups } = trpc.viewer.customerGroups.listAll.useQuery(undefined, {
+    enabled: formData.type === "CUSTOM" && assignGroupModalOpen,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const filteredGroups = useMemo(() => {
+    if (!allGroups) return [];
+    if (!groupSearch.trim()) return allGroups;
+    const term = groupSearch.toLowerCase().trim();
+    return allGroups.filter(
+      (g) => g.code.toLowerCase().includes(term) || g.name.toLowerCase().includes(term),
+    );
+  }, [allGroups, groupSearch]);
+
+  const assignGroupsMut = trpc.viewer.rateCards.assignGroups.useMutation({
+    onSuccess: () => {
+      t.toast("Đã cập nhật nhóm khách hàng thành công.", "success");
+      setAssignGroupModalOpen(false);
+      utils.viewer.rateCards.get.invalidate({ id: rateCardId ?? 0 });
+      utils.viewer.rateCards.list.invalidate();
+    },
+    onError: (err) => t.toast(formatErrorMessage(err.message), "error"),
+  });
+
+  const handleOpenAssignGroups = useCallback(() => {
+    setSelectedGroupIds(assignedGroups.map((g) => g.id));
+    setGroupSearch("");
+    setAssignGroupModalOpen(true);
+  }, [assignedGroups]);
+
   const totalSlabErrors = useMemo(() => {
     return countSlabErrors(slabs, formData, tSettings);
   }, [slabs, formData, tSettings]);
@@ -1711,7 +1812,8 @@ export function RateCardForm({ rateCardId }: RateCardFormProps) {
     submitReviewMut.isPending ||
     approveMut.isPending ||
     rejectMut.isPending ||
-    importSlabsMut.isPending;
+    importSlabsMut.isPending ||
+    assignGroupsMut.isPending;
 
   if (loadingDetails) {
     return (
@@ -1731,6 +1833,7 @@ export function RateCardForm({ rateCardId }: RateCardFormProps) {
         isPending={isPending}
         slabsCount={slabs.length}
         totalSlabErrors={totalSlabErrors}
+        hasAssignedGroups={hasAssignedGroups}
         tSettings={tSettings}
         onBack={handleBack}
         onSaveInfo={handleSaveInfo}
@@ -1796,6 +1899,8 @@ export function RateCardForm({ rateCardId }: RateCardFormProps) {
                 tSettings={tSettings}
                 status={formData.status}
                 rateCardId={rateCardId}
+                assignedGroups={assignedGroups}
+                onOpenAssignGroups={handleOpenAssignGroups}
               />
             </TabsContent>
 
@@ -1820,6 +1925,100 @@ export function RateCardForm({ rateCardId }: RateCardFormProps) {
           </CardContent>
         </Card>
       </Tabs>
+
+      {/* Assign Groups Modal */}
+      {assignGroupModalOpen && (
+        <Dialog open={assignGroupModalOpen} onOpenChange={setAssignGroupModalOpen}>
+          <DialogContent className="max-w-lg sm:max-w-xl overflow-hidden">
+            <DialogHeader>
+              <DialogTitle className="text-base font-bold break-all pr-6">
+                Gán nhóm khách hàng: {formData.code}
+              </DialogTitle>
+            </DialogHeader>
+
+            <div className="flex flex-col gap-3 py-2">
+              <span className="text-xs text-muted-foreground">
+                Vui lòng chọn các nhóm khách hàng được áp dụng bảng giá cước tùy chỉnh này:
+              </span>
+
+              <Input
+                type="text"
+                placeholder="Tìm kiếm nhóm khách hàng (mã, tên)..."
+                value={groupSearch}
+                onChange={(e) => setGroupSearch(e.target.value)}
+                className="h-9 text-xs"
+              />
+
+              <div className="flex flex-col gap-1.5 border border-input rounded-lg p-2 max-h-64 sm:max-h-72 overflow-y-auto bg-muted/10">
+                {filteredGroups.length === 0 ? (
+                  <span className="text-xs text-muted-foreground italic text-center py-6">
+                    Không tìm thấy nhóm khách hàng nào
+                  </span>
+                ) : (
+                  filteredGroups.map((group) => {
+                    const checked = selectedGroupIds.includes(group.id);
+                    return (
+                      <label
+                        key={group.id}
+                        className="flex items-start gap-2.5 text-xs sm:text-sm cursor-pointer select-none hover:bg-accent/60 p-2 rounded-md transition-colors border border-transparent hover:border-border/60"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={checked}
+                          onChange={() => {
+                            setSelectedGroupIds((prev) =>
+                              checked ? prev.filter((id) => id !== group.id) : [...prev, group.id],
+                            );
+                          }}
+                          className="mt-0.5 rounded border-input text-primary focus:ring-primary size-4 shrink-0"
+                        />
+                        <div className="flex flex-col min-w-0 flex-1">
+                          <span className="font-medium text-foreground break-all leading-tight">
+                            {group.name}
+                          </span>
+                          <span className="text-[11px] font-mono text-muted-foreground break-all mt-0.5">
+                            ({group.code})
+                          </span>
+                        </div>
+                      </label>
+                    );
+                  })
+                )}
+              </div>
+            </div>
+
+            <DialogFooter className="flex flex-row items-center justify-between sm:justify-between gap-2 border-t border-border/60 pt-3">
+              <span className="text-xs text-muted-foreground">
+                Đã chọn:{" "}
+                <strong className="font-semibold text-primary">{selectedGroupIds.length}</strong>{" "}
+                nhóm
+              </span>
+              <div className="flex items-center gap-2">
+                <Button variant="outline" size="sm" onClick={() => setAssignGroupModalOpen(false)}>
+                  Hủy
+                </Button>
+                <Button
+                  size="sm"
+                  disabled={assignGroupsMut.isPending || !rateCardId}
+                  onClick={() => {
+                    if (rateCardId) {
+                      assignGroupsMut.mutate({
+                        id: rateCardId,
+                        customerGroupIds: selectedGroupIds,
+                      });
+                    }
+                  }}
+                >
+                  {assignGroupsMut.isPending ? (
+                    <Loader2 className="mr-1.5 size-4 animate-spin" />
+                  ) : null}
+                  Lưu Nhóm Khách Hàng
+                </Button>
+              </div>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      )}
 
       <ConfirmDialog {...confirmDialogProps} />
     </div>
