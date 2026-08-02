@@ -122,6 +122,13 @@ export function AssignMembersModal({
   const totalCount = membersData?.total ?? 0;
   const totalPages = Math.max(1, Math.ceil(totalCount / perPage));
 
+  // Clamp current page if totalPages changes and page exceeds totalPages
+  useEffect(() => {
+    if (page > totalPages && totalPages > 0) {
+      setPage(totalPages);
+    }
+  }, [page, totalPages]);
+
   // Checkbox Select All for current page in Table
   const isAllTableSelected =
     membersList.length > 0 && membersList.every((m) => selectedTableMemberIds.includes(m.id));
@@ -282,19 +289,19 @@ export function AssignMembersModal({
     <>
       <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
         <DialogContent
-          className="max-w-3xl p-0 overflow-hidden sm:max-w-4xl"
+          className="flex max-h-[85vh] max-w-3xl flex-col overflow-hidden p-0 sm:max-w-4xl"
           onPointerDownOutside={(e) => e.preventDefault()}
         >
           {/* Header */}
-          <DialogHeader className="border-b border-border px-6 py-4">
+          <DialogHeader className="shrink-0 border-b border-border px-6 py-4">
             <DialogTitle className="text-lg font-semibold text-foreground">
               {t("assignModal.title", { groupName: groupName ?? "" })}
             </DialogTitle>
           </DialogHeader>
 
-          <div className="flex flex-col gap-4 px-6 py-4">
+          <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-6 py-4 min-h-0">
             {/* Top Toolbar */}
-            <div className="flex items-center gap-3">
+            <div className="flex shrink-0 items-center gap-3">
               {/* 1. Search Table Members */}
               <SearchInput
                 value={memberSearch}
@@ -505,10 +512,10 @@ export function AssignMembersModal({
               ) : null}
             </div>
 
-            {/* Standard Table Component */}
-            <div className="overflow-hidden rounded-md border border-border">
+            {/* Standard Table Component with Scrollbar */}
+            <div className="max-h-[360px] flex-1 overflow-y-auto rounded-md border border-border">
               <Table>
-                <TableHeader className="bg-muted/50">
+                <TableHeader className="sticky top-0 z-10 bg-muted/90 backdrop-blur-sm">
                   <TableRow>
                     <TableHead className="w-12 text-center">
                       <Checkbox
@@ -582,7 +589,7 @@ export function AssignMembersModal({
             </div>
 
             {/* Pagination & Note below */}
-            <div className="flex flex-col gap-2">
+            <div className="flex shrink-0 flex-col gap-2">
               <DataTablePagination
                 page={page}
                 totalPages={totalPages}
@@ -594,7 +601,7 @@ export function AssignMembersModal({
           </div>
 
           {/* Standard DialogFooter */}
-          <DialogFooter className="border-t border-border px-6 py-4">
+          <DialogFooter className="shrink-0 border-t border-border px-6 py-4">
             <Button type="button" variant="outline" onClick={onClose} disabled={isMutating}>
               {tCommon("close")}
             </Button>

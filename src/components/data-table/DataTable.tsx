@@ -334,19 +334,24 @@ export function DataTable<T extends Record<string, unknown>>({
   const activeFiltersRef = useRef(activeFilters);
   activeFiltersRef.current = activeFilters;
 
-  const createFilterRow = useCallback((): ActiveFilter => {
-    const firstField = filterFields?.[0];
-    const firstOp = firstField?.operators?.[0]?.value ?? "contains";
-    return {
-      id: crypto.randomUUID(),
-      fieldKey: firstField?.key ?? "",
-      operator: firstOp,
-      value: "",
-    };
-  }, [filterFields]);
+  const createFilterRow = useCallback(
+    (currentFilters: ActiveFilter[] = []): ActiveFilter => {
+      const usedKeys = new Set(currentFilters.map((f) => f.fieldKey).filter(Boolean));
+      const firstUnusedField =
+        filterFields?.find((f) => !usedKeys.has(f.key)) ?? filterFields?.[0];
+      const firstOp = firstUnusedField?.operators?.[0]?.value ?? "contains";
+      return {
+        id: crypto.randomUUID(),
+        fieldKey: firstUnusedField?.key ?? "",
+        operator: firstOp,
+        value: "",
+      };
+    },
+    [filterFields],
+  );
 
   const addFilterRow = useCallback(() => {
-    setPendingFilters((prev) => [...prev, createFilterRow()]);
+    setPendingFilters((prev) => [...prev, createFilterRow(prev)]);
   }, [createFilterRow]);
 
   const removeFilterRow = useCallback((id: string) => {
@@ -360,7 +365,7 @@ export function DataTable<T extends Record<string, unknown>>({
   const openFilterPanel = useCallback(() => {
     setPendingFilters((prev) => {
       if (prev.length === 0 && activeFiltersRef.current.length === 0) {
-        return [createFilterRow()];
+        return [createFilterRow([])];
       }
       if (prev.length === 0) return [...activeFiltersRef.current];
       return prev;
@@ -1039,10 +1044,8 @@ export function DataTable<T extends Record<string, unknown>>({
           <TableBody>
             {isLoading ? (
               Array.from({ length: 5 }).map((_, i) => (
-                // biome-ignore lint/suspicious/noArrayIndexKey: static skeleton rows never reorder
                 <TableRow key={`skeleton-${i}`}>
                   {allColumns.map((_col, j) => (
-                    // biome-ignore lint/suspicious/noArrayIndexKey: static skeleton cells never reorder
                     <TableCell key={`sk-${i}-${j}`} className={densityPadding}>
                       <Skeleton className="h-4 w-3/4" />
                     </TableCell>
