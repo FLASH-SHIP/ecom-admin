@@ -1,10 +1,17 @@
 "use client";
 
 import { useToast } from "@admin/components/toast-provider";
-import { PhoneInput } from "@flash-ship/ecom-ui/domain";
 import { trpc } from "@admin/lib/trpc";
+import { PHONE_REGEX } from "@flash-ship/ecom-types";
 import { Button } from "@flash-ship/ecom-ui/components/button";
 import { DatePicker } from "@flash-ship/ecom-ui/components/date-picker";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@flash-ship/ecom-ui/components/dialog";
 import { Input } from "@flash-ship/ecom-ui/components/input";
 import { Label } from "@flash-ship/ecom-ui/components/label";
 import { PerfectScroll } from "@flash-ship/ecom-ui/components/perfect-scroll";
@@ -15,9 +22,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@flash-ship/ecom-ui/components/select";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@flash-ship/ecom-ui/components/sheet";
 import { Switch } from "@flash-ship/ecom-ui/components/switch";
 import { Textarea } from "@flash-ship/ecom-ui/components/textarea";
+import { PhoneInput } from "@flash-ship/ecom-ui/domain";
 import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertCircle, Eye, EyeOff, Loader2, Save } from "lucide-react";
@@ -25,8 +32,6 @@ import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
-
-// ── Static schema for type inference only (no messages needed) ───────────────
 
 const _schemaShape = z.object({
   name: z.string().min(1).max(200),
@@ -60,24 +65,15 @@ const defaultValues: FormValues = {
   groupId: null,
 };
 
-// ── Props ─────────────────────────────────────────────────────────────────────
-
-interface CustomerFormDrawerProps {
+interface CustomerFormModalProps {
   customerId?: string | null;
   open: boolean;
   onClose: () => void;
   onSaved: () => void;
 }
 
-// ── Component ─────────────────────────────────────────────────────────────────
-
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: form drawer contains custom validations and both edit/create routes
-export function CustomerFormDrawer({
-  customerId,
-  open,
-  onClose,
-  onSaved,
-}: CustomerFormDrawerProps) {
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: form modal contains custom validations and both edit/create routes
+export function CustomerFormModal({ customerId, open, onClose, onSaved }: CustomerFormModalProps) {
   const t = useTranslations("customers");
   const tUsers = useTranslations("users");
   const tCommon = useTranslations("common");
@@ -97,19 +93,29 @@ export function CustomerFormDrawer({
       enabled: open,
     });
 
-  // ── Schema built inside component to access t() and isEdit ──────────────────
   const schema = z
     .object({
-      name: z.string().min(1, t("validation.nameRequired")).max(200),
+      name: z.string().min(1, t("validation.nameRequired")).max(200, t("validation.nameMax")),
       email: z.string().min(1, t("validation.emailRequired")).email(t("validation.emailInvalid")),
       password: z.string().optional(),
       confirmPassword: z.string().optional(),
       changePassword: z.boolean().optional(),
-      username: z.string().max(30).optional(),
-      phone: z.string().max(20).optional(),
+      username: z
+        .string()
+        .max(30, t("validation.usernameMax"))
+        .refine((val) => !val || /^[a-z0-9_.]{3,30}$/.test(val), t("validation.usernameInvalid"))
+        .optional(),
+      phone: z
+        .string()
+        .max(20, t("validation.phoneMax"))
+        .refine(
+          (val) => !val || PHONE_REGEX.test(val.replace(/[\s\-().]/g, "")),
+          t("validation.phoneInvalid"),
+        )
+        .optional(),
       dob: z.string().optional(),
       gender: z.enum(["male", "female", "other"]).optional(),
-      description: z.string().max(1000).optional(),
+      description: z.string().max(1000, t("validation.descriptionMax")).optional(),
       groupId: z.number().int().positive().nullable().optional(),
     })
     // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: superRefine contains conditional password check complexity
@@ -125,6 +131,12 @@ export function CustomerFormDrawer({
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: t("validation.passwordMin"),
+            path: ["password"],
+          });
+        } else if (data.password.length > 100) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: t("validation.passwordMax"),
             path: ["password"],
           });
         }
@@ -150,6 +162,12 @@ export function CustomerFormDrawer({
               message: t("validation.passwordMin"),
               path: ["password"],
             });
+          } else if (data.password.length > 100) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: t("validation.passwordMax"),
+              path: ["password"],
+            });
           }
 
           if (!data.confirmPassword) {
@@ -169,7 +187,7 @@ export function CustomerFormDrawer({
       }
     });
 
-  const { control, handleSubmit, formState, reset, setValue, clearErrors, watch } =
+  const { control, handleSubmit, formState, reset, setValue, clearErrors, watch, setError } =
     useForm<FormValues>({
       mode: "onChange",
       defaultValues,
@@ -177,10 +195,8 @@ export function CustomerFormDrawer({
     });
 
   const changePasswordToggle = watch("changePassword") ?? false;
-
   const { isSubmitting } = formState;
 
-  // Reset form when drawer opens or data is loaded
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: resets nested form properties conditionally depending on create/edit mode
   useEffect(() => {
     if (open) {
@@ -220,15 +236,47 @@ export function CustomerFormDrawer({
 
   const utils = trpc.useUtils();
 
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: handleServerError maps backend error strings to form field errors
+  const handleServerError = (err: { message: string }) => {
+    const msg = err.message || "";
+    toast(msg, "error");
+
+    if (/email/i.test(msg)) {
+      setError("email", {
+        type: "server",
+        message:
+          msg.includes("already exists") || msg.includes("tồn tại")
+            ? "Email này đã được sử dụng trong hệ thống"
+            : msg,
+      });
+    } else if (/username/i.test(msg) || /tên đăng nhập/i.test(msg)) {
+      setError("username", {
+        type: "server",
+        message:
+          msg.includes("already taken") || msg.includes("tồn tại")
+            ? "Tên đăng nhập này đã được sử dụng"
+            : msg,
+      });
+    } else if (/phone/i.test(msg) || /số điện thoại/i.test(msg) || /định dạng/i.test(msg)) {
+      setError("phone", {
+        type: "server",
+        message: msg,
+      });
+    } else if (/password/i.test(msg) || /mật khẩu/i.test(msg)) {
+      setError("password", {
+        type: "server",
+        message: msg,
+      });
+    }
+  };
+
   const createMut = trpc.viewer.customers.create.useMutation({
     onSuccess: () => {
       utils.viewer.customers.list.invalidate();
       toast(tCommon("successCreated"), "success");
       onSaved();
     },
-    onError: (err) => {
-      toast(err.message, "error");
-    },
+    onError: handleServerError,
   });
 
   const updateMut = trpc.viewer.customers.update.useMutation({
@@ -238,18 +286,14 @@ export function CustomerFormDrawer({
       toast(tCommon("successUpdated"), "success");
       onSaved();
     },
-    onError: (err) => {
-      toast(err.message, "error");
-    },
+    onError: handleServerError,
   });
 
   const setPasswordMut = trpc.viewer.customers.setPassword.useMutation({
     onSuccess: () => {
       utils.viewer.customers.get.invalidate({ id: customerId ?? "" });
     },
-    onError: (err) => {
-      toast(err.message, "error");
-    },
+    onError: handleServerError,
   });
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: onSubmit calls create/update and optionally setPassword mutations
@@ -297,15 +341,16 @@ export function CustomerFormDrawer({
   const anyError = createMut.error || updateMut.error || setPasswordMut.error;
 
   return (
-    <Sheet open={open} onOpenChange={(o) => !o && onClose()}>
-      <SheetContent side="right" className="flex w-full flex-col p-0 sm:max-w-[520px]">
-        {/* Header */}
-        <SheetHeader className="border-b border-border px-6 py-4">
-          <SheetTitle>{isEdit ? t("drawer.editTitle") : t("drawer.createTitle")}</SheetTitle>
-        </SheetHeader>
+    <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
+      <DialogContent className="max-w-lg sm:max-w-2xl overflow-hidden flex flex-col p-0 max-h-[90vh]">
+        <DialogHeader className="border-b border-border px-6 py-4">
+          <DialogTitle className="text-lg font-bold">
+            {isEdit ? t("drawer.editTitle") : t("drawer.createTitle")}
+          </DialogTitle>
+        </DialogHeader>
 
         {(isEdit && isCustomerLoading) || isGroupsLoading ? (
-          <div className="flex flex-1 items-center justify-center">
+          <div className="flex flex-1 items-center justify-center min-h-[300px]">
             <Loader2 className="size-8 animate-spin text-muted-foreground" />
           </div>
         ) : (
@@ -314,17 +359,17 @@ export function CustomerFormDrawer({
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-1 flex-col overflow-hidden"
           >
-            <PerfectScroll className="flex flex-1 flex-col gap-5 px-6 py-6">
+            <PerfectScroll className="flex flex-1 flex-col gap-4 px-6 py-5 max-h-[calc(90vh-130px)]">
               {isEdit && customerData?.customerCode && (
                 <div className="flex flex-col gap-1.5">
-                  <Label htmlFor="customer-code">
+                  <Label htmlFor="customer-code" className="font-semibold text-xs">
                     {t("fields.customerCode") ?? "Mã khách hàng"}
                   </Label>
                   <Input
                     id="customer-code"
                     value={customerData.customerCode}
                     disabled
-                    className="bg-muted font-semibold text-foreground cursor-not-allowed"
+                    className="bg-muted font-semibold text-foreground cursor-not-allowed h-9 text-xs"
                   />
                   <p className="text-[11px] text-muted-foreground">
                     {t("form.customerCodeImmutable") ??
@@ -332,217 +377,253 @@ export function CustomerFormDrawer({
                   </p>
                 </div>
               )}
-              {/* 1. Full Name */}
-              <Controller
-                name="name"
-                control={control}
-                render={({ field, fieldState }) => (
-                  <div className="flex flex-col gap-1.5">
-                    <Label htmlFor="customer-name">
-                      {t("form.nameLabel")} <span className="text-destructive">*</span>
-                    </Label>
-                    <Input
-                      {...field}
-                      id="customer-name"
-                      placeholder={t("form.namePlaceholder")}
-                      required
-                      aria-invalid={!!fieldState.error}
-                    />
-                    {fieldState.error && (
-                      <p className="text-xs text-destructive">{fieldState.error.message}</p>
-                    )}
-                  </div>
-                )}
-              />
-              {/* 3. Email */}
-              <Controller
-                name="email"
-                control={control}
-                render={({ field, fieldState }) => (
-                  <div className="flex flex-col gap-1.5">
-                    <Label htmlFor="customer-email">
-                      {t("form.emailLabel")} <span className="text-destructive">*</span>
-                    </Label>
-                    <Input
-                      {...field}
-                      id="customer-email"
-                      type="email"
-                      placeholder="email@example.com"
-                      required
-                      disabled={isEdit}
-                      aria-invalid={!!fieldState.error}
-                    />
-                    {fieldState.error && (
-                      <p className="text-xs text-destructive">{fieldState.error.message}</p>
-                    )}
-                  </div>
-                )}
-              />
-              {/* 5. Username */}
-              <Controller
-                name="username"
-                control={control}
-                render={({ field, fieldState }) => (
-                  <div className="flex flex-col gap-1.5">
-                    <Label htmlFor="customer-username">{tUsers("fields.username")}</Label>
-                    <Input
-                      {...field}
-                      id="customer-username"
-                      placeholder={tUsers("fields.username")}
-                      aria-invalid={!!fieldState.error}
-                      onChange={(e) => field.onChange(e.target.value.toLowerCase())}
-                    />
-                    {fieldState.error && (
-                      <p className="text-xs text-destructive">{fieldState.error.message}</p>
-                    )}
-                  </div>
-                )}
-              />
-              {/* 6. Phone */}
-              <Controller
-                name="phone"
-                control={control}
-                render={({ field, fieldState }) => (
-                  <div className="flex flex-col gap-1.5">
-                    <PhoneInput
-                      id="customer-phone"
-                      value={field.value ?? ""}
-                      onChange={field.onChange}
-                      label={t("form.phoneLabel")}
-                      disabled={field.disabled}
-                    />
-                    {fieldState.error && (
-                      <p className="text-xs text-destructive">{fieldState.error.message}</p>
-                    )}
-                  </div>
-                )}
-              />
-              {/* 7. Date of Birth */}
-              <Controller
-                name="dob"
-                control={control}
-                render={({ field, fieldState }) => (
-                  <div className="flex flex-col gap-1.5">
-                    <Label htmlFor="customer-dob">{t("form.dobLabel")}</Label>
-                    <DatePicker
-                      value={field.value ?? ""}
-                      onChange={(val) => field.onChange(val)}
-                      placeholder="dd/mm/yyyy"
-                      disabled={field.disabled}
-                    />
-                    {fieldState.error && (
-                      <p className="text-xs text-destructive">{fieldState.error.message}</p>
-                    )}
-                  </div>
-                )}
-              />
-              {/* Customer Group */}
-              <Controller
-                name="groupId"
-                control={control}
-                render={({ field, fieldState }) => (
-                  <div className="flex flex-col gap-1.5">
-                    <Label htmlFor="customer-group">Nhóm khách hàng</Label>
-                    <Select
-                      value={field.value && field.value > 0 ? String(field.value) : "none"}
-                      onValueChange={(val) => {
-                        if (!val || val === "none") {
-                          field.onChange(null);
-                        } else {
-                          const num = Number(val);
-                          field.onChange(Number.isNaN(num) || num <= 0 ? null : num);
-                        }
-                      }}
-                    >
-                      <SelectTrigger
-                        id="customer-group"
-                        className={cn(fieldState.error && "border-destructive")}
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* 1. Full Name */}
+                <Controller
+                  name="name"
+                  control={control}
+                  render={({ field, fieldState }) => (
+                    <div className="flex flex-col gap-1.5">
+                      <Label htmlFor="customer-name" className="font-semibold text-xs">
+                        {t("form.nameLabel")} <span className="text-destructive">*</span>
+                      </Label>
+                      <Input
+                        {...field}
+                        id="customer-name"
+                        placeholder={t("form.namePlaceholder")}
+                        required
+                        aria-invalid={!!fieldState.error}
+                        className={cn(
+                          "h-9 text-xs",
+                          fieldState.error && "border-destructive focus-visible:ring-destructive",
+                        )}
+                      />
+                      {fieldState.error && (
+                        <p className="text-xs text-destructive">{fieldState.error.message}</p>
+                      )}
+                    </div>
+                  )}
+                />
+
+                {/* 2. Email */}
+                <Controller
+                  name="email"
+                  control={control}
+                  render={({ field, fieldState }) => (
+                    <div className="flex flex-col gap-1.5">
+                      <Label htmlFor="customer-email" className="font-semibold text-xs">
+                        {t("form.emailLabel")} <span className="text-destructive">*</span>
+                      </Label>
+                      <Input
+                        {...field}
+                        id="customer-email"
+                        type="email"
+                        placeholder="email@example.com"
+                        required
+                        disabled={isEdit}
+                        aria-invalid={!!fieldState.error}
+                        className={cn(
+                          "h-9 text-xs",
+                          fieldState.error && "border-destructive focus-visible:ring-destructive",
+                        )}
+                      />
+                      {fieldState.error && (
+                        <p className="text-xs text-destructive">{fieldState.error.message}</p>
+                      )}
+                    </div>
+                  )}
+                />
+
+                {/* 3. Username */}
+                <Controller
+                  name="username"
+                  control={control}
+                  render={({ field, fieldState }) => (
+                    <div className="flex flex-col gap-1.5">
+                      <Label htmlFor="customer-username" className="font-semibold text-xs">
+                        {tUsers("fields.username")}
+                      </Label>
+                      <Input
+                        {...field}
+                        id="customer-username"
+                        placeholder={tUsers("fields.username")}
+                        aria-invalid={!!fieldState.error}
+                        onChange={(e) => field.onChange(e.target.value.toLowerCase())}
+                        className={cn(
+                          "h-9 text-xs",
+                          fieldState.error && "border-destructive focus-visible:ring-destructive",
+                        )}
+                      />
+                      {fieldState.error && (
+                        <p className="text-xs text-destructive">{fieldState.error.message}</p>
+                      )}
+                    </div>
+                  )}
+                />
+
+                {/* 4. Phone */}
+                <Controller
+                  name="phone"
+                  control={control}
+                  render={({ field, fieldState }) => (
+                    <div className="flex flex-col gap-1.5">
+                      <PhoneInput
+                        id="customer-phone"
+                        value={field.value ?? ""}
+                        onChange={field.onChange}
+                        label={t("form.phoneLabel")}
                         disabled={field.disabled}
-                      >
-                        <SelectValue placeholder="Chọn nhóm khách hàng..." />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="none">Không phân nhóm</SelectItem>
-                        {customerGroups?.map((group) => (
-                          <SelectItem key={group.id} value={String(group.id)}>
-                            {group.name} ({group.code})
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    {fieldState.error && (
-                      <p className="text-xs text-destructive">{fieldState.error.message}</p>
-                    )}
-                  </div>
-                )}
-              />
-              {/* 8. Gender */}
-              <Controller
-                name="gender"
-                control={control}
-                render={({ field, fieldState }) => (
-                  <div className="flex flex-col gap-1.5">
-                    <Label htmlFor="customer-gender">{t("form.genderLabel")}</Label>
-                    <Select value={field.value ?? ""} onValueChange={field.onChange}>
-                      <SelectTrigger
-                        id="customer-gender"
-                        className={cn(fieldState.error && "border-destructive")}
+                      />
+                      {fieldState.error && (
+                        <p className="text-xs text-destructive">{fieldState.error.message}</p>
+                      )}
+                    </div>
+                  )}
+                />
+
+                {/* 5. Date of Birth */}
+                <Controller
+                  name="dob"
+                  control={control}
+                  render={({ field, fieldState }) => (
+                    <div className="flex flex-col gap-1.5">
+                      <Label htmlFor="customer-dob" className="font-semibold text-xs">
+                        {t("form.dobLabel")}
+                      </Label>
+                      <DatePicker
+                        value={field.value ?? ""}
+                        onChange={(val) => field.onChange(val)}
+                        placeholder="dd/mm/yyyy"
                         disabled={field.disabled}
+                      />
+                      {fieldState.error && (
+                        <p className="text-xs text-destructive">{fieldState.error.message}</p>
+                      )}
+                    </div>
+                  )}
+                />
+
+                {/* 6. Customer Group */}
+                <Controller
+                  name="groupId"
+                  control={control}
+                  render={({ field, fieldState }) => (
+                    <div className="flex flex-col gap-1.5">
+                      <Label htmlFor="customer-group" className="font-semibold text-xs">
+                        Nhóm khách hàng
+                      </Label>
+                      <Select
+                        value={field.value && field.value > 0 ? String(field.value) : "none"}
+                        onValueChange={(val) => {
+                          if (!val || val === "none") {
+                            field.onChange(null);
+                          } else {
+                            const num = Number(val);
+                            field.onChange(Number.isNaN(num) || num <= 0 ? null : num);
+                          }
+                        }}
                       >
-                        <SelectValue placeholder={t("form.genderPlaceholder")} />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="male">{t("gender.male")}</SelectItem>
-                        <SelectItem value="female">{t("gender.female")}</SelectItem>
-                        <SelectItem value="other">{t("gender.other")}</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    {fieldState.error && (
-                      <p className="text-xs text-destructive">{fieldState.error.message}</p>
-                    )}
-                  </div>
-                )}
-              />
-              {/* Status */}
-              <Controller
-                name="status"
-                control={control}
-                render={({ field, fieldState }) => (
-                  <div className="flex flex-col gap-1.5">
-                    <Label htmlFor="customer-status">{t("fields.status")}</Label>
-                    <Select value={field.value ?? "ACTIVE"} onValueChange={field.onChange}>
-                      <SelectTrigger
-                        id="customer-status"
-                        className={cn(fieldState.error && "border-destructive")}
-                        disabled={field.disabled}
-                      >
-                        <SelectValue placeholder={t("fields.status")} />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="ACTIVE">{t("status.ACTIVE")}</SelectItem>
-                        <SelectItem value="INACTIVE">{t("status.INACTIVE")}</SelectItem>
-                        <SelectItem value="BANNED">{t("status.BANNED")}</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    {fieldState.error && (
-                      <p className="text-xs text-destructive">{fieldState.error.message}</p>
-                    )}
-                  </div>
-                )}
-              />
+                        <SelectTrigger
+                          id="customer-group"
+                          className={cn("h-9 text-xs", fieldState.error && "border-destructive")}
+                          disabled={field.disabled}
+                        >
+                          <SelectValue placeholder="Chọn nhóm khách hàng..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="none">Không phân nhóm</SelectItem>
+                          {customerGroups?.map((group) => (
+                            <SelectItem key={group.id} value={String(group.id)}>
+                              {group.name} ({group.code})
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      {fieldState.error && (
+                        <p className="text-xs text-destructive">{fieldState.error.message}</p>
+                      )}
+                    </div>
+                  )}
+                />
+
+                {/* 7. Gender */}
+                <Controller
+                  name="gender"
+                  control={control}
+                  render={({ field, fieldState }) => (
+                    <div className="flex flex-col gap-1.5">
+                      <Label htmlFor="customer-gender" className="font-semibold text-xs">
+                        {t("form.genderLabel")}
+                      </Label>
+                      <Select value={field.value ?? ""} onValueChange={field.onChange}>
+                        <SelectTrigger
+                          id="customer-gender"
+                          className={cn("h-9 text-xs", fieldState.error && "border-destructive")}
+                          disabled={field.disabled}
+                        >
+                          <SelectValue placeholder={t("form.genderPlaceholder")} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="male">{t("gender.male")}</SelectItem>
+                          <SelectItem value="female">{t("gender.female")}</SelectItem>
+                          <SelectItem value="other">{t("gender.other")}</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      {fieldState.error && (
+                        <p className="text-xs text-destructive">{fieldState.error.message}</p>
+                      )}
+                    </div>
+                  )}
+                />
+
+                {/* 8. Status */}
+                <Controller
+                  name="status"
+                  control={control}
+                  render={({ field, fieldState }) => (
+                    <div className="flex flex-col gap-1.5">
+                      <Label htmlFor="customer-status" className="font-semibold text-xs">
+                        {t("fields.status")}
+                      </Label>
+                      <Select value={field.value ?? "ACTIVE"} onValueChange={field.onChange}>
+                        <SelectTrigger
+                          id="customer-status"
+                          className={cn("h-9 text-xs", fieldState.error && "border-destructive")}
+                          disabled={field.disabled}
+                        >
+                          <SelectValue placeholder={t("fields.status")} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="ACTIVE">{t("status.ACTIVE")}</SelectItem>
+                          <SelectItem value="INACTIVE">{t("status.INACTIVE")}</SelectItem>
+                          <SelectItem value="BANNED">{t("status.BANNED")}</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      {fieldState.error && (
+                        <p className="text-xs text-destructive">{fieldState.error.message}</p>
+                      )}
+                    </div>
+                  )}
+                />
+              </div>
+
               {/* 9. Description */}
               <Controller
                 name="description"
                 control={control}
                 render={({ field, fieldState }) => (
                   <div className="flex flex-col gap-1.5">
-                    <Label htmlFor="customer-description">{t("form.descriptionLabel")}</Label>
+                    <Label htmlFor="customer-description" className="font-semibold text-xs">
+                      {t("form.descriptionLabel")}
+                    </Label>
                     <Textarea
                       {...field}
                       id="customer-description"
                       placeholder={t("form.descriptionPlaceholder")}
-                      rows={3}
+                      rows={2}
                       aria-invalid={!!fieldState.error}
+                      className="text-xs"
                     />
                     {fieldState.error && (
                       <p className="text-xs text-destructive">{fieldState.error.message}</p>
@@ -550,6 +631,7 @@ export function CustomerFormDrawer({
                   </div>
                 )}
               />
+
               {isEdit && (
                 <Controller
                   name="changePassword"
@@ -570,7 +652,7 @@ export function CustomerFormDrawer({
                       />
                       <Label
                         htmlFor="change-password-toggle"
-                        className="cursor-pointer font-medium"
+                        className="cursor-pointer font-medium text-xs"
                       >
                         {t("form.changePasswordToggle")}
                       </Label>
@@ -578,15 +660,16 @@ export function CustomerFormDrawer({
                   )}
                 />
               )}
+
               {(!isEdit || changePasswordToggle) && (
-                <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* Password */}
                   <Controller
                     name="password"
                     control={control}
                     render={({ field, fieldState }) => (
                       <div className="flex flex-col gap-1.5">
-                        <Label htmlFor="customer-password">
+                        <Label htmlFor="customer-password" className="font-semibold text-xs">
                           {isEdit ? tUsers("newPassword") : t("form.passwordLabel")}{" "}
                           <span className="text-destructive">*</span>
                         </Label>
@@ -596,7 +679,11 @@ export function CustomerFormDrawer({
                             id="customer-password"
                             type={showPassword ? "text" : "password"}
                             placeholder={t("form.passwordPlaceholder")}
-                            className="pr-10"
+                            className={cn(
+                              "pr-10 h-9 text-xs",
+                              fieldState.error &&
+                                "border-destructive focus-visible:ring-destructive",
+                            )}
                             aria-invalid={!!fieldState.error}
                           />
                           <button
@@ -623,13 +710,17 @@ export function CustomerFormDrawer({
                       </div>
                     )}
                   />
+
                   {/* Confirm Password */}
                   <Controller
                     name="confirmPassword"
                     control={control}
                     render={({ field, fieldState }) => (
                       <div className="flex flex-col gap-1.5">
-                        <Label htmlFor="customer-confirm-password">
+                        <Label
+                          htmlFor="customer-confirm-password"
+                          className="font-semibold text-xs"
+                        >
                           {t("form.confirmPasswordLabel")}{" "}
                           <span className="text-destructive">*</span>
                         </Label>
@@ -639,7 +730,11 @@ export function CustomerFormDrawer({
                             id="customer-confirm-password"
                             type={showConfirmPassword ? "text" : "password"}
                             placeholder={t("form.confirmPasswordLabel")}
-                            className="pr-10"
+                            className={cn(
+                              "pr-10 h-9 text-xs",
+                              fieldState.error &&
+                                "border-destructive focus-visible:ring-destructive",
+                            )}
                             aria-invalid={!!fieldState.error}
                           />
                           <button
@@ -666,8 +761,9 @@ export function CustomerFormDrawer({
                       </div>
                     )}
                   />
-                </>
+                </div>
               )}
+
               {/* Server error */}
               {anyError && (
                 <div className="flex items-center gap-2 rounded-md border border-destructive/30 bg-red-50 px-4 py-3 text-sm text-destructive dark:bg-red-950">
@@ -678,11 +774,16 @@ export function CustomerFormDrawer({
             </PerfectScroll>
 
             {/* Footer */}
-            <div className="flex justify-end gap-2 border-t border-border px-6 py-4">
-              <Button type="button" variant="ghost" onClick={onClose}>
+            <DialogFooter className="border-t border-border px-6 py-3 flex flex-row items-center justify-end gap-2">
+              <Button type="button" variant="outline" size="sm" onClick={onClose}>
                 {tCommon("cancel")}
               </Button>
-              <Button id="customer-form-save" type="submit" disabled={isSubmitting || isMutPending}>
+              <Button
+                id="customer-form-save"
+                type="submit"
+                size="sm"
+                disabled={isSubmitting || isMutPending}
+              >
                 {isMutPending ? (
                   <Loader2 className="mr-2 size-4 animate-spin" />
                 ) : (
@@ -696,10 +797,10 @@ export function CustomerFormDrawer({
                     ? t("form.creating")
                     : t("form.create")}
               </Button>
-            </div>
+            </DialogFooter>
           </form>
         )}
-      </SheetContent>
-    </Sheet>
+      </DialogContent>
+    </Dialog>
   );
 }

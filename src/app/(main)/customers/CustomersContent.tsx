@@ -26,8 +26,8 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { AlertCircle, ChevronDown, Eye, Pencil, Plus, Trash2, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useMemo, useRef, useState } from "react";
-import { CustomerDetailDrawer } from "./components/CustomerDetailDrawer";
-import { CustomerFormDrawer } from "./components/CustomerFormDrawer";
+import { CustomerDetailModal } from "./components/CustomerDetailModal";
+import { CustomerFormModal } from "./components/CustomerFormModal";
 
 type CustomerRow = {
   id: string;
@@ -485,7 +485,7 @@ export default function CustomersContent() {
         }
       />
 
-      <CustomerFormDrawer
+      <CustomerFormModal
         customerId={editId}
         open={createOpen || editId !== null}
         onClose={() => {
@@ -498,7 +498,7 @@ export default function CustomersContent() {
         }}
       />
 
-      <CustomerDetailDrawer
+      <CustomerDetailModal
         customerId={selectedId}
         onClose={() => setSelectedId(null)}
         onDeleted={() => setSelectedId(null)}

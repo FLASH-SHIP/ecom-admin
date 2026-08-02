@@ -6,8 +6,14 @@ import { useConfirm } from "@admin/components/ui/useConfirm";
 import { trpc } from "@admin/lib/trpc";
 import { formatDate, formatDateTime } from "@admin/utils/dateFormat";
 import { Button } from "@flash-ship/ecom-ui/components/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@flash-ship/ecom-ui/components/dialog";
 import { Separator } from "@flash-ship/ecom-ui/components/separator";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@flash-ship/ecom-ui/components/sheet";
 import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import { Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -19,18 +25,52 @@ const STATUS_BADGE: Record<string, string> = {
   BANNED: "border-red-200 bg-red-100 text-red-800",
 };
 
-interface CustomerDetailDrawerProps {
+interface CustomerDetailModalProps {
   customerId: string | null;
   onClose: () => void;
   onDeleted: () => void;
 }
 
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: complex drawer UI rendering with tabs and lists
-export function CustomerDetailDrawer({
-  customerId,
-  onClose,
-  onDeleted,
-}: CustomerDetailDrawerProps) {
+function DiffLogViewer({ oldValues, newValues }: { oldValues: unknown; newValues: unknown }) {
+  if (!oldValues || !newValues) return null;
+  const newObj = newValues as Record<string, unknown>;
+  const oldObj = oldValues as Record<string, unknown>;
+
+  return (
+    <div className="mt-1 flex flex-col gap-1 rounded bg-muted/60 p-1.5 text-[10px]">
+      {Object.keys(newObj).map((key) => {
+        const newVal = newObj[key];
+        const oldVal = oldObj[key];
+
+        const normNew = newVal instanceof Date ? newVal.toISOString() : newVal;
+        const normOld = oldVal instanceof Date ? oldVal.toISOString() : oldVal;
+
+        if (JSON.stringify(normNew) === JSON.stringify(normOld) || key === "id") return null;
+
+        return (
+          <div
+            key={key}
+            className="flex flex-col border-b border-border/30 pb-1 last:border-0 last:pb-0"
+          >
+            <span className="font-semibold text-foreground">{key}</span>
+            <div className="flex flex-wrap items-center gap-1 mt-0.5">
+              <span className="line-through text-red-500 bg-red-50 px-1 rounded-sm border border-red-100">
+                {oldVal === null || oldVal === undefined ? "null" : String(oldVal)}
+              </span>
+              <span className="text-muted-foreground">→</span>
+              <span className="text-emerald-700 bg-emerald-50 px-1 rounded-sm border border-emerald-100 font-medium">
+                {newVal === null || newVal === undefined ? "null" : String(newVal)}
+              </span>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: customer detail modal contains tabs and nested audit diff items
+export function CustomerDetailModal({ customerId, onClose, onDeleted }: CustomerDetailModalProps) {
   const t = useTranslations("customers");
   const tCommon = useTranslations("common");
   const tUsers = useTranslations("users");
@@ -38,7 +78,6 @@ export function CustomerDetailDrawer({
   const { askConfirm, dialogProps: confirmDialogProps } = useConfirm();
 
   const open = customerId !== null;
-
   const [activeTab, setActiveTab] = useState<"activity" | "history">("activity");
 
   const { data: detail, isLoading } = trpc.viewer.customers.get.useQuery(
@@ -74,15 +113,15 @@ export function CustomerDetailDrawer({
 
   return (
     <>
-      <Sheet open={open} onOpenChange={(o) => !o && onClose()}>
-        <SheetContent side="right" className="flex w-full flex-col p-0 sm:max-w-[420px]">
-          <SheetHeader className="border-b border-border px-6 py-4">
-            <SheetTitle>{t("detail.title")}</SheetTitle>
-          </SheetHeader>
+      <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
+        <DialogContent className="max-w-lg sm:max-w-xl overflow-hidden flex flex-col p-0 max-h-[90vh]">
+          <DialogHeader className="border-b border-border px-6 py-4">
+            <DialogTitle className="text-lg font-bold">{t("detail.title")}</DialogTitle>
+          </DialogHeader>
 
-          <div className="flex flex-1 flex-col overflow-y-auto px-6 py-6">
+          <div className="flex flex-1 flex-col overflow-y-auto px-6 py-5 max-h-[calc(90vh-130px)]">
             {isLoading || !detail ? (
-              <div className="flex flex-1 items-center justify-center">
+              <div className="flex flex-1 items-center justify-center min-h-[300px]">
                 <Loader2 className="size-8 animate-spin text-muted-foreground" />
               </div>
             ) : (
@@ -93,61 +132,67 @@ export function CustomerDetailDrawer({
                     {(detail.name ?? detail.email).charAt(0).toUpperCase()}
                   </div>
                   <div>
-                    <p className="font-semibold">{detail.name || "—"}</p>
-                    <p className="text-sm text-muted-foreground">{detail.email}</p>
+                    <p className="font-semibold text-base">{detail.name || "—"}</p>
+                    <p className="text-xs text-muted-foreground">{detail.email}</p>
                   </div>
                 </div>
 
                 <Separator />
 
-                {/* Info rows */}
-                {[
-                  {
-                    label: t("fields.customerCode") ?? "Mã khách hàng",
-                    value: detail.customerCode ?? "—",
-                  },
-                  { label: tUsers("fields.username"), value: `@${detail.username}` },
-                  {
-                    label: "Nhóm khách hàng",
-                    value: detail.group
-                      ? `${detail.group.name} (${detail.group.code})`
-                      : "Không phân nhóm",
-                  },
-                  { label: t("fields.phone"), value: detail.phone ?? "—" },
-                  {
-                    label: t("form.genderLabel"),
-                    value: detail.gender
-                      ? t(`gender.${detail.gender as "male" | "female" | "other"}`)
-                      : "—",
-                  },
-                  {
-                    label: t("form.dobLabel"),
-                    value: detail.dob ? formatDate(detail.dob) : "—",
-                  },
-                  {
-                    label: t("fields.verified"),
-                    value: detail.emailVerified ? formatDate(detail.emailVerified) : tCommon("no"),
-                  },
-                  {
-                    label: t("fields.lastLogin"),
-                    value: detail.lastLoginAt
-                      ? formatDateTime(detail.lastLoginAt)
-                      : t("detail.never"),
-                  },
-                  { label: tCommon("createdAt"), value: formatDate(detail.createdAt) },
-                  { label: t("form.descriptionLabel"), value: detail.description ?? "—" },
-                ].map(({ label, value }) => (
-                  <div key={label}>
-                    <p className="text-xs text-muted-foreground">{label}</p>
-                    <p className="mt-0.5 text-sm">{value}</p>
-                  </div>
-                ))}
+                {/* Info Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                  {[
+                    {
+                      label: t("fields.customerCode") ?? "Mã khách hàng",
+                      value: detail.customerCode ?? "—",
+                    },
+                    { label: tUsers("fields.username"), value: `@${detail.username}` },
+                    {
+                      label: "Nhóm khách hàng",
+                      value: detail.group
+                        ? `${detail.group.name} (${detail.group.code})`
+                        : "Không phân nhóm",
+                    },
+                    { label: t("fields.phone"), value: detail.phone ?? "—" },
+                    {
+                      label: t("form.genderLabel"),
+                      value: detail.gender
+                        ? t(`gender.${detail.gender as "male" | "female" | "other"}`)
+                        : "—",
+                    },
+                    {
+                      label: t("form.dobLabel"),
+                      value: detail.dob ? formatDate(detail.dob) : "—",
+                    },
+                    {
+                      label: t("fields.verified"),
+                      value: detail.emailVerified
+                        ? formatDate(detail.emailVerified)
+                        : tCommon("no"),
+                    },
+                    {
+                      label: t("fields.lastLogin"),
+                      value: detail.lastLoginAt
+                        ? formatDateTime(detail.lastLoginAt)
+                        : t("detail.never"),
+                    },
+                    { label: tCommon("createdAt"), value: formatDate(detail.createdAt) },
+                    { label: t("form.descriptionLabel"), value: detail.description ?? "—" },
+                  ].map(({ label, value }) => (
+                    <div key={label} className="flex flex-col">
+                      <p className="text-muted-foreground text-[11px] font-medium">{label}</p>
+                      <p className="mt-0.5 font-medium text-foreground">{value}</p>
+                    </div>
+                  ))}
+                </div>
 
                 <Separator />
 
                 {/* Status changer */}
                 <div>
-                  <p className="mb-2 text-xs text-muted-foreground">{t("detail.status")}</p>
+                  <p className="mb-2 text-xs font-semibold text-muted-foreground">
+                    {t("detail.status")}
+                  </p>
                   <div className="flex flex-wrap gap-1.5">
                     {(["ACTIVE", "INACTIVE", "BANNED"] as const).map((s) => (
                       <button
@@ -182,7 +227,7 @@ export function CustomerDetailDrawer({
                   <>
                     <Separator />
                     <div>
-                      <p className="mb-2 text-xs text-muted-foreground">
+                      <p className="mb-2 text-xs font-semibold text-muted-foreground">
                         {tCommon("socialAccounts")}
                       </p>
                       <div className="flex flex-col gap-1">
@@ -234,7 +279,7 @@ export function CustomerDetailDrawer({
                           {tCommon("noResults")}
                         </p>
                       ) : (
-                        <div className="flex max-h-[220px] flex-col gap-1 overflow-y-auto pr-1">
+                        <div className="flex max-h-[200px] flex-col gap-1 overflow-y-auto pr-1">
                           {detail.activityLogs.map((al) => (
                             <div
                               key={al.id}
@@ -262,7 +307,7 @@ export function CustomerDetailDrawer({
                           {t("detail.history.noHistory")}
                         </p>
                       ) : (
-                        <div className="flex max-h-[260px] flex-col gap-2 overflow-y-auto pr-1">
+                        <div className="flex max-h-[220px] flex-col gap-2 overflow-y-auto pr-1">
                           {auditLogs.items.map((log) => (
                             <div
                               key={log.id}
@@ -289,60 +334,13 @@ export function CustomerDetailDrawer({
                                 )}
                               </div>
 
-                              {/* Render Changed Values/Diffs */}
-                              {log.action === "UPDATE" && log.oldValues && log.newValues && (
-                                <div className="mt-1 flex flex-col gap-1 rounded bg-muted/60 p-1.5 text-[10px]">
-                                  {Object.keys(log.newValues as Record<string, unknown>).map(
-                                    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: detailed key-value diff comparison and normalized date checking
-                                    (key) => {
-                                      const newVal = (log.newValues as Record<string, unknown>)[
-                                        key
-                                      ];
-                                      const oldVal = (log.oldValues as Record<string, unknown>)[
-                                        key
-                                      ];
-
-                                      // Handle dates
-                                      const normNew =
-                                        newVal instanceof Date ? newVal.toISOString() : newVal;
-                                      const normOld =
-                                        oldVal instanceof Date ? oldVal.toISOString() : oldVal;
-
-                                      if (
-                                        JSON.stringify(normNew) === JSON.stringify(normOld) ||
-                                        key === "id"
-                                      )
-                                        return null;
-
-                                      return (
-                                        <div
-                                          key={key}
-                                          className="flex flex-col border-b border-border/30 pb-1 last:border-0 last:pb-0"
-                                        >
-                                          <span className="font-semibold text-foreground">
-                                            {key}
-                                          </span>
-                                          <div className="flex flex-wrap items-center gap-1 mt-0.5">
-                                            <span className="line-through text-red-500 bg-red-50 px-1 rounded-sm border border-red-100">
-                                              {oldVal === null || oldVal === undefined
-                                                ? "null"
-                                                : String(oldVal)}
-                                            </span>
-                                            <span className="text-muted-foreground">→</span>
-                                            <span className="text-emerald-700 bg-emerald-50 px-1 rounded-sm border border-emerald-100 font-medium">
-                                              {newVal === null || newVal === undefined
-                                                ? "null"
-                                                : String(newVal)}
-                                            </span>
-                                          </div>
-                                        </div>
-                                      );
-                                    },
-                                  )}
-                                </div>
+                              {log.action === "UPDATE" && (
+                                <DiffLogViewer
+                                  oldValues={log.oldValues}
+                                  newValues={log.newValues}
+                                />
                               )}
 
-                              {/* Render New Entity (CREATE) */}
                               {log.action === "CREATE" && log.newValues && (
                                 <div className="mt-1 flex flex-col gap-1 rounded bg-muted/60 p-1.5 text-[10px]">
                                   {Object.keys(log.newValues as Record<string, unknown>).map(
@@ -379,7 +377,7 @@ export function CustomerDetailDrawer({
           </div>
 
           {/* Footer */}
-          <div className="flex justify-between border-t border-border px-6 py-4">
+          <DialogFooter className="border-t border-border px-6 py-3 flex flex-row items-center justify-between gap-2">
             <Button
               variant="destructive"
               size="sm"
@@ -394,12 +392,12 @@ export function CustomerDetailDrawer({
               {deleteMut.isPending ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
               {tCommon("delete")}
             </Button>
-            <Button variant="outline" onClick={onClose}>
+            <Button variant="outline" size="sm" onClick={onClose}>
               {tCommon("close")}
             </Button>
-          </div>
-        </SheetContent>
-      </Sheet>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
       <ConfirmDialog {...confirmDialogProps} />
     </>
   );

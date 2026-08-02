@@ -8,13 +8,22 @@ import { useConfirm } from "@admin/components/ui/useConfirm";
 import { trpc } from "@admin/lib/trpc";
 import { formatDateTime } from "@admin/utils/dateFormat";
 import type { ContentStatus } from "@flash-ship/ecom-types";
+
 type RateCardType = "DEFAULT" | "CUSTOM";
 type ShippingMethod = "EXPRESS" | "EPACKET";
+
 import { Permissions } from "@flash-ship/ecom-lib/permissions";
 import { Badge } from "@flash-ship/ecom-ui/components/badge";
 import { Button } from "@flash-ship/ecom-ui/components/button";
 import { Card, CardContent } from "@flash-ship/ecom-ui/components/card";
 import { DatePicker } from "@flash-ship/ecom-ui/components/date-picker";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@flash-ship/ecom-ui/components/dialog";
 import { Input } from "@flash-ship/ecom-ui/components/input";
 import { Label } from "@flash-ship/ecom-ui/components/label";
 import {
@@ -27,13 +36,6 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@flash-ship/ecom-ui/components/tabs";
 import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@flash-ship/ecom-ui/components/dialog";
 import {
   AlertCircle,
   CheckCircle,
@@ -629,7 +631,8 @@ function GeneralInfoTab({
             <div className="flex items-center gap-2 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-800 dark:bg-amber-950/30 dark:text-amber-300">
               <AlertCircle className="size-4 shrink-0" />
               <span>
-                <strong>Chưa gán nhóm khách hàng:</strong> Bảng giá tùy chỉnh bắt buộc phải được gán ít nhất một nhóm khách hàng trước khi gửi duyệt.
+                <strong>Chưa gán nhóm khách hàng:</strong> Bảng giá tùy chỉnh bắt buộc phải được gán
+                ít nhất một nhóm khách hàng trước khi gửi duyệt.
               </span>
             </div>
           )}
@@ -836,7 +839,7 @@ function validateSlabRow(
   const isFirstMinMismatch =
     index === 0 && formData.minWeight != null && curr.startWeight !== formData.minWeight;
   const isGap = prev ? curr.startWeight !== prev.endWeight : false;
-  const isMonotonic = prev && curr.amount > 0 ? getSlabMinCost(curr) < getSlabMaxCost(prev) : false;
+  const isMonotonic = prev ? getSlabMinCost(curr) < getSlabMaxCost(prev) : false;
 
   if (!isFirstMinMismatch && !isGap && !isMonotonic) {
     return {};
@@ -1538,113 +1541,49 @@ function FormHeader(props: FormHeaderProps) {
   );
 }
 
-export function RateCardForm({ rateCardId }: RateCardFormProps) {
-  const isCreate = rateCardId === null;
+function checkSlabsDirty(slabs: SlabItem[], initialSlabs: SlabItem[]): boolean {
+  if (slabs.length !== initialSlabs.length) return true;
+  return slabs.some((s1, i) => {
+    const s2 = initialSlabs[i];
+    if (!s2) return true;
+    return (
+      s1.startWeight !== s2.startWeight ||
+      s1.endWeight !== s2.endWeight ||
+      s1.rateType !== s2.rateType ||
+      s1.amount !== s2.amount
+    );
+  });
+}
+
+function mapAssignedGroups(
+  existingRate:
+    | { groups?: { customerGroup: { id: number; code: string; name: string } }[] }
+    | undefined,
+) {
+  if (!existingRate?.groups) return [];
+  return existingRate.groups.map((g) => ({
+    id: g.customerGroup.id,
+    code: g.customerGroup.code,
+    name: g.customerGroup.name,
+  }));
+}
+
+function filterCustomerGroups<T extends { id: number; code: string; name: string }>(
+  groups: T[] | undefined,
+  search: string,
+): T[] {
+  if (!groups) return [];
+  if (!search.trim()) return groups;
+  const term = search.toLowerCase().trim();
+  return groups.filter(
+    (g) => g.code.toLowerCase().includes(term) || g.name.toLowerCase().includes(term),
+  );
+}
+
+function useRateCardMutations(rateCardId: number | null, tSettings: (key: string) => string) {
   const router = useRouter();
   const t = useToast();
-  const tSettings = useTranslations("settings");
   const utils = trpc.useUtils();
-  const { askConfirm, dialogProps: confirmDialogProps } = useConfirm();
-
-  const { hasPermission: canCreate } = useRequirePermission([Permissions.RATES_CREATE]);
-  const { hasPermission: canUpdate } = useRequirePermission([Permissions.RATES_UPDATE]);
-  const { hasPermission: canApprove } = useRequirePermission([Permissions.RATES_APPROVE]);
-
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const tabParam = searchParams.get("tab");
-
-  const activeTab = useMemo(() => {
-    if (tabParam === "slabs" || tabParam === "logs") return tabParam;
-    return "info";
-  }, [tabParam]);
-
-  const setActiveTab = useCallback(
-    (tab: "info" | "slabs" | "logs") => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set("tab", tab);
-      const qs = params.toString();
-      router.push(`${pathname}${qs ? `?${qs}` : ""}`, { scroll: false });
-    },
-    [router, pathname, searchParams],
-  );
-
-  const {
-    register,
-    control,
-    handleSubmit,
-    reset,
-    watch,
-    setValue,
-    formState: { errors, isDirty: isInfoDirty },
-  } = useForm<typeof INITIAL_FORM_STATE>({
-    mode: "onChange",
-    resolver: zodResolver(rateCardFormSchema),
-    defaultValues: INITIAL_FORM_STATE,
-  });
-
-  const formData = watch();
-  const [slabs, setSlabs] = useState<SlabItem[]>([]);
-  const [initialSlabs, setInitialSlabs] = useState<SlabItem[]>([]);
-  const isReadOnly = !isCreate
-    ? (formData.status !== "DRAFT" && formData.status !== "REJECTED") || !canUpdate
-    : !canCreate;
-
-  const { data: existingRate, isLoading: loadingDetails } = trpc.viewer.rateCards.get.useQuery(
-    { id: rateCardId ?? 0 },
-    { enabled: !isCreate && rateCardId !== null },
-  );
-
-  const { data: logs, isLoading: loadingLogs } = trpc.viewer.rateCards.listLogs.useQuery(
-    { id: rateCardId ?? 0 },
-    { enabled: !isCreate && rateCardId !== null && activeTab === "logs" },
-  );
-
-  useEffect(() => {
-    if (isCreate) {
-      reset(INITIAL_FORM_STATE);
-      setSlabs([]);
-      setInitialSlabs([]);
-    } else if (existingRate) {
-      const formVal = mapExistingRateToForm(existingRate);
-      reset(formVal);
-      const slabVal = mapExistingRateToSlabs(existingRate);
-      setSlabs(slabVal);
-      setInitialSlabs(slabVal);
-    }
-  }, [isCreate, existingRate, reset]);
-
-  useEffect(() => {
-    if (activeTab === "slabs" && !isReadOnly && slabs.length > 0) {
-      const timer = setTimeout(() => {
-        const firstInput = document.getElementById(
-          "slab-amount-input-0",
-        ) as HTMLInputElement | null;
-        if (firstInput) {
-          firstInput.focus();
-          firstInput.select();
-        }
-      }, 150);
-      return () => clearTimeout(timer);
-    }
-  }, [activeTab, isReadOnly, slabs.length]);
-
-  const isSlabsDirty = useMemo(() => {
-    if (slabs.length !== initialSlabs.length) return true;
-    for (let i = 0; i < slabs.length; i++) {
-      const s1 = slabs[i];
-      const s2 = initialSlabs[i];
-      if (
-        s1.startWeight !== s2.startWeight ||
-        s1.endWeight !== s2.endWeight ||
-        s1.rateType !== s2.rateType ||
-        s1.amount !== s2.amount
-      ) {
-        return true;
-      }
-    }
-    return false;
-  }, [slabs, initialSlabs]);
 
   const createMut = trpc.viewer.rateCards.create.useMutation({
     onSuccess: (card) => {
@@ -1705,6 +1644,266 @@ export function RateCardForm({ rateCardId }: RateCardFormProps) {
     onError: (err) => t.toast(formatErrorMessage(err.message), "error"),
   });
 
+  return {
+    createMut,
+    updateMut,
+    submitReviewMut,
+    approveMut,
+    rejectMut,
+    importSlabsMut,
+  };
+}
+
+interface AssignGroupsModalProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  code: string;
+  groupSearch: string;
+  onGroupSearchChange: (val: string) => void;
+  filteredGroups: { id: number; code: string; name: string }[];
+  selectedGroupIds: number[];
+  onToggleGroup: (id: number) => void;
+  isPending: boolean;
+  onSave: () => void;
+}
+
+function AssignGroupsModal({
+  open,
+  onOpenChange,
+  code,
+  groupSearch,
+  onGroupSearchChange,
+  filteredGroups,
+  selectedGroupIds,
+  onToggleGroup,
+  isPending,
+  onSave,
+}: AssignGroupsModalProps) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-lg sm:max-w-xl overflow-hidden">
+        <DialogHeader>
+          <DialogTitle className="text-base font-bold break-all pr-6">
+            Gán nhóm khách hàng: {code}
+          </DialogTitle>
+        </DialogHeader>
+
+        <div className="flex flex-col gap-3 py-2">
+          <span className="text-xs text-muted-foreground">
+            Vui lòng chọn các nhóm khách hàng được áp dụng bảng giá cước tùy chỉnh này:
+          </span>
+
+          <Input
+            type="text"
+            placeholder="Tìm kiếm nhóm khách hàng (mã, tên)..."
+            value={groupSearch}
+            onChange={(e) => onGroupSearchChange(e.target.value)}
+            className="h-9 text-xs"
+          />
+
+          <div className="flex flex-col gap-1.5 border border-input rounded-lg p-2 max-h-64 sm:max-h-72 overflow-y-auto bg-muted/10">
+            {filteredGroups.length === 0 ? (
+              <span className="text-xs text-muted-foreground italic text-center py-6">
+                Không tìm thấy nhóm khách hàng nào
+              </span>
+            ) : (
+              filteredGroups.map((group) => {
+                const checked = selectedGroupIds.includes(group.id);
+                return (
+                  <label
+                    key={group.id}
+                    className="flex items-start gap-2.5 text-xs sm:text-sm cursor-pointer select-none hover:bg-accent/60 p-2 rounded-md transition-colors border border-transparent hover:border-border/60"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={checked}
+                      onChange={() => onToggleGroup(group.id)}
+                      className="mt-0.5 rounded border-input text-primary focus:ring-primary size-4 shrink-0"
+                    />
+                    <div className="flex flex-col min-w-0 flex-1">
+                      <span className="font-medium text-foreground break-all leading-tight">
+                        {group.name}
+                      </span>
+                      <span className="text-[11px] font-mono text-muted-foreground break-all mt-0.5">
+                        ({group.code})
+                      </span>
+                    </div>
+                  </label>
+                );
+              })
+            )}
+          </div>
+        </div>
+
+        <DialogFooter className="flex flex-row items-center justify-between sm:justify-between gap-2 border-t border-border/60 pt-3">
+          <span className="text-xs text-muted-foreground">
+            Đã chọn:{" "}
+            <strong className="font-semibold text-primary">{selectedGroupIds.length}</strong> nhóm
+          </span>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" onClick={() => onOpenChange(false)}>
+              Hủy
+            </Button>
+            <Button size="sm" disabled={isPending} onClick={onSave}>
+              Lưu thay đổi
+            </Button>
+          </div>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function useAutoSelectFirstSlab(activeTab: string, isReadOnly: boolean, slabsLength: number) {
+  useEffect(() => {
+    if (activeTab === "slabs" && !isReadOnly && slabsLength > 0) {
+      const timer = setTimeout(() => {
+        const firstInput = document.getElementById(
+          "slab-amount-input-0",
+        ) as HTMLInputElement | null;
+        if (firstInput) {
+          firstInput.focus();
+          firstInput.select();
+        }
+      }, 150);
+      return () => clearTimeout(timer);
+    }
+  }, [activeTab, isReadOnly, slabsLength]);
+}
+
+function useRateCardInitEffect(
+  isCreate: boolean,
+  existingRate: unknown,
+  reset: (val: unknown) => void,
+  setSlabs: (slabs: SlabItem[]) => void,
+  setInitialSlabs: (slabs: SlabItem[]) => void,
+) {
+  useEffect(() => {
+    if (isCreate) {
+      reset(INITIAL_FORM_STATE);
+      setSlabs([]);
+      setInitialSlabs([]);
+    } else if (existingRate) {
+      reset(mapExistingRateToForm(existingRate as Parameters<typeof mapExistingRateToForm>[0]));
+      const slabVal = mapExistingRateToSlabs(
+        existingRate as Parameters<typeof mapExistingRateToSlabs>[0],
+      );
+      setSlabs(slabVal);
+      setInitialSlabs(slabVal);
+    }
+  }, [isCreate, existingRate, reset, setSlabs, setInitialSlabs]);
+}
+
+function navigateWithConfirm(
+  isDirty: boolean,
+  askConfirm: ReturnType<typeof useConfirm>["askConfirm"],
+  tSettings: (key: string) => string,
+  onNavigate: () => void,
+) {
+  if (isDirty) {
+    askConfirm({
+      title: tSettings("rates.confirmBackTitle"),
+      message: tSettings("rates.confirmBackMessage"),
+      confirmLabel: tSettings("rates.btnLeave"),
+      cancelLabel: tSettings("rates.btnStay"),
+      confirmColor: "warning",
+      onConfirm: onNavigate,
+    });
+  }
+}
+
+function useRateCardPermissions() {
+  const { hasPermission: canCreate } = useRequirePermission([Permissions.RATES_CREATE]);
+  const { hasPermission: canUpdate } = useRequirePermission([Permissions.RATES_UPDATE]);
+  const { hasPermission: canApprove } = useRequirePermission([Permissions.RATES_APPROVE]);
+
+  return { canCreate, canUpdate, canApprove };
+}
+
+function useRateCardActiveTab() {
+  const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const tabParam = searchParams.get("tab");
+
+  const activeTab = useMemo<"info" | "slabs" | "logs">(() => {
+    if (tabParam === "slabs" || tabParam === "logs") return tabParam;
+    return "info";
+  }, [tabParam]);
+
+  const setActiveTab = useCallback(
+    (tab: "info" | "slabs" | "logs") => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("tab", tab);
+      const qs = params.toString();
+      router.push(`${pathname}${qs ? `?${qs}` : ""}`, { scroll: false });
+    },
+    [router, pathname, searchParams],
+  );
+
+  return { activeTab, setActiveTab };
+}
+
+function useRateCardQueries(rateCardId: number | null, isCreate: boolean, activeTab: string) {
+  const { data: existingRate, isLoading: loadingDetails } = trpc.viewer.rateCards.get.useQuery(
+    { id: rateCardId ?? 0 },
+    { enabled: !isCreate && rateCardId !== null },
+  );
+
+  const { data: logs, isLoading: loadingLogs } = trpc.viewer.rateCards.listLogs.useQuery(
+    { id: rateCardId ?? 0 },
+    { enabled: !isCreate && rateCardId !== null && activeTab === "logs" },
+  );
+
+  return { existingRate, loadingDetails, logs, loadingLogs };
+}
+
+export function RateCardForm({ rateCardId }: RateCardFormProps) {
+  const isCreate = rateCardId === null;
+  const router = useRouter();
+  const t = useToast();
+  const tSettings = useTranslations("settings");
+  const utils = trpc.useUtils();
+  const { askConfirm, dialogProps: confirmDialogProps } = useConfirm();
+
+  const { canCreate, canUpdate, canApprove } = useRateCardPermissions();
+  const { activeTab, setActiveTab } = useRateCardActiveTab();
+
+  const {
+    register,
+    control,
+    handleSubmit,
+    reset,
+    watch,
+    setValue,
+    formState: { errors, isDirty: isInfoDirty },
+  } = useForm<typeof INITIAL_FORM_STATE>({
+    mode: "onChange",
+    resolver: zodResolver(rateCardFormSchema),
+    defaultValues: INITIAL_FORM_STATE,
+  });
+
+  const formData = watch();
+  const [slabs, setSlabs] = useState<SlabItem[]>([]);
+  const [initialSlabs, setInitialSlabs] = useState<SlabItem[]>([]);
+  const isReadOnly = !isCreate
+    ? (formData.status !== "DRAFT" && formData.status !== "REJECTED") || !canUpdate
+    : !canCreate;
+
+  const { existingRate, loadingDetails, logs, loadingLogs } = useRateCardQueries(
+    rateCardId,
+    isCreate,
+    activeTab,
+  );
+
+  useRateCardInitEffect(isCreate, existingRate, reset, setSlabs, setInitialSlabs);
+  useAutoSelectFirstSlab(activeTab, isReadOnly, slabs.length);
+
+  const isSlabsDirty = useMemo(() => checkSlabsDirty(slabs, initialSlabs), [slabs, initialSlabs]);
+
+  const { createMut, updateMut, submitReviewMut, approveMut, rejectMut, importSlabsMut } =
+    useRateCardMutations(rateCardId, tSettings);
+
   const handleSaveInfo = handleSubmit(
     (values) => {
       const payload = prepareSavePayload(values);
@@ -1743,28 +1942,12 @@ export function RateCardForm({ rateCardId }: RateCardFormProps) {
   };
 
   const handleBack = useCallback(() => {
-    if (isInfoDirty || isSlabsDirty) {
-      askConfirm({
-        title: tSettings("rates.confirmBackTitle"),
-        message: tSettings("rates.confirmBackMessage"),
-        confirmLabel: tSettings("rates.btnLeave"),
-        cancelLabel: tSettings("rates.btnStay"),
-        confirmColor: "warning",
-        onConfirm: () => router.push("/settings/rates"),
-      });
-    } else {
-      router.push("/settings/rates");
-    }
+    navigateWithConfirm(isInfoDirty || isSlabsDirty, askConfirm, tSettings, () =>
+      router.push("/settings/rates"),
+    );
   }, [isInfoDirty, isSlabsDirty, askConfirm, router, tSettings]);
 
-  const assignedGroups = useMemo(() => {
-    if (!existingRate?.groups) return [];
-    return existingRate.groups.map((g) => ({
-      id: g.customerGroup.id,
-      code: g.customerGroup.code,
-      name: g.customerGroup.name,
-    }));
-  }, [existingRate]);
+  const assignedGroups = useMemo(() => mapAssignedGroups(existingRate), [existingRate]);
 
   const hasAssignedGroups = formData.type === "CUSTOM" ? assignedGroups.length > 0 : true;
 
@@ -1777,14 +1960,10 @@ export function RateCardForm({ rateCardId }: RateCardFormProps) {
     staleTime: 5 * 60 * 1000,
   });
 
-  const filteredGroups = useMemo(() => {
-    if (!allGroups) return [];
-    if (!groupSearch.trim()) return allGroups;
-    const term = groupSearch.toLowerCase().trim();
-    return allGroups.filter(
-      (g) => g.code.toLowerCase().includes(term) || g.name.toLowerCase().includes(term),
-    );
-  }, [allGroups, groupSearch]);
+  const filteredGroups = useMemo(
+    () => filterCustomerGroups(allGroups, groupSearch),
+    [allGroups, groupSearch],
+  );
 
   const assignGroupsMut = trpc.viewer.rateCards.assignGroups.useMutation({
     onSuccess: () => {
@@ -1928,96 +2107,29 @@ export function RateCardForm({ rateCardId }: RateCardFormProps) {
 
       {/* Assign Groups Modal */}
       {assignGroupModalOpen && (
-        <Dialog open={assignGroupModalOpen} onOpenChange={setAssignGroupModalOpen}>
-          <DialogContent className="max-w-lg sm:max-w-xl overflow-hidden">
-            <DialogHeader>
-              <DialogTitle className="text-base font-bold break-all pr-6">
-                Gán nhóm khách hàng: {formData.code}
-              </DialogTitle>
-            </DialogHeader>
-
-            <div className="flex flex-col gap-3 py-2">
-              <span className="text-xs text-muted-foreground">
-                Vui lòng chọn các nhóm khách hàng được áp dụng bảng giá cước tùy chỉnh này:
-              </span>
-
-              <Input
-                type="text"
-                placeholder="Tìm kiếm nhóm khách hàng (mã, tên)..."
-                value={groupSearch}
-                onChange={(e) => setGroupSearch(e.target.value)}
-                className="h-9 text-xs"
-              />
-
-              <div className="flex flex-col gap-1.5 border border-input rounded-lg p-2 max-h-64 sm:max-h-72 overflow-y-auto bg-muted/10">
-                {filteredGroups.length === 0 ? (
-                  <span className="text-xs text-muted-foreground italic text-center py-6">
-                    Không tìm thấy nhóm khách hàng nào
-                  </span>
-                ) : (
-                  filteredGroups.map((group) => {
-                    const checked = selectedGroupIds.includes(group.id);
-                    return (
-                      <label
-                        key={group.id}
-                        className="flex items-start gap-2.5 text-xs sm:text-sm cursor-pointer select-none hover:bg-accent/60 p-2 rounded-md transition-colors border border-transparent hover:border-border/60"
-                      >
-                        <input
-                          type="checkbox"
-                          checked={checked}
-                          onChange={() => {
-                            setSelectedGroupIds((prev) =>
-                              checked ? prev.filter((id) => id !== group.id) : [...prev, group.id],
-                            );
-                          }}
-                          className="mt-0.5 rounded border-input text-primary focus:ring-primary size-4 shrink-0"
-                        />
-                        <div className="flex flex-col min-w-0 flex-1">
-                          <span className="font-medium text-foreground break-all leading-tight">
-                            {group.name}
-                          </span>
-                          <span className="text-[11px] font-mono text-muted-foreground break-all mt-0.5">
-                            ({group.code})
-                          </span>
-                        </div>
-                      </label>
-                    );
-                  })
-                )}
-              </div>
-            </div>
-
-            <DialogFooter className="flex flex-row items-center justify-between sm:justify-between gap-2 border-t border-border/60 pt-3">
-              <span className="text-xs text-muted-foreground">
-                Đã chọn:{" "}
-                <strong className="font-semibold text-primary">{selectedGroupIds.length}</strong>{" "}
-                nhóm
-              </span>
-              <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm" onClick={() => setAssignGroupModalOpen(false)}>
-                  Hủy
-                </Button>
-                <Button
-                  size="sm"
-                  disabled={assignGroupsMut.isPending || !rateCardId}
-                  onClick={() => {
-                    if (rateCardId) {
-                      assignGroupsMut.mutate({
-                        id: rateCardId,
-                        customerGroupIds: selectedGroupIds,
-                      });
-                    }
-                  }}
-                >
-                  {assignGroupsMut.isPending ? (
-                    <Loader2 className="mr-1.5 size-4 animate-spin" />
-                  ) : null}
-                  Lưu Nhóm Khách Hàng
-                </Button>
-              </div>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        <AssignGroupsModal
+          open={assignGroupModalOpen}
+          onOpenChange={setAssignGroupModalOpen}
+          code={formData.code}
+          groupSearch={groupSearch}
+          onGroupSearchChange={setGroupSearch}
+          filteredGroups={filteredGroups}
+          selectedGroupIds={selectedGroupIds}
+          onToggleGroup={(id) => {
+            setSelectedGroupIds((prev) =>
+              prev.includes(id) ? prev.filter((groupId) => groupId !== id) : [...prev, id],
+            );
+          }}
+          isPending={assignGroupsMut.isPending || !rateCardId}
+          onSave={() => {
+            if (rateCardId) {
+              assignGroupsMut.mutate({
+                id: rateCardId,
+                customerGroupIds: selectedGroupIds,
+              });
+            }
+          }}
+        />
       )}
 
       <ConfirmDialog {...confirmDialogProps} />
