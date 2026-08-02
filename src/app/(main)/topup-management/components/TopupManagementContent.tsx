@@ -311,6 +311,8 @@ export default function TopupManagementContent() {
 
   const handleExportExcel = () => {
     exportExcelMutation.mutate({
+      page,
+      pageSize,
       search: searchQuery ? searchQuery.trim() : undefined,
       customerId: customerIdFilter !== "ALL" ? customerIdFilter : undefined,
       paymentMethodId: paymentMethodFilter !== "ALL" ? Number(paymentMethodFilter) : undefined,
