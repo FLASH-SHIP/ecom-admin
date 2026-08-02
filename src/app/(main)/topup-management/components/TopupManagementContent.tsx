@@ -78,6 +78,7 @@ export type TopupTransactionRow = Record<string, unknown> & {
   paymentMethodId: number;
   paymentMethodName: string;
   paymentMethodIcon?: string;
+  paymentMethodIsBank?: boolean;
   wireAmount: number;
   wireAmountApprove: number;
   wireImages: { id: number; imageUrl: string }[];
@@ -342,6 +343,7 @@ export default function TopupManagementContent() {
         ? item.paymentMethod
         : (item.paymentMethodName || item.paymentMethod?.name || item.payment_method_name || ""),
     paymentMethodIcon: item.paymentMethodIcon || item.paymentMethod?.icon || item.paymentMethod?.image || "",
+    paymentMethodIsBank: Boolean(item.paymentMethodIsBank ?? item.paymentMethod?.isBank),
     wireAmount: Number(item.wireAmount ?? item.wire_amount ?? 0),
     wireAmountApprove:
       (item.status || TopupStatus.WAITING) === TopupStatus.CONFIRMED

@@ -90,13 +90,7 @@ export function AdjustmentTopupModal({
     .filter(Boolean);
 
   // Determine if payment method is bank
-  const isBank =
-    transaction?.paymentMethodIsBank ??
-    Boolean(
-      transaction?.paymentMethodName?.toLowerCase().includes("bank") ||
-        transaction?.paymentMethodName?.toLowerCase().includes("payoneer") ||
-        transaction?.paymentMethodName?.toLowerCase().includes("worldfirst"),
-    );
+  const isBank = Boolean(transaction?.paymentMethodIsBank);
 
   // Initialize form state when transaction changes
   useEffect(() => {
@@ -398,7 +392,7 @@ export function AdjustmentTopupModal({
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="font-semibold text-slate-900 dark:text-slate-100">
-                    {t("dialog.transactionCode") || "Mã giao dịch"}:
+                    {t("dialog.transactionCode") || "Mã giao dịch"}
                   </span>
                   <div className="flex items-center gap-1.5">
                     <Badge variant="outline" className="bg-white dark:bg-slate-800 font-mono text-xs text-primary border-primary/30">
@@ -421,19 +415,19 @@ export function AdjustmentTopupModal({
               </div>
               <div className="grid grid-cols-2 gap-3 text-xs pt-1 border-t border-slate-200/60 dark:border-slate-800">
                 <div>
-                  <span className="text-slate-500">{t("filter.customer") || "Khách hàng"}:</span>
+                  <span className="text-slate-500">{t("filter.customer") || "Khách hàng"}</span>
                   <p className="font-semibold text-slate-900 dark:text-slate-100 truncate">
                     {transaction.customerName}
                   </p>
                 </div>
                 <div>
-                  <span className="text-slate-500">{t("dialog.customerCodeLabel") || "Mã KH"}:</span>
+                  <span className="text-slate-500">{t("dialog.customerCodeLabel") || "Mã KH"}</span>
                   <p className="font-semibold text-slate-900 dark:text-slate-100 truncate">
                     {transaction.customerCode || "—"}
                   </p>
                 </div>
                 <div className="col-span-2">
-                  <span className="text-slate-500">{t("dialog.customerEmailLabel") || "Email KH"}:</span>
+                  <span className="text-slate-500">{t("dialog.customerEmailLabel") || "Email KH"}</span>
                   <p className="font-semibold text-slate-900 dark:text-slate-100 truncate">
                     {transaction.customerEmail || "—"}
                   </p>
@@ -445,7 +439,7 @@ export function AdjustmentTopupModal({
             <div className="space-y-4">
               <div className="space-y-1.5">
                 <label className="font-semibold text-slate-800 dark:text-slate-200 block">
-                  {t("dialog.paymentMethod") || "Phương thức thanh toán"}:
+                  {t("dialog.paymentMethod") || "Phương thức thanh toán"}
                 </label>
                 <div className="flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg">
                   {transaction.paymentMethodIcon ? (
@@ -468,7 +462,7 @@ export function AdjustmentTopupModal({
               {/* DatePicker wireDate */}
               <div className="space-y-1.5">
                 <label className="font-semibold text-slate-800 dark:text-slate-200 block">
-                  {t("dialog.wireDateLabel") || "Ngày chuyển tiền"} <span className="text-red-500">*</span>:
+                  {t("dialog.wireDateLabel") || "Ngày chuyển tiền"} <span className="text-red-500">*</span>
                 </label>
                 <DatePicker
                   value={wireDate}
@@ -482,7 +476,7 @@ export function AdjustmentTopupModal({
               <div className="space-y-3">
                 <div className="space-y-1.5">
                   <label className="font-semibold text-slate-800 dark:text-slate-200 block">
-                    {t("dialog.amountUsdLabel") || "Số tiền nạp (USD)"} <span className="text-red-500">*</span>:
+                    {t("dialog.amountUsdLabel") || "Topup Amount (USD)"} <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
                     <Input
@@ -502,7 +496,7 @@ export function AdjustmentTopupModal({
                   <>
                     <div className="space-y-1.5">
                       <label className="font-semibold text-slate-800 dark:text-slate-200 block">
-                        {t("dialog.amountVndLabel") || "Số tiền nạp (VND)"}:
+                        {t("dialog.amountVndLabel") || "Topup Amount (VND)"}
                       </label>
                       <div className="relative">
                         <Input
@@ -533,7 +527,7 @@ export function AdjustmentTopupModal({
             {existingWireImages.length > 0 && (
               <div className="space-y-1.5 pt-2 border-t border-slate-100 dark:border-slate-800">
                 <label className="font-semibold text-slate-800 dark:text-slate-200 block">
-                  {t("dialog.currentProofImages") || "Chứng từ chuyển khoản hiện tại"}:
+                  {t("dialog.currentProofImages") || "Chứng từ chuyển khoản hiện tại"}
                 </label>
                 <div>
                   <button
@@ -552,9 +546,9 @@ export function AdjustmentTopupModal({
             <div className="space-y-1.5 pt-2 border-t border-slate-100 dark:border-slate-800">
               <div className="flex items-center justify-between">
                 <label className="text-xs font-semibold text-slate-800 dark:text-slate-200">
-                  {t("dialog.uploadNewProofTitle") || "Tải lên chứng từ mới (Xóa chứng từ cũ nếu tải mới)"}:{" "}
+                  {t("dialog.uploadNewProofTitle") || "Tải lên chứng từ mới (Xóa chứng từ cũ nếu tải mới)"}
                   <span className="text-slate-400 font-normal">
-                    {t("dialog.uploadNote") || "(Tối đa 10 ảnh, dung lượng mỗi ảnh không quá 5MB)"}
+                    {t("dialog.uploadNote") || " (Tối đa 10 ảnh, dung lượng mỗi ảnh không quá 5MB)"}
                   </span>
                 </label>
               </div>
