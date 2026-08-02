@@ -208,28 +208,39 @@ export function AdjustmentTopupModal({
 
   // File Upload Processors
   const processFiles = (files: File[]) => {
-    if (uploadedFiles.length + files.length > 10) {
-      setErrorMessage(t("dialog.maxFilesText") || "Bạn chỉ được tải lên tối đa 10 ảnh.");
-      return;
-    }
-
+    let currentCount = uploadedFiles.length;
+    const maxFiles = 10;
     const validNewItems: UploadedImageItem[] = [];
+    const errorMessages: string[] = [];
 
     for (const file of files) {
+      if (currentCount >= maxFiles) {
+        errorMessages.push(t("dialog.maxFilesText") || "Bạn chỉ được tải lên tối đa 10 ảnh.");
+        break;
+      }
+
       if (file.size > 5 * 1024 * 1024) {
-        setErrorMessage(t("dialog.uploadNote") || "Dung lượng mỗi ảnh không được vượt quá 5MB.");
-        return;
+        errorMessages.push(
+          `${file.name}: ${
+            t("dialog.uploadNote") || "Dung lượng mỗi ảnh không được vượt quá 5MB."
+          }`,
+        );
+        continue;
       }
 
       const isValidType =
         file.type === "image/png" ||
         file.type === "image/jpeg" ||
         file.type === "image/jpg" ||
-        file.name.match(/\.(png|jpg|jpeg)$/i);
+        Boolean(file.name.match(/\.(png|jpg|jpeg)$/i));
 
       if (!isValidType) {
-        setErrorMessage(t("dialog.allowedFormatsText") || "Chỉ chấp nhận định dạng ảnh: *png, *jpg, *jpeg.");
-        return;
+        errorMessages.push(
+          `${file.name}: ${
+            t("dialog.allowedFormatsText") || "Chỉ chấp nhận định dạng ảnh: *png, *jpg, *jpeg."
+          }`,
+        );
+        continue;
       }
 
       const imageUrl = URL.createObjectURL(file);
@@ -238,9 +249,20 @@ export function AdjustmentTopupModal({
         url: imageUrl,
         file,
       });
+      currentCount++;
     }
 
-    setUploadedFiles((prev) => [...prev, ...validNewItems]);
+    if (errorMessages.length > 0) {
+      const combinedMsg = Array.from(new Set(errorMessages)).join(" | ");
+      setErrorMessage(combinedMsg);
+      toast(combinedMsg, "error");
+    } else {
+      setErrorMessage(null);
+    }
+
+    if (validNewItems.length > 0) {
+      setUploadedFiles((prev) => [...prev, ...validNewItems]);
+    }
   };
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
