@@ -12,8 +12,10 @@ import { useConfirm } from "@admin/components/ui/useConfirm";
 import { trpc } from "@admin/lib/trpc";
 import { formatDate } from "@admin/utils/dateFormat";
 import type { ContentStatus } from "@flash-ship/ecom-types";
+
 type RateCardType = "DEFAULT" | "CUSTOM";
 type ShippingMethod = "EXPRESS" | "EPACKET";
+
 import { Permissions } from "@flash-ship/ecom-lib/permissions";
 import { Badge } from "@flash-ship/ecom-ui/components/badge";
 import { Button } from "@flash-ship/ecom-ui/components/button";
@@ -370,7 +372,10 @@ export default function RatesContent() {
         tooltip: t("rates.btnAssignGroups"),
         icon: <UserPlus size={15} />,
         color: "info",
-        hidden: (row) => !canUpdate || row.type === "DEFAULT",
+        hidden: (row) =>
+          !canUpdate ||
+          row.type === "DEFAULT" ||
+          (row.status !== "DRAFT" && row.status !== "REJECTED"),
         onClick: (row) => openAssignGroups(row),
       },
       {
@@ -451,8 +456,7 @@ export default function RatesContent() {
             onConfirm: () => deleteMut.mutate({ id: row.id }),
           });
         },
-        hidden: (row) =>
-          !canDelete || (row.status !== "DRAFT" && row.status !== "REJECTED"),
+        hidden: (row) => !canDelete || (row.status !== "DRAFT" && row.status !== "REJECTED"),
       },
     ],
     [
