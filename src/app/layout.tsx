@@ -3,16 +3,17 @@ import { ToastProvider } from "@admin/components/toast-provider";
 import { auth } from "@admin/lib/auth";
 import { TRPCProvider } from "@admin/lib/trpc";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Be_Vietnam_Pro } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const beVietnamPro = Be_Vietnam_Pro({
+  variable: "--font-sans",
   subsets: ["latin", "vietnamese"],
   weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -36,7 +37,7 @@ export default async function RootLayout({
   const locale = await getLocale();
 
   return (
-    <html lang={locale} className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
+    <html lang={locale} className={`${beVietnamPro.variable} h-full antialiased`} suppressHydrationWarning>
       <body className="min-h-full">
         <NextIntlClientProvider messages={messages}>
           <SessionProvider session={session}>
