@@ -1809,6 +1809,8 @@ function navigateWithConfirm(
       confirmColor: "warning",
       onConfirm: onNavigate,
     });
+  } else {
+    onNavigate();
   }
 }
 

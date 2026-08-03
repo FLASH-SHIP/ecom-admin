@@ -53,51 +53,110 @@ type RateCardRow = {
   createdAt: string;
 };
 
+function findFilterVal(filters: DataTableServerParams["filters"], key: string) {
+  return filters.find((f) => f.fieldKey === key)?.value;
+}
+
+function parseDateFilters(filters: DataTableServerParams["filters"]) {
+  let startDateGte: Date | undefined;
+  let startDateLte: Date | undefined;
+  let endDateGte: Date | undefined;
+  let endDateLte: Date | undefined;
+
+  for (const f of filters) {
+    if (!f.value) continue;
+    const isLte = f.operator === "lessThanOrEqual" || f.operator === "lte" || f.operator === "lessThan";
+    const isGte = f.operator === "greaterThanOrEqual" || f.operator === "gte" || f.operator === "greaterThan";
+    const d = new Date(f.value);
+
+    if (f.fieldKey === "startDate") {
+      if (isLte) {
+        d.setHours(23, 59, 59, 999);
+        startDateLte = d;
+      } else {
+        d.setHours(0, 0, 0, 0);
+        startDateGte = d;
+      }
+    } else if (f.fieldKey === "endDate") {
+      if (isGte) {
+        d.setHours(0, 0, 0, 0);
+        endDateGte = d;
+      } else {
+        d.setHours(23, 59, 59, 999);
+        endDateLte = d;
+      }
+    }
+  }
+
+  return { startDateGte, startDateLte, endDateGte, endDateLte };
+}
+
 function toQueryInput(params: DataTableServerParams) {
   const { search, filters, sort, page, pageSize } = params;
-
-  const idFilter = filters.find((f) => f.fieldKey === "id");
-  const codeFilter = filters.find((f) => f.fieldKey === "code");
-  const typeFilter = filters.find((f) => f.fieldKey === "type");
-  const statusFilter = filters.find((f) => f.fieldKey === "status");
-  const shippingMethodFilter = filters.find((f) => f.fieldKey === "shippingMethod");
-  const originFilter = filters.find((f) => f.fieldKey === "origin");
-  const countryFilter = filters.find((f) => f.fieldKey === "country");
-  const nameFilter = filters.find((f) => f.fieldKey === "name");
-  const startDateFilter = filters.find((f) => f.fieldKey === "startDate");
-  const endDateFilter = filters.find((f) => f.fieldKey === "endDate");
-  const groupsFilter = filters.find((f) => f.fieldKey === "groups");
+  const idVal = findFilterVal(filters, "id");
+  const groupsVal = findFilterVal(filters, "groups");
+  const dates = parseDateFilters(filters);
 
   return {
     page,
     perPage: pageSize,
     search: search.trim() || undefined,
-    sortBy: sort.direction
-      ? (sort.key as
-          | "id"
-          | "code"
-          | "name"
-          | "type"
-          | "status"
-          | "createdAt"
-          | "updatedAt"
-          | "startDate"
-          | "endDate")
-      : "createdAt",
+    sortBy: (sort.direction ? sort.key : "createdAt") as
+      | "id"
+      | "code"
+      | "name"
+      | "type"
+      | "status"
+      | "createdAt"
+      | "updatedAt"
+      | "startDate"
+      | "endDate",
     sortOrder: (sort.direction as "asc" | "desc") || "desc",
-    id: idFilter?.value ? Number(idFilter.value) : undefined,
-    code: codeFilter?.value || undefined,
-    type: typeFilter?.value ? (typeFilter.value as RateCardType) : undefined,
-    status: statusFilter?.value ? (statusFilter.value as ContentStatus) : undefined,
-    shippingMethod: shippingMethodFilter?.value
-      ? (shippingMethodFilter.value as ShippingMethod)
-      : undefined,
-    origin: originFilter?.value || undefined,
-    country: countryFilter?.value || undefined,
-    name: nameFilter?.value || undefined,
-    startDate: startDateFilter?.value ? new Date(startDateFilter.value) : undefined,
-    endDate: endDateFilter?.value ? new Date(endDateFilter.value) : undefined,
-    customerGroupId: groupsFilter?.value ? Number(groupsFilter.value) : undefined,
+    id: idVal ? Number(idVal) : undefined,
+    code: findFilterVal(filters, "code"),
+    type: findFilterVal(filters, "type") as RateCardType | undefined,
+    status: findFilterVal(filters, "status") as ContentStatus | undefined,
+    shippingMethod: findFilterVal(filters, "shippingMethod") as ShippingMethod | undefined,
+    origin: findFilterVal(filters, "origin"),
+    country: findFilterVal(filters, "country"),
+    name: findFilterVal(filters, "name"),
+    ...dates,
+    customerGroupId: groupsVal ? Number(groupsVal) : undefined,
+  };
+}
+
+function getStatusBadgeConfig(
+  status: ContentStatus,
+  startDate: string | null,
+  t: (key: string) => string,
+) {
+  if (status === "PUBLISHED") {
+    const isFuture = Boolean(startDate && new Date(startDate) > new Date());
+    return isFuture
+      ? {
+          variant: "outline" as const,
+          className: "bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/30 font-medium",
+          label: "Chờ hiệu lực",
+        }
+      : {
+          variant: "default" as const,
+          className: "bg-emerald-600 text-white font-medium",
+          label: "Đang áp dụng",
+        };
+  }
+
+  const statusMap: Record<string, { variant: "secondary" | "destructive" | "outline"; label: string }> = {
+    DRAFT: { variant: "outline", label: t("rates.statusDraft") },
+    PENDING: { variant: "secondary", label: t("rates.statusPending") },
+    REJECTED: { variant: "destructive", label: t("rates.statusRejected") },
+    ARCHIVED: { variant: "destructive", label: t("rates.statusArchived") },
+  };
+
+  const matched = statusMap[status];
+  return {
+    variant: matched?.variant ?? "outline",
+    className: undefined as string | undefined,
+    label: matched?.label ?? status,
   };
 }
 
@@ -282,25 +341,12 @@ export default function RatesContent() {
         header: t("rates.colStatus"),
         size: 100,
         cell: ({ row }) => {
-          const s = row.original.status;
-          let label: string = s;
-          let variant: "default" | "secondary" | "destructive" | "outline" = "outline";
-          if (s === "PUBLISHED") {
-            variant = "default";
-            label = t("rates.statusPublished");
-          } else if (s === "DRAFT") {
-            label = t("rates.statusDraft");
-          } else if (s === "PENDING") {
-            variant = "secondary";
-            label = t("rates.statusPending");
-          } else if (s === "REJECTED") {
-            variant = "destructive";
-            label = t("rates.statusRejected");
-          } else if (s === "ARCHIVED") {
-            variant = "destructive";
-            label = t("rates.statusArchived");
-          }
-          return <Badge variant={variant}>{label}</Badge>;
+          const { variant, className, label } = getStatusBadgeConfig(
+            row.original.status,
+            row.original.startDate,
+            t,
+          );
+          return <Badge variant={variant} className={className}>{label}</Badge>;
         },
       },
       {
