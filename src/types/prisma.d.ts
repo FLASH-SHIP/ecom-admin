@@ -3,18 +3,35 @@ export type CustomerStatus = "ACTIVE" | "INACTIVE" | "SUSPENDED";
 export type VerificationCodeStatus = "PENDING" | "VERIFIED" | "EXPIRED";
 export type OrderStatus =
   | "DRAFT"
-  | "PENDING"
-  | "PROCESSING"
-  | "SHIPPED"
+  | "PENDING_LABEL"
+  | "LABEL_CREATED"
+  | "WAITING_FOR_PICKUP"
+  | "PICKED_UP"
+  | "RECEIVED_AT_ORIGIN_WAREHOUSE"
+  | "EXPORT_CUSTOMS_CLEARANCE"
+  | "DEPARTED_ORIGIN_COUNTRY"
+  | "INTERNATIONAL_TRANSIT"
+  | "ARRIVED_AT_DESTINATION_COUNTRY"
+  | "IMPORT_CUSTOMS_CLEARANCE"
+  | "RECEIVED_BY_LAST_MILE_CARRIER"
+  | "OUT_FOR_DELIVERY"
+  | "DELIVERED"
+  | "DELIVERY_FAILED"
+  | "CUSTOMS_HOLD"
+  | "RETURN_TO_SENDER"
+  | "RETURNED"
+  | "CANCELLED"
+  | "EXCEPTION";
+
+export type GroupOrderStatus =
+  | "LABEL_NOT_CREATED"
+  | "LABEL_CREATED"
+  | "WE_HAVE_YOUR_PACKAGE"
+  | "ON_THE_WAY"
+  | "OUT_FOR_DELIVERY"
   | "DELIVERED"
   | "CANCELLED"
-  | "RETURNED"
-  | "LABEL_CREATED"
-  | "PENDING_LABEL"
-  | "PACKAGE_RECEIVED"
-  | "ON_THE_WAY"
-  | "PICK_UP"
-  | "DELIVERY";
+  | "EXCEPTION";
 export type PackingBoxType = "BOX" | "BAG" | "PALLET" | "ENVELOPE";
 export type RateCardStatus =
   | "ACTIVE"
@@ -37,7 +54,7 @@ export type JsonValue =
 
 // biome-ignore lint/suspicious/noExplicitAny: frontend mock Prisma client type
 export type PrismaClient = any;
-// biome-ignore lint/suspicious/noExplicitAny: frontend mock Prisma namespace
+
 export namespace Prisma {
   // biome-ignore lint/suspicious/noExplicitAny: mock
   export type ModelName = any;
