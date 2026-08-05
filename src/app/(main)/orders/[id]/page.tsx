@@ -1,5 +1,6 @@
 "use client";
 
+import { ConfirmModal } from "@admin/components/modals/ConfirmModal";
 import { trpc } from "@admin/lib/trpc";
 import type { OrderStatus } from "@flash-ship/ecom-types";
 import { Badge } from "@flash-ship/ecom-ui/components/badge";
@@ -15,7 +16,7 @@ import {
   SelectValue,
 } from "@flash-ship/ecom-ui/components/select";
 import { format } from "date-fns";
-import { ArrowLeft, CheckCircle2, PlusCircle, RefreshCw, User } from "lucide-react";
+import { AlertCircle, ArrowLeft, CheckCircle2, PlusCircle, RefreshCw, ShoppingCart, Trash2, User } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -34,6 +35,7 @@ export default function AdminOrderDetailPage() {
   const [newStatus, setNewStatus] = useState<OrderStatus | "">("");
   const [statusNote, setStatusNote] = useState("");
   const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
+  const [isPurchasingLabel, setIsPurchasingLabel] = useState(false);
 
   // Checkpoint Insertion State
   const [checkpointDesc, setCheckpointDesc] = useState("");
@@ -56,32 +58,71 @@ export default function AdminOrderDetailPage() {
 
   const trpcContext = trpc.useUtils();
 
+  const ORDER_STATUS_OPTIONS: OrderStatus[] = [
+    "DRAFT",
+    "PENDING_LABEL",
+    "LABEL_CREATED",
+    "WAITING_FOR_PICKUP",
+    "PICKED_UP",
+    "RECEIVED_AT_ORIGIN_WAREHOUSE",
+    "EXPORT_CUSTOMS_CLEARANCE",
+    "DEPARTED_ORIGIN_COUNTRY",
+    "INTERNATIONAL_TRANSIT",
+    "ARRIVED_AT_DESTINATION_COUNTRY",
+    "IMPORT_CUSTOMS_CLEARANCE",
+    "RECEIVED_BY_LAST_MILE_CARRIER",
+    "OUT_FOR_DELIVERY",
+    "DELIVERED",
+    "DELIVERY_FAILED",
+    "CUSTOMS_HOLD",
+    "RETURN_TO_SENDER",
+    "RETURNED",
+    "CANCELLED",
+    "EXCEPTION",
+  ];
+
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case "LABEL_CREATED":
-        return <Badge variant="secondary">{t(`status.${status}`)}</Badge>;
+      case "DRAFT":
+        return <Badge variant="outline">{t(`status.${status}`)}</Badge>;
       case "PENDING_LABEL":
         return <Badge variant="warning">{t(`status.${status}`)}</Badge>;
-      case "PACKAGE_RECEIVED":
+      case "LABEL_CREATED":
+      case "WAITING_FOR_PICKUP":
+        return <Badge variant="secondary">{t(`status.${status}`)}</Badge>;
+      case "PICKED_UP":
+      case "RECEIVED_AT_ORIGIN_WAREHOUSE":
         return (
           <Badge variant="default" className="bg-[#0F798C] text-white border-none">
             {t(`status.${status}`)}
           </Badge>
         );
-      case "ON_THE_WAY":
+      case "EXPORT_CUSTOMS_CLEARANCE":
+      case "DEPARTED_ORIGIN_COUNTRY":
+      case "INTERNATIONAL_TRANSIT":
+      case "ARRIVED_AT_DESTINATION_COUNTRY":
+      case "IMPORT_CUSTOMS_CLEARANCE":
+      case "RECEIVED_BY_LAST_MILE_CARRIER":
         return (
           <Badge variant="default" className="bg-blue-500 text-white border-none">
             {t(`status.${status}`)}
           </Badge>
         );
-      case "PICK_UP":
+      case "OUT_FOR_DELIVERY":
         return (
           <Badge variant="default" className="bg-amber-500 text-white border-none">
             {t(`status.${status}`)}
           </Badge>
         );
-      case "DELIVERY":
+      case "DELIVERED":
         return <Badge variant="success">{t(`status.${status}`)}</Badge>;
+      case "DELIVERY_FAILED":
+      case "CUSTOMS_HOLD":
+      case "RETURN_TO_SENDER":
+      case "RETURNED":
+      case "CANCELLED":
+      case "EXCEPTION":
+        return <Badge variant="destructive">{t(`status.${status}`)}</Badge>;
       default:
         return <Badge variant="default">{t(`status.${status}`)}</Badge>;
     }
@@ -98,7 +139,7 @@ export default function AdminOrderDetailPage() {
     try {
       await trpcContext.client.viewer.orders.updateStatus.mutate({
         id,
-        status: newStatus as any,
+        status: newStatus as OrderStatus,
         metadata: statusNote.trim() ? { note: statusNote.trim() } : null,
         expectedVersion: order?.version,
       });
@@ -163,6 +204,83 @@ export default function AdminOrderDetailPage() {
     }
   };
 
+  const [showPurchaseConfirm, setShowPurchaseConfirm] = useState(false);
+  const [showVoidConfirm, setShowVoidConfirm] = useState(false);
+  const [showReconcileConfirm, setShowReconcileConfirm] = useState(false);
+  const [isVoidingLabel, setIsVoidingLabel] = useState(false);
+  const [isReconciling, setIsReconciling] = useState(false);
+
+  const hasFailedPaymentLog = order?.activityLogs?.some(
+    (log) => log.action === "PAYMENT_FAILED_RECONCILE"
+  );
+  const isReconciledSuccess = order?.activityLogs?.some(
+    (log) => log.action === "RECONCILE_SUCCESS"
+  );
+  const needsReconcile = Boolean(hasFailedPaymentLog && !isReconciledSuccess);
+
+  const handleReconcilePayment = async () => {
+    setError(null);
+    setSuccess(null);
+    setIsReconciling(true);
+
+    try {
+      const res = await trpcContext.client.viewer.orders.reconcilePayment.mutate({ id });
+      setShowReconcileConfirm(false);
+      setSuccess(`Khấu trừ bổ sung cước phí nhãn tem thành công (${res.feeDeducted}$)!`);
+      refetch();
+      trpcContext.viewer.orders.list.invalidate();
+    } catch (err: unknown) {
+      setShowReconcileConfirm(false);
+      const errMsg = err instanceof Error ? err.message : String(err);
+      setError(errMsg || "Lỗi khi khấu trừ bổ sung tiền ví");
+    } finally {
+      setIsReconciling(false);
+    }
+  };
+
+  const handlePurchaseLabel = async () => {
+    setError(null);
+    setSuccess(null);
+    setIsPurchasingLabel(true);
+
+    try {
+      const res = await trpcContext.client.viewer.orders.purchaseLabel.mutate({ id });
+      setShowPurchaseConfirm(false);
+      if ("isAmbiguous" in res && res.isAmbiguous) {
+        setError(`Lỗi mua nhãn (Địa chỉ không hợp lệ - 202): ${res.message || "Địa chỉ nhận hàng không tìm thấy hoặc thiếu thông tin"}`);
+      } else {
+        setSuccess(t("purchaseLabelSuccess"));
+        refetch();
+        trpcContext.viewer.orders.list.invalidate();
+      }
+    } catch (err: unknown) {
+      setShowPurchaseConfirm(false);
+      const errMsg = err instanceof Error ? err.message : String(err);
+      setError(errMsg || t("purchaseLabelError"));
+    } finally {
+      setIsPurchasingLabel(false);
+    }
+  };
+
+  const handleVoidLabel = async () => {
+    setError(null);
+    setSuccess(null);
+    setIsVoidingLabel(true);
+
+    try {
+      await trpcContext.client.viewer.orders.voidLabel.mutate({ id });
+      setSuccess(t("voidLabelSuccess"));
+      setShowVoidConfirm(false);
+      refetch();
+      trpcContext.viewer.orders.list.invalidate();
+    } catch (err: unknown) {
+      const errMsg = err instanceof Error ? err.message : String(err);
+      setError(errMsg || t("voidLabelError"));
+    } finally {
+      setIsVoidingLabel(false);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="py-12 flex flex-col justify-center items-center gap-2">
@@ -209,15 +327,79 @@ export default function AdminOrderDetailPage() {
             {t("orderIdLabel")}: {order.id}
           </p>
         </div>
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() => refetch()}
-          className="ml-auto border-border hover:bg-accent cursor-pointer"
-        >
-          <RefreshCw className="h-4 w-4" />
-        </Button>
+        <div className="ml-auto flex items-center gap-2">
+          {needsReconcile && (
+            <Button
+              onClick={() => setShowReconcileConfirm(true)}
+              disabled={isReconciling}
+              className="bg-amber-600 hover:bg-amber-700 text-white font-semibold text-xs py-1.5 px-3 rounded-lg cursor-pointer flex items-center gap-1.5 animate-pulse"
+            >
+              {isReconciling ? (
+                <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-t-transparent" />
+              ) : (
+                <AlertCircle className="h-3.5 w-3.5" />
+              )}
+              Khấu trừ ví bổ sung
+            </Button>
+          )}
+          {order.status === "PENDING_LABEL" && (
+            <Button
+              onClick={() => setShowPurchaseConfirm(true)}
+              disabled={isPurchasingLabel}
+              className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs py-1.5 px-3 rounded-lg cursor-pointer flex items-center gap-1.5"
+            >
+              {isPurchasingLabel ? (
+                <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-t-transparent" />
+              ) : (
+                <ShoppingCart className="h-3.5 w-3.5" />
+              )}
+              {t("purchaseLabel")}
+            </Button>
+          )}
+          {["LABEL_CREATED", "WAITING_FOR_PICKUP"].includes(order.status) && (
+            <Button
+              onClick={() => setShowVoidConfirm(true)}
+              disabled={isVoidingLabel}
+              variant="destructive"
+              className="font-semibold text-xs py-1.5 px-3 rounded-lg cursor-pointer flex items-center gap-1.5"
+            >
+              {isVoidingLabel ? (
+                <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-t-transparent" />
+              ) : (
+                <Trash2 className="h-3.5 w-3.5" />
+              )}
+              {t("voidLabel")}
+            </Button>
+          )}
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => refetch()}
+            className="border-border hover:bg-accent cursor-pointer"
+          >
+            <RefreshCw className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
+
+      {needsReconcile && (
+        <div className="mb-4 p-3.5 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900 rounded-xl flex items-center justify-between text-xs text-amber-800 dark:text-amber-300 shadow-sm">
+          <div className="flex items-center gap-2">
+            <AlertCircle className="h-4 w-4 text-amber-600 dark:text-amber-400 shrink-0" />
+            <span>
+              <strong>Cảnh báo thu tiền:</strong> Tem đã được tạo trên Carrier thành công nhưng trừ tiền ví thất bại. Vui lòng kiểm tra ví khách hàng và nhấn <strong>Khấu trừ ví bổ sung</strong>.
+            </span>
+          </div>
+          <Button
+            onClick={() => setShowReconcileConfirm(true)}
+            disabled={isReconciling}
+            size="sm"
+            className="bg-amber-600 hover:bg-amber-700 text-white text-xs px-3 py-1 ml-3 shrink-0 rounded-lg cursor-pointer"
+          >
+            Khấu trừ ngay
+          </Button>
+        </div>
+      )}
 
       {success && (
         <div className="rounded-xl border border-emerald-100 bg-emerald-50 dark:bg-emerald-950/20 px-4 py-3 text-sm font-semibold text-emerald-600 dark:text-emerald-400">
@@ -521,14 +703,11 @@ export default function AdminOrderDetailPage() {
                       <SelectValue placeholder={t("selectStatusPlaceholder")} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="LABEL_CREATED">{t("status.LABEL_CREATED")}</SelectItem>
-                      <SelectItem value="PENDING_LABEL">{t("status.PENDING_LABEL")}</SelectItem>
-                      <SelectItem value="PACKAGE_RECEIVED">
-                        {t("status.PACKAGE_RECEIVED")}
-                      </SelectItem>
-                      <SelectItem value="ON_THE_WAY">{t("status.ON_THE_WAY")}</SelectItem>
-                      <SelectItem value="PICK_UP">{t("status.PICK_UP")}</SelectItem>
-                      <SelectItem value="DELIVERY">{t("status.DELIVERY")}</SelectItem>
+                      {ORDER_STATUS_OPTIONS.map((statusVal) => (
+                        <SelectItem key={statusVal} value={statusVal}>
+                          {t(`status.${statusVal}`)}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
@@ -703,6 +882,45 @@ export default function AdminOrderDetailPage() {
           </CardContent>
         </Card>
       </div>
+
+      <ConfirmModal
+        open={showPurchaseConfirm}
+        onOpenChange={setShowPurchaseConfirm}
+        title={t("confirmPurchaseLabelTitle")}
+        description={t("confirmPurchaseLabelDesc", { orderCode: order.orderCode })}
+        icon={<ShoppingCart className="size-6 text-emerald-600 dark:text-emerald-400" />}
+        iconBgClass="bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 ring-4 ring-emerald-500/10"
+        confirmText={t("purchaseLabelBtn")}
+        confirmButtonClass="bg-emerald-600 hover:bg-emerald-700 text-white"
+        isSubmitting={isPurchasingLabel}
+        onConfirm={handlePurchaseLabel}
+      />
+
+      <ConfirmModal
+        open={showVoidConfirm}
+        onOpenChange={setShowVoidConfirm}
+        title={t("confirmVoidLabelTitle")}
+        description={t("confirmVoidLabelDesc", { orderCode: order.orderCode })}
+        icon={<Trash2 className="size-6 text-rose-600 dark:text-rose-400" />}
+        iconBgClass="bg-rose-50 dark:bg-rose-950/40 text-rose-600 ring-4 ring-rose-500/10"
+        confirmText={t("voidLabelBtn")}
+        confirmButtonClass="bg-rose-600 hover:bg-rose-700 text-white"
+        isSubmitting={isVoidingLabel}
+        onConfirm={handleVoidLabel}
+      />
+
+      <ConfirmModal
+        open={showReconcileConfirm}
+        onOpenChange={setShowReconcileConfirm}
+        title="Xác nhận khấu trừ bổ sung tiền ví"
+        description={`Bạn có chắc chắn muốn thực hiện khấu trừ bổ sung cước phí nhãn tem cho đơn hàng #${order.orderCode} vào ví khách hàng?`}
+        icon={<AlertCircle className="size-6 text-amber-600 dark:text-amber-400" />}
+        iconBgClass="bg-amber-50 dark:bg-amber-950/40 text-amber-600 ring-4 ring-amber-500/10"
+        confirmText="Xác nhận khấu trừ"
+        confirmButtonClass="bg-amber-600 hover:bg-amber-700 text-white"
+        isSubmitting={isReconciling}
+        onConfirm={handleReconcilePayment}
+      />
     </div>
   );
 }
