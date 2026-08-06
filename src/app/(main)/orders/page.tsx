@@ -9,12 +9,13 @@ import type {
 } from "@admin/components/data-table/types";
 import { ConfirmModal } from "@admin/components/modals/ConfirmModal";
 import { trpc } from "@admin/lib/trpc";
+import { resolveMediaUrl } from "@flash-ship/ecom-lib/media";
 import type { OrderStatus } from "@flash-ship/ecom-types";
 import { Badge } from "@flash-ship/ecom-ui/components/badge";
 import { keepPreviousData } from "@tanstack/react-query";
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import { Eye, ShoppingBag, ShoppingCart, Trash2 } from "lucide-react";
+import { Eye, Printer, ShoppingBag, ShoppingCart, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
@@ -25,6 +26,7 @@ interface OrderRow extends Record<string, unknown> {
   customerId: string;
   status: OrderStatus;
   labelStatus: string;
+  labelUrl?: string | null;
   shippingMethod: string;
   shippingOrigin: string;
   sellerOrderId: string | null;
@@ -185,11 +187,34 @@ export default function AdminOrdersPage() {
       {
         accessorKey: "trackingNumber",
         header: t("trackingNumberLabel"),
-        cell: ({ row }) => (
-          <span className="text-xs font-mono font-semibold text-foreground/80">
-            {row.original.trackingNumber || "—"}
-          </span>
-        ),
+        cell: ({ row }) => {
+          const trackingNumber = row.original.trackingNumber;
+          const labelUrl = row.original.labelUrl;
+          if (!trackingNumber && !labelUrl) {
+            return <span className="text-xs font-mono text-muted-foreground">—</span>;
+          }
+          if (labelUrl) {
+            return (
+              <button
+                type="button"
+                className="text-xs font-mono font-semibold text-[#0F798C] hover:underline cursor-pointer flex items-center gap-1 bg-transparent border-0 p-0 text-left"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  window.open(resolveMediaUrl(labelUrl as string), "_blank");
+                }}
+                title="Click để in nhãn / Tải PDF"
+              >
+                <Printer size={13} className="shrink-0 text-[#0F798C]" />
+                <span>{trackingNumber || "Xem nhãn"}</span>
+              </button>
+            );
+          }
+          return (
+            <span className="text-xs font-mono font-semibold text-foreground/80">
+              {trackingNumber}
+            </span>
+          );
+        },
       },
       {
         accessorKey: "declaredWeight",
@@ -231,13 +256,22 @@ export default function AdminOrdersPage() {
           { value: "LABEL_CREATED", label: t("status.LABEL_CREATED") },
           { value: "WAITING_FOR_PICKUP", label: t("status.WAITING_FOR_PICKUP") },
           { value: "PICKED_UP", label: t("status.PICKED_UP") },
-          { value: "RECEIVED_AT_ORIGIN_WAREHOUSE", label: t("status.RECEIVED_AT_ORIGIN_WAREHOUSE") },
+          {
+            value: "RECEIVED_AT_ORIGIN_WAREHOUSE",
+            label: t("status.RECEIVED_AT_ORIGIN_WAREHOUSE"),
+          },
           { value: "EXPORT_CUSTOMS_CLEARANCE", label: t("status.EXPORT_CUSTOMS_CLEARANCE") },
           { value: "DEPARTED_ORIGIN_COUNTRY", label: t("status.DEPARTED_ORIGIN_COUNTRY") },
           { value: "INTERNATIONAL_TRANSIT", label: t("status.INTERNATIONAL_TRANSIT") },
-          { value: "ARRIVED_AT_DESTINATION_COUNTRY", label: t("status.ARRIVED_AT_DESTINATION_COUNTRY") },
+          {
+            value: "ARRIVED_AT_DESTINATION_COUNTRY",
+            label: t("status.ARRIVED_AT_DESTINATION_COUNTRY"),
+          },
           { value: "IMPORT_CUSTOMS_CLEARANCE", label: t("status.IMPORT_CUSTOMS_CLEARANCE") },
-          { value: "RECEIVED_BY_LAST_MILE_CARRIER", label: t("status.RECEIVED_BY_LAST_MILE_CARRIER") },
+          {
+            value: "RECEIVED_BY_LAST_MILE_CARRIER",
+            label: t("status.RECEIVED_BY_LAST_MILE_CARRIER"),
+          },
           { value: "OUT_FOR_DELIVERY", label: t("status.OUT_FOR_DELIVERY") },
           { value: "DELIVERED", label: t("status.DELIVERED") },
           { value: "DELIVERY_FAILED", label: t("status.DELIVERY_FAILED") },
@@ -273,7 +307,9 @@ export default function AdminOrdersPage() {
     onSuccess: (res) => {
       setSelectedOrderForPurchase(null);
       if ("isAmbiguous" in res && res.isAmbiguous) {
-        setError(`Lỗi mua nhãn (Địa chỉ không hợp lệ - 202): ${res.message || "Địa chỉ nhận hàng không tìm thấy hoặc thiếu thông tin"}`);
+        setError(
+          `Lỗi mua nhãn (Địa chỉ không hợp lệ - 202): ${res.message || "Địa chỉ nhận hàng không tìm thấy hoặc thiếu thông tin"}`,
+        );
       } else {
         setError(null);
         refetch();
@@ -306,9 +342,22 @@ export default function AdminOrdersPage() {
         tooltip: t("purchaseLabel"),
         icon: <ShoppingCart size={16} />,
         color: "success",
-        disabled: (row) => purchaseLabelMutation.isPending && selectedOrderForPurchase?.id === row.id,
+        disabled: (row) =>
+          purchaseLabelMutation.isPending && selectedOrderForPurchase?.id === row.id,
         hidden: (row) => row.status !== "PENDING_LABEL",
         onClick: (row) => setSelectedOrderForPurchase({ id: row.id, orderCode: row.orderCode }),
+      },
+      {
+        key: "printLabel",
+        tooltip: "In nhãn / Tải PDF",
+        icon: <Printer size={16} />,
+        color: "primary",
+        hidden: (row) => !row.labelUrl,
+        onClick: (row) => {
+          if (row.labelUrl) {
+            window.open(resolveMediaUrl(row.labelUrl as string), "_blank");
+          }
+        },
       },
       {
         key: "voidLabel",
@@ -327,7 +376,14 @@ export default function AdminOrdersPage() {
         onClick: (row) => router.push(`/orders/${row.id}`),
       },
     ],
-    [router, t, purchaseLabelMutation.isPending, selectedOrderForPurchase, voidLabelMutation.isPending, selectedOrderForVoid],
+    [
+      router,
+      t,
+      purchaseLabelMutation.isPending,
+      selectedOrderForPurchase,
+      voidLabelMutation.isPending,
+      selectedOrderForVoid,
+    ],
   );
 
   return (

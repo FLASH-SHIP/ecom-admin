@@ -2,6 +2,7 @@
 
 import { ConfirmModal } from "@admin/components/modals/ConfirmModal";
 import { trpc } from "@admin/lib/trpc";
+import { resolveMediaUrl } from "@flash-ship/ecom-lib/media";
 import type { OrderStatus } from "@flash-ship/ecom-types";
 import { Badge } from "@flash-ship/ecom-ui/components/badge";
 import { Button } from "@flash-ship/ecom-ui/components/button";
@@ -16,7 +17,17 @@ import {
   SelectValue,
 } from "@flash-ship/ecom-ui/components/select";
 import { format } from "date-fns";
-import { AlertCircle, ArrowLeft, CheckCircle2, PlusCircle, RefreshCw, ShoppingCart, Trash2, User } from "lucide-react";
+import {
+  AlertCircle,
+  ArrowLeft,
+  CheckCircle2,
+  PlusCircle,
+  Printer,
+  RefreshCw,
+  ShoppingCart,
+  Trash2,
+  User,
+} from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -211,10 +222,10 @@ export default function AdminOrderDetailPage() {
   const [isReconciling, setIsReconciling] = useState(false);
 
   const hasFailedPaymentLog = order?.activityLogs?.some(
-    (log) => log.action === "PAYMENT_FAILED_RECONCILE"
+    (log) => log.action === "PAYMENT_FAILED_RECONCILE",
   );
   const isReconciledSuccess = order?.activityLogs?.some(
-    (log) => log.action === "RECONCILE_SUCCESS"
+    (log) => log.action === "RECONCILE_SUCCESS",
   );
   const needsReconcile = Boolean(hasFailedPaymentLog && !isReconciledSuccess);
 
@@ -247,7 +258,9 @@ export default function AdminOrderDetailPage() {
       const res = await trpcContext.client.viewer.orders.purchaseLabel.mutate({ id });
       setShowPurchaseConfirm(false);
       if ("isAmbiguous" in res && res.isAmbiguous) {
-        setError(`Lỗi mua nhãn (Địa chỉ không hợp lệ - 202): ${res.message || "Địa chỉ nhận hàng không tìm thấy hoặc thiếu thông tin"}`);
+        setError(
+          `Lỗi mua nhãn (Địa chỉ không hợp lệ - 202): ${res.message || "Địa chỉ nhận hàng không tìm thấy hoặc thiếu thông tin"}`,
+        );
       } else {
         setSuccess(t("purchaseLabelSuccess"));
         refetch();
@@ -356,6 +369,15 @@ export default function AdminOrderDetailPage() {
               {t("purchaseLabel")}
             </Button>
           )}
+          {order.labelUrl && (
+            <Button
+              onClick={() => window.open(resolveMediaUrl(order.labelUrl), "_blank")}
+              className="bg-[#0F798C] hover:bg-[#0F798C]/90 text-white font-semibold text-xs py-1.5 px-3 rounded-lg cursor-pointer flex items-center gap-1.5"
+            >
+              <Printer className="h-3.5 w-3.5" />
+              In nhãn / Tải PDF
+            </Button>
+          )}
           {["LABEL_CREATED", "WAITING_FOR_PICKUP"].includes(order.status) && (
             <Button
               onClick={() => setShowVoidConfirm(true)}
@@ -387,7 +409,9 @@ export default function AdminOrderDetailPage() {
           <div className="flex items-center gap-2">
             <AlertCircle className="h-4 w-4 text-amber-600 dark:text-amber-400 shrink-0" />
             <span>
-              <strong>Cảnh báo thu tiền:</strong> Tem đã được tạo trên Carrier thành công nhưng trừ tiền ví thất bại. Vui lòng kiểm tra ví khách hàng và nhấn <strong>Khấu trừ ví bổ sung</strong>.
+              <strong>Cảnh báo thu tiền:</strong> Tem đã được tạo trên Carrier thành công nhưng trừ
+              tiền ví thất bại. Vui lòng kiểm tra ví khách hàng và nhấn{" "}
+              <strong>Khấu trừ ví bổ sung</strong>.
             </span>
           </div>
           <Button
