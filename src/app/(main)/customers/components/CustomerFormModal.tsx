@@ -271,8 +271,11 @@ export function CustomerFormModal({ customerId, open, onClose, onSaved }: Custom
   };
 
   const createMut = trpc.viewer.customers.create.useMutation({
-    onSuccess: () => {
+    onSuccess: (newCustomerData: any) => {
       utils.viewer.customers.list.invalidate();
+      if (newCustomerData?.id) {
+        utils.customer.topup.getWalletSummary.invalidate({ customerId: newCustomerData.id });
+      }
       toast(tCommon("successCreated"), "success");
       onSaved();
     },
