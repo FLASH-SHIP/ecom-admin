@@ -602,24 +602,25 @@ export default function TopupManagementContent() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start">
+              {/*View detail*/}
               <DropdownMenuItem onClick={() => setSelectedTransactionDetail(tx)}>
                 <Eye className="h-4 w-4 text-primary" />
                 <span>{t("actions.viewDetails")}</span>
               </DropdownMenuItem>
 
               {tx.status === TopupStatus.WAITING && (
-                <DropdownMenuItem
-                  onClick={() => {
-                    setAdjustDialogTx(tx);
-                  }}
-                >
-                  <Sliders className="h-4 w-4 text-indigo-600" />
-                  <span className="text-indigo-600">{t("actions.adjust")}</span>
-                </DropdownMenuItem>
-              )}
-
-              {tx.status === TopupStatus.WAITING && (
                 <>
+                  {/*Adjustment*/}
+                  <DropdownMenuItem
+                    onClick={() => {
+                      setAdjustDialogTx(tx);
+                    }}
+                  >
+                    <Sliders className="h-4 w-4 text-indigo-600" />
+                    <span className="text-indigo-600">{t("actions.adjust")}</span>
+                  </DropdownMenuItem>
+
+                  {/*Approved*/}
                   <DropdownMenuItem
                     onClick={() => {
                       setApproveDialogTx(tx);
@@ -629,6 +630,8 @@ export default function TopupManagementContent() {
                     <CheckCircle2 className="h-4 w-4 text-emerald-600" />
                     <span className="text-emerald-600 font-medium">{t("actions.approve")}</span>
                   </DropdownMenuItem>
+
+                  {/*Reject*/}
                   <DropdownMenuItem
                     onClick={() => {
                       setRejectDialogTx(tx);
