@@ -607,7 +607,7 @@ export default function TopupManagementContent() {
                 <span>{t("actions.viewDetails")}</span>
               </DropdownMenuItem>
 
-              {tx.status !== TopupStatus.REJECT && (
+              {tx.status === TopupStatus.WAITING && (
                 <DropdownMenuItem
                   onClick={() => {
                     setAdjustDialogTx(tx);
