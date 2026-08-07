@@ -3,7 +3,7 @@
 import { PageShell } from "@admin/components/layout/PageShell";
 import { StickyPublishBar } from "@admin/components/layout/StickyPublishBar";
 import { useToast } from "@admin/components/toast-provider";
-import { PhoneInput } from "@flash-ship/ecom-ui/domain";
+import { mapTRPCErrorToForm } from "@admin/lib/form-error-handler";
 import { trpc } from "@admin/lib/trpc";
 import { Button } from "@flash-ship/ecom-ui/components/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@flash-ship/ecom-ui/components/card";
@@ -15,6 +15,7 @@ import {
 } from "@flash-ship/ecom-ui/components/dropdown-menu";
 import { Input } from "@flash-ship/ecom-ui/components/input";
 import { Label } from "@flash-ship/ecom-ui/components/label";
+import { PhoneInput } from "@flash-ship/ecom-ui/domain";
 import { cn } from "@flash-ship/ecom-ui/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertCircle, ArrowLeft, ChevronDown, Loader2, Save, X } from "lucide-react";
@@ -113,6 +114,7 @@ function UserFieldsCard({ control, t, isFormDisabled }: UserFieldsCardProps) {
                   required
                   disabled={isFormDisabled}
                   placeholder="Nhập tên đăng nhập"
+                  autoComplete="new-password"
                   onChange={(e) => field.onChange(e.target.value.toLowerCase().trim())}
                   aria-invalid={!!fieldState.error}
                 />
@@ -138,6 +140,7 @@ function UserFieldsCard({ control, t, isFormDisabled }: UserFieldsCardProps) {
                   required
                   disabled={isFormDisabled}
                   placeholder="Nhập email"
+                  autoComplete="off"
                   aria-invalid={!!fieldState.error}
                 />
                 {fieldState.error && (
@@ -186,6 +189,7 @@ function UserFieldsCard({ control, t, isFormDisabled }: UserFieldsCardProps) {
                   required
                   disabled={isFormDisabled}
                   placeholder="Nhập mật khẩu (tối thiểu 8 ký tự)"
+                  autoComplete="new-password"
                   showPasswordLabel={t("profile.showPassword")}
                   hidePasswordLabel={t("profile.hidePassword")}
                   aria-invalid={!!fieldState.error}
@@ -212,6 +216,7 @@ function UserFieldsCard({ control, t, isFormDisabled }: UserFieldsCardProps) {
                   required
                   disabled={isFormDisabled}
                   placeholder="Nhập lại mật khẩu"
+                  autoComplete="new-password"
                   showPasswordLabel={t("profile.showPassword")}
                   hidePasswordLabel={t("profile.hidePassword")}
                   aria-invalid={!!fieldState.error}
@@ -319,7 +324,7 @@ function UserRolesCard({
                     checked={checked}
                     onCheckedChange={(checked) => {
                       if (checked) {
-                        setValue("roleIds", [...selectedRoleIds, role.id!]);
+                        setValue("roleIds", [...selectedRoleIds, role.id]);
                       } else {
                         setValue(
                           "roleIds",
@@ -354,7 +359,7 @@ export default function CreateUserPage() {
 
   const schema = getValidationSchema(t);
 
-  const { control, handleSubmit, formState, watch, setValue } = useForm<FormValues>({
+  const form = useForm<FormValues>({
     mode: "onChange",
     defaultValues: {
       name: "",
@@ -367,6 +372,7 @@ export default function CreateUserPage() {
     },
     resolver: zodResolver(schema),
   });
+  const { control, handleSubmit, formState, watch, setValue } = form;
 
   const { isSubmitting } = formState;
   const selectedRoleIds = watch("roleIds") || [];
@@ -381,7 +387,12 @@ export default function CreateUserPage() {
       }
     },
     onError: (err) => {
-      toast(err.message, "error");
+      mapTRPCErrorToForm(err, form, {
+        codeToFieldMap: {
+          EMAIL_ALREADY_EXISTS: "email",
+          USERNAME_ALREADY_EXISTS: "username",
+        },
+      });
     },
   });
 
@@ -409,7 +420,10 @@ export default function CreateUserPage() {
         </Button>
       }
     >
-      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate autoComplete="off">
+        {/* Fake inputs to prevent browser password managers from auto-filling saved credentials */}
+        <input type="text" name="fake_username_autofill" style={{ display: "none" }} tabIndex={-1} autoComplete="off" />
+        <input type="password" name="fake_password_autofill" style={{ display: "none" }} tabIndex={-1} autoComplete="new-password" />
         <StickyPublishBar
           publishCardRef={publishCardRef}
           title={watch("name") || ""}

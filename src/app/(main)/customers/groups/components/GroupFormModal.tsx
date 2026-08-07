@@ -1,6 +1,7 @@
 "use client";
 
 import { useToast } from "@admin/components/toast-provider";
+import { mapTRPCErrorToForm, type TRPCErrorLike } from "@admin/lib/form-error-handler";
 import { trpc } from "@admin/lib/trpc";
 import { Button } from "@flash-ship/ecom-ui/components/button";
 import {
@@ -73,11 +74,12 @@ export function GroupFormModal({ groupId, open, onClose, onSaved }: GroupFormMod
       .nullable(),
   });
 
-  const { control, handleSubmit, formState, reset, setError } = useForm<FormValues>({
+  const form = useForm<FormValues>({
     mode: "onTouched",
     defaultValues,
     resolver: zodResolver(schema),
   });
+  const { control, handleSubmit, formState, reset } = form;
 
   const { isSubmitting } = formState;
 
@@ -97,16 +99,23 @@ export function GroupFormModal({ groupId, open, onClose, onSaved }: GroupFormMod
 
   const utils = trpc.useUtils();
 
-  function handleServerError(err: { message: string }) {
-    const msg = err.message || "";
-    const lowerMsg = msg.toLowerCase();
-    if (lowerMsg.includes("mã nhóm") || lowerMsg.includes("code")) {
-      setError("code", { type: "server", message: msg });
-    } else if (lowerMsg.includes("tên nhóm") || lowerMsg.includes("name")) {
-      setError("name", { type: "server", message: msg });
-    } else {
-      toast(msg, "error");
-    }
+  function handleServerError(err: TRPCErrorLike) {
+    mapTRPCErrorToForm(err, form, {
+      codeToFieldMap: {
+        CUSTOMER_GROUP_CONFLICT: "code",
+        SLUG_ALREADY_EXISTS: "code",
+      },
+      translate: (msg) => {
+        const lowerMsg = msg.toLowerCase();
+        if (lowerMsg.includes("mã nhóm") || lowerMsg.includes("code")) {
+          return msg;
+        }
+        if (lowerMsg.includes("tên nhóm") || lowerMsg.includes("name")) {
+          return msg;
+        }
+        return msg;
+      },
+    });
   }
 
   const createMut = trpc.viewer.customerGroups.create.useMutation({

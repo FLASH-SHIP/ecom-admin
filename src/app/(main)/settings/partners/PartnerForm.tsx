@@ -1,9 +1,9 @@
 "use client";
 
-import { env } from "@admin/env";
 import { useToast } from "@admin/components/toast-provider";
 import { ConfirmDialog } from "@admin/components/ui/ConfirmDialog";
 import { useConfirm } from "@admin/components/ui/useConfirm";
+import { env } from "@admin/env";
 import { trpc } from "@admin/lib/trpc";
 import { PartnerStatus, ServiceType } from "@flash-ship/ecom-types";
 import { Badge } from "@flash-ship/ecom-ui/components/badge";
@@ -18,6 +18,7 @@ import {
 } from "@flash-ship/ecom-ui/components/dialog";
 import { Input } from "@flash-ship/ecom-ui/components/input";
 import { Label } from "@flash-ship/ecom-ui/components/label";
+import { NumberInput } from "@flash-ship/ecom-ui/components/NumberInput";
 import {
   Select,
   SelectContent,
@@ -901,11 +902,12 @@ export function PartnerForm({ partnerId }: PartnerFormProps) {
 
               <div className="flex flex-col gap-1">
                 <Label className="font-semibold text-xs">{t("partners.services.lblTimeout")}</Label>
-                <Input
-                  type="number"
+                <NumberInput
+                  precision={0}
+                  min={0}
                   value={serviceForm.timeoutMs}
-                  onChange={(e) =>
-                    setServiceForm({ ...serviceForm, timeoutMs: Number(e.target.value) })
+                  onChange={(val) =>
+                    setServiceForm({ ...serviceForm, timeoutMs: val ?? 0 })
                   }
                 />
               </div>
@@ -914,11 +916,12 @@ export function PartnerForm({ partnerId }: PartnerFormProps) {
                 <Label className="font-semibold text-xs">
                   {t("partners.services.lblRateLimit")}
                 </Label>
-                <Input
-                  type="number"
+                <NumberInput
+                  precision={0}
+                  min={0}
                   value={serviceForm.rateLimitPerMinute}
-                  onChange={(e) =>
-                    setServiceForm({ ...serviceForm, rateLimitPerMinute: Number(e.target.value) })
+                  onChange={(val) =>
+                    setServiceForm({ ...serviceForm, rateLimitPerMinute: val ?? 0 })
                   }
                 />
               </div>

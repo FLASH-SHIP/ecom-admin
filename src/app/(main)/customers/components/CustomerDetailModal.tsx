@@ -148,10 +148,10 @@ export function CustomerDetailModal({ customerId, onClose, onDeleted }: Customer
                     },
                     { label: tUsers("fields.username"), value: `@${detail.username}` },
                     {
-                      label: "Nhóm khách hàng",
+                      label: t("form.groupLabel"),
                       value: detail.group
                         ? `${detail.group.name} (${detail.group.code})`
-                        : "Không phân nhóm",
+                        : t("form.noGroup"),
                     },
                     { label: t("fields.phone"), value: detail.phone ?? "—" },
                     {

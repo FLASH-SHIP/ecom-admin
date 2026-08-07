@@ -8,6 +8,7 @@ import { useDebounce } from "@admin/lib/hooks/useDebounce";
 import { trpc } from "@admin/lib/trpc";
 import { Button } from "@flash-ship/ecom-ui/components/button";
 import { Input } from "@flash-ship/ecom-ui/components/input";
+import { NumberInput } from "@flash-ship/ecom-ui/components/NumberInput";
 import { Label } from "@flash-ship/ecom-ui/components/label";
 import { PerfectScroll } from "@flash-ship/ecom-ui/components/perfect-scroll";
 import { SearchableSelect } from "@flash-ship/ecom-ui/components/searchable-select";
@@ -569,11 +570,11 @@ export default function DivisionsContent() {
                   <Label htmlFor="provCode" className="text-sm font-semibold text-sys-primary">
                     {t("divisions.lblCode")} <span className="text-sys-dangerous">*</span>
                   </Label>
-                  <Input
+                  <NumberInput
                     id="provCode"
-                    type="number"
+                    precision={0}
                     value={provCode}
-                    onChange={(e) => setProvCode(e.target.value)}
+                    onChange={(_num, rawStr) => setProvCode(rawStr)}
                     placeholder={t("divisions.placeholderCode")}
                     required
                     disabled={!!provEditingId}
@@ -614,11 +615,11 @@ export default function DivisionsContent() {
                   <Label htmlFor="provPhoneCode" className="text-sm font-semibold text-sys-primary">
                     {t("divisions.lblPhoneCode")} <span className="text-sys-dangerous">*</span>
                   </Label>
-                  <Input
+                  <NumberInput
                     id="provPhoneCode"
-                    type="number"
+                    precision={0}
                     value={provPhoneCode}
-                    onChange={(e) => setProvPhoneCode(e.target.value)}
+                    onChange={(_num, rawStr) => setProvPhoneCode(rawStr)}
                     placeholder={t("divisions.placeholderPhoneCode")}
                     required
                   />
@@ -678,11 +679,11 @@ export default function DivisionsContent() {
                   <Label htmlFor="wardCode" className="text-sm font-semibold text-sys-primary">
                     {t("divisions.lblCode")} <span className="text-sys-dangerous">*</span>
                   </Label>
-                  <Input
+                  <NumberInput
                     id="wardCode"
-                    type="number"
+                    precision={0}
                     value={wardCode}
-                    onChange={(e) => setWardCode(e.target.value)}
+                    onChange={(_num, rawStr) => setWardCode(rawStr)}
                     placeholder={t("divisions.placeholderCode")}
                     required
                     disabled={!!wardEditingId}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useToast } from "@admin/components/toast-provider";
+import { mapTRPCErrorToForm, type TRPCErrorLike } from "@admin/lib/form-error-handler";
 import { trpc } from "@admin/lib/trpc";
 import { PHONE_REGEX } from "@flash-ship/ecom-types";
 import { Button } from "@flash-ship/ecom-ui/components/button";
@@ -14,7 +15,7 @@ import {
 } from "@flash-ship/ecom-ui/components/dialog";
 import { Input } from "@flash-ship/ecom-ui/components/input";
 import { Label } from "@flash-ship/ecom-ui/components/label";
-import { PerfectScroll } from "@flash-ship/ecom-ui/components/perfect-scroll";
+
 import {
   Select,
   SelectContent,
@@ -108,10 +109,12 @@ export function CustomerFormModal({ customerId, open, onClose, onSaved }: Custom
       phone: z
         .string()
         .max(20, t("validation.phoneMax"))
-        .refine(
-          (val) => !val || PHONE_REGEX.test(val.replace(/[\s\-().]/g, "")),
-          t("validation.phoneInvalid"),
-        )
+        .refine((val) => {
+          if (!val?.trim()) return true;
+          const cleaned = val.replace(/[\s\-().]/g, "");
+          if (/^\+\d{1,4}$/.test(cleaned)) return true;
+          return PHONE_REGEX.test(cleaned);
+        }, t("validation.phoneInvalid"))
         .optional(),
       dob: z.string().optional(),
       gender: z.enum(["male", "female", "other"]).optional(),
@@ -187,12 +190,12 @@ export function CustomerFormModal({ customerId, open, onClose, onSaved }: Custom
       }
     });
 
-  const { control, handleSubmit, formState, reset, setValue, clearErrors, watch, setError } =
-    useForm<FormValues>({
-      mode: "onChange",
-      defaultValues,
-      resolver: zodResolver(schema),
-    });
+  const form = useForm<FormValues>({
+    mode: "onChange",
+    defaultValues,
+    resolver: zodResolver(schema),
+  });
+  const { control, handleSubmit, formState, reset, setValue, clearErrors, watch } = form;
 
   const changePasswordToggle = watch("changePassword") ?? false;
   const { isSubmitting } = formState;
@@ -236,42 +239,26 @@ export function CustomerFormModal({ customerId, open, onClose, onSaved }: Custom
 
   const utils = trpc.useUtils();
 
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: handleServerError maps backend error strings to form field errors
-  const handleServerError = (err: { message: string }) => {
-    const msg = err.message || "";
-    toast(msg, "error");
-
-    if (/email/i.test(msg)) {
-      setError("email", {
-        type: "server",
-        message:
-          msg.includes("already exists") || msg.includes("tồn tại")
-            ? "Email này đã được sử dụng trong hệ thống"
-            : msg,
-      });
-    } else if (/username/i.test(msg) || /tên đăng nhập/i.test(msg)) {
-      setError("username", {
-        type: "server",
-        message:
-          msg.includes("already taken") || msg.includes("tồn tại")
-            ? "Tên đăng nhập này đã được sử dụng"
-            : msg,
-      });
-    } else if (/phone/i.test(msg) || /số điện thoại/i.test(msg) || /định dạng/i.test(msg)) {
-      setError("phone", {
-        type: "server",
-        message: msg,
-      });
-    } else if (/password/i.test(msg) || /mật khẩu/i.test(msg)) {
-      setError("password", {
-        type: "server",
-        message: msg,
-      });
-    }
+  const handleServerError = (err: TRPCErrorLike) => {
+    mapTRPCErrorToForm(err, form, {
+      codeToFieldMap: {
+        EMAIL_ALREADY_EXISTS: "email",
+        USERNAME_ALREADY_EXISTS: "username",
+      },
+      translate: (msg) => {
+        if (msg.includes("already exists") || msg.includes("tồn tại") || msg === "EMAIL_ALREADY_EXISTS") {
+          return t("validation.emailTaken");
+        }
+        if (msg.includes("already taken") || msg.includes("tồn tại") || msg === "USERNAME_ALREADY_EXISTS") {
+          return t("validation.usernameTaken");
+        }
+        return msg;
+      },
+    });
   };
 
   const createMut = trpc.viewer.customers.create.useMutation({
-    onSuccess: (newCustomerData: any) => {
+    onSuccess: (newCustomerData: { id?: string }) => {
       utils.viewer.customers.list.invalidate();
       if (newCustomerData?.id) {
         utils.customer.topup.getWalletSummary.invalidate({ customerId: newCustomerData.id });
@@ -359,10 +346,15 @@ export function CustomerFormModal({ customerId, open, onClose, onSaved }: Custom
         ) : (
           <form
             noValidate
+            autoComplete="off"
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-1 flex-col overflow-hidden"
           >
-            <PerfectScroll className="flex flex-1 flex-col gap-4 px-6 py-5 max-h-[calc(90vh-130px)]">
+            {/* Fake inputs to prevent browser password managers from auto-filling saved credentials */}
+            <input type="text" name="fake_username_autofill" style={{ display: "none" }} tabIndex={-1} autoComplete="off" />
+            <input type="password" name="fake_password_autofill" style={{ display: "none" }} tabIndex={-1} autoComplete="new-password" />
+
+            <div className="flex flex-1 flex-col gap-4 px-6 py-5 overflow-y-auto max-h-[calc(90vh-130px)]">
               {isEdit && customerData?.customerCode && (
                 <div className="flex flex-col gap-1.5">
                   <Label htmlFor="customer-code" className="font-semibold text-xs">
@@ -425,6 +417,7 @@ export function CustomerFormModal({ customerId, open, onClose, onSaved }: Custom
                         placeholder="email@example.com"
                         required
                         disabled={isEdit}
+                        autoComplete="off"
                         aria-invalid={!!fieldState.error}
                         className={cn(
                           "h-9 text-xs",
@@ -452,6 +445,7 @@ export function CustomerFormModal({ customerId, open, onClose, onSaved }: Custom
                         id="customer-username"
                         placeholder={tUsers("fields.username")}
                         aria-invalid={!!fieldState.error}
+                        autoComplete="new-password"
                         onChange={(e) => field.onChange(e.target.value.toLowerCase())}
                         className={cn(
                           "h-9 text-xs",
@@ -476,6 +470,7 @@ export function CustomerFormModal({ customerId, open, onClose, onSaved }: Custom
                         value={field.value ?? ""}
                         onChange={field.onChange}
                         label={t("form.phoneLabel")}
+                        placeholder={t("form.phonePlaceholder")}
                         disabled={field.disabled}
                       />
                       {fieldState.error && (
@@ -514,7 +509,7 @@ export function CustomerFormModal({ customerId, open, onClose, onSaved }: Custom
                   render={({ field, fieldState }) => (
                     <div className="flex flex-col gap-1.5">
                       <Label htmlFor="customer-group" className="font-semibold text-xs">
-                        Nhóm khách hàng
+                        {t("form.groupLabel")}
                       </Label>
                       <Select
                         value={field.value && field.value > 0 ? String(field.value) : "none"}
@@ -532,10 +527,10 @@ export function CustomerFormModal({ customerId, open, onClose, onSaved }: Custom
                           className={cn("h-9 text-xs", fieldState.error && "border-destructive")}
                           disabled={field.disabled}
                         >
-                          <SelectValue placeholder="Chọn nhóm khách hàng..." />
+                          <SelectValue placeholder={t("form.groupPlaceholder")} />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="none">Không phân nhóm</SelectItem>
+                          <SelectItem value="none">{t("form.noGroup")}</SelectItem>
                           {customerGroups?.map((group) => (
                             <SelectItem key={group.id} value={String(group.id)}>
                               {group.name} ({group.code})
@@ -682,6 +677,7 @@ export function CustomerFormModal({ customerId, open, onClose, onSaved }: Custom
                             id="customer-password"
                             type={showPassword ? "text" : "password"}
                             placeholder={t("form.passwordPlaceholder")}
+                            autoComplete="new-password"
                             className={cn(
                               "pr-10 h-9 text-xs",
                               fieldState.error &&
@@ -733,6 +729,7 @@ export function CustomerFormModal({ customerId, open, onClose, onSaved }: Custom
                             id="customer-confirm-password"
                             type={showConfirmPassword ? "text" : "password"}
                             placeholder={t("form.confirmPasswordLabel")}
+                            autoComplete="new-password"
                             className={cn(
                               "pr-10 h-9 text-xs",
                               fieldState.error &&
@@ -774,7 +771,7 @@ export function CustomerFormModal({ customerId, open, onClose, onSaved }: Custom
                   {anyError.message}
                 </div>
               )}
-            </PerfectScroll>
+            </div>
 
             {/* Footer */}
             <DialogFooter className="border-t border-border px-6 py-3 flex flex-row items-center justify-end gap-2">

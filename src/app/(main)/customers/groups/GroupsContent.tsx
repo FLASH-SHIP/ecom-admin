@@ -233,7 +233,7 @@ export default function GroupsContent() {
       onBulkDelete: (selected, clearSelection) => {
         const deletable = selected.filter((r) => r.code !== "default");
         if (deletable.length === 0) {
-          toast("Không có nhóm khách hàng nào có thể xóa.", "warning");
+          toast(t("messages.noDeletableGroups"), "warning");
           clearSelection();
           return;
         }

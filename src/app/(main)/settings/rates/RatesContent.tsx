@@ -121,7 +121,12 @@ function toQueryInput(params: DataTableServerParams) {
     country: findFilterVal(filters, "country"),
     name: findFilterVal(filters, "name"),
     ...dates,
-    customerGroupId: groupsVal ? Number(groupsVal) : undefined,
+    customerGroupId:
+      groupsVal === "unassigned" || groupsVal === "none" || groupsVal === "-1"
+        ? -1
+        : groupsVal
+          ? Number(groupsVal)
+          : undefined,
   };
 }
 
@@ -136,18 +141,19 @@ function getStatusBadgeConfig(
       ? {
           variant: "outline" as const,
           className: "bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/30 font-medium",
-          label: "Chờ hiệu lực",
+          label: t("rates.statusPendingEffective"),
         }
       : {
           variant: "default" as const,
           className: "bg-emerald-600 text-white font-medium",
-          label: "Đang áp dụng",
+          label: t("rates.statusPublished"),
         };
   }
 
   const statusMap: Record<string, { variant: "secondary" | "destructive" | "outline"; label: string }> = {
     DRAFT: { variant: "outline", label: t("rates.statusDraft") },
     PENDING: { variant: "secondary", label: t("rates.statusPending") },
+    REVIEW: { variant: "secondary", label: t("rates.statusReview") },
     REJECTED: { variant: "destructive", label: t("rates.statusRejected") },
     ARCHIVED: { variant: "destructive", label: t("rates.statusArchived") },
   };
@@ -162,6 +168,7 @@ function getStatusBadgeConfig(
 
 export default function RatesContent() {
   const t = useTranslations("settings");
+  const tCommon = useTranslations("common");
   const router = useRouter();
   const { toast } = useToast();
   const { askConfirm, dialogProps: confirmDialogProps } = useConfirm();
@@ -210,12 +217,21 @@ export default function RatesContent() {
   }, [groupsData, groupSearch]);
 
   const customerGroupOptions = useMemo(() => {
-    if (!groupsData) return [];
-    return groupsData.map((g) => ({
-      value: String(g.id),
-      label: g.name,
-    }));
-  }, [groupsData]);
+    const rawLabel = t("rates.unassignedGroupLabel");
+    const label = rawLabel && !rawLabel.includes("unassignedGroupLabel") ? rawLabel : "Mặc định (Chưa gán nhóm)";
+    const unassignedOption = {
+      value: "unassigned",
+      label,
+    };
+    if (!groupsData) return [unassignedOption];
+    return [
+      unassignedOption,
+      ...groupsData.map((g) => ({
+        value: String(g.id),
+        label: `${g.name} (${g.code})`,
+      })),
+    ];
+  }, [groupsData, t]);
 
   // Mutations
   const deleteMut = trpc.viewer.rateCards.delete.useMutation({
@@ -592,6 +608,7 @@ export default function RatesContent() {
         type: "select",
         operators: [{ value: "equals", label: "equals" }],
         options: customerGroupOptions,
+        defaultValue: "unassigned",
       },
       {
         key: "status",
@@ -601,6 +618,7 @@ export default function RatesContent() {
         options: [
           { value: "DRAFT", label: t("rates.statusDraft") },
           { value: "PENDING", label: t("rates.statusPending") },
+          { value: "REVIEW", label: t("rates.statusReview") },
           { value: "REJECTED", label: t("rates.statusRejected") },
           { value: "PUBLISHED", label: t("rates.statusPublished") },
           { value: "ARCHIVED", label: t("rates.statusArchived") },
@@ -695,12 +713,12 @@ export default function RatesContent() {
 
             <div className="flex flex-col gap-3 py-2">
               <span className="text-xs text-muted-foreground">
-                Vui lòng chọn các nhóm khách hàng được áp dụng bảng giá cước tuỳ chỉnh này:
+                {t("rates.assignGroupsDesc")}
               </span>
 
               <Input
                 type="text"
-                placeholder="Tìm kiếm nhóm khách hàng (mã, tên)..."
+                placeholder={t("rates.searchGroupPlaceholder")}
                 value={groupSearch}
                 onChange={(e) => setGroupSearch(e.target.value)}
                 className="h-9 text-xs"
@@ -709,7 +727,7 @@ export default function RatesContent() {
               <div className="flex flex-col gap-1.5 border border-input rounded-lg p-2 max-h-64 sm:max-h-72 overflow-y-auto bg-muted/10">
                 {filteredGroups.length === 0 ? (
                   <span className="text-xs text-muted-foreground italic text-center py-6">
-                    Không tìm thấy nhóm khách hàng nào
+                    {t("rates.noGroupsFoundModal")}
                   </span>
                 ) : (
                   filteredGroups.map((group) => {
@@ -746,13 +764,11 @@ export default function RatesContent() {
 
             <DialogFooter className="flex flex-row items-center justify-between sm:justify-between gap-2 border-t border-border/60 pt-3">
               <span className="text-xs text-muted-foreground">
-                Đã chọn:{" "}
-                <strong className="font-semibold text-primary">{selectedGroupIds.length}</strong>{" "}
-                nhóm
+                {t("rates.selectedCount", { count: selectedGroupIds.length })}
               </span>
               <div className="flex items-center gap-2">
                 <Button variant="outline" size="sm" onClick={() => setAssignGroupCard(null)}>
-                  Hủy
+                  {tCommon("cancel")}
                 </Button>
                 <Button
                   size="sm"
@@ -764,7 +780,7 @@ export default function RatesContent() {
                     });
                   }}
                 >
-                  Lưu Nhóm Khách Hàng
+                  {t("rates.btnSaveGroups")}
                 </Button>
               </div>
             </DialogFooter>
