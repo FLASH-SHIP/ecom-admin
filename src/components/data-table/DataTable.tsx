@@ -340,11 +340,12 @@ export function DataTable<T extends Record<string, unknown>>({
       const firstUnusedField =
         filterFields?.find((f) => !usedKeys.has(f.key)) ?? filterFields?.[0];
       const firstOp = firstUnusedField?.operators?.[0]?.value ?? "contains";
+      const initialValue = firstUnusedField?.defaultValue ?? "";
       return {
         id: crypto.randomUUID(),
         fieldKey: firstUnusedField?.key ?? "",
         operator: firstOp,
-        value: "",
+        value: initialValue,
       };
     },
     [filterFields],
@@ -448,16 +449,21 @@ export function DataTable<T extends Record<string, unknown>>({
   }, [pagination, isServerMode, emitServerChange, sorting, globalFilter]);
 
   // Column-level filter actions (used by ColumnHeaderMenu)
-  const handleAddColumnFilter = useCallback((fieldKey: string, operator: string) => {
-    const newFilter: ActiveFilter = {
-      id: crypto.randomUUID(),
-      fieldKey,
-      operator,
-      value: "",
-    };
-    setPendingFilters((prev) => [...prev.filter((f) => f.fieldKey !== fieldKey), newFilter]);
-    setFilterPanelOpen(true);
-  }, []);
+  const handleAddColumnFilter = useCallback(
+    (fieldKey: string, operator: string) => {
+      const field = filterFields?.find((f) => f.key === fieldKey);
+      const initialValue = field?.defaultValue ?? "";
+      const newFilter: ActiveFilter = {
+        id: crypto.randomUUID(),
+        fieldKey,
+        operator,
+        value: initialValue,
+      };
+      setPendingFilters((prev) => [...prev.filter((f) => f.fieldKey !== fieldKey), newFilter]);
+      setFilterPanelOpen(true);
+    },
+    [filterFields],
+  );
 
   const handleClearColumnFilter = useCallback(
     (fieldKey: string) => {

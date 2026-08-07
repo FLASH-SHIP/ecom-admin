@@ -290,7 +290,7 @@ export function AssignMembersModal({
       <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
         <DialogContent
           className="flex max-h-[85vh] max-w-3xl flex-col overflow-hidden p-0 sm:max-w-4xl"
-          onPointerDownOutside={(e) => e.preventDefault()}
+          onInteractOutside={(e) => e.preventDefault()}
         >
           {/* Header */}
           <DialogHeader className="shrink-0 border-b border-border px-6 py-4">
@@ -315,15 +315,10 @@ export function AssignMembersModal({
               />
 
               {/* 2. Add Member Combobox (Shared Popover Pattern) */}
-              <Popover open={addPopoverOpen} onOpenChange={setAddPopoverOpen}>
+              <Popover open={addPopoverOpen} onOpenChange={setAddPopoverOpen} modal={false}>
                 <PopoverTrigger asChild>
-                  <div
-                    className={cn(
-                      "flex min-h-10 flex-1 cursor-pointer items-center justify-between gap-1.5 rounded-md border border-input bg-background px-3 py-1.5 text-sm ring-offset-background hover:bg-accent/50",
-                      stagedToAdd.length > 0 ? "py-1" : "",
-                    )}
-                  >
-                    <div className="flex flex-wrap items-center gap-1.5 overflow-hidden">
+                  <div className="flex min-h-10 max-h-28 flex-1 cursor-pointer items-center justify-between gap-1.5 rounded-lg border border-input bg-background px-3 py-1.5 text-sm ring-offset-background hover:bg-accent/50">
+                    <div className="flex max-h-24 flex-wrap items-center gap-1.5 overflow-y-auto pr-1">
                       {stagedToAdd.length === 0 ? (
                         <span className="text-muted-foreground">
                           {t("assignModal.addMemberPlaceholder")}
@@ -360,7 +355,14 @@ export function AssignMembersModal({
                     <ChevronDown className="size-4 shrink-0 opacity-50" />
                   </div>
                 </PopoverTrigger>
-                <PopoverContent className="w-[380px] p-0 shadow-lg" align="start">
+                <PopoverContent
+                  className="w-[380px] p-0 shadow-lg"
+                  align="start"
+                  onOpenAutoFocus={(e) => e.preventDefault()}
+                  onCloseAutoFocus={(e) => e.preventDefault()}
+                  onWheel={(e) => e.stopPropagation()}
+                  onTouchMove={(e) => e.stopPropagation()}
+                >
                   {/* Search inside Dropdown */}
                   <div className="border-b border-border p-2">
                     <SearchInput
@@ -376,7 +378,11 @@ export function AssignMembersModal({
                   </div>
 
                   {/* Dropdown Options List */}
-                  <div className="max-h-[260px] overflow-y-auto p-1">
+                  <div
+                    className="max-h-[260px] overflow-y-auto p-1 touch-pan-y"
+                    onWheel={(e) => e.stopPropagation()}
+                    onTouchMove={(e) => e.stopPropagation()}
+                  >
                     {/* Select All */}
                     {/* biome-ignore lint/a11y/useSemanticElements: avoid button inside button with Radix Checkbox */}
                     <div

@@ -286,12 +286,12 @@ button:not([role="combobox"]):focus-visible,
 
 /* Selection */
 ::selection {
-  background: var(--brand-200);
-  color: var(--brand-900, #1e3a5f);
+  background: rgba(59, 130, 246, 0.25);
+  color: inherit;
 }
 .dark ::selection {
-  background: rgba(59, 130, 246, 0.3);
-  color: var(--foreground);
+  background: rgba(59, 130, 246, 0.35);
+  color: inherit;
 }
 
 /* Transitions on interactive elements */

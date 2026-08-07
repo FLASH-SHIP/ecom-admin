@@ -7,12 +7,8 @@ import { ConfirmDialog } from "@admin/components/ui/ConfirmDialog";
 import { useConfirm } from "@admin/components/ui/useConfirm";
 import { trpc } from "@admin/lib/trpc";
 import { formatDateTime } from "@admin/utils/dateFormat";
-import type { ContentStatus } from "@flash-ship/ecom-types";
-
-type RateCardType = "DEFAULT" | "CUSTOM";
-type ShippingMethod = "EXPRESS" | "EPACKET";
-
 import { Permissions } from "@flash-ship/ecom-lib/permissions";
+import type { ContentStatus } from "@flash-ship/ecom-types";
 import { Badge } from "@flash-ship/ecom-ui/components/badge";
 import { Button } from "@flash-ship/ecom-ui/components/button";
 import { Card, CardContent } from "@flash-ship/ecom-ui/components/card";
@@ -26,6 +22,7 @@ import {
 } from "@flash-ship/ecom-ui/components/dialog";
 import { Input } from "@flash-ship/ecom-ui/components/input";
 import { Label } from "@flash-ship/ecom-ui/components/label";
+import { NumberInput } from "@flash-ship/ecom-ui/components/NumberInput";
 import {
   Select,
   SelectContent,
@@ -63,6 +60,9 @@ import type {
 } from "react-hook-form";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
+
+type RateCardType = "DEFAULT" | "CUSTOM";
+type ShippingMethod = "EXPRESS" | "EPACKET";
 
 interface RateCardFormProps {
   rateCardId: number | null;
@@ -452,7 +452,6 @@ function getFieldErrorMessage(
 
 interface WeightFieldsProps {
   control: Control<typeof INITIAL_FORM_STATE>;
-  register: UseFormRegister<typeof INITIAL_FORM_STATE>;
   errors: FieldErrors<typeof INITIAL_FORM_STATE>;
   shippingMethod: ShippingMethod;
   isReadOnly: boolean;
@@ -462,7 +461,6 @@ interface WeightFieldsProps {
 
 function RateCardWeightFields({
   control,
-  register,
   errors,
   shippingMethod,
   isReadOnly,
@@ -515,13 +513,20 @@ function RateCardWeightFields({
         <Label className="font-semibold text-xs">
           {tSettings("rates.lblMinWeight")} <span className="text-destructive">*</span>
         </Label>
-        <Input
-          type="number"
-          step={0.01}
-          min={0}
-          {...register("minWeight", { valueAsNumber: true })}
-          disabled={isReadOnly}
-          className={errors.minWeight ? "border-destructive focus-visible:ring-destructive" : ""}
+        <Controller
+          name="minWeight"
+          control={control}
+          render={({ field }) => (
+            <NumberInput
+              precision={3}
+              min={0}
+              suffix="kg"
+              value={field.value}
+              onChange={(val) => field.onChange(val ?? 0)}
+              disabled={isReadOnly}
+              className={errors.minWeight ? "border-destructive focus-visible:ring-destructive" : ""}
+            />
+          )}
         />
         {errors.minWeight && (
           <span className="text-[11px] text-destructive font-medium mt-0.5">
@@ -533,13 +538,20 @@ function RateCardWeightFields({
         <Label className="font-semibold text-xs">
           {tSettings("rates.lblMaxWeight")} <span className="text-destructive">*</span>
         </Label>
-        <Input
-          type="number"
-          step={0.01}
-          min={0}
-          {...register("maxWeight", { valueAsNumber: true })}
-          disabled={isReadOnly}
-          className={errors.maxWeight ? "border-destructive focus-visible:ring-destructive" : ""}
+        <Controller
+          name="maxWeight"
+          control={control}
+          render={({ field }) => (
+            <NumberInput
+              precision={3}
+              min={0}
+              suffix="kg"
+              value={field.value}
+              onChange={(val) => field.onChange(val ?? 0)}
+              disabled={isReadOnly}
+              className={errors.maxWeight ? "border-destructive focus-visible:ring-destructive" : ""}
+            />
+          )}
         />
         {errors.maxWeight && (
           <span className="text-[11px] text-destructive font-medium mt-0.5">
@@ -741,7 +753,6 @@ function GeneralInfoTab({
 
       <RateCardWeightFields
         control={control}
-        register={register}
         errors={errors}
         shippingMethod={shippingMethod}
         isReadOnly={isReadOnly}
@@ -1029,8 +1040,23 @@ function SlabsTab({
     });
   };
 
+  const [touchedSlabKeys, setTouchedSlabKeys] = useState<Set<string>>(new Set());
+
+  const markSlabTouched = (keyId: string) => {
+    setTouchedSlabKeys((prev) => {
+      if (prev.has(keyId)) return prev;
+      const next = new Set(prev);
+      next.add(keyId);
+      return next;
+    });
+  };
+
   const updateSlabField = (index: number, field: keyof SlabItem, value: unknown) => {
     if (isReadOnly) return;
+    const target = slabs[index];
+    if (target) {
+      markSlabTouched(target.keyId);
+    }
     setSlabs((prev) =>
       prev.map((s, i) => {
         if (i === index) {
@@ -1050,16 +1076,33 @@ function SlabsTab({
     for (let i = 0; i < slabs.length; i++) {
       const err = validateSlabRow(slabs[i], slabs[i - 1], i, slabs.length, formData, tSettings);
       if (err.startWeight || err.endWeight || err.amount) {
+        // Avoid premature inline monotonicity error on pristine zero rows that user hasn't touched
+        const isUntouchedZero =
+          !touchedSlabKeys.has(slabs[i].keyId) && slabs[i].amount === 0;
+
+        if (isUntouchedZero && err.amount && !err.startWeight && !err.endWeight) {
+          continue;
+        }
+
         errMap[i] = err;
       }
     }
 
     return errMap;
-  }, [slabs, formData, tSettings]);
+  }, [slabs, formData, tSettings, touchedSlabKeys]);
 
   const hasMonotonicityWarning = useMemo(() => {
-    return Object.values(slabErrors).some((e) => e.amount);
-  }, [slabErrors]);
+    // Top banner warning: Only warn if two consecutive non-zero filled rows violate monotonicity
+    for (let i = 1; i < slabs.length; i++) {
+      const prev = slabs[i - 1];
+      const curr = slabs[i];
+      if (prev.amount > 0 && curr.amount > 0) {
+        const isMonotonicErr = getSlabMinCost(curr) < getSlabMaxCost(prev);
+        if (isMonotonicErr) return true;
+      }
+    }
+    return false;
+  }, [slabs]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -1118,13 +1161,12 @@ function SlabsTab({
                   className={cn("hover:bg-muted/20", err && "bg-destructive/5")}
                 >
                   <td className="px-3 py-1.5 align-top">
-                    <Input
-                      type="number"
-                      step={0.01}
+                    <NumberInput
+                      precision={3}
                       min={0}
                       value={slab.startWeight}
-                      onChange={(e) =>
-                        updateSlabField(index, "startWeight", Number(e.target.value))
+                      onChange={(val) =>
+                        updateSlabField(index, "startWeight", val ?? 0)
                       }
                       disabled={isReadOnly || slab.isAutoGenerated}
                       className={cn(
@@ -1140,12 +1182,11 @@ function SlabsTab({
                     )}
                   </td>
                   <td className="px-3 py-1.5 align-top">
-                    <Input
-                      type="number"
-                      step={0.01}
+                    <NumberInput
+                      precision={3}
                       min={0}
                       value={slab.endWeight}
-                      onChange={(e) => updateSlabField(index, "endWeight", Number(e.target.value))}
+                      onChange={(val) => updateSlabField(index, "endWeight", val ?? 0)}
                       disabled={isReadOnly || slab.isAutoGenerated}
                       className={cn(
                         "h-7 text-xs px-2",
@@ -1184,13 +1225,12 @@ function SlabsTab({
                     </Select>
                   </td>
                   <td className="px-3 py-1.5 align-top">
-                    <Input
+                    <NumberInput
                       id={`slab-amount-input-${index}`}
-                      type="number"
-                      step={0.01}
+                      precision={2}
                       min={0}
                       value={slab.amount}
-                      onChange={(e) => updateSlabField(index, "amount", Number(e.target.value))}
+                      onChange={(val) => updateSlabField(index, "amount", val ?? 0)}
                       onKeyDown={(e) => {
                         if (e.key === "Enter" || e.key === "ArrowDown") {
                           e.preventDefault();

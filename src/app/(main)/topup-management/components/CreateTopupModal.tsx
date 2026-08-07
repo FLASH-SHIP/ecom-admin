@@ -10,6 +10,8 @@ import {
   DialogTitle,
 } from "@flash-ship/ecom-ui/components/dialog";
 import { Input } from "@flash-ship/ecom-ui/components/input";
+import { Label } from "@flash-ship/ecom-ui/components/label";
+import { NumberInput } from "@flash-ship/ecom-ui/components/NumberInput";
 import {
   SearchableSelect,
   type SearchableSelectOption,
@@ -61,7 +63,9 @@ export function CreateTopupModal({
         </DialogHeader>
         <div className="flex flex-col gap-4 py-2">
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-slate-700">{t("dialog.customer")} (*):</label>
+            <Label className="text-xs font-semibold text-slate-700">
+              {t("dialog.customer")} (*):
+            </Label>
             <SearchableSelect
               value={customerId}
               onValueChange={setCustomerId}
@@ -74,7 +78,9 @@ export function CreateTopupModal({
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-slate-700">{t("dialog.paymentMethod")} (*):</label>
+            <Label className="text-xs font-semibold text-slate-700">
+              {t("dialog.paymentMethod")} (*):
+            </Label>
             <SearchableSelect
               value={paymentMethodId}
               onValueChange={setPaymentMethodId}
@@ -87,19 +93,26 @@ export function CreateTopupModal({
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-slate-700">{t("dialog.amount")} (*):</label>
-            <Input
-              type="number"
+            <Label htmlFor="topup-amount-input" className="text-xs font-semibold text-slate-700">
+              {t("dialog.amount")} (*):
+            </Label>
+            <NumberInput
+              id="topup-amount-input"
               placeholder="500"
+              precision={2}
+              min={0}
               value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              onChange={(_num, rawStr) => setAmount(rawStr)}
               className="h-9 text-xs"
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-slate-700">{t("dialog.description")}:</label>
+            <Label htmlFor="topup-description-input" className="text-xs font-semibold text-slate-700">
+              {t("dialog.description")}:
+            </Label>
             <Input
+              id="topup-description-input"
               placeholder="..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}

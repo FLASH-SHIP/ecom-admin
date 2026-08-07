@@ -25,6 +25,8 @@ export interface FilterFieldDef {
   operators?: FilterOperator[];
   /** For type="select": available options */
   options?: { label: string; value: string }[];
+  /** Optional initial default value when this filter field is selected or added */
+  defaultValue?: string;
 }
 
 export interface ActiveFilter {

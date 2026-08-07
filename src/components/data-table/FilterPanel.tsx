@@ -147,7 +147,8 @@ function FilterRow({
     const field = fields.find((f) => f.key === key);
     const fieldOps = field?.operators ?? getDefaultOperators(field?.type);
     const firstOp = fieldOps[0]?.value ?? "contains";
-    onUpdate({ fieldKey: key, operator: firstOp, value: "" });
+    const initialValue = field?.defaultValue ?? "";
+    onUpdate({ fieldKey: key, operator: firstOp, value: initialValue });
   };
 
   const otherUsedFieldKeys = useMemo(() => {
