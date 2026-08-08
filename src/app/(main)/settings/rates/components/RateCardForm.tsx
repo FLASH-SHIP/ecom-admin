@@ -117,7 +117,7 @@ const INITIAL_FORM_STATE = {
   currency: "USD",
   weightStep: 0.5,
   minWeight: 0.0,
-  maxWeight: 10.0,
+  maxWeight: 20.0,
   startDate: "",
   endDate: "",
 };
@@ -735,7 +735,9 @@ function GeneralInfoTab({
                 onValueChange={(v) => {
                   field.onChange(v);
                   const defaultStep = v === "EPACKET" ? 0.05 : 0.5;
+                  const defaultMaxWeight = v === "EPACKET" ? 5.0 : 20.0;
                   setValue("weightStep", defaultStep, { shouldDirty: true, shouldValidate: true });
+                  setValue("maxWeight", defaultMaxWeight, { shouldDirty: true, shouldValidate: true });
                 }}
               >
                 <SelectTrigger>
@@ -781,6 +783,7 @@ interface SlabsTabProps {
     maxWeight: number;
     weightStep: number;
     status: ContentStatus;
+    shippingMethod?: ShippingMethod;
   };
   slabs: SlabItem[];
   setSlabs: React.Dispatch<React.SetStateAction<SlabItem[]>>;
@@ -1292,7 +1295,7 @@ function SlabsTab({
         </table>
       </div>
 
-      {!isReadOnly && (
+      {!isReadOnly && formData.shippingMethod !== "EPACKET" && (
         <Button size="sm" variant="outline" className="w-fit" onClick={handleAddSlabRow}>
           <Plus className="mr-1.5 size-3.5" />
           {tSettings("rates.btnAddSlab")}
